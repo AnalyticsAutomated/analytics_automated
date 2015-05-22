@@ -21,13 +21,13 @@ source virtualenvwrapper.sh
 5. `> mkvirtualenv analytics_automated`
 6. `> workon analytics_automated (discontect with deactivate)``
 7. Install these libraries to this env
-* `> pip3 install django`
-* `> pip3 install setuptools`
-* `> pip3 install distribute`
-* `> pip3 install django`
-* `> pip3 install virtualenv`
-* `> pip3 install virtualenvwrapper`
-* `> pip install django-admin-bootstrapped`
-* `> pip install django-bootstrap3`
+ * `> pip install django`
+ * `> pip install setuptools`
+ * `> pip install distribute`
+ * `> pip install django`
+ * `> pip install virtualenv`
+ * `> pip install virtualenvwrapper`
+ * `> pip install django-admin-bootstrapped`
+ * `> pip install django-bootstrap3`
 
-9. check analytics automated out of git
+8. check out analytics_automated from git
