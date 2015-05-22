@@ -21,7 +21,7 @@ source virtualenvwrapper.sh
 ```
 5. `> source virtualenvwrapper.sh`
 6. `> mkvirtualenv analytics_automated`
-7. `> workon analytics_automated (discontect with deactivate)``
+7. `> workon analytics_automated (discontect with deactivate)`
 8. Install these libraries to this env
  * `> pip install django`
  * `> pip install setuptools`
