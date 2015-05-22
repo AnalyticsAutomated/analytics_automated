@@ -5,7 +5,10 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 
 1. Install latest python3.x
 2. Install git
-3. set up bashrc or bash_profile to point virtualevnwrapper at the correct
+3. Install virtualenv and virtualenvwrapper
+* `> pip install virtualenv`
+* `> pip install virtualenvwrapper`
+4. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
 python 3. I added this to my .bash_profile
 
 ```
@@ -18,17 +21,15 @@ export VIRTUALENVWRAPPER_PYTHON
 source virtualenvwrapper.sh
 ```
 
-4. `> source virtualenvwrapper.sh`
-5. `> mkvirtualenv analytics_automated`
-6. `> workon analytics_automated (discontect with deactivate)``
-7. Install these libraries to this env
+5. `> source virtualenvwrapper.sh`
+6. `> mkvirtualenv analytics_automated`
+7. `> workon analytics_automated (discontect with deactivate)``
+8. Install these libraries to this env
  * `> pip install django`
  * `> pip install setuptools`
  * `> pip install distribute`
  * `> pip install django`
- * `> pip install virtualenv`
- * `> pip install virtualenvwrapper`
  * `> pip install django-admin-bootstrapped`
  * `> pip install django-bootstrap3`
 
-8. check out analytics_automated from git
+9. check out analytics_automated from git
