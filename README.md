@@ -14,7 +14,8 @@ export PATH
 VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
 export VIRTUALENVWRAPPER_PYTHON
 
-source virtualenvwrapper.sh```
+source virtualenvwrapper.sh
+```
 
 4. `> source virtualenvwrapper.sh`
 5. `> mkvirtualenv analytics_automated`
