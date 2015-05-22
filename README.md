@@ -10,15 +10,15 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
  * `> pip install virtualenvwrapper`
 4. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
 python 3. I added this to my .bash_profile
-```
-PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
-export PATH
+    ```
+    PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
+    export PATH
 
-VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
-export VIRTUALENVWRAPPER_PYTHON
+    VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
+    export VIRTUALENVWRAPPER_PYTHON
 
-source virtualenvwrapper.sh
-```
+    source virtualenvwrapper.sh
+    ```
 5. `> source virtualenvwrapper.sh`
 6. `> mkvirtualenv analytics_automated`
 7. `> workon analytics_automated (discontect with deactivate)`
