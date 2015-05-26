@@ -46,3 +46,13 @@ python 3. I added this to my .bash_profile
  * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
 12. check out analytics_automated from git
+
+TODO
+====
+1. Multiple settings
+2. Move secrets to ENV settings?
+3. Multiple requirements
+4. add unipath to settings.py
+5. Chapters six for timestamp abstract model
+6. Look over the null and blank db settings as per chapter 6
+7. Add tests for existing models and views
