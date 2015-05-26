@@ -31,7 +31,18 @@ python 3. I added this to my .bash_profile
  * `> pip install django-bootstrap3`
  * `> pip install Pillow`
  * `> pip install django-registration-redux`
+ * `> pip install psycopg2`
 
-9. Install postgres for your system, MacOS can be found at
-   http://www.postgresql.org/download/macosx/
-10. check out analytics_automated from git
+9. Install postgres for your system, MacOS version can be found at
+   http://www.postgresql.org/download/macosx/ the graphical installer is a
+   good option for Mac.
+10. Once configured add a postres user for analytics automated
+ * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
+ * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
+ * `ALTER USER a_a_user CREATEDB;`
+11. On Mac you probably have to link some psql bits (mind the version)
+ * `sudo ln -s /Library/PostgreSQL/9.4/lib/libssl.1.0.0.dylib /usr/lib`
+ * `sudo ln -s /Library/PostgreSQL/9.4/lib/libcrypto.1.0.0.dylib /usr/lib`
+ * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
+ * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
+12. check out analytics_automated from git

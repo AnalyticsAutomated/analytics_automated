@@ -14,16 +14,18 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 from django.contrib import messages
+try:
+    from .dev_settings import *
+except ImportError as e:
+    pass
 
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
-STATIC_PATH = os.path.join(BASE_DIR,'static')
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=9hs%r&@r@@$#e%)!!^+7m4bkvob4yoxhq4h(eoufdpxu2=3+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -74,18 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'analytics_automated_project.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -104,10 +94,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_PATH,]
+STATICFILES_DIRS = [STATIC_PATH, ]
 
 
-#Add bits for bootstrap 3 and message bits
+# Add bits for bootstrap 3 and message bits
 DAB_FIELD_RENDERER = 'django_admin_bootstrapped.renderers.BootstrapFieldRenderer'
 MESSAGE_TAGS = {
             messages.SUCCESS: 'alert-success success',
