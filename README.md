@@ -32,4 +32,6 @@ python 3. I added this to my .bash_profile
  * `> pip install Pillow`
  * `> pip install django-registration-redux`
 
-9. check out analytics_automated from git
+9. Install postgres for your system, MacOS can be found at
+   http://www.postgresql.org/download/macosx/
+10. check out analytics_automated from git
