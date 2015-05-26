@@ -1,0 +1,6 @@
+*.pyc
+analytics_automated_project/dev_settings.py
+*.json
+*~
+DEADJOE
+media/temp
