@@ -29,5 +29,6 @@ python 3. I added this to my .bash_profile
  * `> pip install django`
  * `> pip install django-admin-bootstrapped`
  * `> pip install django-bootstrap3`
+ * `> pip install Pillow`
 
 9. check out analytics_automated from git
