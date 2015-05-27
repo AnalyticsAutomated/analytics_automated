@@ -4,3 +4,4 @@ django-bootstrap3==5.4.0
 django-registration-redux==1.2
 Pillow==2.8.1
 psycopg2==2.6
+unipath==1.1

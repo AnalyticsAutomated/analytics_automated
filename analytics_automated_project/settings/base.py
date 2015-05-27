@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+from unipath import Path
+
 from django.contrib import messages
 
 
@@ -25,9 +27,10 @@ def get_secret(setting, secrets):
         raise ImproperlyConfigured(error_msg)
 
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
-STATIC_PATH = os.path.join(BASE_DIR, 'static')
+BASE_DIR = Path(__file__).ancestor(3)
+TEMPLATE_PATH = BASE_DIR.child("template")
+STATIC_PATH = BASE_DIR.child("static")
+SETTINGS_PATH = Path(__file__).ancestor(1)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/

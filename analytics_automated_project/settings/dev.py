@@ -1,5 +1,8 @@
 import json
 import os
+
+from unipath import Path
+
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *
@@ -8,9 +11,8 @@ try:
 except ImportError as e:
     pass
 
-SETTINGS_PATH = os.path.dirname(os.path.abspath(__file__))
-SECRETS_PATH = os.path.join(SETTINGS_PATH, 'dev_secrets.json')
-with open(os.path.join(SECRETS_PATH)) as f: secrets = json.loads(f.read())
+DEV_SECRETS_PATH = SETTINGS_PATH.child("dev_secrets.json")
+with open(os.path.join(DEV_SECRETS_PATH)) as f: secrets = json.loads(f.read())
 
 DATABASES = {
     'default': {
