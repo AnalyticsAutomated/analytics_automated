@@ -14,10 +14,15 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 from django.contrib import messages
-try:
-    from .dev_settings import *
-except ImportError as e:
-    pass
+
+
+def get_secret(setting, secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
