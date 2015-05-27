@@ -33,7 +33,7 @@ class Backend(models.Model):
     )
     name        = models.CharField(max_length=64, unique=True, null=False, blank=False)
     server_type = models.IntegerField(null=False, blank=False, choices=SERVER_CHOICES, default=LOCALHOST)
-    ip          = models.CharField(max_length=64, default="127.0.0.1", null=False, blank=False)
+    ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
     port        = models.IntegerField(default=80, null=False, blank=False)
     root_path   = models.CharField(max_length=256, null=False, default="/tmp/", blank=False)
 
@@ -49,6 +49,7 @@ class Backend(models.Model):
 class Job(models.Model):
     name        = models.CharField(max_length=64, unique=True, null=False, blank=False)
     runnable    = models.BooleanField(default=False, blank=False)
+
     def __str__(self):
         return self.name
 # TODO: set runnable true if all it's tasks exists, set false if a task

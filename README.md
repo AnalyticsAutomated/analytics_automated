@@ -31,6 +31,7 @@ python 3. I added this to my .bash_profile
    good option for Mac.
 10. Once configured add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
+ * `CREATE DATABASE analytics_automated_db;`
  * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
  * `ALTER USER a_a_user CREATEDB;`
 11. On Mac you probably have to link some psql bits (mind the version)

@@ -14,10 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Backend',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True)),
-                ('server_type', models.IntegerField(default=1, choices=[(1, 'localhost'), (2, 'GridEngine'), (3, 'RServe')])),
-                ('ip', models.CharField(max_length=64, default='127.0.0.1')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('name', models.CharField(unique=True, max_length=64)),
+                ('server_type', models.IntegerField(choices=[(1, 'localhost'), (2, 'GridEngine'), (3, 'RServe')], default=1)),
+                ('ip', models.GenericIPAddressField(default='127.0.0.1')),
                 ('port', models.IntegerField(default=80)),
                 ('root_path', models.CharField(max_length=256, default='/tmp/')),
             ],
@@ -25,26 +25,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Job',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('name', models.CharField(unique=True, max_length=64)),
                 ('runnable', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
             name='Parameter',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('flag', models.CharField(max_length=64)),
-                ('default', models.CharField(max_length=64, null=True)),
+                ('default', models.CharField(null=True, max_length=64)),
                 ('bool_valued', models.BooleanField(default=False)),
-                ('rest_alias', models.CharField(max_length=64, unique=True)),
+                ('rest_alias', models.CharField(unique=True, max_length=64)),
             ],
         ),
         migrations.CreateModel(
             name='Queue',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('UUID', models.CharField(max_length=64, unique=True)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('UUID', models.CharField(unique=True, max_length=64)),
                 ('input_data', models.BinaryField(null=True)),
                 ('status', models.IntegerField()),
                 ('email', models.CharField(max_length=256)),
@@ -55,24 +55,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Result',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('result_data', models.BinaryField()),
-                ('UUID', models.ForeignKey(to='analytics_automated.Queue', to_field='UUID')),
+                ('UUID', models.ForeignKey(to_field='UUID', to='analytics_automated.Queue')),
             ],
         ),
         migrations.CreateModel(
             name='Step',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('ordering', models.IntegerField(default=0)),
-                ('job', models.ForeignKey(to='analytics_automated.Job', related_name='steps')),
+                ('job', models.ForeignKey(related_name='steps', to='analytics_automated.Job')),
             ],
         ),
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True)),
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('name', models.CharField(unique=True, max_length=64)),
                 ('in_glob', models.CharField(max_length=64)),
                 ('out_glob', models.CharField(max_length=64)),
                 ('executable', models.CharField(max_length=256)),
