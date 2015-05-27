@@ -49,7 +49,6 @@ python 3. I added this to my .bash_profile
 
 TODO
 ====
-2. Move secrets to ENV settings?
 3. Multiple requirements
 4. add unipath to settings.py
 5. Chapters six for timestamp abstract model
