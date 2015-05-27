@@ -1,0 +1,6 @@
+django==1.8.1
+django-admin-bootstrapped==2.5.0
+django-bootstrap3==5.4.0
+django-registration-redux==1.2
+Pillow==2.8.1
+psycopg2==2.6
