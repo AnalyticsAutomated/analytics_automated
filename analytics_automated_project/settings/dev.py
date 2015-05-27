@@ -27,5 +27,6 @@ DATABASES = {
 
 SECRET_KEY = get_secret("SECRET_KEY", secrets)
 
-
 DEBUG = True
+
+INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)

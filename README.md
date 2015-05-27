@@ -44,7 +44,4 @@ python 3. I added this to my .bash_profile
 
 TODO
 ====
-5. Chapters six for timestamp abstract model
-6. Look over the null and blank db settings as per chapter 6
-7. Debug toolbar?
 7. Add tests for existing models and views

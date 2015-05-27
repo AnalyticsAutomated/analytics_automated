@@ -29,8 +29,6 @@ def get_secret(setting, secrets):
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
-print(TEMPLATE_PATH)
-
 STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
