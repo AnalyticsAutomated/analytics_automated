@@ -41,7 +41,12 @@ python 3. I added this to my .bash_profile
 12. Check out analytics_automated from git
 13. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
 `pip install -r requirements/dev.txt`
+14. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)
+15. Start the server by defining the settings you are using
+`python manage.py runserver --settings=analytics_automated_project.settings.dev`
+16. Test the code also defining the settings you are using
+`python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
-TODO
-====
+NEXT UP TODO
+============
 7. Add tests for existing models and views
