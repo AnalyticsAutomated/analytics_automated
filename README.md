@@ -23,20 +23,13 @@ python 3. I added this to my .bash_profile
 6. `> mkvirtualenv analytics_automated`
 7. `> workon analytics_automated (discontect with deactivate)`
 8. Install these libraries to this env
- * `> pip install django`
  * `> pip install setuptools`
  * `> pip install distribute`
- * `> pip install django`
- * `> pip install django-admin-bootstrapped`
- * `> pip install django-bootstrap3`
- * `> pip install Pillow`
- * `> pip install django-registration-redux`
- * `> pip install psycopg2`
 
 9. Install postgres for your system, MacOS version can be found at
    http://www.postgresql.org/download/macosx/ the graphical installer is a
    good option for Mac.
-10. Once configured add a postres user for analytics automated
+10. Once configured add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
  * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
  * `ALTER USER a_a_user CREATEDB;`
@@ -45,7 +38,9 @@ python 3. I added this to my .bash_profile
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libcrypto.1.0.0.dylib /usr/lib`
  * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
-12. check out analytics_automated from git
+12. Check out analytics_automated from git
+13. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
+`pip install -r requirements/dev.txt`
 
 TODO
 ====
