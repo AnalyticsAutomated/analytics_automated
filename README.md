@@ -50,4 +50,4 @@ python 3. I added this to my .bash_profile
 
 NEXT UP TODO
 ============
-7. Add tests for existing models and views
+1. Add queue model and data submission view
