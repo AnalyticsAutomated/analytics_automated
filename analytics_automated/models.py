@@ -97,12 +97,14 @@ class Submission(models.Model):
     RUNNING = 1    # job submitted and worker has claimed it
     COMPLETE = 2   # All tasks complete and results available
     ERROR = 3      # A task has failed, the job has stopped
+    CRASH = 4      # Something crashed, went away of segfaulted in some way
+                   # the job has stopped
     STATUS_CHOICES = (
         (SUBMITTED, "Submitted"),
         (RUNNING, "Running"),
         (COMPLETE, "Complete"),
         (ERROR, "Error"),
-        # add more when more backends are complete
+        (CRASH, "Crash"),
     )
     job         = models.ForeignKey(Job)
     submission_name = models.CharField(max_length=64, null=True, blank=False)
@@ -111,11 +113,12 @@ class Submission(models.Model):
     ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
     input_data  = models.FileField(blank=False)
     status      = models.IntegerField(null=False, blank=False,choices=STATUS_CHOICES, default=SUBMITTED)
-    claimed     = models.BinaryField(null=False)
-    worker_id   = models.IntegerField(blank=True)
+    message     = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
+    claimed     = models.BooleanField(null=False, default=False)
+    worker_id   = models.IntegerField(blank=True, null=True, default=None)
 
     def __str__(self):
-        return self.name
+        return str(self.pk)
 
 
 class Result(models.Model):
