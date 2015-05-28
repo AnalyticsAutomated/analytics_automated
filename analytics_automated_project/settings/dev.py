@@ -3,13 +3,7 @@ import os
 
 from unipath import Path
 
-from django.core.exceptions import ImproperlyConfigured
-
 from .base import *
-try:
-    from .dev_secrets import *
-except ImportError as e:
-    pass
 
 DEV_SECRETS_PATH = SETTINGS_PATH.child("dev_secrets.json")
 with open(os.path.join(DEV_SECRETS_PATH)) as f: secrets = json.loads(f.read())

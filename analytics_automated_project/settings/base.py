@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
+import bugsnag
 
 from unipath import Path
 
 from django.contrib import messages
+from django.core.exceptions import ImproperlyConfigured
 
 
 def get_secret(setting, secrets):
@@ -31,6 +34,9 @@ BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
 STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
+
+BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
+with open(os.path.join(BASE_SECRETS_PATH)) as f: base_secrets = json.loads(f.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -59,7 +65,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'bugsnag.django.middleware.BugsnagMiddleware'
 )
+
+# TODO: can't use this, api key only read from env
+BUGSNAG = {
+    'api_key': get_secret("BUGSNAG", base_secrets),
+    'project_root': BASE_DIR,
+}
 
 ROOT_URLCONF = 'analytics_automated_project.urls'
 
