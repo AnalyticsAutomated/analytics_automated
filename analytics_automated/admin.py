@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
-from analytics_automated.models import Backend, Job, Task, Step, Parameter, Queue, Result
+
+from .models import Backend, Job, Task, Step, Parameter
+from .models import Submission, Result
 
 class ParameterInline(admin.TabularInline):
     model = Parameter
@@ -53,7 +55,7 @@ class JobAdmin(admin.ModelAdmin):
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task,TaskAdmin)
 admin.site.register(Job, JobAdmin)
-admin.site.register(Queue)
+admin.site.register(Submission)
 admin.site.register(Result)
 
 # Register your models here.

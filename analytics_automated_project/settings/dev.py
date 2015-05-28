@@ -24,3 +24,7 @@ SECRET_KEY = get_secret("SECRET_KEY", secrets)
 DEBUG = True
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+
+# TODO: Change this for staging and production
+MEDIA_URL = '/submissions/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')

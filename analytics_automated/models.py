@@ -91,22 +91,37 @@ class Parameter(models.Model):
     def __str__(self):
         return self.flag
 
-class Queue(models.Model):
+
+class Submission(models.Model):
+    SUBMITTED = 0  # a job has been submitted but no worker has claimed it
+    RUNNING = 1    # job submitted and worker has claimed it
+    COMPLETE = 2   # All tasks complete and results available
+    ERROR = 3      # A task has failed, the job has stopped
+    STATUS_CHOICES = (
+        (SUBMITTED, "Submitted"),
+        (RUNNING, "Running"),
+        (COMPLETE, "Complete"),
+        (ERROR, "Error"),
+        # add more when more backends are complete
+    )
     job         = models.ForeignKey(Job)
-    UUID        = models.CharField(max_length=64,unique=True, null=False, blank=False)
-    input_data  = models.BinaryField(null=True)
-    status      = models.IntegerField(null=False, blank=False)
-    email       = models.CharField(max_length=256, null=False, blank=False)
-    mobile      = models.CharField(max_length=256, null=False, blank=False)
+    submission_name = models.CharField(max_length=64, null=True, blank=False)
+    UUID        = models.CharField(max_length=64,unique=True, null=True, blank=False)
+    email       = models.CharField(max_length=256, null=True, blank=False)
+    ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
+    input_data  = models.FileField(blank=False)
+    status      = models.IntegerField(null=False, blank=False,choices=STATUS_CHOICES, default=SUBMITTED)
+    claimed     = models.BinaryField(null=False)
+    worker_id   = models.IntegerField(blank=True)
 
     def __str__(self):
         return self.name
-# TODO: change the blob to type upload type
 
 
 class Result(models.Model):
-    UUID        = models.ForeignKey(Queue,to_field='UUID')
-    result_data = models.BinaryField(null=False)
+    submission  = models.ForeignKey(Submission)
+    task        = models.ForeignKey(Task)
+    result_data = models.FileField(null=False)
 
     def __str__(self):
         return self.name
