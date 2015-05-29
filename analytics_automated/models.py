@@ -125,6 +125,8 @@ class Result(models.Model):
     submission  = models.ForeignKey(Submission)
     task        = models.ForeignKey(Task)
     result_data = models.FileField(null=False)
+    name        = models.CharField(max_length=64, null=True, blank=False)
+    message     = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
 
     def __str__(self):
         return self.name

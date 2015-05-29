@@ -1,7 +1,11 @@
+import uuid
+
 from django.test import TestCase
 from django.db import transaction
+from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import Backend, Task, Job, Step
+
+from .models import Backend, Task, Job, Step, Submission
 
 
 # some helper methods with defined data for calling in the tests
@@ -25,6 +29,7 @@ def save_good_task(b):
     t.save()
     return(t)
 
+
 def save_good_job():
     j = Job(name='job', runnable=True)
     j.save()
@@ -33,6 +38,13 @@ def save_good_job():
 
 def save_good_step(j, t, o):
     s = Step(job=j, task=t, ordering=o)
+    s.save()
+    return(s)
+
+
+def save_good_submission(j, name, uuid, email, ip, data):
+    s = Submission(job=j, submission_name=name, UUID=uuid,
+                   ip=ip, input_data=data)
     s.save()
     return(s)
 
@@ -121,3 +133,17 @@ class StepMethodTest(TestCase):
         s = save_good_step(j, t, 1)
         Job.objects.all().delete()
         self.assertEqual((Step.objects.count() == 0), True)
+
+
+class SubmissionTest(TestCase):
+
+    def test_submission_insertion(self):
+        """
+            simple data loading test
+        """
+        j = save_good_job()
+        id1 = str(uuid.uuid1())
+        file1 = SimpleUploadedFile('file1.txt',
+                                   bytes('these are the file contents!', 'utf-8'))
+        s = save_good_submission(j, "name", id1, "a@b.com", "127.0.0.1", file1)
+        self.assertEqual((Submission.objects.count() == 1), True)
