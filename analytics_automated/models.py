@@ -78,7 +78,7 @@ class Step(models.Model):
         return str(self.task)
 
     class Meta:
-      unique_together = ('job', 'ordering',)
+        unique_together = ('job', 'ordering',)
 
 
 class Parameter(models.Model):
