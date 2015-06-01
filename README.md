@@ -3,7 +3,7 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 
 ## Setup of automated analytics
 
-If we're starting from scracth I strongly advise installing things in this
+If we're starting from scratch you will need to install the following:
 order.
 
 1. Install latest python3.x
@@ -11,10 +11,12 @@ order.
 3. Install RabbitMQ (configuring this may hose your postgres install, so
   install RabbitMQ before postgres)
  `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
-4. Install virtualenv and virtualenvwrapper
+4. Install postgres for your system, MacOS version can be found at
+ `brew install postgres`
+5. Install virtualenv and virtualenvwrapper
  * `> pip install virtualenv`
  * `> pip install virtualenvwrapper`
-5. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
+6. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
 python 3. I added this to my .bash_profile
     ```
     PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
@@ -25,14 +27,12 @@ python 3. I added this to my .bash_profile
 
     source virtualenvwrapper.sh
     ```
-6. `> source virtualenvwrapper.sh`
-7. `> mkvirtualenv analytics_automated`
-8. `> workon analytics_automated (discontect with deactivate)`
-9. Install these libraries to this env
+7. `> source virtualenvwrapper.sh`
+8. `> mkvirtualenv analytics_automated`
+9. `> workon analytics_automated (discontect with deactivate)`
+10. Install these libraries to this env
  * `> pip install setuptools`
  * `> pip install distribute`
-10. Install postgres for your system, MacOS version can be found at
-`brew install postgres`
 11. Once configured add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
  * `CREATE DATABASE analytics_automated_db;`
@@ -56,9 +56,8 @@ python 3. I added this to my .bash_profile
 
 NEXT UP TODO
 ============
-1. Submission test
-2. Django REST for Submission and results
+1. Django REST for Submission and results
   Submission : create and read, no external update and no external delete
   Result : create and read, no external update and no external delete
-3. Submission view and tests.
-4. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+2. Submission view and tests.
+3. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
