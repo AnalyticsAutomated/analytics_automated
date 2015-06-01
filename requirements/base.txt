@@ -8,3 +8,4 @@ unipath==1.1
 coverage==3.7.1
 bugsnag==2.3.1
 celery==3.1.18
+factory-boy==2.5.2

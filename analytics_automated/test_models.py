@@ -7,7 +7,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from .models import Backend, Task, Job, Step, Submission
 
-
 # some helper methods with defined data for calling in the tests
 def save_good_backend():
     b = Backend(name='test', server_type=Backend.GRIDENGINE,
