@@ -31,7 +31,7 @@ class Backend(models.Model):
         (RSERVE, "RServe"),
         # add more when more backends are complete
     )
-    name        = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    name        = models.CharField(max_length=64, unique=True, null=False, blank=False, db_index=True)
     server_type = models.IntegerField(null=False, blank=False, choices=SERVER_CHOICES, default=LOCALHOST)
     ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
     port        = models.IntegerField(default=80, null=False, blank=False)

@@ -1,9 +1,19 @@
 from ipware.ip import get_ip
 
+from django import forms
+
 from restless.preparers import FieldsPreparer
 from restless.dj import DjangoResource
+from restless.exceptions import BadRequest
 
 from .models import Job, Submission
+
+
+class SubmissionForm(forms.ModelForm):
+
+    class Meta:
+        model = Submission
+        fields = ('submission_name', 'email', 'ip', )
 
 
 class SubmissionResource(DjangoResource):
@@ -40,20 +50,26 @@ class SubmissionResource(DjangoResource):
         #     return False
 
     def create(self):
-        ip = get_ip(self.request)
-        print(ip)
+        self.data['ip'] = get_ip(self.request)
+        # I think this validation should be in the form but I'll be buggered
+        # if I can work out how to do that
         try:
-            this_job = Job.objects.get(name=self.data['job'])
-        except Job.DoesNotExist:
-            return False
+            self.data['job'] = Job.objects.get(name=self.data['job_name'])
+            del self.data['job_name']
+        except Exception as e:
+            raise BadRequest('Job does not exist')
 
-        return Submission.objects.create(
-             job=this_job,
+        form = SubmissionForm(self.data)
+        if not form.is_valid():
+            raise BadRequest('Input data not valid')
+        else:
+            return Submission.objects.create(
+             job=self.data['job'],
              submission_name=self.data['submission_name'],
              email=self.data['email'],
-             ip=ip,
-             input_data='input_data.name',
-        )
+             ip=self.data['ip'],
+             # input_data='input_data.name',
+             )
 
     # GET /api/posts/<pk>/ (but not hooked up yet)
     def detail(self, pk):
