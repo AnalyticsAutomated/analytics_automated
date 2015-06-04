@@ -20,8 +20,6 @@ from django.conf.urls.static import static
 
 from analytics_automated import views
 
-from analytics_automated.api import SubmissionResource
-
 urlpatterns = [
      url(r'^admin/', include(admin.site.urls)),
      url(r'^analytics_automated/', include('analytics_automated.urls')),
