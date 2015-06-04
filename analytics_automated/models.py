@@ -108,7 +108,7 @@ class Submission(models.Model):
     )
     job         = models.ForeignKey(Job)
     submission_name = models.CharField(max_length=64, null=True, blank=False)
-    UUID        = models.CharField(max_length=64,unique=True, null=True, blank=False)
+    UUID        = models.CharField(max_length=64,unique=True, null=True, blank=False, db_index=True)
     email       = models.CharField(max_length=256, null=True, blank=False)
     ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
     input_data  = models.FileField(blank=False)
@@ -116,10 +116,11 @@ class Submission(models.Model):
     message     = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
     claimed     = models.BooleanField(null=False, default=False)
     worker_id   = models.IntegerField(blank=True, null=True, default=None)
+    # posted_on = models.DateTimeField(auto_now_add=True)
+    # updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.pk)
-
 
 class Result(models.Model):
     submission  = models.ForeignKey(Submission)

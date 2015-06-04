@@ -59,5 +59,5 @@ NEXT UP TODO
 1. Django REST for Submission and results
   Submission : create and read, no external update and no external delete
   Result : create and read, no external update and no external delete
-2. Submission view and tests.
+2. Add UUID index for submission and index for job name
 3. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html

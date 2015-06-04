@@ -2,6 +2,7 @@ django==1.8.1
 django-admin-bootstrapped==2.5.0
 django-bootstrap3==5.4.0
 django-registration-redux==1.2
+django-ipware==1.0.0
 Pillow==2.8.1
 psycopg2==2.6
 unipath==1.1
@@ -9,3 +10,5 @@ coverage==3.7.1
 bugsnag==2.3.1
 celery==3.1.18
 factory-boy==2.5.2
+restless==2.0.1
+requests==2.7.0
