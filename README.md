@@ -79,6 +79,7 @@ python 3. I added this to my .bash_profile
 7. Start and initialise postgres (you can add the path to PGDATA env var)
   * `> initdb -D [SOME_PATH]`
   * `> postgres -D [SOME_PATH]`
+  
 You may need to get /var/run/postgres made writeable by all to run this.
 
 NEXT UP TODO
