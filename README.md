@@ -56,8 +56,8 @@ python 3. I added this to my .bash_profile
 
 NEXT UP TODO
 ============
-1. Django REST for Submission and results
+1. Django REST for Submission
   Submission : create and read, no external update and no external delete
-  Result : create and read, no external update and no external delete
-2. Add UUID index for submission and index for job name
+2. REST return for results (create and read), create requires authentication?
 3. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+4. Get Submission form validation to return more meaningful error state
