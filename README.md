@@ -36,9 +36,13 @@ python 3. I added this to my .bash_profile
     > workon analytics_automated (FYI discontect with deactivate)
     ```
 8. Install these libraries to this env
- * `> pip install setuptools`
- * `> pip install distribute`
+
+    ```
+    > pip install setuptools
+    > pip install distribute
+    ```
 10. Once configured log in to postgres (psql) and add a postgres user for analytics automated
+
     ```
     CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
     CREATE DATABASE analytics_automated_db;
@@ -46,6 +50,7 @@ python 3. I added this to my .bash_profile
     ALTER USER a_a_user CREATEDB;
     ```
 11. On Mac you probably have to link some psql bits (mind the version)
+
     ```
     > sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib
     > sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib
@@ -59,25 +64,28 @@ python 3. I added this to my .bash_profile
 14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
 `> pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
-```
-> cd analytics_automated_project/settings/
-> touch base_secrets.json
-> touch dev_secrets.json
-```
+
+    ```
+    > cd analytics_automated_project/settings/
+    > touch base_secrets.json
+    > touch dev_secrets.json
+    ```
 16. Add the BUGSNAG key to base_secrets.json as per
-```
-{
-    "BUGSNAG": ""
-}
-```
+
+    ```
+    {
+        "BUGSNAG": ""
+    }
+    ```
 17. Add the dev database and secret key to the dev_secrets.json as per
-```
-{
-  "USER": "a_a_user",
-  "PASSWORD": "thisisthedevelopmentpasswordguys",
-  "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
-}
-```
+
+    ```
+    {
+      "USER": "a_a_user",
+      "PASSWORD": "thisisthedevelopmentpasswordguys",
+      "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
+    }
+    ```
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
 `python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
