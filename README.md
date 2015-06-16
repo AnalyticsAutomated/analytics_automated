@@ -18,15 +18,15 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
  * `> pip install virtualenvwrapper`
 6. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
 python 3. I added this to my .bash_profile
-    ```
-    PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
-    export PATH
+```
+PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
+export PATH
 
-    VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
-    export VIRTUALENVWRAPPER_PYTHON
+VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
+export VIRTUALENVWRAPPER_PYTHON
 
-    source virtualenvwrapper.sh
-    ```
+source virtualenvwrapper.sh
+```
 Then run`> source virtualenvwrapper.sh`
 7. `> mkvirtualenv analytics_automated`
 8. `> workon analytics_automated` (FYI discontect with deactivate)
@@ -34,15 +34,19 @@ Then run`> source virtualenvwrapper.sh`
  * `> pip install setuptools`
  * `> pip install distribute`
 10. Once configured log in to postgres (psql) and add a postgres user for analytics automated
- * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
- * `CREATE DATABASE analytics_automated_db;`
- * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
- * `ALTER USER a_a_user CREATEDB;`
+```
+CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+CREATE DATABASE analytics_automated_db;
+GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
+ALTER USER a_a_user CREATEDB;
+```
 11. On Mac you probably have to link some psql bits (mind the version)
- * `sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib`
- * `sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib`
- * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
- * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
+```
+> sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib
+> sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib
+> sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old
+> sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib
+```
 12. Check out analytics_automated from gitb
 `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
@@ -50,9 +54,11 @@ Then run`> source virtualenvwrapper.sh`
 14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
 `pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
- * `cd analytics_automated_project/settings/`
- * `touch base_secrets.json`
- * `touch dev_secrets.json`
+```
+> cd analytics_automated_project/settings/
+> touch base_secrets.json
+> touch dev_secrets.json
+```
 16. Add the BUGSNAG key to base_secrets.json as per
 ```
 {
@@ -66,7 +72,7 @@ Then run`> source virtualenvwrapper.sh`
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
 }
- ```
+```
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
 `python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
@@ -102,6 +108,7 @@ add a superuser with your user name
   * `> initdb -D [SOME_PATH]`
 8. start postgres, You may additionally need to get /var/run/postgres made writeable by all to run this.
   * `> postgres -D [SOME_PATH] >logfile 2>&1 &`
+
   or
 
   * `pg_ctl start -l logfile`
