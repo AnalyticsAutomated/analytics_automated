@@ -43,8 +43,8 @@ Then run`> source virtualenvwrapper.sh`
  * `sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib`
  * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
-12. Check out analytics_automated from git
-    `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
+12. Check out analytics_automated from gitb
+`git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
     `pip install celery`
 14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
