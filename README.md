@@ -60,11 +60,13 @@ Then run`> source virtualenvwrapper.sh`
 }
 ```
 17. Add the dev database and secret key to the dev_secrets.json as per
-```{
+```
+{
   "USER": "a_a_user",
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
- }```
+}
+ ```
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
 `python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
