@@ -27,10 +27,13 @@ export VIRTUALENVWRAPPER_PYTHON
 
 source virtualenvwrapper.sh
 ```
-Then run`> source virtualenvwrapper.sh`
-7. `> mkvirtualenv analytics_automated`
-8. `> workon analytics_automated` (FYI discontect with deactivate)
-9. Install these libraries to this env
+7. Then the following to start virtualenv wrapper and create and env
+```
+> source virtualenvwrapper.sh
+> mkvirtualenv analytics_automated
+> workon analytics_automated (FYI discontect with deactivate)
+```
+8. Install these libraries to this env
  * `> pip install setuptools`
  * `> pip install distribute`
 10. Once configured log in to postgres (psql) and add a postgres user for analytics automated
@@ -50,9 +53,9 @@ ALTER USER a_a_user CREATEDB;
 12. Check out analytics_automated from gitb
 `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
-    `pip install celery`
+    `> pip install celery`
 14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
-`pip install -r requirements/dev.txt`
+`> pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
 ```
 > cd analytics_automated_project/settings/
