@@ -3,8 +3,7 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 
 ## Setup of automated analytics
 
-If we're starting from scratch you will need to install the following:
-order.
+###Setup for a Mac which you control:
 
 1. Install latest python3.x
 2. Install git
@@ -53,6 +52,35 @@ python 3. I added this to my .bash_profile
 `python manage.py runserver --settings=analytics_automated_project.settings.dev`
 18. Test the code also defining the settings you are using
 `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
+
+###Setup for a linux machine on our network
+1. Set yourself up so you're using bash rather than csh
+2. Get your own python3, somewhere local rather than on the network
+`/opt/Python/Python-3.4.1/bin/virtualenv [SOME_PATH]`
+3. Add [SOME_PATH]/bin to your PATH in your .bashrc
+4. Install virtualenv and virtualenvwrapper
+ * `> pip install virtualenv`
+ * `> pip install virtualenvwrapper`
+5. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
+ python 3. I added all this to my .bash_profile
+   ```
+   export WORKON_HOME=/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs
+   export PROJECT_HOME=$HOME/Code
+   VIRTUALENVWRAPPER_PYTHON='/scratch0/NOT_BACKED_UP/dbuchan/python3/bin/python3'
+   export VIRTUALENVWRAPPER_PYTHON
+
+   source virtualenvwrapper.sh
+
+   ```
+6. Install these libraries to this env
+  * `> pip install setuptools`
+  * `> pip install distribute`
+  * `> pip install celery`
+7. Start and initialise postgres (you can add the path to PGDATA env var)
+  * `> initdb -D [SOME_PATH]`
+  * `> postgres -D [SOME_PATH]`
+  
+You may need to get /var/run/postgres made writeable by all to run this.
 
 NEXT UP TODO
 ============
