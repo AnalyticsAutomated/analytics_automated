@@ -9,8 +9,9 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 2. Install git
 3. Install RabbitMQ (configuring this may hose your postgres install on OSX, so
   install RabbitMQ before postgres)
+
  `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
-4. Install postgres for your system, MacOS version can be found at
+4. Install postgres for your system, MacOSX version can be found at
  `brew install postgres`
 5. Install virtualenv and virtualenvwrapper
  * `> pip install virtualenv`
@@ -26,45 +27,47 @@ python 3. I added this to my .bash_profile
 
     source virtualenvwrapper.sh
     ```
-7. `> source virtualenvwrapper.sh`
-8. `> mkvirtualenv analytics_automated`
-9. `> workon analytics_automated (FYI discontect with deactivate)`
-10. Install these libraries to this env
+Then run
+`> source virtualenvwrapper.sh`
+7. `> mkvirtualenv analytics_automated`
+8. `> workon analytics_automated` (FYI discontect with deactivate)
+9. Install these libraries to this env
  * `> pip install setuptools`
  * `> pip install distribute`
-11. Once configured add a postgres user for analytics automated
+10. Once configured add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
  * `CREATE DATABASE analytics_automated_db;`
  * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
  * `ALTER USER a_a_user CREATEDB;`
-12. On Mac you probably have to link some psql bits (mind the version)
+11. On Mac you probably have to link some psql bits (mind the version)
  * `sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib`
  * `sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib`
  * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
-13. Check out analytics_automated from git
-14. Install Celery
+12. Check out analytics_automated from git
+`git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
+13. Install Celery
 `pip install celery`
-15. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
+14. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
 `pip install -r requirements/dev.txt`
-16. add some configuration bits which are omitted from github
+15. add some configuration bits which are omitted from github
  * `cd analytics_automated_project/settings/`
  * `touch base_secrets.json`
  * `touch dev_secrets.json`
-17. Add the BUGSNAG key to base_secrets.json as per
+16. Add the BUGSNAG key to base_secrets.json as per
 `{
   "BUGSNAG": ""
  }`
-18. Add the dev database and secret key to the dev_secrets.json as per
+17. Add the dev database and secret key to the dev_secrets.json as per
 `{
   "USER": "a_a_user",
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
  }`
-19. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
-20. Start the server by defining the settings you are using
+18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
+19. Start the server by defining the settings you are using
 `python manage.py runserver --settings=analytics_automated_project.settings.dev`
-21. Test the code also defining the settings you are using
+20. Test the code also defining the settings you are using
 `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
 ###Setup for a linux machine on our network
@@ -111,6 +114,7 @@ add a superuser with your user name
   install RabbitMQ before postgres)
  `https://www.rabbitmq.com/install-generic-unix.html`
 11. Check out analytics_automated from git
+`git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 12. Install Celery
 `pip install celery`
 13. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
