@@ -75,7 +75,7 @@ python 3. I added this to my .bash_profile
 
     ```
     {
-        "BUGSNAG": ""
+        "BUGSNAG": "YOUR KEY HERE"
     }
     ```
 17. Add the dev database and secret key to the dev_secrets.json as per
@@ -117,6 +117,7 @@ python 3. I added this to my .bash_profile
 
    ```
 6. Install these libraries to this env
+
     ```
     > pip install setuptools
     > pip install distribute
@@ -137,10 +138,10 @@ add a superuser with your user name
 9. Once configured add a postgres user for analytics automated
 
     ```
-    `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
-    `CREATE DATABASE analytics_automated_db;`
-    `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
-    `ALTER USER a_a_user CREATEDB;`
+    CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+    CREATE DATABASE analytics_automated_db;
+    GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
+    ALTER USER a_a_user CREATEDB;
     ```
 10. Install Erlang somewhere local (configure --prefix=[LOCAL DIR]). Don't forget to add this location to your PATH
   * `http://www.erlang.org/download.html`
@@ -154,16 +155,17 @@ add a superuser with your user name
 14. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
   * `> pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
+
     ```
-    cd analytics_automated_project/settings/`
-    touch base_secrets.json`
-    touch dev_secrets.json`
+    > cd analytics_automated_project/settings/`
+    > touch base_secrets.json`
+    > touch dev_secrets.json`
     ```
 16. Add the BUGSNAG key to base_secrets.json as per
 
     ```
     {
-      "BUGSNAG": ""
+      "BUGSNAG": "YOUR KEY HERE"
     }
     ```
 17. Add the dev database and secret key to the dev_secrets.json as per
