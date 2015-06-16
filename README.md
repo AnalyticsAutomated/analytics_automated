@@ -27,9 +27,7 @@ python 3. I added this to my .bash_profile
 
     source virtualenvwrapper.sh
     ```
-Then run
-
-`> source virtualenvwrapper.sh`
+Then run `> source virtualenvwrapper.sh`
 7. `> mkvirtualenv analytics_automated`
 8. `> workon analytics_automated` (FYI discontect with deactivate)
 9. Install these libraries to this env
@@ -57,11 +55,9 @@ Then run
  * `touch base_secrets.json`
  * `touch dev_secrets.json`
 16. Add the BUGSNAG key to base_secrets.json as per
-
 ```{
   "BUGSNAG": ""
  }```
- 
 17. Add the dev database and secret key to the dev_secrets.json as per
 ```{
   "USER": "a_a_user",
