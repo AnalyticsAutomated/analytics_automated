@@ -28,13 +28,14 @@ python 3. I added this to my .bash_profile
     source virtualenvwrapper.sh
     ```
 Then run
+
 `> source virtualenvwrapper.sh`
 7. `> mkvirtualenv analytics_automated`
 8. `> workon analytics_automated` (FYI discontect with deactivate)
 9. Install these libraries to this env
  * `> pip install setuptools`
  * `> pip install distribute`
-10. Once configured add a postgres user for analytics automated
+10. Once configured log in to postgres (psql) and add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
  * `CREATE DATABASE analytics_automated_db;`
  * `GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;`
@@ -45,29 +46,36 @@ Then run
  * `sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old `
  * `sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib`
 12. Check out analytics_automated from git
+
 `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
 `pip install celery`
-14. Install the requirements from the relevant project requirements (probably requirements/dev.txt)
+14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
 `pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
  * `cd analytics_automated_project/settings/`
  * `touch base_secrets.json`
  * `touch dev_secrets.json`
 16. Add the BUGSNAG key to base_secrets.json as per
+
 `{
   "BUGSNAG": ""
  }`
 17. Add the dev database and secret key to the dev_secrets.json as per
+
 `{
   "USER": "a_a_user",
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
  }`
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
+
+`python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
+
 `python manage.py runserver --settings=analytics_automated_project.settings.dev`
 20. Test the code also defining the settings you are using
+
 `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
 ###Setup for a linux machine on our network
