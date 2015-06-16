@@ -27,7 +27,7 @@ python 3. I added this to my .bash_profile
 
     source virtualenvwrapper.sh
     ```
-Then run `> source virtualenvwrapper.sh`
+Then run`> source virtualenvwrapper.sh`
 7. `> mkvirtualenv analytics_automated`
 8. `> workon analytics_automated` (FYI discontect with deactivate)
 9. Install these libraries to this env
