@@ -87,11 +87,11 @@ python 3. I added this to my .bash_profile
     }
     ```
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
-    `python manage.py migrate --settings=analytics_automated_project.settings.dev`
+    * `python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
-    `python manage.py runserver --settings=analytics_automated_project.settings.dev`
+    * `python manage.py runserver --settings=analytics_automated_project.settings.dev`
 20. Test the code also defining the settings you are using
-    `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
+    * `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
 ###Setup for a linux machine on our network
 1. Set yourself up so you're using bash rather than csh, this will make virtualenv much easier to deal with
@@ -99,8 +99,11 @@ python 3. I added this to my .bash_profile
 `/opt/Python/Python-3.4.1/bin/virtualenv [SOME_PATH]`
 3. Add [SOME_PATH]/bin to your PATH in your .bashrc
 4. Install virtualenv and virtualenvwrapper
- * `> pip install virtualenv`
- * `> pip install virtualenvwrapper`
+
+    ```
+    > pip install virtualenv`
+    > pip install virtualenvwrapper`
+    ```
 5. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
  python 3. I added all this to my .bash_profile
    ```
@@ -113,9 +116,11 @@ python 3. I added this to my .bash_profile
 
    ```
 6. Install these libraries to this env
-  * `> pip install setuptools`
-  * `> pip install distribute`
-  * `> pip install celery`
+    ```
+    > pip install setuptools
+    > pip install distribute
+    > pip install celery
+    ```
 7. Initialise postgres (you can add the path to PGDATA env var), this should
 add a superuser with your user name
   * `> initdb -D [SOME_PATH]`
