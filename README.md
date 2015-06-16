@@ -8,48 +8,48 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 1. Install latest python3.x
 2. Install git
 3. Install RabbitMQ (configuring this may hose your postgres install on OSX, so
-  install RabbitMQ before postgres)
-
- `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
+  install RabbitMQ before postgres) `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
 4. Install postgres for your system, MacOSX version can be found at
  `brew install postgres`
 5. Install virtualenv and virtualenvwrapper
- * `> pip install virtualenv`
- * `> pip install virtualenvwrapper`
+    ```
+    > pip install virtualenv`
+    > pip install virtualenvwrapper`
+    ```
 6. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
 python 3. I added this to my .bash_profile
-```
-PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
-export PATH
+    ```
+    PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
+    export PATH
 
-VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
-export VIRTUALENVWRAPPER_PYTHON
+    VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3'
+    export VIRTUALENVWRAPPER_PYTHON
 
-source virtualenvwrapper.sh
-```
+    source virtualenvwrapper.sh
+    ```
 7. Then the following to start virtualenv wrapper and create and env
-```
-> source virtualenvwrapper.sh
-> mkvirtualenv analytics_automated
-> workon analytics_automated (FYI discontect with deactivate)
-```
+    ```
+    > source virtualenvwrapper.sh
+    > mkvirtualenv analytics_automated
+    > workon analytics_automated (FYI discontect with deactivate)
+    ```
 8. Install these libraries to this env
  * `> pip install setuptools`
  * `> pip install distribute`
 10. Once configured log in to postgres (psql) and add a postgres user for analytics automated
-```
-CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
-CREATE DATABASE analytics_automated_db;
-GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
-ALTER USER a_a_user CREATEDB;
-```
+    ```
+    CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+    CREATE DATABASE analytics_automated_db;
+    GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
+    ALTER USER a_a_user CREATEDB;
+    ```
 11. On Mac you probably have to link some psql bits (mind the version)
-```
-> sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib
-> sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib
-> sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old
-> sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib
-```
+    ```
+    > sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib /usr/lib
+    > sudo ln -s /usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib /usr/lib
+    > sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old
+    > sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib
+    ```
 12. Check out analytics_automated from gitb
 `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
