@@ -103,8 +103,10 @@ add a superuser with your user name
 8. start postgres, You may additionally need to get /var/run/postgres made writeable by all to run this.
   * `> postgres -D [SOME_PATH] >logfile 2>&1 &`
   or
+
   * `pg_ctl start -l logfile`
-  You can no log in with
+
+  You can now log in with
   * `psql -h localhost -d postgres`
 9. Once configured add a postgres user for analytics automated
  * `CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';`
