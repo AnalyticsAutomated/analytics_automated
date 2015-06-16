@@ -12,6 +12,7 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 4. Install postgres for your system, MacOSX version can be found at
  `brew install postgres`
 5. Install virtualenv and virtualenvwrapper
+
     ```
     > pip install virtualenv`
     > pip install virtualenvwrapper`
@@ -28,6 +29,7 @@ python 3. I added this to my .bash_profile
     source virtualenvwrapper.sh
     ```
 7. Then the following to start virtualenv wrapper and create and env
+
     ```
     > source virtualenvwrapper.sh
     > mkvirtualenv analytics_automated
