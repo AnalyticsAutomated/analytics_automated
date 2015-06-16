@@ -8,9 +8,10 @@ Middleware layer for exposing analytics and distributed computing jobs as web se
 1. Install latest python3.x
 2. Install git
 3. Install RabbitMQ (configuring this may hose your postgres install on OSX, so
-  install RabbitMQ before postgres) * `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
+  install RabbitMQ before postgres)
+  * `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
 4. Install postgres for your system, MacOSX version can be found at
- * `brew install postgres`
+   * `brew install postgres`
 5. Install virtualenv and virtualenvwrapper
 
     ```
@@ -58,11 +59,11 @@ python 3. I added this to my .bash_profile
     > sudo ln -s /Library/PostgreSQL/9.4/lib/libpq.5.dylib /usr/lib
     ```
 12. Check out analytics_automated from gitb
-* `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
+  * `git clone https://github.com/AnalyticsAutomated/analytics_automated.git`
 13. Install Celery
-* `> pip install celery`
+  * `> pip install celery`
 14. Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)
-* `> pip install -r requirements/dev.txt`
+  * `> pip install -r requirements/dev.txt`
 15. add some configuration bits which are omitted from github
 
     ```
