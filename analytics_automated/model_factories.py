@@ -64,7 +64,7 @@ class StepFactory(factory.DjangoModelFactory):
 class SubmissionFactory(factory.DjangoModelFactory):
     job = JobFactory.create()
     submission_name = factory.Sequence(lambda n: 'submission_{}'.format(n))
-    UUID = str(uuid.uuid1())
+    UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
     input_data = factory.LazyAttribute(lambda t: File(open(TEST_DATA)))
 

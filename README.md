@@ -58,6 +58,9 @@ NEXT UP TODO
 ============
 1. Django REST for Submission
   Submission : create and read, no external update and no external delete
-2. REST return for results (create and read), create requires authentication?
-3. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
-4. Get Submission form validation to return more meaningful error state
+2. Ensure submission saves file to submissions
+2. Test for submission
+3. REST return for results (create and read), create requires authentication?
+3. CSRF for REST?  2 Scoops: 11.3.1
+5. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+6. Get Submission form validation to return more meaningful error state
