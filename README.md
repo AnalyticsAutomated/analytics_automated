@@ -57,29 +57,20 @@ Then run
  * `touch base_secrets.json`
  * `touch dev_secrets.json`
 16. Add the BUGSNAG key to base_secrets.json as per
-
-`{
+```{
   "BUGSNAG": ""
- }`
-
+ }```
 17. Add the dev database and secret key to the dev_secrets.json as per
-
-`{
+```{
   "USER": "a_a_user",
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
- }`
-
+ }```
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project.
-
 `python manage.py migrate --settings=analytics_automated_project.settings.dev`
-
 19. Start the server by defining the settings you are using
-
 `python manage.py runserver --settings=analytics_automated_project.settings.dev`
-
 20. Test the code also defining the settings you are using
-
 `python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
 ###Setup for a linux machine on our network
