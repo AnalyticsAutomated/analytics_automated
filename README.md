@@ -54,9 +54,9 @@ Then run`> source virtualenvwrapper.sh`
  * `touch base_secrets.json`
  * `touch dev_secrets.json`
 16. Add the BUGSNAG key to base_secrets.json as per
-```{
-  "BUGSNAG": ""
- }```
+    ```{
+        "BUGSNAG": ""
+    }```
 17. Add the dev database and secret key to the dev_secrets.json as per
 ```{
   "USER": "a_a_user",
