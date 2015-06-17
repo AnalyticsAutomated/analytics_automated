@@ -18,11 +18,20 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework import routers
+
 from analytics_automated import views
+from analytics_automated import api
+
+router = routers.DefaultRouter()
+router.register(r'submission', api.SubmissionViewSet)
+router.register(r'job', api.JobViewSet)
+
 
 urlpatterns = [
      url(r'^admin/', include(admin.site.urls)),
      url(r'^analytics_automated/', include('analytics_automated.urls')),
+     url(r'^', include(router.urls)),
 ]
 
 # At the top of your urls.py file, add the following line:
