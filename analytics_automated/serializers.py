@@ -3,10 +3,16 @@ from rest_framework import serializers
 from .models import Job, Submission
 
 
-class SubmissionSerializer (serializers.ModelSerializer):
+class SubmissionInputSerializer (serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ('pk', 'job', 'ip', 'email', 'submission_name', 'UUID')
+        fields = ('job', 'email', 'submission_name', 'input_data')
+
+
+class SubmissionOutputSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = ('submission_name', 'UUID')
 
 
 class JobSerializer (serializers.ModelSerializer):

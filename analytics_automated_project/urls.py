@@ -26,9 +26,13 @@ from analytics_automated import api
 urlpatterns = [
      url(r'^admin/', include(admin.site.urls)),
      url(r'^analytics_automated/', include('analytics_automated.urls')),
-     url(r'^analytics_automated/submission/$', api.Submission.as_view(), name="submission"),
-     url(r'^analytics_automated/submission/(?P<pk>[0-9]+)$', api.Submission.as_view(), name="submissionDetail"),
-     url(r'^analytics_automated/job/$', api.Job.as_view(), name="job"),
+     url(r'^analytics_automated/submission/$',
+         api.SubmissionDetails.as_view(),
+         name="submission"),
+     url(r'^analytics_automated/submission/(?P<pk>[0-9]+)$',
+         api.SubmissionDetails.as_view(),
+         name="submissionDetail"),
+     url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html', 'xml'])
