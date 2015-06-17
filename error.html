@@ -1,92 +1,222 @@
 
+
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Page not found at /analytics_automated/submissions/</title>
-  <meta name="robots" content="NONE,NOARCHIVE">
-  <style type="text/css">
-    html * { padding:0; margin:0; }
-    body * { padding:10px 20px; }
-    body * * { padding:0; }
-    body { font:small sans-serif; background:#eee; }
-    body>div { border-bottom:1px solid #ddd; }
-    h1 { font-weight:normal; margin-bottom:.4em; }
-    h1 span { font-size:60%; color:#666; font-weight:normal; }
-    table { border:none; border-collapse: collapse; width:100%; }
-    td, th { vertical-align:top; padding:2px 3px; }
-    th { width:12em; text-align:right; color:#666; padding-right:.5em; }
-    #info { background:#f6f6f6; }
-    #info ol { margin: 0.5em 4em; }
-    #info ol li { font-family: monospace; }
-    #summary { background: #ffc; }
-    #explanation { background:#eee; border-bottom: 0px none; }
-  </style>
-</head>
-<body>
-  <div id="summary">
-    <h1>Page not found <span>(404)</span></h1>
-    <table class="meta">
-      <tr>
-        <th>Request Method:</th>
-        <td>POST</td>
-      </tr>
-      <tr>
-        <th>Request URL:</th>
-        <td>http://127.0.0.1:8000/analytics_automated/submissions/</td>
-      </tr>
-      
-    </table>
-  </div>
-  <div id="info">
-    
-      <p>
-      Using the URLconf defined in <code>analytics_automated_project.urls</code>,
-      Django tried these URL patterns, in this order:
-      </p>
-      <ol>
+<html>
+    <head>
         
-          <li>
-            
-                ^__debug__/
-                
-            
-          </li>
-        
-          <li>
-            
-                ^admin/
-                
-            
-          </li>
-        
-          <li>
-            
-                submission/
-                
-            
-          </li>
-        
-          <li>
-            
-                ^submissions/(?P&lt;path&gt;.*)
-                
-            
-          </li>
-        
-      </ol>
-      <p>The current URL, <code>analytics_automated/submissions/</code>, didn't match any of these.</p>
-    
-  </div>
 
-  <div id="explanation">
-    <p>
-      You're seeing this error because you have <code>DEBUG = True</code> in
-      your Django settings file. Change that to <code>False</code>, and Django
-      will display a standard 404 page.
-    </p>
-  </div>
+            
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <meta name="robots" content="NONE,NOARCHIVE" />
+            
 
+            <title>Django REST framework</title>
+
+            
+                
+                    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap.min.css"/>
+                    <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/bootstrap-tweaks.css"/>
+                
+                <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/prettify.css"/>
+                <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/default.css"/>
+            
+
+        
+    </head>
+
+    
+    <body class="">
+
+        <div class="wrapper">
+
+            
+                <div class="navbar navbar-static-top navbar-inverse">
+                    <div class="container">
+                        <span>
+                            
+                                <a class='navbar-brand' rel="nofollow" href='http://www.django-rest-framework.org'>
+                                    Django REST framework <span class="version">3.1.3</span>
+                                </a>
+                            
+                        </span>
+                        <ul class="nav navbar-nav pull-right">
+                            
+                                
+                                    
+                                
+                            
+                        </ul>
+                    </div>
+                </div>
+            
+
+            <div class="container">
+            
+                <ul class="breadcrumb">
+                    
+                        
+                            <li class="active"><a href="/analytics_automated/submission/">Submission Details</a></li>
+                        
+                    
+                </ul>
+            
+
+            <!-- Content -->
+            <div id="content">
+
+                
+                    <form id="get-form" class="pull-right">
+                        <fieldset>
+                            <div class="btn-group format-selection">
+                                <a class="btn btn-primary js-tooltip" href='/analytics_automated/submission/'
+                                     rel="nofollow" title="Make a GET request on the Submission Details resource">GET</a>
+
+                                <button class="btn btn-primary dropdown-toggle js-tooltip" data-toggle="dropdown"
+                                        title="Specify a format for the GET request">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    
+                                        <li>
+                                            <a class="js-tooltip format-option"
+                                                href='/analytics_automated/submission/?format=api'
+                                                 rel="nofollow"
+                                               title="Make a GET request on the Submission Details resource with the format set to `api`">
+                                                api
+                                            </a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a class="js-tooltip format-option"
+                                                href='/analytics_automated/submission/?format=json'
+                                                 rel="nofollow"
+                                               title="Make a GET request on the Submission Details resource with the format set to `json`">
+                                                json
+                                            </a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a class="js-tooltip format-option"
+                                                href='/analytics_automated/submission/?format=xml'
+                                                 rel="nofollow"
+                                               title="Make a GET request on the Submission Details resource with the format set to `xml`">
+                                                xml
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            </div>
+                        </fieldset>
+                    </form>
+                
+
+                
+                    <form class="button-form" action="/analytics_automated/submission/" method="POST">
+                        <input type='hidden' name='csrfmiddlewaretoken' value='BKUQNnmibSdD3jhOKQlXoDhTWX9kuT1w' />
+                        <input type="hidden" name="_method" value="OPTIONS" />
+                        <button class="btn btn-primary js-tooltip"
+                                title="Make an OPTIONS request on the Submission Details resource">OPTIONS</button>
+                    </form>
+                
+
+                
+
+                <div class="content-main">
+                    <div class="page-header">
+                        <h1>Submission Details</h1>
+                    </div>
+                    <div style="float:left">
+                    
+                        <p>API endpoint for Submission Viewing and Editing</p>
+                    
+                    </div>
+
+                    
+
+                    <div class="request-info" style="clear: both" >
+                        <pre class="prettyprint"><b>POST</b> /analytics_automated/submission/</pre>
+                    </div>
+                    <div class="response-info">
+                        <pre class="prettyprint"><span class="meta nocode"><b>HTTP 400 Bad Request</b>
+<b>Content-Type:</b> <span class="lit">application/json</span>
+<b>Vary:</b> <span class="lit">Accept</span>
+<b>Allow:</b> <span class="lit">GET, POST, HEAD, OPTIONS</span>
+
+</span>{
+    &quot;non_field_errors&quot;: [
+        &quot;Invalid data. Expected a dictionary, but got str.&quot;
+    ]
+}</pre>
+                    </div>
+                </div>
+
+                
+
+                    
+                        <div >
+                            
+                            <div class="well tab-content">
+                                
+                                <div  id="post-generic-content-form">
+                                    
+                                        <form action="/analytics_automated/submission/" method="POST" class="form-horizontal">
+                                            <fieldset>
+                                                
+<input type='hidden' name='csrfmiddlewaretoken' value='BKUQNnmibSdD3jhOKQlXoDhTWX9kuT1w' />
+
+
+    <div class="form-group">
+        <label for="id__content_type" class="col-sm-2 control-label">Media type:</label>
+        <div class="col-sm-10">
+            <select id="id__content_type" name="_content_type" class="form-control">
+<option value="application/json" selected="selected">application/json</option>
+<option value="application/xml">application/xml</option>
+</select>
+            <span class="help-block"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="id__content" class="col-sm-2 control-label">Content:</label>
+        <div class="col-sm-10">
+            <textarea cols="40" id="id__content" name="_content" rows="10" class="form-control">
+{
+    &quot;job&quot;: null,
+    &quot;email&quot;: &quot;&quot;,
+    &quot;submission_name&quot;: &quot;&quot;
+}</textarea>
+            <span class="help-block"></span>
+        </div>
+    </div>
+
+
+                                                <div class="form-actions">
+                                                    <button class="btn btn-primary"
+                                                            title="Make a POST request on the Submission Details resource">POST</button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    
+                
+            </div>
+            <!-- END Content -->
+            </div><!-- /.container -->
+        </div><!-- ./wrapper -->
+
+        
+            <script src="/static/rest_framework/js/jquery-1.8.1-min.js"></script>
+            <script src="/static/rest_framework/js/bootstrap.min.js"></script>
+            <script src="/static/rest_framework/js/prettify-min.js"></script>
+            <script src="/static/rest_framework/js/default.js"></script>
+        
+    
 <style type="text/css">
 @media print { #djDebug {display:none;}}
 </style>
@@ -99,7 +229,7 @@
 
 <script src="/static/debug_toolbar/js/toolbar.js"></script>
 <div id="djDebug" style="display:none;" dir="ltr"
-     data-store-id="a1e6f85f51c44f9f8892e8f86819537d" data-render-panel-url="/__debug__/render_panel/"
+     data-store-id="d42737fd078c4a12ac864cac718466fa" data-render-panel-url="/__debug__/render_panel/"
      >
 	<div style="display:none;" id="djDebugToolbar">
 		<ul id="djDebugPanelList">
@@ -131,7 +261,7 @@
 					Time
 					
 					
-						<br /><small>CPU: 49.00ms (49.09ms)</small>
+						<br /><small>CPU: 32.78ms (32.78ms)</small>
 					
 					
 					
@@ -179,7 +309,7 @@
 					Request
 					
 					
-						<br /><small>&lt;no view&gt;</small>
+						<br /><small>SubmissionDetails</small>
 					
 					
 					
@@ -206,12 +336,12 @@
 				<li class="djDebugPanelButton">
 					<input type="checkbox" data-cookie="djdtStaticFilesPanel" checked="checked" title="Disable for next and successive requests" />
 					
-						<a href="#" title="Static files (105 found, 0 used)" class="StaticFilesPanel">
+						<a href="#" title="Static files (120 found, 8 used)" class="StaticFilesPanel">
 					
 					Static files
 					
 					
-						<br /><small>0 files used</small>
+						<br /><small>8 files used</small>
 					
 					
 					
@@ -222,12 +352,12 @@
 				<li class="djDebugPanelButton">
 					<input type="checkbox" data-cookie="djdtTemplatesPanel" checked="checked" title="Disable for next and successive requests" />
 					
-						<a href="#" title="Templates (1 rendered)" class="TemplatesPanel">
+						<a href="#" title="Templates (3 rendered)" class="TemplatesPanel">
 					
 					Templates
 					
 					
-						
+						<br /><small>rest_framework/api.html</small>
 					
 					
 					
@@ -395,7 +525,7 @@
 			<div id="StaticFilesPanel" class="djdt-panelContent">
 				<div class="djDebugPanelTitle">
 					<a href="" class="djDebugClose"></a>
-					<h3>Static files (105 found, 0 used)</h3>
+					<h3>Static files (120 found, 8 used)</h3>
 				</div>
 				<div class="djDebugPanelContent">
 					
@@ -410,7 +540,7 @@
 			<div id="TemplatesPanel" class="djdt-panelContent">
 				<div class="djDebugPanelTitle">
 					<a href="" class="djDebugClose"></a>
-					<h3>Templates (1 rendered)</h3>
+					<h3>Templates (3 rendered)</h3>
 				</div>
 				<div class="djDebugPanelContent">
 					
@@ -471,5 +601,6 @@
 	<div id="djDebugWindow" class="djdt-panelContent"></div>
 </div>
 </body>
+    
 </html>
 

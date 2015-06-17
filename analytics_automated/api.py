@@ -32,6 +32,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return self.retrieve(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        # here we'll add the function logic below, and validate on the form
+        # rather than the serializer
+        print(get_ip(request))
         return self.create(request, *args, **kwargs)
 
 

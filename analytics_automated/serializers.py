@@ -6,7 +6,7 @@ from .models import Job, Submission
 class SubmissionInputSerializer (serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ('job', 'email', 'submission_name', 'input_data')
+        fields = ('job', 'email', 'submission_name')
 
 
 class SubmissionOutputSerializer (serializers.ModelSerializer):
