@@ -3,13 +3,13 @@ from rest_framework import serializers
 from .models import Job, Submission
 
 
-class SubmissionSerializer (serializers.HyperlinkedModelSerializer):
+class SubmissionSerializer (serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ('job', 'ip', 'email', 'submission_name')
+        fields = ('pk', 'job', 'ip', 'email', 'submission_name', 'UUID')
 
 
-class JobSerializer (serializers.HyperlinkedModelSerializer):
+class JobSerializer (serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ('name')
+        fields = ('pk', 'name',)
