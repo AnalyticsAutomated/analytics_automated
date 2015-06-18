@@ -5,8 +5,7 @@ from .models import Submission, Job
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
-        #fields = ('job', 'submission_name', 'UUID', 'email', 'ip', 'input_data',)
-        fields = ('job', 'submission_name', 'UUID', 'email', 'ip')
+        fields = ('job', 'submission_name', 'UUID', 'email', 'ip', 'input_data',)
 
 
 class JobForm(forms.ModelForm):

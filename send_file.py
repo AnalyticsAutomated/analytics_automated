@@ -10,11 +10,11 @@ import json
 # r = requests.get(url)
 
 url = 'http://127.0.0.1:8000/analytics_automated/submission/.json'
-payload = {'job': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
-r = requests.post(url, json=json.dumps(payload))
+# payload = {'job': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
+# r = requests.post(url, json=json.dumps(payload))
 
-# payload = {'input_data': ('input.txt', open('./static/files/file1.txt', 'rb')),
-#            'job_name': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
-# r = requests.post(url, files=payload)
+payload = {'input_data': ('input.txt', open('./static/files/file1.txt', 'rb')),
+           'job': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
+r = requests.post(url, files=payload)
 
 print(r.text)

@@ -50,10 +50,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             write another serializer to handle this validation but that
             seems insane when the forms functionality is already in place
         """
-        data = ast.literal_eval(request.data)
+        print(str(request.POST))
         # # data['input_data'] = request.data['input_data']
-        data.update({'ip': get_ip(request)})
-        data.update({'UUID': str(uuid.uuid1())})
+        data = {}
+        data['input_data'] = request.data['input_data'].read().decode('UTF-8')
+        data['submission_name'] = request.data['submission_name'].read().decode('UTF-8')
+        data['email'] = request.data['email'].read().decode('UTF-8')
+        data['job_name'] = request.data['job_name'].read().decode('UTF-8')
+        data['ip'] = get_ip(request)
+        data['UUID'] = str(uuid.uuid1())
 
         # work out which job this refers to
         if Job.objects.filter(name=data['job']).exists():
