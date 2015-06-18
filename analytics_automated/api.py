@@ -1,11 +1,15 @@
-import json
+import ast
+import uuid
 from ipware.ip import get_ip
 
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.response import Response
 
-from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer, JobSerializer
+from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
+from .serializers import JobSerializer
 from .models import Job, Submission
 
 
@@ -29,19 +33,38 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             return SubmissionInputSerializer
 
     def get(self, request, *args, **kwargs):
+        """
+            Returns the current status of a job
+        """
         return self.retrieve(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        # here we'll add the function logic below, and validate on the form
-        # rather than the serializer
-        print(get_ip(request))
-        return self.create(request, *args, **kwargs)
+        """
+            This is the Job Submission endpoint.
+            Here we add things to our data object, validate using the
+            Submission Form because the serializer does NOT handle all
+            the fields we save and push the job to the queue
+        """
+        data = ast.literal_eval(request.data)
+        # # data['input_data'] = request.data['input_data']
+        data.update({'ip': get_ip(request)})
+        data.update({'UUID': str(uuid.uuid1())})
+        # work out which job this refers to
+        if Job.objects.filter(name=data['job']).exists():
+            data['job'] = Job.objects.get(name=data['job']).pk
+        else:
+            content = {'error': 'Job name supplied does not exist'}
+            return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+        # TODO: VALIDATE input_data IN SOME MANNER
+        print(data)
+
+        content = {'please move along': 'nothing to see here'}
+        return Response(content, status=status.HTTP_201_CREATED)
 
 
-class JobList(mixins.ListModelMixin,
-              generics.GenericAPIView):
+class JobList(mixins.ListModelMixin, generics.GenericAPIView):
     """
-        API endpoint list the available job types on this service
+        API endpoint list the available job types on this service.
     """
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -52,7 +75,6 @@ class JobList(mixins.ListModelMixin,
 # class SubmissionCreate(Endpoint):
 #
 #     def post(self, request):
-#         print("Hello")
 #         # get the data from the post request
 #         data = {}
 #         data['input_data'] = request.FILES['input_data'].read().decode('UTF-8')
@@ -60,14 +82,6 @@ class JobList(mixins.ListModelMixin,
 #         data['email'] = request.FILES['email'].read().decode('UTF-8')
 #         data['job_name'] = request.FILES['job_name'].read().decode('UTF-8')
 #         data['ip'] = get_ip(request)
-#
-#         # work out which job this refers to
-#         if Job.objects.filter(name=data['job_name']).exists():
-#             data['job'] = Job.objects.get(name=data['job_name']).pk
-#             del data['job_name']
-#         else:
-#             return {'error': 'Job name supplied does not exist'}
-#         # TODO: VALIDATE input_data IN SOME MANNER
 #
 #         # validate and submit the data
 #         submission_form = SubmissionForm(data)

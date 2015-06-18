@@ -75,7 +75,7 @@ python 3. I added this to my .bash_profile
 
     ```
     {
-        "BUGSNAG": "YOUR KEY HERE"
+        "BUGSNAG": "YOUR KEY HERE"t
     }
     ```
 17. Add the dev database and secret key to the dev_secrets.json as per
