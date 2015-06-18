@@ -2,6 +2,8 @@ import ast
 import uuid
 from ipware.ip import get_ip
 
+from django import forms
+
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework import generics
@@ -11,6 +13,7 @@ from rest_framework.response import Response
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
 from .models import Job, Submission
+from .forms import SubmissionForm
 
 
 class SubmissionDetails(mixins.RetrieveModelMixin,
@@ -43,12 +46,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             This is the Job Submission endpoint.
             Here we add things to our data object, validate using the
             Submission Form because the serializer does NOT handle all
-            the fields we save and push the job to the queue
+            the fields we save and push the job to the queue. We could
+            write another serializer to handle this validation but that
+            seems insane when the forms functionality is already in place
         """
         data = ast.literal_eval(request.data)
         # # data['input_data'] = request.data['input_data']
         data.update({'ip': get_ip(request)})
         data.update({'UUID': str(uuid.uuid1())})
+
         # work out which job this refers to
         if Job.objects.filter(name=data['job']).exists():
             data['job'] = Job.objects.get(name=data['job']).pk
@@ -56,10 +62,18 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
         # TODO: VALIDATE input_data IN SOME MANNER
-        print(data)
 
-        content = {'please move along': 'nothing to see here'}
-        return Response(content, status=status.HTTP_201_CREATED)
+        submission_form = SubmissionForm(data)
+        if submission_form.is_valid():
+            s = submission_form.save()
+            # Send to the Job Queue and set queued message if that is a success
+
+            content = {'UUID': s.UUID, 'submission_name': s.submission_name}
+            return Response(content, status=status.HTTP_201_CREATED)
+        else:
+            # TODO: get the error from form and return it here; form.errors()
+            content = {'error': 'Input information is not correctly formatted'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):

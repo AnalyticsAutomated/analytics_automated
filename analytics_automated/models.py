@@ -31,11 +31,11 @@ class Backend(models.Model):
         (RSERVE, "RServe"),
         # add more when more backends are complete
     )
-    name        = models.CharField(max_length=64, unique=True, null=False, blank=False, db_index=True)
+    name = models.CharField(max_length=64, unique=True, null=False, blank=False, db_index=True)
     server_type = models.IntegerField(null=False, blank=False, choices=SERVER_CHOICES, default=LOCALHOST)
-    ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
-    port        = models.IntegerField(default=80, null=False, blank=False)
-    root_path   = models.CharField(max_length=256, null=False, default="/tmp/", blank=False)
+    ip = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
+    port = models.IntegerField(default=80, null=False, blank=False)
+    root_path = models.CharField(max_length=256, null=False, default="/tmp/", blank=False)
 
     def __str__(self):
         return self.name
@@ -47,8 +47,8 @@ class Backend(models.Model):
 
 
 class Job(models.Model):
-    name        = models.CharField(max_length=64, unique=True, null=False, blank=False)
-    runnable    = models.BooleanField(default=False, blank=False)
+    name = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    runnable = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return self.name
@@ -57,11 +57,12 @@ class Job(models.Model):
 
 
 class Task(models.Model):
-    backend     = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True)
-    name        = models.CharField(max_length=64, unique=True, null=False, blank=False)
-    in_glob     = models.CharField(max_length=64, null=False, blank=False)
-    out_glob    = models.CharField(max_length=64, null=False, blank=False)
-    executable  = models.CharField(max_length=256,null=False, blank=False)
+    backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    in_glob = models.CharField(max_length=64, null=False, blank=False)
+    out_glob = models.CharField(max_length=64, null=False, blank=False)
+    executable = models.CharField(max_length=256, null=False, blank=False)
+
     def __str__(self):
         return self.name
 # TODO: add 2 tables to let tasks have multiple inputs and multiple outputs
@@ -70,9 +71,9 @@ class Task(models.Model):
 
 
 class Step(models.Model):
-    job         = models.ForeignKey(Job,related_name='steps')
-    task        = models.ForeignKey(Task)
-    ordering    = models.IntegerField(default=0, null=False, blank=False)
+    job = models.ForeignKey(Job, related_name='steps')
+    task = models.ForeignKey(Task)
+    ordering = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
         return str(self.task)
@@ -82,11 +83,11 @@ class Step(models.Model):
 
 
 class Parameter(models.Model):
-    task        = models.ForeignKey(Task)
-    flag        = models.CharField(max_length=64, null=False, blank=False)
-    default     = models.CharField(max_length=64, null=True, blank=False)
+    task = models.ForeignKey(Task)
+    flag = models.CharField(max_length=64, null=False, blank=False)
+    default = models.CharField(max_length=64, null=True, blank=False)
     bool_valued = models.BooleanField(default=False, blank=False)
-    rest_alias  = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    rest_alias = models.CharField(max_length=64, unique=True, null=False, blank=False)
 
     def __str__(self):
         return self.flag
@@ -106,28 +107,29 @@ class Submission(models.Model):
         (ERROR, "Error"),
         (CRASH, "Crash"),
     )
-    job         = models.ForeignKey(Job)
+    job = models.ForeignKey(Job)
     submission_name = models.CharField(max_length=64, null=True, blank=False)
-    UUID        = models.CharField(max_length=64,unique=True, null=True, blank=False, db_index=True)
-    email       = models.CharField(max_length=256, null=True, blank=False)
-    ip          = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
-    input_data  = models.FileField(blank=False)
-    status      = models.IntegerField(null=False, blank=False,choices=STATUS_CHOICES, default=SUBMITTED)
-    message     = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
-    claimed     = models.BooleanField(null=False, default=False)
-    worker_id   = models.IntegerField(blank=True, null=True, default=None)
+    UUID = models.CharField(max_length=64, unique=True, null=True, blank=False, db_index=True)
+    email = models.CharField(max_length=256, null=True, blank=False)
+    ip = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
+    input_data = models.FileField(blank=False)
+    status = models.IntegerField(null=False, blank=False, choices=STATUS_CHOICES, default=SUBMITTED)
+    message = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
+    claimed = models.BooleanField(null=False, default=False)
+    worker_id = models.IntegerField(blank=True, null=True, default=None)
     # posted_on = models.DateTimeField(auto_now_add=True)
     # updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.pk)
 
+
 class Result(models.Model):
-    submission  = models.ForeignKey(Submission)
-    task        = models.ForeignKey(Task)
+    submission = models.ForeignKey(Submission)
+    task = models.ForeignKey(Task)
     result_data = models.FileField(null=False)
-    name        = models.CharField(max_length=64, null=True, blank=False)
-    message     = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
+    name = models.CharField(max_length=64, null=True, blank=False)
+    message = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
 
     def __str__(self):
         return self.name
