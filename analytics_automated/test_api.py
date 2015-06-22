@@ -33,6 +33,7 @@ class SubmissionDetailTests(APITestCase):
 
     file = ''
     data = {}
+    factory = APIRequestFactory()
 
     def setUp(self):
         self.file = SimpleUploadedFile('file1.txt',
@@ -53,18 +54,24 @@ class SubmissionDetailTests(APITestCase):
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_valid_submission_post_creates_entry(self):
-        factory = APIRequestFactory()
-        request = factory.post(reverse('submission'), self.data,
-                               format='multipart')
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_rejectiong_with_bad_email(self):
         self.data['email'] = 'b'
-        factory = APIRequestFactory()
-        request = factory.post(reverse('submission'), self.data,
-                               format='multipart')
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rejectiong_with_bad_email(self):
+        self.data['job'] = 'job34'
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
