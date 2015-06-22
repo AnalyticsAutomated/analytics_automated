@@ -50,13 +50,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             write another serializer to handle this validation but that
             seems insane when the forms functionality is already in place
         """
-        print(str(request.POST))
         # # data['input_data'] = request.data['input_data']
         data = {}
-        data['input_data'] = request.data['input_data'].read().decode('UTF-8')
         data['submission_name'] = request.data['submission_name'].read().decode('UTF-8')
         data['email'] = request.data['email'].read().decode('UTF-8')
-        data['job_name'] = request.data['job_name'].read().decode('UTF-8')
+        data['job'] = request.data['job'].read().decode('UTF-8')
         data['ip'] = get_ip(request)
         data['UUID'] = str(uuid.uuid1())
 
@@ -67,8 +65,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
         # TODO: VALIDATE input_data IN SOME MANNER
-
-        submission_form = SubmissionForm(data)
+        submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
             # Send to the Job Queue and set queued message if that is a success
@@ -76,8 +73,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
         else:
-            # TODO: get the error from form and return it here; form.errors()
-            content = {'error': 'Input information is not correctly formatted'}
+            content = {'error': submission_form.errors}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 

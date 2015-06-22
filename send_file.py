@@ -16,5 +16,4 @@ url = 'http://127.0.0.1:8000/analytics_automated/submission/.json'
 payload = {'input_data': ('input.txt', open('./static/files/file1.txt', 'rb')),
            'job': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
 r = requests.post(url, files=payload)
-
 print(r.text)
