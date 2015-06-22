@@ -34,10 +34,7 @@ urlpatterns = [
          name="submissionDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
 ]
-
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html', 'xml'])
-
-# At the top of your urls.py file, add the following line:
 
 # UNDERNEATH your urlpatterns definition, add the following two lines:
 if settings.DEBUG:

@@ -110,7 +110,7 @@ class Submission(models.Model):
     job = models.ForeignKey(Job)
     submission_name = models.CharField(max_length=64, null=True, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False, db_index=True)
-    email = models.CharField(max_length=256, null=True, blank=False)
+    email = models.EmailField(max_length=256, null=True, blank=False)
     ip = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
     input_data = models.FileField(blank=False)
     status = models.IntegerField(null=False, blank=False, choices=STATUS_CHOICES, default=SUBMITTED)

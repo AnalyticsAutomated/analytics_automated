@@ -52,9 +52,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         """
         # # data['input_data'] = request.data['input_data']
         data = {}
-        data['submission_name'] = request.data['submission_name'].read().decode('UTF-8')
-        data['email'] = request.data['email'].read().decode('UTF-8')
-        data['job'] = request.data['job'].read().decode('UTF-8')
+        data['submission_name'] = request.data['submission_name']
+        data['email'] = request.data['email']
+        data['job'] = request.data['job']
         data['ip'] = get_ip(request)
         data['UUID'] = str(uuid.uuid1())
 
@@ -69,7 +69,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if submission_form.is_valid():
             s = submission_form.save()
             # Send to the Job Queue and set queued message if that is a success
-
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
         else:
@@ -86,24 +85,3 @@ class JobList(mixins.ListModelMixin, generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
-
-# class SubmissionCreate(Endpoint):
-#
-#     def post(self, request):
-#         # get the data from the post request
-#         data = {}
-#         data['input_data'] = request.FILES['input_data'].read().decode('UTF-8')
-#         data['submission_name'] = request.FILES['submission_name'].read().decode('UTF-8')
-#         data['email'] = request.FILES['email'].read().decode('UTF-8')
-#         data['job_name'] = request.FILES['job_name'].read().decode('UTF-8')
-#         data['ip'] = get_ip(request)
-#
-#         # validate and submit the data
-#         submission_form = SubmissionForm(data)
-#         if submission_form.is_valid():
-#             s = submission_form.save()
-#             fields = ('submission_name', 'message', 'UUID')
-#             return serialize(s, fields)  # Should return a 201 code
-#         else:
-#             # TODO: get the error from form and return it here; form.errors()
-#             return {'error': 'Input information is not correctly formatted'}
