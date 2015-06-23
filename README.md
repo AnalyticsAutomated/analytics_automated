@@ -131,7 +131,7 @@ add a superuser with your user name
 
   or
 
-  * `> pg_ctl start -l logfile`
+  * `> pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile`
 
   You can now log in with
   * `> psql -h localhost -d postgres`

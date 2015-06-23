@@ -3,6 +3,7 @@ import uuid
 from ipware.ip import get_ip
 
 from django import forms
+from django.utils.datastructures import MultiValueDictKeyError
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -52,11 +53,16 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         """
         # # data['input_data'] = request.data['input_data']
         data = {}
-        data['submission_name'] = request.data['submission_name']
-        data['email'] = request.data['email']
-        data['job'] = request.data['job']
-        data['ip'] = get_ip(request)
-        data['UUID'] = str(uuid.uuid1())
+        try:
+            data['submission_name'] = request.data['submission_name']
+            data['email'] = request.data['email']
+            data['job'] = request.data['job']
+            data['ip'] = get_ip(request)
+            data['UUID'] = str(uuid.uuid1())
+        except MultiValueDictKeyError:
+            content = {'error': "Input does not contain all required fields"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+            # TODO : We could return a message specifying what is missing.
 
         # work out which job this refers to
         if Job.objects.filter(name=data['job']).exists():

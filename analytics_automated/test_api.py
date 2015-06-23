@@ -60,7 +60,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_rejectiong_with_bad_email(self):
+    def test_rejection_with_bad_email(self):
         self.data['email'] = 'b'
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
@@ -68,10 +68,50 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_rejectiong_with_bad_job_id(self):
+    def test_rejection_with_bad_job_id(self):
         self.data['job'] = 'job34'
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
+
+    def test_rejection_with_blank_submission_name(self):
+        self.data['submission_name'] = ""
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rejection_without_submission_name(self):
+        del(self.data['submission_name'])
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rejection_without_email(self):
+        del(self.data['email'])
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rejection_without_job(self):
+        del(self.data['job'])
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rejection_without_input_data(self):
+        del(self.data['input_data'])
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

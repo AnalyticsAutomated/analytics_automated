@@ -108,7 +108,7 @@ class Submission(models.Model):
         (CRASH, "Crash"),
     )
     job = models.ForeignKey(Job)
-    submission_name = models.CharField(max_length=64, null=True, blank=False)
+    submission_name = models.CharField(max_length=64, null=False, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False, db_index=True)
     email = models.EmailField(max_length=256, null=True, blank=False)
     ip = models.GenericIPAddressField(default="127.0.0.1", null=False, blank=False)
