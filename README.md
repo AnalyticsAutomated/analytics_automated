@@ -188,6 +188,10 @@ NEXT UP TODO
 ============
 1. Django REST for Submission
   Submission : create and read, no external update and no external delete
-2. REST return for results (create and read), create requires authentication?
-3. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+2. Install Sphinx via pip for all projects
+2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+
+3. REST return for results (create and read), create requires authentication?
 4. Get Submission form validation to return more meaningful error state
+5. Write decent docs in rst format
+6. Solution for file storage in staging/production???

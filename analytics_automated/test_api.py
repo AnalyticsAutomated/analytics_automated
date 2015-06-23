@@ -68,7 +68,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_rejectiong_with_bad_email(self):
+    def test_rejectiong_with_bad_job_id(self):
         self.data['job'] = 'job34'
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
