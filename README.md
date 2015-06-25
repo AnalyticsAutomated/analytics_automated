@@ -181,17 +181,24 @@ add a superuser with your user name
     * `> python manage.py migrate --settings=analytics_automated_project.settings.dev`
 19. Start the server by defining the settings you are using
     * `> python manage.py runserver --settings=analytics_automated_project.settings.dev`
-20. Test the code also defining the settings you are using
+20. Start RabbitMQ (making sure your path to erl is good)
+    * `> rabbitmq-server`
+21. You probably want to read something about celery and django
+http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/
+21. Test the code also defining the settings you are using
     * `> python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
 NEXT UP TODO
 ============
-1. Django REST for Submission
-  Submission : create and read, no external update and no external delete
-2. Install Sphinx via pip for all projects
-2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+1. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+If your task is idempotent you can set the acks_late option to have the worker acknowledge the message after the task returns instead.
 
-3. REST return for results (create and read), create requires authentication?
-4. Get Submission form validation to return more meaningful error state
-5. Write decent docs in rst format
-6. Solution for file storage in staging/production???
+enable app.Task.track_started
+
+Autoscaling
+
+2. REST return for results (create and read), create requires authentication?
+3. Add endpoint which returns all the public operations
+4. Write decent docs in rst format
+5. Solution for file storage in staging/production???
+6. Consider Flower for celery monitoring

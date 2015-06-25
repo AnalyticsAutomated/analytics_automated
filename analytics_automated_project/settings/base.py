@@ -54,8 +54,17 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analytics_automated',
-    'rest_framework'
+    'rest_framework',
+    'djcelery'
 )
+
+# CELERY SETTINGS
+BROKER_URL = 'amqp://guest@localhost//'
+CELERY_RESULT_BACKEND = 'rpc://guest@localhost//'  # This will be the postgresDB
+CELERY_TIMEZONE = 'Europe/London'
+CELERY_ENABLE_UTC = True
+CELERYD_MAX_TASKS_PER_CHILD = 100
+CELERYD_PREFETCH_MULTIPLIER = 1
 
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
