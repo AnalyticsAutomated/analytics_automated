@@ -15,6 +15,7 @@ from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
 from .models import Job, Submission
 from .forms import SubmissionForm
+from .tasks import *
 
 
 class SubmissionDetails(mixins.RetrieveModelMixin,
@@ -75,6 +76,22 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if submission_form.is_valid():
             s = submission_form.save()
             # Send to the Job Queue and set queued message if that is a success
+            job = Job.objects.get(name=s.job)
+            steps = job.steps.all().select_related('task').extra(order_by=['ordering'])
+            # 1. Look up tasks in a job
+            # 2. Order tasks by their step id
+            chain = "("
+            for step in steps:
+                chain += "task_runner.si('%s') | " % step.task.name
+            chain = chain[:-3]
+            chain += ')().delay()'
+            print(chain)
+            eval(chain)
+
+            # 3. Build Celery chain
+            # 4. Call delay on the Celery chain
+            task_runner.delay(s.job)
+
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
         else:

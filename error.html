@@ -122,7 +122,7 @@
 <body>
 <div id="summary">
   <h1>AttributeError at /analytics_automated/submission/.json</h1>
-  <pre class="exception_value">&#39;Request&#39; object has no attribute &#39;FILE&#39;</pre>
+  <pre class="exception_value">&#39;AsyncResult&#39; object has no attribute &#39;delay&#39;</pre>
   <table class="meta">
 
     <tr>
@@ -147,37 +147,39 @@
 
     <tr>
       <th>Exception Value:</th>
-      <td><pre>&#39;Request&#39; object has no attribute &#39;FILE&#39;</pre></td>
+      <td><pre>&#39;AsyncResult&#39; object has no attribute &#39;delay&#39;</pre></td>
     </tr>
 
 
     <tr>
       <th>Exception Location:</th>
-      <td>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/utils/six.py in reraise, line 658</td>
+      <td>&lt;string&gt; in &lt;module&gt;, line 1</td>
     </tr>
 
     <tr>
       <th>Python Executable:</th>
-      <td>/Users/dbuchan/.virtualenvs/analytics_automated/bin/python</td>
+      <td>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/bin/python</td>
     </tr>
     <tr>
       <th>Python Version:</th>
-      <td>3.4.3</td>
+      <td>3.4.1</td>
     </tr>
     <tr>
       <th>Python Path:</th>
-      <td><pre>[&#39;/Users/dbuchan/Code/analytics_automated&#39;,
- &#39;/Users/dbuchan/.virtualenvs/analytics_automated/lib/python34.zip&#39;,
- &#39;/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4&#39;,
- &#39;/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/plat-darwin&#39;,
- &#39;/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/lib-dynload&#39;,
- &#39;/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4&#39;,
- &#39;/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin&#39;,
- &#39;/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages&#39;]</pre></td>
+      <td><pre>[&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/librabbitmq-1.6.1-py3.4.egg&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python34.zip&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/plat-linux&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/lib-dynload&#39;,
+ &#39;/opt/Python/Python-3.4.1/lib/python3.4&#39;,
+ &#39;/opt/Python/Python-3.4.1/lib/python3.4/plat-linux&#39;,
+ &#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages&#39;,
+ &#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;]</pre></td>
     </tr>
     <tr>
       <th>Server time:</th>
-      <td>Mon, 22 Jun 2015 10:01:28 +0000</td>
+      <td>Thu, 25 Jun 2015 17:02:19 +0000</td>
     </tr>
   </table>
 </div>
@@ -194,46 +196,46 @@
     <ul class="traceback">
       
         <li class="frame django">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/core/handlers/base.py</code> in <code>get_response</code>
+          <code>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/core/handlers/base.py</code> in <code>get_response</code>
 
           
-            <div class="context" id="c4469751176">
+            <div class="context" id="c140258801165064">
               
-                <ol start="125" class="pre-context" id="pre4469751176">
+                <ol start="125" class="pre-context" id="pre140258801165064">
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    response = middleware_method(request, callback, callback_args, callback_kwargs)</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    response = middleware_method(request, callback, callback_args, callback_kwargs)</pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    if response:</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    if response:</pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                        break</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                        break</pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre></pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>            if response is None:</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>            if response is None:</pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                wrapped_callback = self.make_view_atomic(callback)</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                wrapped_callback = self.make_view_atomic(callback)</pre></li>
                 
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                try:</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                try:</pre></li>
                 
                 </ol>
               
               <ol start="132" class="context-line">
-                <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>
+                <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>
                                 response = wrapped_callback(request, *callback_args, **callback_kwargs)</pre> <span>...</span></li></ol>
               
-                <ol start='133' class="post-context" id="post4469751176">
+                <ol start='133' class="post-context" id="post140258801165064">
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                except Exception as e:</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                except Exception as e:</pre></li>
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    # If the view raised an exception, run it through exception</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    # If the view raised an exception, run it through exception</pre></li>
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    # middleware, and if the exception middleware returns a</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    # middleware, and if the exception middleware returns a</pre></li>
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    # response, use that. Otherwise, reraise the exception.</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    # response, use that. Otherwise, reraise the exception.</pre></li>
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                    for middleware_method in self._exception_middleware:</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                    for middleware_method in self._exception_middleware:</pre></li>
                   
-                  <li onclick="toggle('pre4469751176', 'post4469751176')"><pre>                        response = middleware_method(request, e)</pre></li>
+                  <li onclick="toggle('pre140258801165064', 'post140258801165064')"><pre>                        response = middleware_method(request, e)</pre></li>
                   
               </ol>
               
@@ -243,10 +245,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469751176')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801165064')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469751176">
+            <table class="vars" id="v140258801165064">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -256,114 +258,33 @@
               <tbody>
                 
                   <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f908fc3a2b0&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback</td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f908cc4df28&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback_kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
                     <td>resolver_match</td>
                     <td class="code"><pre>ResolverMatch(func=analytics_automated.api.SubmissionDetails, args=(), kwargs={&#39;format&#39;: &#39;json&#39;}, url_name=submission, app_name=None, namespaces=[])</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>response</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>callback</td>
-                    <td class="code"><pre>&lt;function SubmissionDetails at 0x106944950&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>request</td>
-                    <td class="code"><pre>(&#39;&lt;WSGIRequest\n&#39;
- &#39;path:/analytics_automated/submission/.json,\n&#39;
- &#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
- &#39;POST:&lt;QueryDict: {}&gt;,\n&#39;
- &#39;COOKIES:{},\n&#39;
- &quot;META:{&#39;Apple_PubSub_Socket_Render&#39;: &quot;
- &quot;&#39;/private/tmp/com.apple.launchd.lhBhf2kdlr/Render&#39;,\n&quot;
- &quot; &#39;COLORFGBG&#39;: &#39;7;0&#39;,\n&quot;
- &quot; &#39;CONTENT_LENGTH&#39;: &#39;523&#39;,\n&quot;
- &quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
- &quot;                 &#39;boundary=d2151f7a9a8e44c7af336c3fc655aea3&#39;,\n&quot;
- &quot; &#39;CSRF_COOKIE&#39;: &#39;GqTqxrEcJAdy9fyoDsVK2ZIXcDYNZfp1&#39;,\n&quot;
- &quot; &#39;DISPLAY&#39;: &quot;
- &quot;&#39;/private/tmp/com.apple.launchd.0SSYyyTWER/org.macosforge.xquartz:0&#39;,\n&quot;
- &quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &#39;analytics_automated_project.settings.dev&#39;,\n&quot;
- &quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
- &quot; &#39;HOME&#39;: &#39;/Users/dbuchan&#39;,\n&quot;
- &quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
- &quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
- &quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
- &quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
- &quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.3 Darwin/14.3.0&#39;,\n&quot;
- &quot; &#39;ITERM_PROFILE&#39;: &#39;Default&#39;,\n&quot;
- &quot; &#39;ITERM_SESSION_ID&#39;: &#39;w1t0p0&#39;,\n&quot;
- &quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
- &quot; &#39;LOGNAME&#39;: &#39;dbuchan&#39;,\n&quot;
- &quot; &#39;OLDPWD&#39;: &#39;/Users/dbuchan&#39;,\n&quot;
- &quot; &#39;PATH&#39;: &quot;
- &quot;&#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin:/Library/PostgreSQL/9.4/bin:/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/sbin/:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin&#39;,\n&quot;
- &quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
- &quot; &#39;PWD&#39;: &#39;/Users/dbuchan/Code/analytics_automated&#39;,\n&quot;
- &quot; &#39;QUERY_STRING&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,\n&quot;
- &quot; &#39;REMOTE_HOST&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;REQUEST_METHOD&#39;: &#39;POST&#39;,\n&quot;
- &quot; &#39;RUN_MAIN&#39;: &#39;true&#39;,\n&quot;
- &quot; &#39;SCRIPT_NAME&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;SERVER_NAME&#39;: &#39;1.0.0.127.in-addr.arpa&#39;,\n&quot;
- &quot; &#39;SERVER_PORT&#39;: &#39;8000&#39;,\n&quot;
- &quot; &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,\n&quot;
- &quot; &#39;SERVER_SOFTWARE&#39;: &#39;WSGIServer/0.2&#39;,\n&quot;
- &quot; &#39;SHELL&#39;: &#39;/bin/bash&#39;,\n&quot;
- &quot; &#39;SHLVL&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;SSH_AUTH_SOCK&#39;: &#39;/private/tmp/com.apple.launchd.dpGxioRvRn/Listeners&#39;,\n&quot;
- &quot; &#39;TERM&#39;: &#39;xterm&#39;,\n&quot;
- &quot; &#39;TERM_PROGRAM&#39;: &#39;iTerm.app&#39;,\n&quot;
- &quot; &#39;TMPDIR&#39;: &#39;/var/folders/f2/_yvb0rt947g1gf06316vdmnc0000gn/T/&#39;,\n&quot;
- &quot; &#39;TZ&#39;: &#39;UTC&#39;,\n&quot;
- &quot; &#39;USER&#39;: &#39;dbuchan&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_HOOK_DIR&#39;: &#39;/Users/dbuchan/.virtualenvs&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_PROJECT_FILENAME&#39;: &#39;.project&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_PYTHON&#39;: &quot;
- &quot;&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/python3&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_SCRIPT&#39;: &quot;
- &quot;&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/virtualenvwrapper.sh&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_WORKON_CD&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;VIRTUAL_ENV&#39;: &#39;/Users/dbuchan/.virtualenvs/analytics_automated&#39;,\n&quot;
- &quot; &#39;VIRTUAL_ENV_DISABLE_PROMPT&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;WORKON_HOME&#39;: &#39;/Users/dbuchan/.virtualenvs&#39;,\n&quot;
- &quot; &#39;XPC_FLAGS&#39;: &#39;0x0&#39;,\n&quot;
- &quot; &#39;XPC_SERVICE_NAME&#39;: &#39;0&#39;,\n&quot;
- &quot; &#39;_&#39;: &#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin/python&#39;,\n&quot;
- &quot; &#39;__CF_USER_TEXT_ENCODING&#39;: &#39;0x1F5:0x0:0x0&#39;,\n&quot;
- &quot; &#39;wsgi.errors&#39;: &lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; &quot;
- &quot;encoding=&#39;UTF-8&#39;&gt;,\n&quot;
- &quot; &#39;wsgi.file_wrapper&#39;: &lt;class &#39;wsgiref.util.FileWrapper&#39;&gt;,\n&quot;
- &quot; &#39;wsgi.input&#39;: &lt;_io.BufferedReader name=8&gt;,\n&quot;
- &quot; &#39;wsgi.multiprocess&#39;: False,\n&quot;
- &quot; &#39;wsgi.multithread&#39;: True,\n&quot;
- &quot; &#39;wsgi.run_once&#39;: False,\n&quot;
- &quot; &#39;wsgi.url_scheme&#39;: &#39;http&#39;,\n&quot;
- &quot; &#39;wsgi.version&#39;: (1, 0)}&gt;&quot;)</pre></td>
-                  </tr>
-                
-                  <tr>
                     <td>wrapped_callback</td>
-                    <td class="code"><pre>&lt;function SubmissionDetails at 0x106944950&gt;</pre></td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f908cc4df28&gt;</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x1017c69e8&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>urlconf</td>
-                    <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>resolver</td>
-                    <td class="code"><pre>&lt;RegexURLResolver &#39;analytics_automated_project.urls&#39; (None:None) ^/&gt;</pre></td>
+                    <td>middleware_method</td>
+                    <td class="code"><pre>&lt;bound method BugsnagMiddleware.process_exception of &lt;bugsnag.django.middleware.BugsnagMiddleware object at 0x7f908c3570f0&gt;&gt;</pre></td>
                   </tr>
                 
                   <tr>
@@ -372,13 +293,113 @@
                   </tr>
                 
                   <tr>
-                    <td>middleware_method</td>
-                    <td class="code"><pre>&lt;bound method BugsnagMiddleware.process_exception of &lt;bugsnag.django.middleware.BugsnagMiddleware object at 0x1069dca90&gt;&gt;</pre></td>
+                    <td>resolver</td>
+                    <td class="code"><pre>&lt;RegexURLResolver &#39;analytics_automated_project.urls&#39; (None:None) ^/&gt;</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>callback_kwargs</td>
-                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                    <td>urlconf</td>
+                    <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>response</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&#39;&lt;WSGIRequest\n&#39;
+&#39;path:/analytics_automated/submission/.json,\n&#39;
+&#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
+&quot;POST:{&#39;email&#39;: &#39;a@b.com&#39;,\n&quot;
+&quot; &#39;job&#39;: &#39;job1&#39;,\n&quot;
+&quot; &#39;submission_name&#39;: &#39;test&#39;},\n&quot;
+&#39;COOKIES:{},\n&#39;
+&quot;META:{&#39;ANT_HOME&#39;: &#39;/opt/apache-ant&#39;,\n&quot;
+&quot; &#39;COLORTERM&#39;: &#39;gnome-terminal&#39;,\n&quot;
+&quot; &#39;CONTENT_LENGTH&#39;: &#39;461&#39;,\n&quot;
+&quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
+&quot;                 &#39;boundary=9934278259b548bc8857e8bccf9af9f2&#39;,\n&quot;
+&quot; &#39;CORALROOT&#39;: &#39;/opt/UCLCScourseware/src/coral&#39;,\n&quot;
+&quot; &#39;CSRF_COOKIE&#39;: &#39;4WEUQUJaoC1kQjv8btyTP78sSmVMap73&#39;,\n&quot;
+&quot; &#39;CS_ARCH&#39;: &#39;intel&#39;,\n&quot;
+&quot; &#39;CS_EUID&#39;: &#39;16482&#39;,\n&quot;
+&quot; &#39;CS_HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan&#39;,\n&quot;
+&quot; &#39;CS_HOST&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;CS_KARCH&#39;: &#39;intel&#39;,\n&quot;
+&quot; &#39;CS_MAILID&#39;: &#39;D.Buchan@cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;CS_OS&#39;: &#39;linux&#39;,\n&quot;
+&quot; &#39;CS_OS_REL&#39;: &#39;7&#39;,\n&quot;
+&quot; &#39;CS_SHORT&#39;: &#39;enki&#39;,\n&quot;
+&quot; &#39;CS_UCLASS&#39;: &#39;staff&#39;,\n&quot;
+&quot; &#39;CS_USER&#39;: &#39;dbuchan&#39;,\n&quot;
+&quot; &#39;CS_USUBCLASS&#39;: &#39;csresstaff&#39;,\n&quot;
+&quot; &#39;DBUS_SESSION_BUS_ADDRESS&#39;: &quot;
+&quot;&#39;unix:abstract=/tmp/dbus-3wD6DNhHMu,guid=6a3342133f23669176304c8155897e89&#39;,\n&quot;
+&quot; &#39;DESKTOP_SESSION&#39;: &#39;gnome-classic&#39;,\n&quot;
+&quot; &#39;DISPLAY&#39;: &#39;:0&#39;,\n&quot;
+&quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &#39;analytics_automated_project.settings.dev&#39;,\n&quot;
+&quot; &#39;EDITOR&#39;: &#39;/usr/bin/vi&#39;,\n&quot;
+&quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
+&quot; &#39;GDMSESSION&#39;: &#39;gnome-classic&#39;,\n&quot;
+&quot; &#39;GJS_DEBUG_OUTPUT&#39;: &#39;stderr&#39;,\n&quot;
+&quot; &#39;GJS_DEBUG_TOPICS&#39;: &#39;JS ERROR;JS LOG&#39;,\n&quot;
+&quot; &#39;GNOME_DESKTOP_SESSION_ID&#39;: &#39;this-is-deprecated&#39;,\n&quot;
+&quot; &#39;GNOME_KEYRING_CONTROL&#39;: &quot;
+&quot;&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa&#39;,\n&quot;
+&quot; &#39;GNOME_KEYRING_PID&#39;: &#39;3129&#39;,\n&quot;
+&quot; &#39;GNOME_SHELL_SESSION_MODE&#39;: &#39;classic&#39;,\n&quot;
+&quot; &#39;GPG_AGENT_INFO&#39;: &quot;
+&quot;&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa/gpg:0:1&#39;,\n&quot;
+&quot; &#39;GROUP&#39;: &#39;csstaff&#39;,\n&quot;
+&quot; &#39;HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan&#39;,\n&quot;
+&quot; &#39;HOST&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;HOSTNAME&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;HOSTTYPE&#39;: &#39;x86_64-linux&#39;,\n&quot;
+&quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
+&quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
+&quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
+&quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
+&quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.1 &#39;\n&quot;
+&quot;                    &#39;Linux/3.10.0-229.4.2.el7.x86_64&#39;,\n&quot;
+&quot; &#39;IMSETTINGS_INTEGRATE_DESKTOP&#39;: &#39;yes&#39;,\n&quot;
+&quot; &#39;IMSETTINGS_MODULE&#39;: &#39;none&#39;,\n&quot;
+&quot; &#39;JAVA_HOME&#39;: &#39;/usr/opt/SUNWjava&#39;,\n&quot;
+&quot; &#39;KDEDIRS&#39;: &#39;/usr&#39;,\n&quot;
+&quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
+&quot; &#39;LD_LIBRARY_PATH&#39;: &#39;/opt/ucl/lib:/usr/X11R6/lib&#39;,\n&quot;
+&quot; &#39;LESSOPEN&#39;: &#39;||/usr/bin/lesspipe.sh %s&#39;,\n&quot;
+&quot; &#39;LOADEDMODULES&#39;: &#39;&#39;,\n&quot;
+&quot; &#39;LOGNAME&#39;: &#39;dbuchan&#39;,\n&quot;
+&quot; &#39;LPDEST&#39;: &#39;copier&#39;,\n&quot;
+&quot; &#39;M68KSIM&#39;: &#39;/opt/UCLCScourseware/lib/m68ksim.rc&#39;,\n&quot;
+&quot; &#39;MACHTYPE&#39;: &#39;x86_64&#39;,\n&quot;
+&quot; &#39;MAIL&#39;: &#39;/var/spool/mail/dbuchan&#39;,\n&quot;
+&quot; &#39;MANPATH&#39;: &quot;
+&quot;&#39;/opt/ucl/man:/usr/share/man:/usr/local/man:/usr/X11R6/man:/usr/kerberos/man&#39;,\n&quot;
+&quot; &#39;MODULEPATH&#39;: &#39;/usr/share/Modules/modulefiles:/etc/modulefiles&#39;,\n&quot;
+&quot; &#39;MODULESHOME&#39;: &#39;/usr/share/Modules&#39;,\n&quot;
+&quot; &#39;OLDPWD&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code/celery_test&#39;,\n&quot;
+&quot; &#39;OSTYPE&#39;: &#39;linux&#39;,\n&quot;
+&quot; &#39;PATH&#39;: &quot;
+&quot;&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/bin:/scratch0/NOT_BACKED_UP/dbuchan/usr/bin/:/scratch0/NOT_BACKED_UP/dbuchan/python3/bin:/usr/lib64/qt-3.3/bin:/usr/kerberos/bin:/opt/ucl/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/bin/X11:/opt/UCLCSdefunct/bin:/cs/research/bioinf/home1/green/dbuchan/bin.intel:/cs/research/bioinf/home1/green/dbuchan/bin&#39;,\n&quot;
+&quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
+&quot; &#39;PEN_FONT_DIR&#39;: &#39;/opt/UCLCScourseware/lib&#39;,\n&quot;
+&quot; &#39;PERL5LIB&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/perl5/lib/perl5&#39;,\n&quot;
+&quot; &#39;PERL_HOMEDIR&#39;: &#39;1&#39;,\n&quot;
+&quot; &#39;PERL_LOCAL_LIB_ROOT&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PERL_MB_OPT&#39;: &#39;--install_base &quot;
+&quot;/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PERL_MM_OPT&#39;: &quot;
+&quot;&#39;INSTALL_BASE=/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PGDATA&#39;: &#39;/scratch0/NOT_BACKED_UP/dbuchan/postgres&#39;,\n&quot;
+&quot; &#39;PRINTER&#39;: &#39;copier&#39;,\n&quot;
+&quot; &#39;PROJECT_HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code&#39;,\n&quot;
+&quot; &#39;PS1&#39;: &#39;(analytics_automated)\\\\! \\\\u@\\\\h% &#39;,\n&quot;
+&quot; &#39;PWD&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;,\n&quot;
+&quot; &#39;QTDIR&#39;: &#39;/usr/lib64/qt-3.3&#39;,\n&quot;
+&quot; &#39;QTINC&#39;: &#39;/usr/lib64/qt-3.3/include&#39;,\n&quot;... &lt;trimmed 6533 bytes string&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -387,38 +408,38 @@
         </li>
       
         <li class="frame django">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/decorators/csrf.py</code> in <code>wrapped_view</code>
+          <code>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/decorators/csrf.py</code> in <code>wrapped_view</code>
 
           
-            <div class="context" id="c4469669064">
+            <div class="context" id="c140258801165000">
               
-                <ol start="51" class="pre-context" id="pre4469669064">
+                <ol start="51" class="pre-context" id="pre140258801165000">
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    &quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    &quot;&quot;&quot;</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    Marks a view function as being exempt from the CSRF view protection.</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    Marks a view function as being exempt from the CSRF view protection.</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    &quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    &quot;&quot;&quot;</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    # We could just do view_func.csrf_exempt = True, but decorators</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    # We could just do view_func.csrf_exempt = True, but decorators</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    # are nicer if they don&#39;t have side-effects, so we return a new</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    # are nicer if they don&#39;t have side-effects, so we return a new</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    # function.</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    # function.</pre></li>
                 
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    def wrapped_view(*args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    def wrapped_view(*args, **kwargs):</pre></li>
                 
                 </ol>
               
               <ol start="58" class="context-line">
-                <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>
+                <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>
                     return view_func(*args, **kwargs)</pre> <span>...</span></li></ol>
               
-                <ol start='59' class="post-context" id="post4469669064">
+                <ol start='59' class="post-context" id="post140258801165000">
                   
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    wrapped_view.csrf_exempt = True</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    wrapped_view.csrf_exempt = True</pre></li>
                   
-                  <li onclick="toggle('pre4469669064', 'post4469669064')"><pre>    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)</pre></li>
+                  <li onclick="toggle('pre140258801165000', 'post140258801165000')"><pre>    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)</pre></li>
                   
               </ol>
               
@@ -428,10 +449,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469669064')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801165000')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469669064">
+            <table class="vars" id="v140258801165000">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -439,6 +460,11 @@
                 </tr>
               </thead>
               <tbody>
+                
+                  <tr>
+                    <td>view_func</td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f908cfa4378&gt;</pre></td>
+                  </tr>
                 
                   <tr>
                     <td>kwargs</td>
@@ -450,57 +476,52 @@
                     <td class="code"><pre>(&lt;WSGIRequest: POST &#39;/analytics_automated/submission/.json&#39;&gt;,)</pre></td>
                   </tr>
                 
-                  <tr>
-                    <td>view_func</td>
-                    <td class="code"><pre>&lt;function SubmissionDetails at 0x106676840&gt;</pre></td>
-                  </tr>
-                
               </tbody>
             </table>
           
         </li>
       
         <li class="frame django">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/generic/base.py</code> in <code>view</code>
+          <code>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/generic/base.py</code> in <code>view</code>
 
           
-            <div class="context" id="c4469669768">
+            <div class="context" id="c140258801164936">
               
-                <ol start="64" class="pre-context" id="pre4469669768">
+                <ol start="64" class="pre-context" id="pre140258801164936">
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>        def view(request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>        def view(request, *args, **kwargs):</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>            self = cls(**initkwargs)</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>            self = cls(**initkwargs)</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>            if hasattr(self, &#39;get&#39;) and not hasattr(self, &#39;head&#39;):</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>            if hasattr(self, &#39;get&#39;) and not hasattr(self, &#39;head&#39;):</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>                self.head = self.get</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>                self.head = self.get</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>            self.request = request</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>            self.request = request</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>            self.args = args</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>            self.args = args</pre></li>
                 
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>            self.kwargs = kwargs</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>            self.kwargs = kwargs</pre></li>
                 
                 </ol>
               
               <ol start="71" class="context-line">
-                <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>
+                <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>
                         return self.dispatch(request, *args, **kwargs)</pre> <span>...</span></li></ol>
               
-                <ol start='72' class="post-context" id="post4469669768">
+                <ol start='72' class="post-context" id="post140258801164936">
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>        # take name and docstring from class</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>        # take name and docstring from class</pre></li>
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>        update_wrapper(view, cls, updated=())</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>        update_wrapper(view, cls, updated=())</pre></li>
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>        # and possible attributes set by decorators</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>        # and possible attributes set by decorators</pre></li>
                   
-                  <li onclick="toggle('pre4469669768', 'post4469669768')"><pre>        # like csrf_exempt from dispatch</pre></li>
+                  <li onclick="toggle('pre140258801164936', 'post140258801164936')"><pre>        # like csrf_exempt from dispatch</pre></li>
                   
               </ol>
               
@@ -510,10 +531,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469669768')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801164936')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469669768">
+            <table class="vars" id="v140258801164936">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -523,8 +544,8 @@
               <tbody>
                 
                   <tr>
-                    <td>kwargs</td>
-                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;</pre></td>
                   </tr>
                 
                   <tr>
@@ -533,94 +554,113 @@
                   </tr>
                 
                   <tr>
-                    <td>request</td>
-                    <td class="code"><pre>(&#39;&lt;WSGIRequest\n&#39;
- &#39;path:/analytics_automated/submission/.json,\n&#39;
- &#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
- &#39;POST:&lt;QueryDict: {}&gt;,\n&#39;
- &#39;COOKIES:{},\n&#39;
- &quot;META:{&#39;Apple_PubSub_Socket_Render&#39;: &quot;
- &quot;&#39;/private/tmp/com.apple.launchd.lhBhf2kdlr/Render&#39;,\n&quot;
- &quot; &#39;COLORFGBG&#39;: &#39;7;0&#39;,\n&quot;
- &quot; &#39;CONTENT_LENGTH&#39;: &#39;523&#39;,\n&quot;
- &quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
- &quot;                 &#39;boundary=d2151f7a9a8e44c7af336c3fc655aea3&#39;,\n&quot;
- &quot; &#39;CSRF_COOKIE&#39;: &#39;GqTqxrEcJAdy9fyoDsVK2ZIXcDYNZfp1&#39;,\n&quot;
- &quot; &#39;DISPLAY&#39;: &quot;
- &quot;&#39;/private/tmp/com.apple.launchd.0SSYyyTWER/org.macosforge.xquartz:0&#39;,\n&quot;
- &quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &#39;analytics_automated_project.settings.dev&#39;,\n&quot;
- &quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
- &quot; &#39;HOME&#39;: &#39;/Users/dbuchan&#39;,\n&quot;
- &quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
- &quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
- &quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
- &quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
- &quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.3 Darwin/14.3.0&#39;,\n&quot;
- &quot; &#39;ITERM_PROFILE&#39;: &#39;Default&#39;,\n&quot;
- &quot; &#39;ITERM_SESSION_ID&#39;: &#39;w1t0p0&#39;,\n&quot;
- &quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
- &quot; &#39;LOGNAME&#39;: &#39;dbuchan&#39;,\n&quot;
- &quot; &#39;OLDPWD&#39;: &#39;/Users/dbuchan&#39;,\n&quot;
- &quot; &#39;PATH&#39;: &quot;
- &quot;&#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin:/Library/PostgreSQL/9.4/bin:/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/sbin/:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin&#39;,\n&quot;
- &quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
- &quot; &#39;PWD&#39;: &#39;/Users/dbuchan/Code/analytics_automated&#39;,\n&quot;
- &quot; &#39;QUERY_STRING&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,\n&quot;
- &quot; &#39;REMOTE_HOST&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;REQUEST_METHOD&#39;: &#39;POST&#39;,\n&quot;
- &quot; &#39;RUN_MAIN&#39;: &#39;true&#39;,\n&quot;
- &quot; &#39;SCRIPT_NAME&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;SERVER_NAME&#39;: &#39;1.0.0.127.in-addr.arpa&#39;,\n&quot;
- &quot; &#39;SERVER_PORT&#39;: &#39;8000&#39;,\n&quot;
- &quot; &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,\n&quot;
- &quot; &#39;SERVER_SOFTWARE&#39;: &#39;WSGIServer/0.2&#39;,\n&quot;
- &quot; &#39;SHELL&#39;: &#39;/bin/bash&#39;,\n&quot;
- &quot; &#39;SHLVL&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;SSH_AUTH_SOCK&#39;: &#39;/private/tmp/com.apple.launchd.dpGxioRvRn/Listeners&#39;,\n&quot;
- &quot; &#39;TERM&#39;: &#39;xterm&#39;,\n&quot;
- &quot; &#39;TERM_PROGRAM&#39;: &#39;iTerm.app&#39;,\n&quot;
- &quot; &#39;TMPDIR&#39;: &#39;/var/folders/f2/_yvb0rt947g1gf06316vdmnc0000gn/T/&#39;,\n&quot;
- &quot; &#39;TZ&#39;: &#39;UTC&#39;,\n&quot;
- &quot; &#39;USER&#39;: &#39;dbuchan&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_HOOK_DIR&#39;: &#39;/Users/dbuchan/.virtualenvs&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_PROJECT_FILENAME&#39;: &#39;.project&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_PYTHON&#39;: &quot;
- &quot;&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/python3&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_SCRIPT&#39;: &quot;
- &quot;&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/virtualenvwrapper.sh&#39;,\n&quot;
- &quot; &#39;VIRTUALENVWRAPPER_WORKON_CD&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;VIRTUAL_ENV&#39;: &#39;/Users/dbuchan/.virtualenvs/analytics_automated&#39;,\n&quot;
- &quot; &#39;VIRTUAL_ENV_DISABLE_PROMPT&#39;: &#39;1&#39;,\n&quot;
- &quot; &#39;WORKON_HOME&#39;: &#39;/Users/dbuchan/.virtualenvs&#39;,\n&quot;
- &quot; &#39;XPC_FLAGS&#39;: &#39;0x0&#39;,\n&quot;
- &quot; &#39;XPC_SERVICE_NAME&#39;: &#39;0&#39;,\n&quot;
- &quot; &#39;_&#39;: &#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin/python&#39;,\n&quot;
- &quot; &#39;__CF_USER_TEXT_ENCODING&#39;: &#39;0x1F5:0x0:0x0&#39;,\n&quot;
- &quot; &#39;wsgi.errors&#39;: &lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; &quot;
- &quot;encoding=&#39;UTF-8&#39;&gt;,\n&quot;
- &quot; &#39;wsgi.file_wrapper&#39;: &lt;class &#39;wsgiref.util.FileWrapper&#39;&gt;,\n&quot;
- &quot; &#39;wsgi.input&#39;: &lt;_io.BufferedReader name=8&gt;,\n&quot;
- &quot; &#39;wsgi.multiprocess&#39;: False,\n&quot;
- &quot; &#39;wsgi.multithread&#39;: True,\n&quot;
- &quot; &#39;wsgi.run_once&#39;: False,\n&quot;
- &quot; &#39;wsgi.url_scheme&#39;: &#39;http&#39;,\n&quot;
- &quot; &#39;wsgi.version&#39;: (1, 0)}&gt;&quot;)</pre></td>
-                  </tr>
-                
-                  <tr>
                     <td>cls</td>
                     <td class="code"><pre>&lt;class &#39;analytics_automated.api.SubmissionDetails&#39;&gt;</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;</pre></td>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>args</td>
-                    <td class="code"><pre>()</pre></td>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&#39;&lt;WSGIRequest\n&#39;
+&#39;path:/analytics_automated/submission/.json,\n&#39;
+&#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
+&quot;POST:{&#39;email&#39;: &#39;a@b.com&#39;,\n&quot;
+&quot; &#39;job&#39;: &#39;job1&#39;,\n&quot;
+&quot; &#39;submission_name&#39;: &#39;test&#39;},\n&quot;
+&#39;COOKIES:{},\n&#39;
+&quot;META:{&#39;ANT_HOME&#39;: &#39;/opt/apache-ant&#39;,\n&quot;
+&quot; &#39;COLORTERM&#39;: &#39;gnome-terminal&#39;,\n&quot;
+&quot; &#39;CONTENT_LENGTH&#39;: &#39;461&#39;,\n&quot;
+&quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
+&quot;                 &#39;boundary=9934278259b548bc8857e8bccf9af9f2&#39;,\n&quot;
+&quot; &#39;CORALROOT&#39;: &#39;/opt/UCLCScourseware/src/coral&#39;,\n&quot;
+&quot; &#39;CSRF_COOKIE&#39;: &#39;4WEUQUJaoC1kQjv8btyTP78sSmVMap73&#39;,\n&quot;
+&quot; &#39;CS_ARCH&#39;: &#39;intel&#39;,\n&quot;
+&quot; &#39;CS_EUID&#39;: &#39;16482&#39;,\n&quot;
+&quot; &#39;CS_HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan&#39;,\n&quot;
+&quot; &#39;CS_HOST&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;CS_KARCH&#39;: &#39;intel&#39;,\n&quot;
+&quot; &#39;CS_MAILID&#39;: &#39;D.Buchan@cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;CS_OS&#39;: &#39;linux&#39;,\n&quot;
+&quot; &#39;CS_OS_REL&#39;: &#39;7&#39;,\n&quot;
+&quot; &#39;CS_SHORT&#39;: &#39;enki&#39;,\n&quot;
+&quot; &#39;CS_UCLASS&#39;: &#39;staff&#39;,\n&quot;
+&quot; &#39;CS_USER&#39;: &#39;dbuchan&#39;,\n&quot;
+&quot; &#39;CS_USUBCLASS&#39;: &#39;csresstaff&#39;,\n&quot;
+&quot; &#39;DBUS_SESSION_BUS_ADDRESS&#39;: &quot;
+&quot;&#39;unix:abstract=/tmp/dbus-3wD6DNhHMu,guid=6a3342133f23669176304c8155897e89&#39;,\n&quot;
+&quot; &#39;DESKTOP_SESSION&#39;: &#39;gnome-classic&#39;,\n&quot;
+&quot; &#39;DISPLAY&#39;: &#39;:0&#39;,\n&quot;
+&quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &#39;analytics_automated_project.settings.dev&#39;,\n&quot;
+&quot; &#39;EDITOR&#39;: &#39;/usr/bin/vi&#39;,\n&quot;
+&quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
+&quot; &#39;GDMSESSION&#39;: &#39;gnome-classic&#39;,\n&quot;
+&quot; &#39;GJS_DEBUG_OUTPUT&#39;: &#39;stderr&#39;,\n&quot;
+&quot; &#39;GJS_DEBUG_TOPICS&#39;: &#39;JS ERROR;JS LOG&#39;,\n&quot;
+&quot; &#39;GNOME_DESKTOP_SESSION_ID&#39;: &#39;this-is-deprecated&#39;,\n&quot;
+&quot; &#39;GNOME_KEYRING_CONTROL&#39;: &quot;
+&quot;&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa&#39;,\n&quot;
+&quot; &#39;GNOME_KEYRING_PID&#39;: &#39;3129&#39;,\n&quot;
+&quot; &#39;GNOME_SHELL_SESSION_MODE&#39;: &#39;classic&#39;,\n&quot;
+&quot; &#39;GPG_AGENT_INFO&#39;: &quot;
+&quot;&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa/gpg:0:1&#39;,\n&quot;
+&quot; &#39;GROUP&#39;: &#39;csstaff&#39;,\n&quot;
+&quot; &#39;HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan&#39;,\n&quot;
+&quot; &#39;HOST&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;HOSTNAME&#39;: &#39;enki.cs.ucl.ac.uk&#39;,\n&quot;
+&quot; &#39;HOSTTYPE&#39;: &#39;x86_64-linux&#39;,\n&quot;
+&quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
+&quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
+&quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
+&quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
+&quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.1 &#39;\n&quot;
+&quot;                    &#39;Linux/3.10.0-229.4.2.el7.x86_64&#39;,\n&quot;
+&quot; &#39;IMSETTINGS_INTEGRATE_DESKTOP&#39;: &#39;yes&#39;,\n&quot;
+&quot; &#39;IMSETTINGS_MODULE&#39;: &#39;none&#39;,\n&quot;
+&quot; &#39;JAVA_HOME&#39;: &#39;/usr/opt/SUNWjava&#39;,\n&quot;
+&quot; &#39;KDEDIRS&#39;: &#39;/usr&#39;,\n&quot;
+&quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
+&quot; &#39;LD_LIBRARY_PATH&#39;: &#39;/opt/ucl/lib:/usr/X11R6/lib&#39;,\n&quot;
+&quot; &#39;LESSOPEN&#39;: &#39;||/usr/bin/lesspipe.sh %s&#39;,\n&quot;
+&quot; &#39;LOADEDMODULES&#39;: &#39;&#39;,\n&quot;
+&quot; &#39;LOGNAME&#39;: &#39;dbuchan&#39;,\n&quot;
+&quot; &#39;LPDEST&#39;: &#39;copier&#39;,\n&quot;
+&quot; &#39;M68KSIM&#39;: &#39;/opt/UCLCScourseware/lib/m68ksim.rc&#39;,\n&quot;
+&quot; &#39;MACHTYPE&#39;: &#39;x86_64&#39;,\n&quot;
+&quot; &#39;MAIL&#39;: &#39;/var/spool/mail/dbuchan&#39;,\n&quot;
+&quot; &#39;MANPATH&#39;: &quot;
+&quot;&#39;/opt/ucl/man:/usr/share/man:/usr/local/man:/usr/X11R6/man:/usr/kerberos/man&#39;,\n&quot;
+&quot; &#39;MODULEPATH&#39;: &#39;/usr/share/Modules/modulefiles:/etc/modulefiles&#39;,\n&quot;
+&quot; &#39;MODULESHOME&#39;: &#39;/usr/share/Modules&#39;,\n&quot;
+&quot; &#39;OLDPWD&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code/celery_test&#39;,\n&quot;
+&quot; &#39;OSTYPE&#39;: &#39;linux&#39;,\n&quot;
+&quot; &#39;PATH&#39;: &quot;
+&quot;&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/bin:/scratch0/NOT_BACKED_UP/dbuchan/usr/bin/:/scratch0/NOT_BACKED_UP/dbuchan/python3/bin:/usr/lib64/qt-3.3/bin:/usr/kerberos/bin:/opt/ucl/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/bin/X11:/opt/UCLCSdefunct/bin:/cs/research/bioinf/home1/green/dbuchan/bin.intel:/cs/research/bioinf/home1/green/dbuchan/bin&#39;,\n&quot;
+&quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
+&quot; &#39;PEN_FONT_DIR&#39;: &#39;/opt/UCLCScourseware/lib&#39;,\n&quot;
+&quot; &#39;PERL5LIB&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/perl5/lib/perl5&#39;,\n&quot;
+&quot; &#39;PERL_HOMEDIR&#39;: &#39;1&#39;,\n&quot;
+&quot; &#39;PERL_LOCAL_LIB_ROOT&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PERL_MB_OPT&#39;: &#39;--install_base &quot;
+&quot;/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PERL_MM_OPT&#39;: &quot;
+&quot;&#39;INSTALL_BASE=/cs/research/bioinf/home1/green/dbuchan/perl5&#39;,\n&quot;
+&quot; &#39;PGDATA&#39;: &#39;/scratch0/NOT_BACKED_UP/dbuchan/postgres&#39;,\n&quot;
+&quot; &#39;PRINTER&#39;: &#39;copier&#39;,\n&quot;
+&quot; &#39;PROJECT_HOME&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code&#39;,\n&quot;
+&quot; &#39;PS1&#39;: &#39;(analytics_automated)\\\\! \\\\u@\\\\h% &#39;,\n&quot;
+&quot; &#39;PWD&#39;: &#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;,\n&quot;
+&quot; &#39;QTDIR&#39;: &#39;/usr/lib64/qt-3.3&#39;,\n&quot;
+&quot; &#39;QTINC&#39;: &#39;/usr/lib64/qt-3.3/include&#39;,\n&quot;... &lt;trimmed 6533 bytes string&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -629,46 +669,46 @@
         </li>
       
         <li class="frame user">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
+          <code>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
 
           
-            <div class="context" id="c4469669832">
+            <div class="context" id="c140258801164744">
               
-                <ol start="449" class="pre-context" id="pre4469669832">
+                <ol start="449" class="pre-context" id="pre140258801164744">
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>                                  self.http_method_not_allowed)</pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>            else:</pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>                handler = self.http_method_not_allowed</pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre></pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>            response = handler(request, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>            response = handler(request, *args, **kwargs)</pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre></pre></li>
                 
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>        except Exception as exc:</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>        except Exception as exc:</pre></li>
                 
                 </ol>
               
               <ol start="456" class="context-line">
-                <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>
+                <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>
                         response = self.handle_exception(exc)</pre> <span>...</span></li></ol>
               
-                <ol start='457' class="post-context" id="post4469669832">
+                <ol start='457' class="post-context" id="post140258801164744">
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>        return self.response</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>        return self.response</pre></li>
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>    def options(self, request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>    def options(self, request, *args, **kwargs):</pre></li>
                   
-                  <li onclick="toggle('pre4469669832', 'post4469669832')"><pre>        &quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre140258801164744', 'post140258801164744')"><pre>        &quot;&quot;&quot;</pre></li>
                   
               </ol>
               
@@ -678,10 +718,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469669832')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801164744')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469669832">
+            <table class="vars" id="v140258801164744">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -689,6 +729,11 @@
                 </tr>
               </thead>
               <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;</pre></td>
+                  </tr>
                 
                   <tr>
                     <td>kwargs</td>
@@ -701,18 +746,13 @@
                   </tr>
                 
                   <tr>
-                    <td>request</td>
-                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x10a6b57f0&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
                     <td>handler</td>
-                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;&gt;</pre></td>
+                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f908c2a9438&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -721,46 +761,46 @@
         </li>
       
         <li class="frame user">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
+          <code>/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
 
           
-            <div class="context" id="c4469669640">
+            <div class="context" id="c140258801164872">
               
-                <ol start="446" class="pre-context" id="pre4469669640">
+                <ol start="446" class="pre-context" id="pre140258801164872">
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>            # Get the appropriate handler method</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>            # Get the appropriate handler method</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>            if request.method.lower() in self.http_method_names:</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>            if request.method.lower() in self.http_method_names:</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>                handler = getattr(self, request.method.lower(),</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>                handler = getattr(self, request.method.lower(),</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>                                  self.http_method_not_allowed)</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>            else:</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>                handler = self.http_method_not_allowed</pre></li>
                 
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre></pre></li>
                 
                 </ol>
               
               <ol start="453" class="context-line">
-                <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>
+                <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>
                         response = handler(request, *args, **kwargs)</pre> <span>...</span></li></ol>
               
-                <ol start='454' class="post-context" id="post4469669640">
+                <ol start='454' class="post-context" id="post140258801164872">
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>        except Exception as exc:</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>        except Exception as exc:</pre></li>
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>            response = self.handle_exception(exc)</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>            response = self.handle_exception(exc)</pre></li>
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
                   
-                  <li onclick="toggle('pre4469669640', 'post4469669640')"><pre>        return self.response</pre></li>
+                  <li onclick="toggle('pre140258801164872', 'post140258801164872')"><pre>        return self.response</pre></li>
                   
               </ol>
               
@@ -770,10 +810,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469669640')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801164872')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469669640">
+            <table class="vars" id="v140258801164872">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -783,6 +823,11 @@
               <tbody>
                 
                   <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
                     <td>kwargs</td>
                     <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
                   </tr>
@@ -790,21 +835,16 @@
                   <tr>
                     <td>args</td>
                     <td class="code"><pre>()</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>request</td>
-                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x10a6b57f0&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;</pre></td>
                   </tr>
                 
                   <tr>
                     <td>handler</td>
-                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;&gt;</pre></td>
+                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f908c2a9438&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -813,46 +853,46 @@
         </li>
       
         <li class="frame user">
-          <code>/Users/dbuchan/Code/analytics_automated/analytics_automated/api.py</code> in <code>post</code>
+          <code>/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/analytics_automated/api.py</code> in <code>post</code>
 
           
-            <div class="context" id="c4469669576">
+            <div class="context" id="c140258801164488">
               
-                <ol start="63" class="pre-context" id="pre4469669576">
+                <ol start="82" class="pre-context" id="pre140258801164488">
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            # 2. Order tasks by their step id</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        # work out which job this refers to</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            chain = &quot;(&quot;</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        if Job.objects.filter(name=data[&#39;job&#39;]).exists():</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            for step in steps:</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>            data[&#39;job&#39;] = Job.objects.get(name=data[&#39;job&#39;]).pk</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>                chain += &quot;task_runner.si(&#39;%s&#39;) | &quot; % step.task.name</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        else:</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            chain = chain[:-3]</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>            content = {&#39;error&#39;: &#39;Job name supplied does not exist&#39;}</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            chain += &#39;)().delay()&#39;</pre></li>
                 
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>            return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            print(chain)</pre></li>
                 
                 </ol>
               
-              <ol start="70" class="context-line">
-                <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>
-                    print(request.FILE)</pre> <span>...</span></li></ol>
+              <ol start="89" class="context-line">
+                <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>
+                        eval(chain)</pre> <span>...</span></li></ol>
               
-                <ol start='71' class="post-context" id="post4469669576">
+                <ol start='90' class="post-context" id="post140258801164488">
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        # TODO: VALIDATE input_data IN SOME MANNER</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        print(data)</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            # 3. Build Celery chain</pre></li>
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        submission_form = SubmissionForm(data=data)</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            # 4. Call delay on the Celery chain</pre></li>
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        print(submission_form.data)</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            task_runner.delay(s.job)</pre></li>
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>        if submission_form.is_valid():</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469669576', 'post4469669576')"><pre>            s = submission_form.save()</pre></li>
+                  <li onclick="toggle('pre140258801164488', 'post140258801164488')"><pre>            content = {&#39;UUID&#39;: s.UUID, &#39;submission_name&#39;: s.submission_name}</pre></li>
                   
               </ol>
               
@@ -862,10 +902,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469669576')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801164488')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469669576">
+            <table class="vars" id="v140258801164488">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -875,13 +915,33 @@
               <tbody>
                 
                   <tr>
-                    <td>data</td>
-                    <td class="code"><pre>{&#39;UUID&#39;: &#39;a652fad8-18c5-11e5-9910-28cfe91fde3b&#39;,
- &#39;email&#39;: &#39;a@b.com&#39;,
- &#39;input_data&#39;: &#39;these are the file contents!\n&#39;,
- &#39;ip&#39;: &#39;127.0.0.1&#39;,
- &#39;job&#39;: 8,
- &#39;submission_name&#39;: &#39;test&#39;}</pre></td>
+                    <td>s</td>
+                    <td class="code"><pre>&lt;Submission: 72&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>step</td>
+                    <td class="code"><pre>&lt;Step: task2&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>submission_form</td>
+                    <td class="code"><pre>&lt;SubmissionForm bound=True, valid=True, fields=(job;submission_name;UUID;email;ip;input_data)&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>job</td>
+                    <td class="code"><pre>&lt;Job: job1&gt;</pre></td>
                   </tr>
                 
                   <tr>
@@ -890,18 +950,27 @@
                   </tr>
                 
                   <tr>
+                    <td>steps</td>
+                    <td class="code"><pre>[&lt;Step: task1&gt;, &lt;Step: task2&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>data</td>
+                    <td class="code"><pre>{&#39;UUID&#39;: &#39;f0810a58-1b5b-11e5-9e0f-989096c13ee6&#39;,
+ &#39;email&#39;: &#39;a@b.com&#39;,
+ &#39;ip&#39;: &#39;127.0.0.1&#39;,
+ &#39;job&#39;: 1,
+ &#39;submission_name&#39;: &#39;test&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>chain</td>
+                    <td class="code"><pre>&quot;(task_runner.si(&#39;task1&#39;) | task_runner.si(&#39;task2&#39;))().delay()&quot;</pre></td>
+                  </tr>
+                
+                  <tr>
                     <td>request</td>
-                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x10a6b57f0&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x10a6b5ef0&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>args</td>
-                    <td class="code"><pre>()</pre></td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f908c2a9438&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -910,119 +979,28 @@
         </li>
       
         <li class="frame user">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/request.py</code> in <code>__getattribute__</code>
+          <code>&lt;string&gt;</code> in <code>&lt;module&gt;</code>
 
           
-            <div class="context" id="c4469669128">
+            <div class="context" id="c140258801098312">
               
-                <ol start="488" class="pre-context" id="pre4469669128">
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>        try:</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>            return super(Request, self).__getattribute__(attr)</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>        except AttributeError:</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>            info = sys.exc_info()</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>            try:</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>                return getattr(self._request, attr)</pre></li>
-                
-                  <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>            except AttributeError:</pre></li>
-                
-                </ol>
+              <ol start="1" class="context-line">
+                <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre>
+            import ast</pre> <span>...</span></li></ol>
               
-              <ol start="495" class="context-line">
-                <li onclick="toggle('pre4469669128', 'post4469669128')"><pre>
-                            six.reraise(info[0], info[1], info[2].tb_next)</pre> <span>...</span></li></ol>
-              
-            </div>
-          
-
-          
-            <div class="commands">
-                
-                    <a href="#" onclick="return varToggle(this, '4469669128')"><span>&#x25b6;</span> Local vars</a>
-                
-            </div>
-            <table class="vars" id="v4469669128">
-              <thead>
-                <tr>
-                  <th>Variable</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                  <tr>
-                    <td>info</td>
-                    <td class="code"><pre>(&lt;class &#39;AttributeError&#39;&gt;,
- AttributeError(&quot;&#39;Request&#39; object has no attribute &#39;FILE&#39;&quot;,),
- &lt;traceback object at 0x10a69bd88&gt;)</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>attr</td>
-                    <td class="code"><pre>&#39;FILE&#39;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>__class__</td>
-                    <td class="code"><pre>&lt;class &#39;rest_framework.request.Request&#39;&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x10a6b57f0&gt;</pre></td>
-                  </tr>
-                
-              </tbody>
-            </table>
-          
-        </li>
-      
-        <li class="frame django">
-          <code>/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/utils/six.py</code> in <code>reraise</code>
-
-          
-            <div class="context" id="c4469668872">
-              
-                <ol start="651" class="pre-context" id="pre4469668872">
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>    exec_ = getattr(moves.builtins, &quot;exec&quot;)</pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre></pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre></pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>    def reraise(tp, value, tb=None):</pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>        if value is None:</pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>            value = tp()</pre></li>
-                
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>        if value.__traceback__ is not tb:</pre></li>
-                
-                </ol>
-              
-              <ol start="658" class="context-line">
-                <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>
-                        raise value.with_traceback(tb)</pre> <span>...</span></li></ol>
-              
-                <ol start='659' class="post-context" id="post4469668872">
+                <ol start='2' class="post-context" id="post140258801098312">
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>        raise value</pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre>import uuid</pre></li>
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre></pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre>from ipware.ip import get_ip</pre></li>
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>else:</pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre></pre></li>
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>    def exec_(_code_, _globs_=None, _locs_=None):</pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre>from django import forms</pre></li>
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>        &quot;&quot;&quot;Execute code in a namespace.&quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre>from django.utils.datastructures import MultiValueDictKeyError</pre></li>
                   
-                  <li onclick="toggle('pre4469668872', 'post4469668872')"><pre>        if _globs_ is None:</pre></li>
+                  <li onclick="toggle('pre140258801098312', 'post140258801098312')"><pre></pre></li>
                   
               </ol>
               
@@ -1032,10 +1010,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '4469668872')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140258801098312')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v4469668872">
+            <table class="vars" id="v140258801098312">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -1045,18 +1023,62 @@
               <tbody>
                 
                   <tr>
-                    <td>value</td>
-                    <td class="code"><pre>AttributeError(&quot;&#39;Request&#39; object has no attribute &#39;FILE&#39;&quot;,)</pre></td>
+                    <td>s</td>
+                    <td class="code"><pre>&lt;Submission: 72&gt;</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>tp</td>
-                    <td class="code"><pre>&lt;class &#39;AttributeError&#39;&gt;</pre></td>
+                    <td>step</td>
+                    <td class="code"><pre>&lt;Step: task2&gt;</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>tb</td>
-                    <td class="code"><pre>None</pre></td>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f908c369e10&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>submission_form</td>
+                    <td class="code"><pre>&lt;SubmissionForm bound=True, valid=True, fields=(job;submission_name;UUID;email;ip;input_data)&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>job</td>
+                    <td class="code"><pre>&lt;Job: job1&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>steps</td>
+                    <td class="code"><pre>[&lt;Step: task1&gt;, &lt;Step: task2&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>data</td>
+                    <td class="code"><pre>{&#39;UUID&#39;: &#39;f0810a58-1b5b-11e5-9e0f-989096c13ee6&#39;,
+ &#39;email&#39;: &#39;a@b.com&#39;,
+ &#39;ip&#39;: &#39;127.0.0.1&#39;,
+ &#39;job&#39;: 1,
+ &#39;submission_name&#39;: &#39;test&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>chain</td>
+                    <td class="code"><pre>&quot;(task_runner.si(&#39;task1&#39;) | task_runner.si(&#39;task2&#39;))().delay()&quot;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f908c2a9438&gt;</pre></td>
                   </tr>
                 
               </tbody>
@@ -1083,7 +1105,7 @@ Request Method: POST
 Request URL: http://127.0.0.1:8000/analytics_automated/submission/.json
 
 Django Version: 1.8.1
-Python Version: 3.4.3
+Python Version: 3.4.1
 Installed Applications:
 (&#39;django_admin_bootstrapped&#39;,
  &#39;django.contrib.admin&#39;,
@@ -1094,6 +1116,7 @@ Installed Applications:
  &#39;django.contrib.staticfiles&#39;,
  &#39;analytics_automated&#39;,
  &#39;rest_framework&#39;,
+ &#39;djcelery&#39;,
  &#39;debug_toolbar&#39;)
 Installed Middleware:
 (&#39;debug_toolbar.middleware.DebugToolbarMiddleware&#39;,
@@ -1109,25 +1132,23 @@ Installed Middleware:
 
 
 Traceback:
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/core/handlers/base.py" in get_response
+File "/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/core/handlers/base.py" in get_response
   132.                     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/decorators/csrf.py" in wrapped_view
+File "/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/decorators/csrf.py" in wrapped_view
   58.         return view_func(*args, **kwargs)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/generic/base.py" in view
+File "/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/django/views/generic/base.py" in view
   71.             return self.dispatch(request, *args, **kwargs)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
+File "/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
   456.             response = self.handle_exception(exc)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
+File "/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
   453.             response = handler(request, *args, **kwargs)
-File "/Users/dbuchan/Code/analytics_automated/analytics_automated/api.py" in post
-  70.         print(request.FILE)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/rest_framework/request.py" in __getattribute__
-  495.                 six.reraise(info[0], info[1], info[2].tb_next)
-File "/Users/dbuchan/.virtualenvs/analytics_automated/lib/python3.4/site-packages/django/utils/six.py" in reraise
-  658.             raise value.with_traceback(tb)
+File "/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/analytics_automated/api.py" in post
+  89.             eval(chain)
+File "&lt;string&gt;" in &lt;module&gt;
+  1. import ast
 
 Exception Type: AttributeError at /analytics_automated/submission/.json
-Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
+Exception Value: &#39;AsyncResult&#39; object has no attribute &#39;delay&#39;
 </textarea>
   <br><br>
   <input type="submit" value="Share this traceback on a public Web site">
@@ -1148,7 +1169,32 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 
   <h3 id="post-info">POST</h3>
   
-    <p>No POST data</p>
+    <table class="req">
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td>job</td>
+            <td class="code"><pre>&#39;job1&#39;</pre></td>
+          </tr>
+        
+          <tr>
+            <td>email</td>
+            <td class="code"><pre>&#39;a@b.com&#39;</pre></td>
+          </tr>
+        
+          <tr>
+            <td>submission_name</td>
+            <td class="code"><pre>&#39;test&#39;</pre></td>
+          </tr>
+        
+      </tbody>
+    </table>
   
   <h3 id="files-info">FILES</h3>
   
@@ -1162,23 +1208,8 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         <tbody>
             
                 <tr>
-                    <td>email</td>
-                    <td class="code"><pre>&lt;InMemoryUploadedFile: email ()&gt;</pre></td>
-                </tr>
-            
-                <tr>
                     <td>input_data</td>
                     <td class="code"><pre>&lt;InMemoryUploadedFile: input.txt ()&gt;</pre></td>
-                </tr>
-            
-                <tr>
-                    <td>job</td>
-                    <td class="code"><pre>&lt;InMemoryUploadedFile: job ()&gt;</pre></td>
-                </tr>
-            
-                <tr>
-                    <td>submission_name</td>
-                    <td class="code"><pre>&lt;InMemoryUploadedFile: submission_name ()&gt;</pre></td>
                 </tr>
             
         </tbody>
@@ -1202,233 +1233,13 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
     <tbody>
       
         <tr>
-          <td>VIRTUALENVWRAPPER_PROJECT_FILENAME</td>
-          <td class="code"><pre>&#39;.project&#39;</pre></td>
+          <td>QTLIB</td>
+          <td class="code"><pre>&#39;/usr/lib64/qt-3.3/lib&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>wsgi.multithread</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>REQUEST_METHOD</td>
-          <td class="code"><pre>&#39;POST&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HOME</td>
-          <td class="code"><pre>&#39;/Users/dbuchan&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ITERM_SESSION_ID</td>
-          <td class="code"><pre>&#39;w1t0p0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CONTENT_TYPE</td>
-          <td class="code"><pre>&#39;multipart/form-data; boundary=d2151f7a9a8e44c7af336c3fc655aea3&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>OLDPWD</td>
-          <td class="code"><pre>&#39;/Users/dbuchan&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SCRIPT_NAME</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TERM</td>
-          <td class="code"><pre>&#39;xterm&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SSH_AUTH_SOCK</td>
-          <td class="code"><pre>&#39;/private/tmp/com.apple.launchd.dpGxioRvRn/Listeners&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TMPDIR</td>
-          <td class="code"><pre>&#39;/var/folders/f2/_yvb0rt947g1gf06316vdmnc0000gn/T/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>WORKON_HOME</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/.virtualenvs&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>RUN_MAIN</td>
-          <td class="code"><pre>&#39;true&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PWD</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/Code/analytics_automated&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DJANGO_SETTINGS_MODULE</td>
-          <td class="code"><pre>&#39;analytics_automated_project.settings.dev&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>XPC_SERVICE_NAME</td>
-          <td class="code"><pre>&#39;0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HTTP_USER_AGENT</td>
-          <td class="code"><pre>&#39;python-requests/2.7.0 CPython/3.4.3 Darwin/14.3.0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PATH</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin:/Library/PostgreSQL/9.4/bin:/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/sbin/:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>GATEWAY_INTERFACE</td>
-          <td class="code"><pre>&#39;CGI/1.1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TZ</td>
-          <td class="code"><pre>&#39;UTC&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CONTENT_LENGTH</td>
-          <td class="code"><pre>&#39;523&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.errors</td>
-          <td class="code"><pre>&lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; encoding=&#39;UTF-8&#39;&gt;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.version</td>
-          <td class="code"><pre>(1, 0)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DISPLAY</td>
-          <td class="code"><pre>&#39;/private/tmp/com.apple.launchd.0SSYyyTWER/org.macosforge.xquartz:0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>VIRTUALENVWRAPPER_HOOK_DIR</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/.virtualenvs&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PATH_INFO</td>
-          <td class="code"><pre>&#39;/analytics_automated/submission/.json&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.file_wrapper</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.input</td>
-          <td class="code"><pre>&lt;_io.BufferedReader name=8&gt;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>VIRTUAL_ENV_DISABLE_PROMPT</td>
-          <td class="code"><pre>&#39;1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.run_once</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>__CF_USER_TEXT_ENCODING</td>
-          <td class="code"><pre>&#39;0x1F5:0x0:0x0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TERM_PROGRAM</td>
-          <td class="code"><pre>&#39;iTerm.app&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>REMOTE_ADDR</td>
-          <td class="code"><pre>&#39;127.0.0.1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SHLVL</td>
-          <td class="code"><pre>&#39;1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SERVER_PORT</td>
-          <td class="code"><pre>&#39;8000&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SERVER_NAME</td>
-          <td class="code"><pre>&#39;1.0.0.127.in-addr.arpa&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HTTP_ACCEPT</td>
-          <td class="code"><pre>&#39;*/*&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HTTP_CONNECTION</td>
-          <td class="code"><pre>&#39;keep-alive&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>_</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/.virtualenvs/analytics_automated/bin/python&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SERVER_PROTOCOL</td>
-          <td class="code"><pre>&#39;HTTP/1.1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USER</td>
-          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>COLORFGBG</td>
-          <td class="code"><pre>&#39;7;0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ITERM_PROFILE</td>
-          <td class="code"><pre>&#39;Default&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>Apple_PubSub_Socket_Render</td>
-          <td class="code"><pre>&#39;/private/tmp/com.apple.launchd.lhBhf2kdlr/Render&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>VIRTUALENVWRAPPER_WORKON_CD</td>
-          <td class="code"><pre>&#39;1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGNAME</td>
-          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
+          <td>VENDOR</td>
+          <td class="code"><pre>&#39;unknown&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1437,28 +1248,98 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
+          <td>CS_HOME</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PWD</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;</pre></td>
+        </tr>
+      
+        <tr>
           <td>VIRTUALENVWRAPPER_PYTHON</td>
-          <td class="code"><pre>&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/python3&#39;</pre></td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/python3/bin/python3&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SHELL</td>
-          <td class="code"><pre>&#39;/bin/bash&#39;</pre></td>
+          <td>PGDATA</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/postgres&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>VIRTUAL_ENV</td>
-          <td class="code"><pre>&#39;/Users/dbuchan/.virtualenvs/analytics_automated&#39;</pre></td>
+          <td>MODULESHOME</td>
+          <td class="code"><pre>&#39;/usr/share/Modules&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>QUERY_STRING</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
+          <td>JAVA_HOME</td>
+          <td class="code"><pre>&#39;/usr/opt/SUNWjava&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>wsgi.multiprocess</td>
-          <td class="code"><pre>False</pre></td>
+          <td>DBUS_SESSION_BUS_ADDRESS</td>
+          <td class="code"><pre>&#39;unix:abstract=/tmp/dbus-3wD6DNhHMu,guid=6a3342133f23669176304c8155897e89&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GPG_AGENT_INFO</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa/gpg:0:1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SSH_AUTH_SOCK</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa/ssh&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>mail</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/.mail&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MAIL</td>
+          <td class="code"><pre>&#39;/var/spool/mail/dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOSTTYPE</td>
+          <td class="code"><pre>&#39;x86_64-linux&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DJANGO_SETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;analytics_automated_project.settings.dev&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGNAME</td>
+          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_LOCAL_LIB_ROOT</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>M68KSIM</td>
+          <td class="code"><pre>&#39;/opt/UCLCScourseware/lib/m68ksim.rc&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_MANAGER</td>
+          <td class="code"><pre>&#39;local/unix:@/tmp/.ICE-unix/3311,unix/unix:/tmp/.ICE-unix/3311&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_HOMEDIR</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MANPATH</td>
+          <td class="code"><pre>&#39;/opt/ucl/man:/usr/share/man:/usr/local/man:/usr/X11R6/man:/usr/kerberos/man&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1467,18 +1348,213 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
+          <td>wsgi.file_wrapper</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GNOME_DESKTOP_SESSION_ID</td>
+          <td class="code"><pre>&#39;this-is-deprecated&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>IMSETTINGS_INTEGRATE_DESKTOP</td>
+          <td class="code"><pre>&#39;yes&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REMOTE_ADDR</td>
+          <td class="code"><pre>&#39;127.0.0.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LD_LIBRARY_PATH</td>
+          <td class="code"><pre>&#39;/opt/ucl/lib:/usr/X11R6/lib&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QT_GRAPHICSSYSTEM_CHECKED</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUAL_ENV</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QTDIR</td>
+          <td class="code"><pre>&#39;/usr/lib64/qt-3.3&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_OS_REL</td>
+          <td class="code"><pre>&#39;7&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_RUNTIME_DIR</td>
+          <td class="code"><pre>&#39;/run/user/16482&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHLVL</td>
+          <td class="code"><pre>&#39;2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PROJECT_HOME</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/Code&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XGUILOADPATH</td>
+          <td class="code"><pre>&#39;/opt/UCLCScourseware/lib&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_USER_AGENT</td>
+          <td class="code"><pre>&#39;python-requests/2.7.0 CPython/3.4.1 Linux/3.10.0-229.4.2.el7.x86_64&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LPDEST</td>
+          <td class="code"><pre>&#39;copier&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LESSOPEN</td>
+          <td class="code"><pre>&#39;||/usr/bin/lesspipe.sh %s&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_OS</td>
+          <td class="code"><pre>&#39;linux&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>OSTYPE</td>
+          <td class="code"><pre>&#39;linux&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_SEAT_PATH</td>
+          <td class="code"><pre>&#39;/org/freedesktop/DisplayManager/Seat0&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>WINDOWID</td>
+          <td class="code"><pre>&#39;48234546&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multiprocess</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PEN_FONT_DIR</td>
+          <td class="code"><pre>&#39;/opt/UCLCScourseware/lib&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GNOME_KEYRING_CONTROL</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/.cache/keyring-XNTzVa&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QTINC</td>
+          <td class="code"><pre>&#39;/usr/lib64/qt-3.3/include&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_ACCEPT</td>
+          <td class="code"><pre>&#39;*/*&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TERM</td>
+          <td class="code"><pre>&#39;xterm&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USER</td>
+          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PROTOCOL</td>
+          <td class="code"><pre>&#39;HTTP/1.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_EUID</td>
+          <td class="code"><pre>&#39;16482&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GJS_DEBUG_OUTPUT</td>
+          <td class="code"><pre>&#39;stderr&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_HOOK_DIR</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOSTNAME</td>
+          <td class="code"><pre>&#39;enki.cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_KARCH</td>
+          <td class="code"><pre>&#39;intel&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GJS_DEBUG_TOPICS</td>
+          <td class="code"><pre>&#39;JS ERROR;JS LOG&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CORALROOT</td>
+          <td class="code"><pre>&#39;/opt/UCLCScourseware/src/coral&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODULEPATH</td>
+          <td class="code"><pre>&#39;/usr/share/Modules/modulefiles:/etc/modulefiles&#39;</pre></td>
+        </tr>
+      
+        <tr>
           <td>wsgi.url_scheme</td>
           <td class="code"><pre>&#39;http&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>XPC_FLAGS</td>
-          <td class="code"><pre>&#39;0x0&#39;</pre></td>
+          <td>QT_PLUGIN_PATH</td>
+          <td class="code"><pre>&#39;/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>VIRTUALENVWRAPPER_SCRIPT</td>
-          <td class="code"><pre>&#39;/Library/Frameworks/Python.framework/Versions/3.4/bin/virtualenvwrapper.sh&#39;</pre></td>
+          <td>GNOME_KEYRING_PID</td>
+          <td class="code"><pre>&#39;3129&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_CONNECTION</td>
+          <td class="code"><pre>&#39;keep-alive&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MACHTYPE</td>
+          <td class="code"><pre>&#39;x86_64&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_SESSION_PATH</td>
+          <td class="code"><pre>&#39;/org/freedesktop/DisplayManager/Session0&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1487,8 +1563,228 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
+          <td>XDG_VTNR</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
           <td>HTTP_HOST</td>
           <td class="code"><pre>&#39;127.0.0.1:8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GNOME_SHELL_SESSION_MODE</td>
+          <td class="code"><pre>&#39;classic&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.input</td>
+          <td class="code"><pre>&lt;_io.BufferedReader name=5&gt;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.version</td>
+          <td class="code"><pre>(1, 0)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VTE_VERSION</td>
+          <td class="code"><pre>&#39;3406&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_USUBCLASS</td>
+          <td class="code"><pre>&#39;csresstaff&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XFILESEARCHPATH</td>
+          <td class="code"><pre>&#39;/opt/ucl/%T/%N%S:/usr/lib/X11/%T/%N%S:/usr/share/X11/%T/%N%S&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>RUN_MAIN</td>
+          <td class="code"><pre>&#39;true&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PORT</td>
+          <td class="code"><pre>&#39;8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XMODIFIERS</td>
+          <td class="code"><pre>&#39;@im=ibus&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_SHORT</td>
+          <td class="code"><pre>&#39;enki&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EDITOR</td>
+          <td class="code"><pre>&#39;/usr/bin/vi&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOME</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.errors</td>
+          <td class="code"><pre>&lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; encoding=&#39;UTF-8&#39;&gt;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TZ</td>
+          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_ARCH</td>
+          <td class="code"><pre>&#39;intel&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ANT_HOME</td>
+          <td class="code"><pre>&#39;/opt/apache-ant&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DESKTOP_SESSION</td>
+          <td class="code"><pre>&#39;gnome-classic&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_MENU_PREFIX</td>
+          <td class="code"><pre>&#39;gnome-&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOST</td>
+          <td class="code"><pre>&#39;enki.cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multithread</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DISPLAY</td>
+          <td class="code"><pre>&#39;:0&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SCRIPT_NAME</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SSH_AGENT_PID</td>
+          <td class="code"><pre>&#39;3290&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>COLORTERM</td>
+          <td class="code"><pre>&#39;gnome-terminal&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>KDEDIRS</td>
+          <td class="code"><pre>&#39;/usr&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;multipart/form-data; boundary=9934278259b548bc8857e8bccf9af9f2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_SESSION_ID</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QUERY_STRING</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GDMSESSION</td>
+          <td class="code"><pre>&#39;gnome-classic&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PRINTER</td>
+          <td class="code"><pre>&#39;copier&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.run_once</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_WORKON_CD</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PATH</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/bin:/scratch0/NOT_BACKED_UP/dbuchan/usr/bin/:/scratch0/NOT_BACKED_UP/dbuchan/python3/bin:/usr/lib64/qt-3.3/bin:/usr/kerberos/bin:/opt/ucl/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/bin/X11:/opt/UCLCSdefunct/bin:/cs/research/bioinf/home1/green/dbuchan/bin.intel:/cs/research/bioinf/home1/green/dbuchan/bin&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_MB_OPT</td>
+          <td class="code"><pre>&#39;--install_base /cs/research/bioinf/home1/green/dbuchan/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_UCLASS</td>
+          <td class="code"><pre>&#39;staff&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PS1</td>
+          <td class="code"><pre>&#39;(analytics_automated)\\! \\u@\\h% &#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL5LIB</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/perl5/lib/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_SEAT</td>
+          <td class="code"><pre>&#39;seat0&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REQUEST_METHOD</td>
+          <td class="code"><pre>&#39;POST&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CONTENT_LENGTH</td>
+          <td class="code"><pre>&#39;461&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>_</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs/analytics_automated/bin/python&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QT_IM_MODULE</td>
+          <td class="code"><pre>&#39;ibus&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_SCRIPT</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/python3/bin/virtualenvwrapper.sh&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1497,8 +1793,83 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
+          <td>XAUTHORITY</td>
+          <td class="code"><pre>&#39;/var/run/lightdm/dbuchan/xauthority&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GROUP</td>
+          <td class="code"><pre>&#39;csstaff&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_MAILID</td>
+          <td class="code"><pre>&#39;D.Buchan@cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHELL</td>
+          <td class="code"><pre>&#39;/bin/csh&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_PROJECT_FILENAME</td>
+          <td class="code"><pre>&#39;.project&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>IMSETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;none&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PATH_INFO</td>
+          <td class="code"><pre>&#39;/analytics_automated/submission/.json&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_HOST</td>
+          <td class="code"><pre>&#39;enki.cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_MM_OPT</td>
+          <td class="code"><pre>&#39;INSTALL_BASE=/cs/research/bioinf/home1/green/dbuchan/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_NAME</td>
+          <td class="code"><pre>&#39;localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GATEWAY_INTERFACE</td>
+          <td class="code"><pre>&#39;CGI/1.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CS_USER</td>
+          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>OLDPWD</td>
+          <td class="code"><pre>&#39;/cs/research/bioinf/home1/green/dbuchan/Code/celery_test&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOADEDMODULES</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>WORKON_HOME</td>
+          <td class="code"><pre>&#39;/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs&#39;</pre></td>
+        </tr>
+      
+        <tr>
           <td>CSRF_COOKIE</td>
-          <td class="code"><pre>&#39;GqTqxrEcJAdy9fyoDsVK2ZIXcDYNZfp1&#39;</pre></td>
+          <td class="code"><pre>&#39;4WEUQUJaoC1kQjv8btyTP78sSmVMap73&#39;</pre></td>
         </tr>
       
     </tbody>
@@ -1517,74 +1888,8 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
     <tbody>
       
         <tr>
-          <td>DATETIME_FORMAT</td>
-          <td class="code"><pre>&#39;N j, Y, P&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATES</td>
-          <td class="code"><pre>[{&#39;APP_DIRS&#39;: True,
-  &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,
-  &#39;DIRS&#39;: [Path(&#39;/Users/dbuchan/Code/analytics_automated/templates&#39;)],
-  &#39;OPTIONS&#39;: {&#39;context_processors&#39;: [&#39;django.template.context_processors.debug&#39;,
-                                     &#39;django.template.context_processors.request&#39;,
-                                     &#39;django.contrib.auth.context_processors.auth&#39;,
-                                     &#39;django.contrib.messages.context_processors.messages&#39;]}}]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CACHES</td>
-          <td class="code"><pre>{&#39;default&#39;: {&#39;BACKEND&#39;: &#39;django.core.cache.backends.locmem.LocMemCache&#39;}}</pre></td>
-        </tr>
-      
-        <tr>
-          <td>APPEND_SLASH</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ALLOWED_INCLUDE_ROOTS</td>
+          <td>ADMINS</td>
           <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_USE_SSL</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>INTERNAL_IPS</td>
-          <td class="code"><pre>(&#39;::1&#39;, &#39;127.0.0.1&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_CACHE_ALIAS</td>
-          <td class="code"><pre>&#39;default&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_TABLESPACE</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>NUMBER_GROUPING</td>
-          <td class="code"><pre>0</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_SAVE_EVERY_REQUEST</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_FAILURE_VIEW</td>
-          <td class="code"><pre>&#39;django.views.csrf.csrf_failure&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TIME_INPUT_FORMATS</td>
-          <td class="code"><pre>(&#39;%H:%M:%S&#39;, &#39;%H:%M:%S.%f&#39;, &#39;%H:%M&#39;)</pre></td>
         </tr>
       
         <tr>
@@ -1593,62 +1898,63 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>EMAIL_BACKEND</td>
-          <td class="code"><pre>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</pre></td>
+          <td>DEFAULT_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>DATABASES</td>
-          <td class="code"><pre>{&#39;default&#39;: {&#39;ATOMIC_REQUESTS&#39;: False,
-             &#39;AUTOCOMMIT&#39;: True,
-             &#39;CONN_MAX_AGE&#39;: 0,
-             &#39;ENGINE&#39;: &#39;django.db.backends.postgresql_psycopg2&#39;,
-             &#39;HOST&#39;: &#39;localhost&#39;,
-             &#39;NAME&#39;: &#39;analytics_automated_db&#39;,
-             &#39;OPTIONS&#39;: {},
-             &#39;PASSWORD&#39;: &#39;********************&#39;,
-             &#39;PORT&#39;: &#39;5432&#39;,
-             &#39;TEST&#39;: {&#39;CHARSET&#39;: None,
-                      &#39;COLLATION&#39;: None,
-                      &#39;MIRROR&#39;: None,
-                      &#39;NAME&#39;: None},
-             &#39;TIME_ZONE&#39;: &#39;UTC&#39;,
-             &#39;USER&#39;: &#39;a_a_user&#39;}}</pre></td>
+          <td>CSRF_COOKIE_AGE</td>
+          <td class="code"><pre>31449600</pre></td>
         </tr>
       
         <tr>
-          <td>ROOT_URLCONF</td>
-          <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
+          <td>DEFAULT_FROM_EMAIL</td>
+          <td class="code"><pre>&#39;webmaster@localhost&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>LOGGING</td>
-          <td class="code"><pre>{}</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_HTTPONLY</td>
+          <td>SESSION_SAVE_EVERY_REQUEST</td>
           <td class="code"><pre>False</pre></td>
         </tr>
       
         <tr>
-          <td>DISALLOWED_USER_AGENTS</td>
+          <td>SESSION_SERIALIZER</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERYD_MAX_TASKS_PER_CHILD</td>
+          <td class="code"><pre>100</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SSL_KEYFILE</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEST_RUNNER</td>
+          <td class="code"><pre>&#39;django.test.runner.DiscoverRunner&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_ETAGS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_USER</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOCALE_PATHS</td>
           <td class="code"><pre>()</pre></td>
         </tr>
       
         <tr>
-          <td>SECURE_HSTS_INCLUDE_SUBDOMAINS</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGGING_CONFIG</td>
-          <td class="code"><pre>&#39;logging.config.dictConfig&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PASSWORD_HASHERS</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
+          <td>SESSION_FILE_PATH</td>
+          <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
@@ -1657,53 +1963,28 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>SECURE_SSL_REDIRECT</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SECURE_PROXY_SSL_HEADER</td>
+          <td>SESSION_COOKIE_DOMAIN</td>
           <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>CACHE_MIDDLEWARE_KEY_PREFIX</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
+          <td>FILE_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>LANGUAGE_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
+          <td>SILENCED_SYSTEM_CHECKS</td>
+          <td class="code"><pre>[]</pre></td>
         </tr>
       
         <tr>
-          <td>CACHE_MIDDLEWARE_ALIAS</td>
-          <td class="code"><pre>&#39;default&#39;</pre></td>
+          <td>MANAGERS</td>
+          <td class="code"><pre>()</pre></td>
         </tr>
       
         <tr>
-          <td>CACHE_MIDDLEWARE_SECONDS</td>
-          <td class="code"><pre>600</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_MAX_MEMORY_SIZE</td>
-          <td class="code"><pre>2621440</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_AGE</td>
-          <td class="code"><pre>1209600</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SETTINGS_MODULE</td>
-          <td class="code"><pre>&#39;analytics_automated_project.settings.dev&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SECURE_BROWSER_XSS_FILTER</td>
-          <td class="code"><pre>False</pre></td>
+          <td>CELERY_RESULT_BACKEND</td>
+          <td class="code"><pre>&#39;rpc://guest@localhost//&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1713,48 +1994,54 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
  &#39;DEFAULT_RENDERER_CLASSES&#39;: (&#39;rest_framework.renderers.BrowsableAPIRenderer&#39;,
                               &#39;rest_framework.renderers.JSONRenderer&#39;,
                               &#39;rest_framework_xml.renderers.XMLRenderer&#39;),
- &#39;PAGE_SIZE&#39;: 10}</pre></td>
+ &#39;PAGE_SIZE&#39;: 10,
+ &#39;TEST_REQUEST_DEFAULT_FORMAT&#39;: &#39;json&#39;}</pre></td>
         </tr>
       
         <tr>
-          <td>FIXTURE_DIRS</td>
+          <td>SECURE_REDIRECT_EXEMPT</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>THOUSAND_SEPARATOR</td>
+          <td class="code"><pre>&#39;,&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_INCLUDE_ROOTS</td>
           <td class="code"><pre>()</pre></td>
         </tr>
       
         <tr>
-          <td>BUGSNAG</td>
-          <td class="code"><pre>{&#39;api_key&#39;: &#39;8a08e874bc6ad2bb421467ee9e363180&#39;,
- &#39;project_root&#39;: Path(&#39;/Users/dbuchan/Code/analytics_automated&#39;)}</pre></td>
+          <td>LANGUAGE_CODE</td>
+          <td class="code"><pre>&#39;en-us&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_FILE_PATH</td>
+          <td>SETTINGS_PATH</td>
+          <td class="code"><pre>Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/analytics_automated_project/settings&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_DIRECTORY_PERMISSIONS</td>
           <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>DEBUG_PROPAGATE_EXCEPTIONS</td>
-          <td class="code"><pre>False</pre></td>
+          <td>INTERNAL_IPS</td>
+          <td class="code"><pre>(&#39;::1&#39;, &#39;127.0.0.1&#39;)</pre></td>
         </tr>
       
         <tr>
-          <td>BASE_DIR</td>
-          <td class="code"><pre>Path(&#39;/Users/dbuchan/Code/analytics_automated&#39;)</pre></td>
+          <td>CSRF_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>EMAIL_USE_TLS</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_AGE</td>
-          <td class="code"><pre>31449600</pre></td>
-        </tr>
-      
-        <tr>
-          <td>X_FRAME_OPTIONS</td>
-          <td class="code"><pre>&#39;SAMEORIGIN&#39;</pre></td>
+          <td>FILE_UPLOAD_HANDLERS</td>
+          <td class="code"><pre>(&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;,
+ &#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;)</pre></td>
         </tr>
       
         <tr>
@@ -1763,33 +2050,236 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
+          <td>PASSWORD_RESET_TIMEOUT_DAYS</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_BROWSER_XSS_FILTER</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_USE_SSL</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>WSGI_APPLICATION</td>
+          <td class="code"><pre>&#39;analytics_automated_project.wsgi.application&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEST_NON_SERIALIZED_APPS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DISALLOWED_USER_AGENTS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SSL_CERTFILE</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ROOT_URLCONF</td>
+          <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MESSAGE_TAGS</td>
+          <td class="code"><pre>{25: &#39;alert-success success&#39;,
+ 30: &#39;alert-warning warning&#39;,
+ 40: &#39;alert-danger error&#39;}</pre></td>
+        </tr>
+      
+        <tr>
           <td>SESSION_EXPIRE_AT_BROWSER_CLOSE</td>
           <td class="code"><pre>False</pre></td>
         </tr>
       
         <tr>
-          <td>MONTH_DAY_FORMAT</td>
-          <td class="code"><pre>&#39;F j&#39;</pre></td>
+          <td>MEDIA_ROOT</td>
+          <td class="code"><pre>Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/submissions&#39;)</pre></td>
         </tr>
       
         <tr>
-          <td>STATICFILES_DIRS</td>
-          <td class="code"><pre>[Path(&#39;/Users/dbuchan/Code/analytics_automated/static&#39;)]</pre></td>
+          <td>SESSION_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;sessionid&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>LANGUAGE_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;django_language&#39;</pre></td>
+          <td>FIXTURE_DIRS</td>
+          <td class="code"><pre>()</pre></td>
         </tr>
       
         <tr>
-          <td>FIRST_DAY_OF_WEEK</td>
-          <td class="code"><pre>0</pre></td>
+          <td>LANGUAGES_BIDI</td>
+          <td class="code"><pre>(&#39;he&#39;, &#39;ar&#39;, &#39;fa&#39;, &#39;ur&#39;)</pre></td>
         </tr>
       
         <tr>
-          <td>TIME_ZONE</td>
-          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+          <td>BASE_SECRETS_PATH</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_TIMEOUT</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BUGSNAG</td>
+          <td class="code"><pre>{&#39;api_key&#39;: &#39;8a08e874bc6ad2bb42167ee9e363180&#39;,
+ &#39;project_root&#39;: Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;)}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y, P&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;analytics_automated_project.settings.dev&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_AGE</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_TIMEZONE</td>
+          <td class="code"><pre>&#39;Europe/London&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_PATH</td>
+          <td class="code"><pre>Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/templates&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BASE_DIR</td>
+          <td class="code"><pre>Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_PASSWORD</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FORCE_SCRIPT_NAME</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_KEY_PREFIX</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_L10N</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_FILE_STORAGE</td>
+          <td class="code"><pre>&#39;django.core.files.storage.FileSystemStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_USE_TLS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATABASE_ROUTERS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_THOUSAND_SEPARATOR</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%Y-%m-%d&#39;,
+ &#39;%m/%d/%Y&#39;,
+ &#39;%m/%d/%y&#39;,
+ &#39;%b %d %Y&#39;,
+ &#39;%b %d, %Y&#39;,
+ &#39;%d %b %Y&#39;,
+ &#39;%d %b, %Y&#39;,
+ &#39;%B %d %Y&#39;,
+ &#39;%B %d, %Y&#39;,
+ &#39;%d %B %Y&#39;,
+ &#39;%d %B, %Y&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_TZ</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BROKER_URL</td>
+          <td class="code"><pre>&#39;amqp://guest@localhost//&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_REDIRECT_URL</td>
+          <td class="code"><pre>&#39;/accounts/profile/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_URL</td>
+          <td class="code"><pre>&#39;/accounts/login/&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1883,185 +2373,13 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>TEMPLATE_STRING_IF_INVALID</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
+          <td>EMAIL_BACKEND</td>
+          <td class="code"><pre>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>FILE_UPLOAD_TEMP_DIR</td>
+          <td>STATIC_ROOT</td>
           <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATICFILES_FINDERS</td>
-          <td class="code"><pre>(&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
- &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_HTTPONLY</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_SERIALIZER</td>
-          <td class="code"><pre>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MEDIA_URL</td>
-          <td class="code"><pre>&#39;/submissions/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_DEBUG</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_FILE_STORAGE</td>
-          <td class="code"><pre>&#39;django.core.files.storage.FileSystemStorage&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_SSL_KEYFILE</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>BASE_SECRETS_PATH</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_SECURE</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGE_COOKIE_DOMAIN</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATIC_PATH</td>
-          <td class="code"><pre>Path(&#39;/Users/dbuchan/Code/analytics_automated/static&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_INDEX_TABLESPACE</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DATABASE_ROUTERS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>YEAR_MONTH_FORMAT</td>
-          <td class="code"><pre>&#39;F Y&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_FROM_EMAIL</td>
-          <td class="code"><pre>&#39;webmaster@localhost&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ABSOLUTE_URL_OVERRIDES</td>
-          <td class="code"><pre>{}</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGE_CODE</td>
-          <td class="code"><pre>&#39;en-us&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SECURE_CONTENT_TYPE_NOSNIFF</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MEDIA_ROOT</td>
-          <td class="code"><pre>Path(&#39;/Users/dbuchan/Code/analytics_automated/submissions&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_DOMAIN</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_CHARSET</td>
-          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_ETAGS</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SHORT_DATETIME_FORMAT</td>
-          <td class="code"><pre>&#39;m/d/Y P&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SERVER_EMAIL</td>
-          <td class="code"><pre>&#39;root@localhost&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_THOUSAND_SEPARATOR</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGOUT_URL</td>
-          <td class="code"><pre>&#39;/accounts/logout/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_HANDLERS</td>
-          <td class="code"><pre>(&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;,
- &#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_HOST_PASSWORD</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;csrftoken&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEST_NON_SERIALIZED_APPS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ALLOWED_HOSTS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>WSGI_APPLICATION</td>
-          <td class="code"><pre>&#39;analytics_automated_project.wsgi.application&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_ENGINE</td>
-          <td class="code"><pre>&#39;django.contrib.sessions.backends.db&#39;</pre></td>
         </tr>
       
         <tr>
@@ -2070,58 +2388,68 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>STATIC_URL</td>
-          <td class="code"><pre>&#39;/static/&#39;</pre></td>
+          <td>TIME_FORMAT</td>
+          <td class="code"><pre>&#39;P&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>EMAIL_PORT</td>
-          <td class="code"><pre>25</pre></td>
+          <td>SECURE_HSTS_SECONDS</td>
+          <td class="code"><pre>0</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;sessionid&#39;</pre></td>
+          <td>USE_X_FORWARDED_HOST</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_MAX_MEMORY_SIZE</td>
+          <td class="code"><pre>2621440</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_CONTENT_TYPE_NOSNIFF</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;django_language&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_PERMISSIONS</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>APPEND_SLASH</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEV_SECRETS_PATH</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_INDEX_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_SECONDS</td>
+          <td class="code"><pre>600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_STRING_IF_INVALID</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
         </tr>
       
         <tr>
           <td>FORMAT_MODULE_PATH</td>
           <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_EXCEPTION_REPORTER_FILTER</td>
-          <td class="code"><pre>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DAB_FIELD_RENDERER</td>
-          <td class="code"><pre>&#39;django_admin_bootstrapped.renderers.BootstrapFieldRenderer&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>AUTHENTICATION_BACKENDS</td>
-          <td class="code"><pre>(&#39;django.contrib.auth.backends.ModelBackend&#39;,)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_SSL_CERTFILE</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOCALE_PATHS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_PATH</td>
-          <td class="code"><pre>Path(&#39;/Users/dbuchan/Code/analytics_automated/templates&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SETTINGS_PATH</td>
-          <td class="code"><pre>Path(&#39;/Users/dbuchan/Code/analytics_automated/analytics_automated_project/settings&#39;)</pre></td>
         </tr>
       
         <tr>
@@ -2136,98 +2464,18 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>SECURE_HSTS_SECONDS</td>
-          <td class="code"><pre>0</pre></td>
+          <td>CACHES</td>
+          <td class="code"><pre>{&#39;default&#39;: {&#39;BACKEND&#39;: &#39;django.core.cache.backends.locmem.LocMemCache&#39;}}</pre></td>
         </tr>
       
         <tr>
-          <td>SECURE_REDIRECT_EXEMPT</td>
-          <td class="code"><pre>[]</pre></td>
+          <td>STATICFILES_DIRS</td>
+          <td class="code"><pre>[Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/static&#39;)]</pre></td>
         </tr>
       
         <tr>
-          <td>PASSWORD_RESET_TIMEOUT_DAYS</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DECIMAL_SEPARATOR</td>
-          <td class="code"><pre>&#39;.&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MESSAGE_STORAGE</td>
-          <td class="code"><pre>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_SECURE</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATIC_ROOT</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>AUTH_USER_MODEL</td>
-          <td class="code"><pre>&#39;auth.User&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FORCE_SCRIPT_NAME</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_HOST_USER</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_DOMAIN</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_PERMISSIONS</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_TZ</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGES_BIDI</td>
-          <td class="code"><pre>(&#39;he&#39;, &#39;ar&#39;, &#39;fa&#39;, &#39;ur&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATICFILES_STORAGE</td>
-          <td class="code"><pre>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_DIRS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_SUBJECT_PREFIX</td>
-          <td class="code"><pre>&#39;[Django] &#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_DIRECTORY_PERMISSIONS</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>THOUSAND_SEPARATOR</td>
-          <td class="code"><pre>&#39;,&#39;</pre></td>
+          <td>CELERYD_PREFETCH_MULTIPLIER</td>
+          <td class="code"><pre>1</pre></td>
         </tr>
       
         <tr>
@@ -2245,13 +2493,93 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>DEFAULT_CONTENT_TYPE</td>
-          <td class="code"><pre>&#39;text/html&#39;</pre></td>
+          <td>DATABASES</td>
+          <td class="code"><pre>{&#39;default&#39;: {&#39;ATOMIC_REQUESTS&#39;: False,
+             &#39;AUTOCOMMIT&#39;: True,
+             &#39;CONN_MAX_AGE&#39;: 0,
+             &#39;ENGINE&#39;: &#39;django.db.backends.postgresql_psycopg2&#39;,
+             &#39;HOST&#39;: &#39;localhost&#39;,
+             &#39;NAME&#39;: &#39;analytics_automated_db&#39;,
+             &#39;OPTIONS&#39;: {},
+             &#39;PASSWORD&#39;: &#39;********************&#39;,
+             &#39;PORT&#39;: &#39;5432&#39;,
+             &#39;TEST&#39;: {&#39;CHARSET&#39;: None,
+                      &#39;COLLATION&#39;: None,
+                      &#39;MIRROR&#39;: None,
+                      &#39;NAME&#39;: None},
+             &#39;TIME_ZONE&#39;: &#39;UTC&#39;,
+             &#39;USER&#39;: &#39;a_a_user&#39;}}</pre></td>
         </tr>
       
         <tr>
-          <td>EMAIL_HOST</td>
-          <td class="code"><pre>&#39;localhost&#39;</pre></td>
+          <td>TEMPLATE_LOADERS</td>
+          <td class="code"><pre>(&#39;django.template.loaders.filesystem.Loader&#39;,
+ &#39;django.template.loaders.app_directories.Loader&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_EMAIL</td>
+          <td class="code"><pre>&#39;root@localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGING</td>
+          <td class="code"><pre>{}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>X_FRAME_OPTIONS</td>
+          <td class="code"><pre>&#39;SAMEORIGIN&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_TEMP_DIR</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_HOSTS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_ZONE</td>
+          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FIRST_DAY_OF_WEEK</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>INSTALLED_APPS</td>
+          <td class="code"><pre>(&#39;django_admin_bootstrapped&#39;,
+ &#39;django.contrib.admin&#39;,
+ &#39;django.contrib.auth&#39;,
+ &#39;django.contrib.contenttypes&#39;,
+ &#39;django.contrib.sessions&#39;,
+ &#39;django.contrib.messages&#39;,
+ &#39;django.contrib.staticfiles&#39;,
+ &#39;analytics_automated&#39;,
+ &#39;rest_framework&#39;,
+ &#39;djcelery&#39;,
+ &#39;debug_toolbar&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ABSOLUTE_URL_OVERRIDES</td>
+          <td class="code"><pre>{}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_FAILURE_VIEW</td>
+          <td class="code"><pre>&#39;django.views.csrf.csrf_failure&#39;</pre></td>
         </tr>
       
         <tr>
@@ -2260,28 +2588,18 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>SECRET_KEY</td>
+          <td>DECIMAL_SEPARATOR</td>
+          <td class="code"><pre>&#39;.&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PASSWORD_HASHERS</td>
           <td class="code"><pre>&#39;********************&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>LOGIN_URL</td>
-          <td class="code"><pre>&#39;/accounts/login/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SILENCED_SYSTEM_CHECKS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_CHARSET</td>
-          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MANAGERS</td>
-          <td class="code"><pre>()</pre></td>
+          <td>SECRET_KEY</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
         </tr>
       
         <tr>
@@ -2301,42 +2619,74 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>INSTALLED_APPS</td>
-          <td class="code"><pre>(&#39;django_admin_bootstrapped&#39;,
- &#39;django.contrib.admin&#39;,
- &#39;django.contrib.auth&#39;,
- &#39;django.contrib.contenttypes&#39;,
- &#39;django.contrib.sessions&#39;,
- &#39;django.contrib.messages&#39;,
- &#39;django.contrib.staticfiles&#39;,
- &#39;analytics_automated&#39;,
- &#39;rest_framework&#39;,
- &#39;debug_toolbar&#39;)</pre></td>
+          <td>DAB_FIELD_RENDERER</td>
+          <td class="code"><pre>&#39;django_admin_bootstrapped.renderers.BootstrapFieldRenderer&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>LANGUAGE_COOKIE_AGE</td>
-          <td class="code"><pre>None</pre></td>
+          <td>STATIC_PATH</td>
+          <td class="code"><pre>Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/static&#39;)</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
+          <td>MONTH_DAY_FORMAT</td>
+          <td class="code"><pre>&#39;F j&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>DATE_INPUT_FORMATS</td>
-          <td class="code"><pre>(&#39;%Y-%m-%d&#39;,
- &#39;%m/%d/%Y&#39;,
- &#39;%m/%d/%y&#39;,
- &#39;%b %d %Y&#39;,
- &#39;%b %d, %Y&#39;,
- &#39;%d %b %Y&#39;,
- &#39;%d %b, %Y&#39;,
- &#39;%B %d %Y&#39;,
- &#39;%B %d, %Y&#39;,
- &#39;%d %B %Y&#39;,
- &#39;%d %B, %Y&#39;)</pre></td>
+          <td>NUMBER_GROUPING</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_URL</td>
+          <td class="code"><pre>&#39;/static/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>AUTHENTICATION_BACKENDS</td>
+          <td class="code"><pre>(&#39;django.contrib.auth.backends.ModelBackend&#39;,)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATES</td>
+          <td class="code"><pre>[{&#39;APP_DIRS&#39;: True,
+  &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,
+  &#39;DIRS&#39;: [Path(&#39;/cs/research/bioinf/home1/green/dbuchan/Code/analytics_automated/templates&#39;)],
+  &#39;OPTIONS&#39;: {&#39;context_processors&#39;: [&#39;django.template.context_processors.debug&#39;,
+                                     &#39;django.template.context_processors.request&#39;,
+                                     &#39;django.contrib.auth.context_processors.auth&#39;,
+                                     &#39;django.contrib.messages.context_processors.messages&#39;]}}]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEBUG_PROPAGATE_EXCEPTIONS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_DEBUG</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_PORT</td>
+          <td class="code"><pre>25</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MESSAGE_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_EXCEPTION_REPORTER_FILTER</td>
+          <td class="code"><pre>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_ENABLE_UTC</td>
+          <td class="code"><pre>True</pre></td>
         </tr>
       
         <tr>
@@ -2345,17 +2695,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>TEST_RUNNER</td>
-          <td class="code"><pre>&#39;django.test.runner.DiscoverRunner&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEV_SECRETS_PATH</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ADMINS</td>
+          <td>TEMPLATE_DIRS</td>
           <td class="code"><pre>()</pre></td>
         </tr>
       
@@ -2365,13 +2705,8 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>USE_L10N</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGIN_REDIRECT_URL</td>
-          <td class="code"><pre>&#39;/accounts/profile/&#39;</pre></td>
+          <td>EMAIL_SUBJECT_PREFIX</td>
+          <td class="code"><pre>&#39;[Django] &#39;</pre></td>
         </tr>
       
         <tr>
@@ -2380,36 +2715,104 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
         </tr>
       
         <tr>
-          <td>MESSAGE_TAGS</td>
-          <td class="code"><pre>{25: &#39;alert-success success&#39;,
- 30: &#39;alert-warning warning&#39;,
- 40: &#39;alert-danger error&#39;}</pre></td>
+          <td>SESSION_CACHE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>EMAIL_TIMEOUT</td>
-          <td class="code"><pre>None</pre></td>
+          <td>AUTH_USER_MODEL</td>
+          <td class="code"><pre>&#39;auth.User&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>TEMPLATE_LOADERS</td>
-          <td class="code"><pre>(&#39;django.template.loaders.filesystem.Loader&#39;,
- &#39;django.template.loaders.app_directories.Loader&#39;)</pre></td>
+          <td>SHORT_DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;m/d/Y P&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>USE_X_FORWARDED_HOST</td>
+          <td>YEAR_MONTH_FORMAT</td>
+          <td class="code"><pre>&#39;F Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_HSTS_INCLUDE_SUBDOMAINS</td>
           <td class="code"><pre>False</pre></td>
         </tr>
       
         <tr>
-          <td>TIME_FORMAT</td>
-          <td class="code"><pre>&#39;P&#39;</pre></td>
+          <td>SESSION_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>DATE_FORMAT</td>
-          <td class="code"><pre>&#39;N j, Y&#39;</pre></td>
+          <td>LOGOUT_URL</td>
+          <td class="code"><pre>&#39;/accounts/logout/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGING_CONFIG</td>
+          <td class="code"><pre>&#39;logging.config.dictConfig&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_FINDERS</td>
+          <td class="code"><pre>(&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
+ &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_SSL_REDIRECT</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_ENGINE</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.backends.db&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MEDIA_URL</td>
+          <td class="code"><pre>&#39;/submissions/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;csrftoken&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_AGE</td>
+          <td class="code"><pre>1209600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST</td>
+          <td class="code"><pre>&#39;localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%H:%M:%S&#39;, &#39;%H:%M:%S.%f&#39;, &#39;%H:%M&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_PROXY_SSL_HEADER</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;text/html&#39;</pre></td>
         </tr>
       
     </tbody>
@@ -2438,7 +2841,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 
 <script src="/static/debug_toolbar/js/toolbar.js"></script>
 <div id="djDebug" style="display:none;" dir="ltr"
-     data-store-id="bad4492994aa456d9c2fe40b8176a446" data-render-panel-url="/__debug__/render_panel/"
+     data-store-id="e5c35d335db34f05a2c56d35aa0abdaa" data-render-panel-url="/__debug__/render_panel/"
      >
 	<div style="display:none;" id="djDebugToolbar">
 		<ul id="djDebugPanelList">
@@ -2470,7 +2873,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 					Time
 					
 					
-						<br /><small>CPU: 186.93ms (191.67ms)</small>
+						<br /><small>CPU: 326.34ms (498.83ms)</small>
 					
 					
 					
@@ -2534,7 +2937,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 					SQL
 					
 					
-						<br /><small>2 queries in 2.02ms</small>
+						<br /><small>8 queries in 7.03ms</small>
 					
 					
 					
@@ -2598,7 +3001,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 					Signals
 					
 					
-						<br /><small>12 receivers of 12 signals</small>
+						<br /><small>14 receivers of 12 signals</small>
 					
 					
 					
@@ -2614,7 +3017,7 @@ Exception Value: &#39;Request&#39; object has no attribute &#39;FILE&#39;
 					Logging
 					
 					
-						<br /><small>0 messages</small>
+						<br /><small>2 messages</small>
 					
 					
 					

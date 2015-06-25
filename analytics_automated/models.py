@@ -47,7 +47,7 @@ class Backend(models.Model):
 
 
 class Job(models.Model):
-    name = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=64, unique=True, null=False, blank=False, db_index=True)
     runnable = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
@@ -57,7 +57,7 @@ class Job(models.Model):
 
 
 class Task(models.Model):
-    backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True)
+    backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True, related_name='tasks')
     name = models.CharField(max_length=64, unique=True, null=False, blank=False)
     in_glob = models.CharField(max_length=64, null=False, blank=False)
     out_glob = models.CharField(max_length=64, null=False, blank=False)

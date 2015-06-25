@@ -183,8 +183,12 @@ add a superuser with your user name
     * `> python manage.py runserver --settings=analytics_automated_project.settings.dev`
 20. Start RabbitMQ (making sure your path to erl is good)
     * `> rabbitmq-server`
-21. You probably want to read something about celery and django
+21. Get Celery going. You probably want to read something about celery and
+django
 http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/
+For dev purposes we can start the workers with:
+    * `> export PYTHONPATH=~/Code/analytics_automated/analytics_automated:$PYTHONPATH`
+    * `> celery --app=analytics_automated_project.celery:app worker --loglevel=INFO`
 21. Test the code also defining the settings you are using
     * `> python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
