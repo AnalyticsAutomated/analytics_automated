@@ -85,9 +85,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 chain += "task_runner.si('%s') | " % step.task.name
             chain = chain[:-3]
             chain += ')().delay()'
-            print(chain)
-            eval(chain)
-
+            try:
+                eval(chain)
+            except SyntaxError:
+                print('Invalid string eval on: ' + chain)
             # 3. Build Celery chain
             # 4. Call delay on the Celery chain
             task_runner.delay(s.job)

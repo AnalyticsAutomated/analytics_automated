@@ -97,6 +97,18 @@ class SubmissionTest(TestCase):
         """
             simple data loading test
         """
-        j = JobFactory.create()
         s = SubmissionFactory.create()
         self.assertEqual((Submission.objects.count() == 1), True)
+
+
+class ParameterTest(TestCase):
+
+    def test_parameter_submission(self):
+        p = ParameterFactory.create()
+        self.assertEqual((Parameter.objects.count() == 1), True)
+
+    def test_rest_alias_takes_task_name(self):
+        b = BackendFactory.create()
+        t = TaskFactory.create(backend=b, name="test")
+        p = ParameterFactory.create(task=t, rest_alias="alias")
+        self.assertEqual(p.rest_alias == t.name+"_alias", True)

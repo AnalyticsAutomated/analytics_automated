@@ -92,8 +92,12 @@ class Parameter(models.Model):
     def __str__(self):
         return self.flag
 
+    def save(self, *args, **kwargs):
+        self.rest_alias = str(self.task)+"_"+self.rest_alias
+        super(Parameter, self).save(*args, **kwargs)
 
-class Submission(models.Model):
+
+class Submission(TimeStampedModel):
     SUBMITTED = 0  # a job has been submitted but no worker has claimed it
     RUNNING = 1    # job submitted and worker has claimed it
     COMPLETE = 2   # All tasks complete and results available
@@ -117,8 +121,6 @@ class Submission(models.Model):
     message = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
     claimed = models.BooleanField(null=False, default=False)
     worker_id = models.IntegerField(blank=True, null=True, default=None)
-    # posted_on = models.DateTimeField(auto_now_add=True)
-    # updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.pk)

@@ -60,7 +60,7 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('job', 'submission_name', 'UUID', 'email', 'ip',
-                    'status', 'claimed', 'worker_id')
+                    'status', 'claimed', 'worker_id', 'created', 'modified')
 
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)

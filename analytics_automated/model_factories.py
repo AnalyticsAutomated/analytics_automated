@@ -10,7 +10,7 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from .models import Backend, Task, Job, Step, Submission
+from .models import Backend, Task, Job, Step, Submission, Parameter
 
 TEST_DATA = settings.BASE_DIR.child("static").child("files").child("file1.txt")
 
@@ -71,3 +71,14 @@ class SubmissionFactory(factory.DjangoModelFactory):
     class Meta:
         model = Submission
         django_get_or_create = ('submission_name',)
+
+
+class ParameterFactory(factory.DjangoModelFactory):
+    task = TaskFactory.create()
+    flag = factory.LazyAttribute(lambda t: random_string())
+    default = factory.LazyAttribute(lambda t: random_string())
+    bool_valued = True
+    rest_alias = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = Parameter
