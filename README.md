@@ -4,6 +4,8 @@ Current state: Embryonic
 
 Middleware layer for exposing analytics and distributed computing jobs as web services.
 
+It's easy for Scientists, Researchers, Data Scientists and analysts to build models but more often than not they don't get turned in to useful and usable services. This middleware is targeted at streamlining the process for turning predictive software into a service for users.
+
 Essentially users can send data as a REST call to a pre-configured analysis or
 prediction task and after some asynchronous processing they can come back and
 get the results via REST. POSTing data and starting a worker is done. libraries
