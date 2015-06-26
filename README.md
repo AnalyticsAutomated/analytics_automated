@@ -5,8 +5,9 @@ Current state: Embryonic
 Middleware layer for exposing analytics and distributed computing jobs as web services.
 
 Essentially users can send data as a REST call to a pre-configured analysis or
-prediction job and after some asynchronous processing they can come back and
-get the results.
+prediction task and after some asynchronous processing they can come back and
+get the results via REST. POSTing data and starting a worker is done. libraries
+for the differing backends and the ability to GET results no yet implemented.
 
 # Requirements
 
