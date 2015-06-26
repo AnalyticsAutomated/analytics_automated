@@ -120,7 +120,8 @@ class Submission(TimeStampedModel):
     status = models.IntegerField(null=False, blank=False, choices=STATUS_CHOICES, default=SUBMITTED)
     message = models.CharField(max_length=256, null=True, blank=True, default="Submitted")
     claimed = models.BooleanField(null=False, default=False)
-    worker_id = models.IntegerField(blank=True, null=True, default=None)
+    worker_id = models.CharField(max_length=64, blank=True, null=True, default=None)
+    step_id = models.IntegerField(null=True, blank=False)
 
     def __str__(self):
         return str(self.pk)

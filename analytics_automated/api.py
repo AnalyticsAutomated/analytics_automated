@@ -82,7 +82,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 2. Order tasks by their step id
             chain = "("
             for step in steps:
-                chain += "task_runner.si('%s','%s') | " % (s.UUID, step.task.name)
+                chain += "task_runner.si('%s','%i','%s') | " % (s.UUID, step.ordering, step.task.name)
             chain = chain[:-3]
             chain += ')()'
             #print(chain)
