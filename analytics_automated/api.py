@@ -82,16 +82,16 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 2. Order tasks by their step id
             chain = "("
             for step in steps:
-                chain += "task_runner.si('%s') | " % step.task.name
+                chain += "task_runner.si('%s','%s') | " % (s.UUID, step.task.name)
             chain = chain[:-3]
-            chain += ')().delay()'
+            chain += ')()'
+            #print(chain)
             try:
                 eval(chain)
             except SyntaxError:
                 print('Invalid string eval on: ' + chain)
             # 3. Build Celery chain
             # 4. Call delay on the Celery chain
-            task_runner.delay(s.job)
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)

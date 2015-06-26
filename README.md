@@ -1,7 +1,27 @@
 # automated_analytics
-Middleware layer for exposing analytics and distributed computing jobs as web services
+
+Current state: Embryonic
+
+Middleware layer for exposing analytics and distributed computing jobs as web services.
+
+Essentially users can send data as a REST call to a pre-configured analysis or
+prediction job and after some asynchronous processing they can come back and
+get the results.
+
+# Requirements
+
+You will need
+
+* python3
+* postgres
+* rabbitmq
+* django
+* celery
 
 ## Setup of automated analytics
+
+Notes for our group members who may be less than familiar with setting up python
+development environments.
 
 ###Setup for a Mac which you control:
 
