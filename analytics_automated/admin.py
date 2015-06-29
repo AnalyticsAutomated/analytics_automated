@@ -26,7 +26,7 @@ class BackendAdmin(admin.ModelAdmin):
 
 class TaskAdmin(admin.ModelAdmin):
     def processing_backend(self, obj):
-        url = reverse('admin:analytics_automated_backend_change', args=(obj.pk,))
+        url = reverse('admin:analytics_automated_backend_change', args=(obj.backend.pk,))
         return '<a href="%s">%s</a>' % (url, obj.backend)
     processing_backend.allow_tags = True
 
@@ -59,8 +59,9 @@ class JobAdmin(admin.ModelAdmin):
 
 
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'job', 'submission_name', 'UUID', 'email', 'ip',
-                    'status', 'claimed', 'worker_id', 'message', 'step_id', 'created', 'modified')
+    list_display = ('pk', 'job', 'submission_name', 'email', 'UUID', 'ip',
+                    'status', 'claimed', 'message', 'step_id', 'created',
+                    'modified')
 
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)

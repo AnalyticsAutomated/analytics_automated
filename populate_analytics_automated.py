@@ -26,24 +26,26 @@ def populate():
     Task.objects.all().delete()
     Step.objects.all().delete()
     Submission.objects.all().delete()
+    Parameter.objects.all().delete()
 
-    this_backend = add_backend(name="grid1",
+    this_backend = add_backend(name="local1",
                                server_type=Backend.LOCALHOST,
                                ip="127.0.0.1",
                                port=80,
                                root_path="/tmp/")
-
+    print(this_backend.pk)
     this_task = add_task(backend=this_backend,
                          name="task1",
                          in_glob=".in",
                          out_glob=".out",
                          executable="/usr/bin/ls")
-
+    print(this_backend.pk)
     that_task = add_task(backend=this_backend,
                          name="task2",
                          in_glob=".out",
                          out_glob=".final",
                          executable="/usr/bin/rm")
+    print(this_backend.pk)
     this_param = add_parameter(task=this_task,
                                flag="-lah",
                                default=None,
@@ -78,6 +80,7 @@ def populate():
 
 
 def add_backend(name, server_type, ip, port, root_path):
+    print("Hello")
     b = Backend.objects.create(name=name)
     b.server_type = server_type
     b.ip = ip

@@ -1,4 +1,4 @@
-# automated_analytics
+# analytics_automated
 
 Current state: Embryonic
 
@@ -21,7 +21,7 @@ You will need
 * django
 * celery
 
-## Setup of automated analytics
+## Setup of analytics automated
 
 Notes for our group members who may be less than familiar with setting up python
 development environments.
@@ -205,7 +205,7 @@ add a superuser with your user name
 19. Start the server by defining the settings you are using
     * `> python manage.py runserver --settings=analytics_automated_project.settings.dev`
 20. Start RabbitMQ (making sure your path to erl is good)
-    * `> rabbitmq-server`
+    * `> rabbitmq-server start`
 21. Get Celery going. You probably want to read something about celery and
 django
 http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/
@@ -215,8 +215,8 @@ For dev purposes we can start the workers with:
 21. Test the code also defining the settings you are using
     * `> python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
 
-NEXT UP TODO
-============
+NEXT UP TODO/REMINDERS
+======================
 1. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
 If your task is idempotent you can set the acks_late option to have the worker acknowledge the message after the task returns instead.
 
@@ -229,3 +229,13 @@ Autoscaling
 4. Write decent docs in rst format
 5. Solution for file storage in staging/production???
 6. Consider Flower for celery monitoring
+7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+8.                       requires.io for the dependencies
+9. Disable XML support
+10. UUID field
+11. Before production find all prints and convert to LOG statements, add LOG statements to
+    all try exceptions blocks. Send ERROR and higher logs to email AND slack, don't forget
+    logrotate
+12. Fuck signals
+13. Mock celery, for the love of god (and later mock the backends)
+14. Investigate cached_property
