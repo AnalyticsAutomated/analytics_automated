@@ -33,19 +33,16 @@ def populate():
                                ip="127.0.0.1",
                                port=80,
                                root_path="/tmp/")
-    print(this_backend.pk)
     this_task = add_task(backend=this_backend,
                          name="task1",
                          in_glob=".in",
                          out_glob=".out",
                          executable="/usr/bin/ls")
-    print(this_backend.pk)
     that_task = add_task(backend=this_backend,
                          name="task2",
                          in_glob=".out",
                          out_glob=".final",
                          executable="/usr/bin/rm")
-    print(this_backend.pk)
     this_param = add_parameter(task=this_task,
                                flag="-lah",
                                default=None,

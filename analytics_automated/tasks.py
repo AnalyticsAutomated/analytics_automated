@@ -7,6 +7,7 @@ from celery import shared_task
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 
+
 @shared_task
 def wait(t):
     """
@@ -33,7 +34,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         Also needs to give control to whichever library supports the backend
         in question.
         Once the data is on the backend this task then just watches the
-        backend until the job is done.
+        backend until the job is done.d
         Results are pushed to the frontend db but because they are files
         we just use the celery results for messaging and the results table
         for the files
@@ -46,7 +47,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                             step_id,
                             self.request.id,
                             'Running step :' + step_id)
-    if t.backend.pk == Backend.LOCALHOST:
+    if t.backend.server_type == Backend.LOCALHOST:
         print("Running at Localhost")
         time.sleep(70)
         # 1. Make temp dir for results using the backend path provided and
