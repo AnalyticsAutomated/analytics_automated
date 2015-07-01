@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import time
+from commandRunner.localRunner import *
 
 from celery import Celery
 from celery import shared_task
@@ -41,15 +42,37 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     """
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
+    data = ''
+    if current_step == 0:
+        s.input_data.open(mode='r')
+        for line in s.input_data:
+            data += line.decode(encoding='UTF-8')
+        s.input_data.close()
+    else:
+        pass  # look in results for the previous output
+
     # update submission tracking to note that this is running
     update_submission_state(s, True,
                             Submission.RUNNING,
                             step_id,
                             self.request.id,
-                            'Running step :' + step_id)
+                            'Running step :' + str(step_id))
     if t.backend.server_type == Backend.LOCALHOST:
         print("Running at Localhost")
-        time.sleep(70)
+        # if this is the first task in a chain get the input_data from submission
+        # if this is not the first task get the input_data from the results
+        run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                          in_glob=t.in_glob, out_glob=t.out_glob,
+                          command=t.executable, input_data=data)
+        run.prepare()
+        print(run.command)
+        exit_status = run.run_cmd()
+        if exit_status == 0:
+            print(run.output_data)
+            run.tidy()
+            # push the output_data to the results table as a file
+            # update state on the submission table
+
         # 1. Make temp dir for results using the backend path provided and
         # the job uuid
         # 2. get the data and write it to a file in this temp dir
@@ -67,7 +90,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                             Submission.RUNNING,
                             step_id,
                             self.request.id,
-                            'Completed step :' + step_id)
+                            'Completed step :' + str(step_id))
 
 
 def update_submission_state(s, claim, status, step, id, message):

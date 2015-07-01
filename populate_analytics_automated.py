@@ -37,12 +37,12 @@ def populate():
                          name="task1",
                          in_glob=".in",
                          out_glob=".out",
-                         executable="/usr/bin/ls")
+                         executable="/usr/bin/ls > $OUTPUT")
     that_task = add_task(backend=this_backend,
                          name="task2",
                          in_glob=".out",
                          out_glob=".final",
-                         executable="/usr/bin/rm")
+                         executable='/usr/bin/grep "/" $INPUT > $OUTPUT || :')
     this_param = add_parameter(task=this_task,
                                flag="-lah",
                                default=None,
@@ -77,7 +77,6 @@ def populate():
 
 
 def add_backend(name, server_type, ip, port, root_path):
-    print("Hello")
     b = Backend.objects.create(name=name)
     b.server_type = server_type
     b.ip = ip
