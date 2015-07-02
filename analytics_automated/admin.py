@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 
-from .models import Backend, Job, Task, Step, Parameter
-from .models import Submission, Result
+from .models import Backend, Job, Task, Step, Parameter, Result
+from .models import Submission
 
 
 class ParameterInline(admin.TabularInline):
@@ -63,15 +63,22 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'status', 'claimed', 'message', 'step_id', 'created',
                     'modified')
 
-
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('name', 'submission', 'task', 'step', 'message')
+    list_display = ('pk', 'name', 'step', 'message', 'submission_name',
+                    'submission_uuid')
 
+    def submission_name(self, obj):
+        url = reverse('admin:analytics_automated_submission_change', args=(obj.submission.pk,))
+        return '<a href="%s">%s</a>' % (url, obj.submission.submission_name)
+
+    def submission_uuid(self, obj):
+        return(obj.submission.UUID)
+
+    submission_name.allow_tags = True
+# Register your models here.
 
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
-admin.site.register(Result)
-
-# Register your models here.
+admin.site.register(Result, ResultAdmin)
