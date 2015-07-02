@@ -6,6 +6,8 @@ from commandRunner.localRunner import *
 from celery import Celery
 from celery import shared_task
 
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 from .models import Backend, Job, Submission, Task, Result, Parameter
 
 
@@ -43,6 +45,8 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     data = ''
+    # if this is the first task in a chain get the input_data from submission
+    # if this is not the first task get the input_data from the results
     if current_step == 0:
         s.input_data.open(mode='r')
         for line in s.input_data:
@@ -57,37 +61,40 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                             step_id,
                             self.request.id,
                             'Running step :' + str(step_id))
+
+    # Now we run the task handing off the actual running to the commandRunner
+    # library
+    run = None
     if t.backend.server_type == Backend.LOCALHOST:
         print("Running at Localhost")
-        # if this is the first task in a chain get the input_data from submission
-        # if this is not the first task get the input_data from the results
         run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                           in_glob=t.in_glob, out_glob=t.out_glob,
                           command=t.executable, input_data=data)
-        run.prepare()
-        print(run.command)
-        exit_status = run.run_cmd()
-        if exit_status == 0:
-            print(run.output_data)
-            run.tidy()
-            # push the output_data to the results table as a file
-            # update state on the submission table
 
-        # 1. Make temp dir for results using the backend path provided and
-        # the job uuid
-        # 2. get the data and write it to a file in this temp dir
-        # 3.
-    # if t.backend.pk == Backend.GRIDENGINE:
-    #     print("Pushing to GridEngine")
-    # if t.backend.pk == Backend.RSERVE:
-    #     print("Running at RServe")
+    run.prepare()
+    print(run.command)
+    exit_status = run.run_cmd()
 
+    # if the command ran with success we'll send the file contents to the
+    # database.
+    # TODO: For now we write everything to the file as utf-8 but we'll need to
+    # handle binary data eventually
+    if exit_status == 0:
+        print(run.output_data)
+        run.tidy()
+        file = SimpleUploadedFile(uuid+"."+run.out_glob,
+                                  bytes(run.output_data, 'utf-8'))
+        r = Result.objects.create(submission=s, task=t,
+                                  step=current_step, name=t.name,
+                                  message='Result',
+                                  result_data=file)
+    # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     if current_step == total_steps:
         state = Submission.COMPLETE
 
     update_submission_state(s, True,
-                            Submission.RUNNING,
+                            state,
                             step_id,
                             self.request.id,
                             'Completed step :' + str(step_id))

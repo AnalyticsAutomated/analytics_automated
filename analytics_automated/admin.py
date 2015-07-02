@@ -63,6 +63,11 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'status', 'claimed', 'message', 'step_id', 'created',
                     'modified')
 
+
+class ResultAdmin(admin.ModelAdmin):
+    list_display = ('name', 'submission', 'task', 'step', 'message')
+
+
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Job, JobAdmin)

@@ -27,6 +27,7 @@ def populate():
     Step.objects.all().delete()
     Submission.objects.all().delete()
     Parameter.objects.all().delete()
+    Result.objects.all().delete()
 
     this_backend = add_backend(name="local1",
                                server_type=Backend.LOCALHOST,

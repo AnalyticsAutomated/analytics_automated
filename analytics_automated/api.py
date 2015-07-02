@@ -91,13 +91,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                                                           step.task.name)
                 current_step += 1
 
+            # 3. Build Celery chain
             chain = chain[:-3]
             chain += ')()'
             try:
                 eval(chain)
             except SyntaxError:
                 print('Invalid string eval on: ' + chain)
-            # 3. Build Celery chain
             # 4. Call delay on the Celery chain
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
