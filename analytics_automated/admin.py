@@ -63,6 +63,7 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'status', 'claimed', 'message', 'step_id', 'created',
                     'modified')
 
+
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'step', 'message', 'submission_name',
                     'submission_uuid')
