@@ -1,6 +1,7 @@
 import json
 import io
 from unipath import Path
+from unittest.mock import patch
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -15,7 +16,7 @@ from rest_framework.test import APIRequestFactory
 from .api import SubmissionDetails
 from .models import Job, Submission
 from .model_factories import *
-
+from .tasks import *
 
 class JobListTests(APITestCase):
 
@@ -45,8 +46,11 @@ class SubmissionDetailTests(APITestCase):
                      'submission_name': 'test',
                      'email': 'a@b.com'}
         j1 = JobFactory.create(name="job1")
+        b = BackendFactory.create(root_path="/tmp/")
+        t = TaskFactory.create(backend=b, name="task1", executable="ls")
+        s = StepFactory(job=j1, task=t, ordering=0)
 
-    def test_submission_detail_is_returned(self):
+    def test_submission_detail_is_returned(self,):
         s1 = SubmissionFactory.create()
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.pk, ]) + ".json")
@@ -54,7 +58,8 @@ class SubmissionDetailTests(APITestCase):
         test_data = '{"submission_name":"submission_0","UUID":"'+s1.UUID+'"}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
-    def test_valid_submission_post_creates_entry(self):
+    @patch('builtins.eval', return_value=True)
+    def test_valid_submission_post_creates_entry(self, m):
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
         view = SubmissionDetails.as_view()

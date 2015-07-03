@@ -83,9 +83,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 2. Order tasks by their step id
             total_steps = len(steps)-1
             current_step = 0
+
+            if len(steps) == 0:
+                content = {'error': "Job Requested Appears to have no Steps"}
+                return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
             chain = "("
             for step in steps:
-                print(step)
+                #print(step)
                 chain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
                          % (s.UUID,
                             step.ordering,

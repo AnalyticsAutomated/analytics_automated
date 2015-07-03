@@ -82,8 +82,10 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     if exit_status == 0:
         print(run.output_data)
         run.tidy()
-        file = SimpleUploadedFile(uuid+"."+run.out_glob,
-                                  bytes(run.output_data, 'utf-8'))
+        file = None
+        if run.output_data is not None:
+            file = SimpleUploadedFile(uuid+"."+run.out_glob,
+                                      bytes(run.output_data, 'utf-8'))
         r = Result.objects.create(submission=s, task=t,
                                   step=current_step, name=t.name,
                                   message='Result',
