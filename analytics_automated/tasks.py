@@ -102,6 +102,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                             'Completed step :' + str(step_id))
 
 
+# should really move this to a helper module or to models.py
 def update_submission_state(s, claim, status, step, id, message):
     """
         Updates the Submission object with some book keeping

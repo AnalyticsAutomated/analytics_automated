@@ -18,6 +18,7 @@ from .models import Job, Submission
 from .model_factories import *
 from .tasks import *
 
+
 class JobListTests(APITestCase):
 
     def test_return_of_available_job_types(self):
