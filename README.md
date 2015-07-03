@@ -213,7 +213,7 @@ For dev purposes we can start the workers with:
     * `> export PYTHONPATH=~/Code/analytics_automated/analytics_automated:$PYTHONPATH`
     * `> celery --app=analytics_automated_project.celery:app worker --loglevel=INFO`
 21. Test the code also defining the settings you are using
-    * `> python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated`
+    * `> python manage.py test --settings=analytics_automated_project.settings.dev`
 
 NEXT UP TODO/REMINDERS
 ======================

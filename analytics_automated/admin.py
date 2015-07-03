@@ -26,7 +26,8 @@ class BackendAdmin(admin.ModelAdmin):
 
 class TaskAdmin(admin.ModelAdmin):
     def processing_backend(self, obj):
-        url = reverse('admin:analytics_automated_backend_change', args=(obj.backend.pk,))
+        url = reverse('admin:analytics_automated_backend_change',
+                      args=(obj.backend.pk,))
         return '<a href="%s">%s</a>' % (url, obj.backend)
     processing_backend.allow_tags = True
 
@@ -51,7 +52,8 @@ class JobAdmin(admin.ModelAdmin):
         j = Job.objects.get(pk=obj.pk)
         task_list = ""
         for s in j.steps.all():
-            url = reverse('admin:analytics_automated_task_change', args=(s.task.pk,))
+            url = reverse('admin:analytics_automated_task_change',
+                          args=(s.task.pk,))
             task_list += '<a href="%s"> %s </a> ->' % (url, s.task)
         task_list = task_list.rstrip(' ->')
         return task_list
@@ -69,7 +71,8 @@ class ResultAdmin(admin.ModelAdmin):
                     'submission_uuid')
 
     def submission_name(self, obj):
-        url = reverse('admin:analytics_automated_submission_change', args=(obj.submission.pk,))
+        url = reverse('admin:analytics_automated_submission_change',
+                      args=(obj.submission.pk,))
         return '<a href="%s">%s</a>' % (url, obj.submission.submission_name)
 
     def submission_uuid(self, obj):

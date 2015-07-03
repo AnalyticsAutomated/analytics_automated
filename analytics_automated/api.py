@@ -77,18 +77,21 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             s = submission_form.save()
             # Send to the Job Queue and set queued message if that is a success
             job = Job.objects.get(name=s.job)
-            steps = job.steps.all().select_related('task').extra(order_by=['ordering'])
+            steps = job.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
             total_steps = len(steps)-1
             current_step = 0
             chain = "("
             for step in steps:
-                chain += "task_runner.si('%s',%i,%i,%i,'%s') | " % (s.UUID,
-                                                                          step.ordering,
-                                                                          current_step,
-                                                                          total_steps,
-                                                                          step.task.name)
+                print(step)
+                chain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
+                         % (s.UUID,
+                            step.ordering,
+                            current_step,
+                            total_steps,
+                            step.task.name)
                 current_step += 1
 
             # 3. Build Celery chain

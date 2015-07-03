@@ -25,7 +25,8 @@ class JobListTests(APITestCase):
         response = self.client.get(reverse('job',)+".json")
         response.render()
         self.assertEqual(response.status_code, 200)
-        test_data = '{"count":2,"next":null,"previous":null,"results":[{"pk":1,"name":"job1"},{"pk":2,"name":"job2"}]}'
+        test_data = '{"count":2,"next":null,"previous":null,' \
+                    '"results":[{"pk":1,"name":"job1"},{"pk":2,"name":"job2"}]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
 
