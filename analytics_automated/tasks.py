@@ -53,11 +53,13 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
     else:
+        r = Results.objects.get(UUID=uuid)
         pass  # look in results for the previous output
 
     # update submission tracking to note that this is running
-    update_submission_state(s, True, Submission.RUNNING, step_id,
-                            self.request.id, 'Running step :' + str(step_id))
+    Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
+                                       self.request.id,
+                                       'Running step :' + str(step_id))
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -87,27 +89,14 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                                   message='Result',
                                   result_data=file)
     else:
-        update_submission_state(s, True, Submission.ERROR, step_id,
-                                self.request.id,
-                                'Failed step :' + str(step_id))
+        Submission.update_submission_state(s, True, Submission.ERROR, step_id,
+                                           self.request.id,
+                                           'Failed step :' + str(step_id))
         raise OSError("Command did not run on commandline")
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     if current_step == total_steps:
         state = Submission.COMPLETE
-    update_submission_state(s, True, state, step_id, self.request.id,
-                            'Completed step :' + str(step_id))
-
-
-# should really move this to a helper module or to models.py
-def update_submission_state(s, claim, status, step, id, message):
-    """
-        Updates the Submission object with some book keeping
-    """
-    s.claimed = claim
-    s.status = status
-    s.message = message
-    s.worker_id = id
-    s.step_id = step
-    s.save()
+    Submission.update_submission_state(s, True, state, step_id, self.request.id,
+                                       'Completed step :' + str(step_id))

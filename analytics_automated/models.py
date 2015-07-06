@@ -138,6 +138,17 @@ class Submission(TimeStampedModel):
     def __str__(self):
         return str(self.pk)
 
+    def update_submission_state(s, claim, status, step, id, message):
+        """
+            Updates the Submission object with some book keeping
+        """
+        s.claimed = claim
+        s.status = status
+        s.message = message
+        s.worker_id = id
+        s.step_id = step
+        s.save()
+
 
 class Result(models.Model):
     submission = models.ForeignKey(Submission)
