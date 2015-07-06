@@ -38,7 +38,7 @@ def populate():
                          name="task1",
                          in_glob=".in",
                          out_glob=".out",
-                         executable="/usr/bin/ls > $OUTPUT")
+                         executable="ls > $OUTPUT")
     that_task = add_task(backend=this_backend,
                          name="task2",
                          in_glob=".out",

@@ -56,11 +56,8 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         pass  # look in results for the previous output
 
     # update submission tracking to note that this is running
-    update_submission_state(s, True,
-                            Submission.RUNNING,
-                            step_id,
-                            self.request.id,
-                            'Running step :' + str(step_id))
+    update_submission_state(s, True, Submission.RUNNING, step_id,
+                            self.request.id, 'Running step :' + str(step_id))
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -80,7 +77,6 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     # TODO: For now we write everything to the file as utf-8 but we'll need to
     # handle binary data eventually
     if exit_status == 0:
-        print(run.output_data)
         run.tidy()
         file = None
         if run.output_data is not None:
@@ -90,15 +86,17 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                                   step=current_step, name=t.name,
                                   message='Result',
                                   result_data=file)
+    else:
+        update_submission_state(s, True, Submission.ERROR, step_id,
+                                self.request.id,
+                                'Failed step :' + str(step_id))
+        raise OSError("Command did not run on commandline")
+
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     if current_step == total_steps:
         state = Submission.COMPLETE
-
-    update_submission_state(s, True,
-                            state,
-                            step_id,
-                            self.request.id,
+    update_submission_state(s, True, state, step_id, self.request.id,
                             'Completed step :' + str(step_id))
 
 
