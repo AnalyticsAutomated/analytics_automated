@@ -217,23 +217,28 @@ For dev purposes we can start the workers with:
 
 NEXT UP TODO/REMINDERS
 ======================
-1. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
-If your task is idempotent you can set the acks_late option to have the worker acknowledge the message after the task returns instead.
 
-enable app.Task.track_started
-
-Autoscaling
-
-2. REST return for results (create and read), create requires authentication?
-3. Add endpoint which returns all the public operations
-5. Solution for file storage in staging/production???
-6. Consider Flower for celery monitoring
-7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-8.                       requires.io for the dependencies
-9. UUID field index
+Up next
+1. Get submission RESULTS endpoint
+2. UUID field index
+3. Authentication
 11. Before production find all prints and convert to LOG statements, add LOG statements to
     all try exceptions blocks. Send ERROR and higher logs to email AND slack, don't forget
     logrotate
-12. Investigate cached_property
+
+Todo
+2. REST return for results (create and read), create requires authentication?
+3. Add endpoint which returns all the public operations
 13. Convert task_runner submission updates to API calls to enable moving the
     workers to a different machine (i.e REST call to create results)
+
+Production things
+1. logrotate for logs
+2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+    enable app.Task.track_started
+
+    Autoscaling
+3. Solution for file storage in staging/production???
+4. Consider Flower for celery monitoring
+5. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+5. Investigate cached_property
