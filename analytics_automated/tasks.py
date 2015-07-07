@@ -42,18 +42,22 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         we just use the celery results for messaging and the results table
         for the files
     """
+    print("STEP ID"+str(step_id))
+    print("CURRENT"+str(current_step))
+    print("TOTAL"+str(total_steps))
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     data = ''
     # if this is the first task in a chain get the input_data from submission
     # if this is not the first task get the input_data from the results
-    if current_step == 0:
+    if current_step == 1:
         s.input_data.open(mode='r')
         for line in s.input_data:
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
     else:
-        r = Results.objects.get(UUID=uuid)
+        #r = Result.objects.get(UUID=uuid)
+        print("OH HELLO THERE")
         pass  # look in results for the previous output
 
     # update submission tracking to note that this is running
@@ -71,15 +75,14 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                           command=t.executable, input_data=data)
 
     run.prepare()
-    print(run.command)
-    exit_status = run.run_cmd()
 
+    exit_status = run.run_cmd()
     # if the command ran with success we'll send the file contents to the
     # database.
     # TODO: For now we write everything to the file as utf-8 but we'll need to
     # handle binary data eventually
+    run.tidy()
     if exit_status == 0:
-        run.tidy()
         file = None
         if run.output_data is not None:
             file = SimpleUploadedFile(uuid+"."+run.out_glob,
@@ -92,11 +95,13 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
                                            'Failed step :' + str(step_id))
-        raise OSError("Command did not run on commandline")
+        raise OSError("Command did not run: "+run.command )
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
+    message = "Running"
     if current_step == total_steps:
         state = Submission.COMPLETE
+        message = 'Completed step :' + str(step_id)
     Submission.update_submission_state(s, True, state, step_id, self.request.id,
-                                       'Completed step :' + str(step_id))
+                                       message)

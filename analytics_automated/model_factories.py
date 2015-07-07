@@ -82,3 +82,15 @@ class ParameterFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = Parameter
+
+
+class ResultFactory(factory.DjangoModelFactory):
+    submission = SubmissionFactory.create()
+    task = TaskFactory.create()
+    step = StepFactory.create()
+    result_data = factory.LazyAttribute(lambda t: File(open(TEST_DATA)))
+    name = factory.LazyAttribute(lambda t: random_string())
+    message = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = Result

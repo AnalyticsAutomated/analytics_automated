@@ -32,7 +32,8 @@ class TaskTestCase(TestCase):
         self.uuid1 = str(uuid.uuid1())
         self.b = BackendFactory.create(root_path="/tmp/")
         self.t = TaskFactory.create(backend=self.b, name="test_task",
-                                    executable="ls")
+                                    executable="ls", in_glob="in",
+                                    out_glob="out")
         self.j = JobFactory.create()
         self.s = StepFactory(job=self.j, task=self.t, ordering=0)
         self.sub = SubmissionFactory.create(UUID=self.uuid1, job=self.j)
@@ -47,20 +48,26 @@ class TaskTestCase(TestCase):
         Result.objects.all().delete()
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
-    def testTestTaskRunnerSuccess(self, m):
-        task_runner.delay(self.uuid1, 0, 0, 1, "test_task")
+    def testTaskRunnerSuccess(self, m):
+        task_runner.delay(self.uuid1, 0, 1, 1, "test_task")
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual((self.sub.message == "Completed step :0"), True)
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
-    def testTestTaskRunnerExecuteNoneZeroExit(self, m):
-        self.assertRaises(OSError, task_runner, self.uuid1, 0, 0, 1,
+    def testTaskRunnerExecuteNoneZeroExit(self, m):
+        self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1,
                           "test_task")
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual((self.sub.message == "Failed step :0"), True)
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
-    def testTestTaskRunnerGetsResultFromPreviousRun(self, m):
+    def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
+        task_runner.delay(self.uuid1, 0, 1, 2, "test_task")
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.assertEqual((self.sub.message == "Running"), True)
+
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
+    def testTaskRunnerGetsResultFromPreviousRun(self, m):
         # insert a result with the correct UUID
         # task_runner.delay(self.uuid1, 0, 0, 1, "test_task")
         # self.sub = Submission.objects.get(UUID=self.uuid1)

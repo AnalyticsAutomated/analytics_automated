@@ -224,17 +224,16 @@ enable app.Task.track_started
 
 Autoscaling
 
-1. Celery tests!
 2. REST return for results (create and read), create requires authentication?
 3. Add endpoint which returns all the public operations
 5. Solution for file storage in staging/production???
 6. Consider Flower for celery monitoring
 7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
 8.                       requires.io for the dependencies
-9. Disable XML support
-10. UUID field index
+9. UUID field index
 11. Before production find all prints and convert to LOG statements, add LOG statements to
     all try exceptions blocks. Send ERROR and higher logs to email AND slack, don't forget
     logrotate
-13. Mock celery, for the love of god
-14. Investigate cached_property
+12. Investigate cached_property
+13. Convert task_runner submission updates to API calls to enable moving the
+    workers to a different machine (i.e REST call to create results)

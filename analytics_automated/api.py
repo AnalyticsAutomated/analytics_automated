@@ -81,8 +81,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                        .extra(order_by=['ordering'])
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
-            total_steps = len(steps)-1
-            current_step = 0
+            total_steps = len(steps)
+            current_step = 1
 
             if len(steps) == 0:
                 content = {'error': "Job Requested Appears to have no Steps"}
