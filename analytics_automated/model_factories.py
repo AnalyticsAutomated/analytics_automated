@@ -10,9 +10,12 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from .models import Backend, Task, Job, Step, Submission, Parameter
+from .models import Backend, Task, Job, Step, Submission, Parameter, Result
 
 TEST_DATA = settings.BASE_DIR.child("static").child("files").child("file1.txt")
+RESULT_DATA = settings.BASE_DIR.child("static").child("files"). \
+                                                child("result1.txt")
+step_value = random.randint(1, 20)
 
 
 def random_string(length=10):
@@ -87,8 +90,9 @@ class ParameterFactory(factory.DjangoModelFactory):
 class ResultFactory(factory.DjangoModelFactory):
     submission = SubmissionFactory.create()
     task = TaskFactory.create()
-    step = StepFactory.create()
-    result_data = factory.LazyAttribute(lambda t: File(open(TEST_DATA)))
+    step = step_value
+    previous_step = step_value-1
+    result_data = factory.LazyAttribute(lambda t: File(open(RESULT_DATA)))
     name = factory.LazyAttribute(lambda t: random_string())
     message = factory.LazyAttribute(lambda t: random_string())
 

@@ -42,12 +42,10 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         we just use the celery results for messaging and the results table
         for the files
     """
-    print("STEP ID"+str(step_id))
-    print("CURRENT"+str(current_step))
-    print("TOTAL"+str(total_steps))
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     data = ''
+    previous_step = None
     # if this is the first task in a chain get the input_data from submission
     # if this is not the first task get the input_data from the results
     if current_step == 1:
@@ -56,9 +54,12 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
     else:
-        #r = Result.objects.get(UUID=uuid)
-        print("OH HELLO THERE")
-        pass  # look in results for the previous output
+        previous_step = current_step-1
+        r = Result.objects.get(submission=s, step=previous_step)
+        r.result_data.open(mode='r')
+        for line in r.result_data:
+            data += line.decode(encoding='UTF-8')
+        r.result_data.close()
 
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
@@ -75,7 +76,6 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                           command=t.executable, input_data=data)
 
     run.prepare()
-
     exit_status = run.run_cmd()
     # if the command ran with success we'll send the file contents to the
     # database.
@@ -89,13 +89,13 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
                                       bytes(run.output_data, 'utf-8'))
         r = Result.objects.create(submission=s, task=t,
                                   step=current_step, name=t.name,
-                                  message='Result',
+                                  message='Result', previous_step=previous_step,
                                   result_data=file)
     else:
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
                                            'Failed step :' + str(step_id))
-        raise OSError("Command did not run: "+run.command )
+        raise OSError("Command did not run: "+run.command)
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING

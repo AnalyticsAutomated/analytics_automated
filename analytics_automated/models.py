@@ -154,6 +154,7 @@ class Result(models.Model):
     submission = models.ForeignKey(Submission)
     task = models.ForeignKey(Task)
     step = models.IntegerField(null=False, blank=False)
+    previous_step = models.IntegerField(null=True, blank=False)
     result_data = models.FileField(null=False)
     name = models.CharField(max_length=64, null=True, blank=False)
     message = models.CharField(max_length=256, null=True, blank=True,
