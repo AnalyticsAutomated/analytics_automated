@@ -220,6 +220,7 @@ NEXT UP TODO/REMINDERS
 
 Up next
 1. Get submission RESULTS endpoint
+2. Different Rabbit queues and workers for different backends
 3. Authentication
 
 Todo

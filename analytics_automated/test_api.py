@@ -72,9 +72,9 @@ class SubmissionDetailTests(APITestCase):
     def test_submission_detail_is_returned(self,):
         s1 = SubmissionFactory.create()
         response = self.client.get(reverse('submissionDetail',
-                                           args=[s1.pk, ]) + ".json")
+                                           args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{"submission_name":"submission_1","UUID":"'+s1.UUID+'"}'
+        test_data = '{"submission_name":"submission_1","UUID":"%s","state":"Submitted"}' % s1.UUID
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.eval', return_value=True)
