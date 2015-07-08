@@ -138,6 +138,10 @@ class Submission(TimeStampedModel):
     def __str__(self):
         return str(self.pk)
 
+    def returnStatus(self):
+        d = dict(Submission.STATUS_CHOICES)
+        return(d[self.status])
+
     def update_submission_state(s, claim, status, step, id, message):
         """
             Updates the Submission object with some book keeping
