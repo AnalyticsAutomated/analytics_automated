@@ -29,7 +29,7 @@ urlpatterns = [
      url(r'^analytics_automated/submission/$',
          api.SubmissionDetails.as_view(),
          name="submission"),
-     url(r'^analytics_automated/submission/(?P<pk>[0-9]+)$',
+     url(r'^analytics_automated/submission/(?P<UUID>.{8}-.{4}-.{4}-.{4}-.{12})$',
          api.SubmissionDetails.as_view(),
          name="submissionDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),

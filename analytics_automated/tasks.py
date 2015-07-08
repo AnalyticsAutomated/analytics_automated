@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-
+import logging
 import time
 from commandRunner.localRunner import *
 
@@ -9,6 +9,8 @@ from celery import shared_task
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task
@@ -70,7 +72,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     # library
     run = None
     if t.backend.server_type == Backend.LOCALHOST:
-        print("Running at Localhost")
+        logger.info("Running At LOCALHOST")
         run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                           in_glob=t.in_glob, out_glob=t.out_glob,
                           command=t.executable, input_data=data)
@@ -95,6 +97,7 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
                                            'Failed step :' + str(step_id))
+        logger.error("Command did not run: "+run.command)
         raise OSError("Command did not run: "+run.command)
 
     # Update where we are in the steps to the submission table

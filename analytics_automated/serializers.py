@@ -7,7 +7,7 @@ class SubmissionInputSerializer (serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = ('job', 'email', 'submission_name')
-
+        
 
 class SubmissionOutputSerializer (serializers.ModelSerializer):
     class Meta:

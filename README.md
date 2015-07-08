@@ -220,11 +220,7 @@ NEXT UP TODO/REMINDERS
 
 Up next
 1. Get submission RESULTS endpoint
-2. UUID field index
 3. Authentication
-11. Before production find all prints and convert to LOG statements, add LOG statements to
-    all try exceptions blocks. Send ERROR and higher logs to email AND slack, don't forget
-    logrotate
 
 Todo
 2. REST return for results (create and read), create requires authentication?

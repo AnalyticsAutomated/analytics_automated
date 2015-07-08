@@ -1,6 +1,7 @@
 import ast
 import uuid
 from ipware.ip import get_ip
+import logging
 
 from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
@@ -17,6 +18,8 @@ from .models import Job, Submission
 from .forms import SubmissionForm
 from .tasks import *
 
+logger = logging.getLogger(__name__)
+
 
 class SubmissionDetails(mixins.RetrieveModelMixin,
                         mixins.CreateModelMixin,
@@ -30,6 +33,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     # the input data string passes
     # ValidationError(_('invalid_value'), code='invalid')
     queryset = Submission.objects.all()
+    lookup_field = 'UUID'
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -105,7 +109,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             try:
                 eval(chain)
             except SyntaxError:
-                print('Invalid string eval on: ' + chain)
+                logger.error('Invalid string eval on: ' + chain)
             # 4. Call delay on the Celery chain
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}

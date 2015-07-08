@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import json
 import bugsnag
+import sys
 
 from unipath import Path
 
@@ -143,4 +144,70 @@ MESSAGE_TAGS = {
             messages.SUCCESS: 'alert-success success',
             messages.WARNING: 'alert-warning warning',
             messages.ERROR: 'alert-danger error'
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'handlers': {
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024 * 1024 * 10,  # 10 Megs
+            'backupCount': 5,
+            'filename': 'logs/debug.log',
+            'formatter': 'verbose',
+            'filters': ['require_debug_true'],
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024 * 1024 * 10,  # 10 Megs
+            'backupCount': 5,
+            'filename': 'logs/django_request.log',
+            'formatter': 'verbose',
+        },
+        'production': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/production.log',
+            'formatter': 'verbose',
+            'filters': ['require_debug_false'],
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['debug', 'production', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False,
+        }
+    }
 }
