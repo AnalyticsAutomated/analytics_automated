@@ -155,7 +155,7 @@ class Submission(TimeStampedModel):
 
 
 class Result(models.Model):
-    submission = models.ForeignKey(Submission)
+    submission = models.ForeignKey(Submission, related_name='results')
     task = models.ForeignKey(Task)
     step = models.IntegerField(null=False, blank=False)
     previous_step = models.IntegerField(null=True, blank=False)

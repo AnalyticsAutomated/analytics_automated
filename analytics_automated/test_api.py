@@ -14,7 +14,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory
 
 from .api import SubmissionDetails
-from .models import Job, Submission
+from .models import *
 from .model_factories import *
 from .tasks import *
 
@@ -74,8 +74,30 @@ class SubmissionDetailTests(APITestCase):
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{"submission_name":"submission_1","UUID":"%s"' \
-                    ',"state":"Submitted"}' % s1.UUID
+        test_data = '{{"submission_name":"submission_1","UUID":"{0}"' \
+                    ',"state":"Submitted","results":[]}}'.format(s1.UUID)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    def test_submission_with_results_is_returned(self,):
+        s1 = SubmissionFactory.create()
+        t1 = TaskFactory.create(name='task1')
+        r1 = ResultFactory.create(submission=s1,
+                                  task=t1,
+                                  name='test',
+                                  message='a result',
+                                  step=1,
+                                  result_data=self.file,)
+        response = self.client.get(reverse('submissionDetail',
+                                           args=[s1.UUID, ]) + ".json")
+        self.assertEqual(response.status_code, 200)
+        test_data = '{{"submission_name":"{0}","UUID":"{1}"' \
+                    ',"state":"Submitted","results":[{{"task":{2},' \
+                    '"name":"{3}","message":"{4}","step":{5},' \
+                    '"result_data":"{6}"}}]}}'.format(s1.submission_name,
+                                                      s1.UUID, t1.pk, 'test',
+                                                      r1.message, r1.step,
+                                                      "http://testserver" +
+                                                      r1.result_data.url)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.eval', return_value=True)

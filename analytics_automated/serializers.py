@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Job, Submission
+from .models import Job, Submission, Result
+
+
+class ResultSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Result
+        fields = ('task', 'name', 'message', 'step', 'result_data')
 
 
 class SubmissionInputSerializer (serializers.ModelSerializer):
@@ -10,11 +16,12 @@ class SubmissionInputSerializer (serializers.ModelSerializer):
 
 
 class SubmissionOutputSerializer (serializers.ModelSerializer):
+    results = ResultSerializer(many=True)
     state = serializers.CharField(source='returnStatus')
 
     class Meta:
         model = Submission
-        fields = ('submission_name', 'UUID', 'state')
+        fields = ('submission_name', 'UUID', 'state', 'results')
 
 
 class JobSerializer (serializers.ModelSerializer):
