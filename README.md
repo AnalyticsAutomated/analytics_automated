@@ -219,14 +219,13 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-1. Get submission RESULTS endpoint
-2. Different Rabbit queues and workers for different backends
-3. Authentication
+1. Different Rabbit queues and workers for different backends
+2. Authentication
 
 Todo
-2. REST return for results (create and read), create requires authentication?
-3. Add endpoint which returns all the public operations
-13. Convert task_runner submission updates to API calls to enable moving the
+1. REST return for results (create and read), create requires authentication?
+2. Add endpoint which returns all the public operations
+3. Convert task_runner submission updates to API calls to enable moving the
     workers to a different machine (i.e REST call to create results)
 
 Production things
