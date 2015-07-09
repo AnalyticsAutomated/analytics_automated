@@ -211,7 +211,7 @@ django
 http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/
 For dev purposes we can start the workers with:
     * `> export PYTHONPATH=~/Code/analytics_automated/analytics_automated:$PYTHONPATH`
-    * `> celery --app=analytics_automated_project.celery:app worker --loglevel=INFO`
+    * `> celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery`
 21. Test the code also defining the settings you are using
     * `> python manage.py test --settings=analytics_automated_project.settings.dev`
 
@@ -219,7 +219,8 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-1. Different Rabbit queues and workers for different backends
+1. Get submission data, update submission status and push results as API calls
+   for task_runner()
 2. Authentication
 
 Todo

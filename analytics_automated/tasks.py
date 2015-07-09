@@ -44,6 +44,10 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
         we just use the celery results for messaging and the results table
         for the files
     """
+    logger.info("TASK:" + task_name)
+    logger.info("CURRENT STEP:" + str(current_step))
+    logger.info("TOTAL STEPS:" + str(total_steps))
+    logger.info("STEP ID:" + str(step_id))
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     data = ''
@@ -105,6 +109,6 @@ def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
     message = "Running"
     if current_step == total_steps:
         state = Submission.COMPLETE
-        message = 'Completed step :' + str(step_id)
+        message = 'Completed at step #' + str(current_step)
     Submission.update_submission_state(s, True, state, step_id, self.request.id,
                                        message)

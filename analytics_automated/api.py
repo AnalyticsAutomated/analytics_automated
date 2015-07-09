@@ -3,6 +3,8 @@ import uuid
 from ipware.ip import get_ip
 import logging
 
+from celery import chain
+
 from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
 
@@ -14,7 +16,7 @@ from rest_framework.response import Response
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
-from .models import Job, Submission
+from .models import Job, Submission, Backend
 from .forms import SubmissionForm
 from .tasks import *
 
@@ -93,23 +95,34 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             prev_step = None
-            chain = "("
+            queue_name = 'celery'
+            tchain = "chain("
             for step in steps:
-                chain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                         % (s.UUID,
-                            step.ordering,
-                            current_step,
-                            total_steps,
-                            step.task.name)
+                if step.task.backend.server_type == Backend.LOCALHOST:
+                    queue_name = 'localhost'
+                # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
+                tchain += "task_runner.subtask(('%s',%i,%i,%i,'%s'), " \
+                          "immutable=True, queue='%s'), " \
+                          % (s.UUID,
+                             step.ordering,
+                             current_step,
+                             total_steps,
+                             step.task.name,
+                             queue_name)
                 current_step += 1
 
-            # 3. Build Celery chain
-            chain = chain[:-3]
-            chain += ')()'
+            # chain(task_runner.apply_async(('a55cf098-2644-11e5-9bb3-28cfe91fde3b',0,1,2,'task1'),
+            #                               link=reset_buffers.si(), queue='celery'),
+            #       task_runner.apply_async(('a55cf098-2644-11e5-9bb3-28cfe91fde3b',1,2,2,'task2'),
+            #                               link=reset_buffers.si(), queue='celery'))().delay()
+            # # 3. Build Celery chain
+            tchain = tchain[:-2]
+            tchain += ')()'
+            logger.debug("TASK COMMAND: "+tchain)
             try:
-                eval(chain)
+                exec(tchain)
             except SyntaxError:
-                logger.error('Invalid string eval on: ' + chain)
+                logger.error('SyntaxError: Invalid string exec on: ' + tchain)
             # 4. Call delay on the Celery chain
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}

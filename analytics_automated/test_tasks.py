@@ -51,7 +51,7 @@ class TaskTestCase(TestCase):
     def testTaskRunnerSuccess(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, "test_task")
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual((self.sub.message == "Completed step :0"), True)
+        self.assertEqual((self.sub.message == "Completed at step #1"), True)
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
     def testTaskRunnerExecuteNoneZeroExit(self, m):

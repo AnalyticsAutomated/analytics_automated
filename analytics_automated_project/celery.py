@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import os
 import time
 
+from kombu import Exchange, Queue
 from celery import Celery
 from django.conf import settings
 # set the default Django settings module for the 'celery' program.
@@ -15,3 +16,9 @@ app = Celery('backend_tasks')
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+CELERY_QUEUES = (
+    Queue('localhost', routing_key='localhost.#'),
+    Queue('RServe', routing_key='RServe.#'),
+    Queue('GridEngine', routing_key='GridEngine.#'),
+)
