@@ -219,18 +219,14 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-1. Get submission data, update submission status and push results as API calls
-   for task_runner()
-2. Authentication
+1. Authentication
 
 Todo
-1. REST return for results (create and read), create requires authentication?
-2. Add endpoint which returns all the public operations
-3. Convert task_runner submission updates to API calls to enable moving the
-    workers to a different machine (i.e REST call to create results)
+1. Add endpoint which returns all the public operations
+2. Convert task_runner submission and results updates to API calls. Then then
+   the workers can be fully independant of the database.
 
 Production things
-1. logrotate for logs
 2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
     enable app.Task.track_started
 
