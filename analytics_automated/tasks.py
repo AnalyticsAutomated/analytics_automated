@@ -32,7 +32,8 @@ def add(x, y):
 
 # time limits?
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
-def task_runner(self, uuid, step_id, current_step, total_steps, task_name):
+def task_runner(self, uuid, step_id, current_step,
+                total_steps, task_name, params={}):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.

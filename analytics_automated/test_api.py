@@ -102,7 +102,7 @@ class SubmissionDetailTests(APITestCase):
                                                       r1.result_data.url)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
-    @patch('builtins.eval', return_value=True)
+    @patch('builtins.exec', return_value=True)
     def test_submission_accepts_when_all_params_given(self, m):
         p1 = ParameterFactory.create(task=self.t, rest_alias="this")
         p2 = ParameterFactory.create(task=self.t, rest_alias="that")
@@ -114,7 +114,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    @patch('builtins.eval', return_value=True)
+    @patch('builtins.exec', return_value=True)
     def test_submission_rejects_when_a_param_is_missed(self, m):
         p1 = ParameterFactory.create(task=self.t, rest_alias="this")
         p2 = ParameterFactory.create(task=self.t, rest_alias="that")
@@ -125,7 +125,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
 
-    @patch('builtins.eval', return_value=True)
+    @patch('builtins.exec', return_value=True)
     def test_submission_ignores_undefined_params(self, m):
         p1 = ParameterFactory.create(task=self.t, rest_alias="this")
         self.data['task1_strange'] = "Value2"
@@ -136,7 +136,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    @patch('builtins.eval', return_value=True)
+    @patch('builtins.exec', return_value=True)
     def test_submission_checks_params_across_more_than_one_task(self, m):
         p1 = ParameterFactory.create(task=self.t, rest_alias="this")
         t2 = TaskFactory.create(backend=self.b, name="task2", executable="ls")
@@ -149,7 +149,7 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    @patch('builtins.eval', return_value=True)
+    @patch('builtins.exec', return_value=True)
     def test_valid_submission_post_creates_entry(self, m):
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')

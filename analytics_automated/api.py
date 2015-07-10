@@ -126,7 +126,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 if step.task.backend.server_type == Backend.LOCALHOST:
                     queue_name = 'localhost'
                 # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                tchain += "task_runner.subtask(('%s',%i,%i,%i,'%s'), " \
+                tchain += "task_runner.subtask(('%s',%i,%i,%i,'%s',params=request.contents), " \
                           "immutable=True, queue='%s'), " \
                           % (s.UUID,
                              step.ordering,
