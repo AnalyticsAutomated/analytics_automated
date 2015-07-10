@@ -37,6 +37,21 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
 
+    def test_params(self, steps, request_data):
+        """
+            Check that the list of additional params the tasks take
+            has been provided by the user
+        """
+        aliases = []
+        for step in steps:
+            params = Parameter.objects.filter(task=step.task)
+            for param in params:
+                aliases.append(param.rest_alias)
+        if all(name in request_data for name in aliases):
+            return(True)
+        else:
+            return(False)
+
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return SubmissionOutputSerializer
@@ -58,15 +73,21 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             write another serializer to handle this validation but that
             seems insane when the forms functionality is already in place
         """
+        request_contents = request.data
+        if 'input_data' in request_contents:
+            request_contents.pop('input_data')
         # # data['input_data'] = request.data['input_data']
         data = {}
         try:
-            data['submission_name'] = request.data['submission_name']
-            data['email'] = request.data['email']
-            data['job'] = request.data['job']
+            data['submission_name'] = request_contents.pop('submission_name')[0]
+            data['email'] = request_contents.pop('email')[0]
+            data['job'] = request_contents.pop('job')[0]
             data['ip'] = get_ip(request)
             data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError:
+            content = {'error': "Input does not contain all required fields"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
             content = {'error': "Input does not contain all required fields"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
             # TODO : We could return a message specifying what is missing.
@@ -90,6 +111,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             total_steps = len(steps)
             current_step = 1
 
+            if not self.test_params(steps, request_contents):
+                content = {'error': "Requied Parameter Missing"}
+                return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+
             if len(steps) == 0:
                 content = {'error': "Job Requested Appears to have no Steps"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
@@ -111,11 +136,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              queue_name)
                 current_step += 1
 
-            # chain(task_runner.apply_async(('a55cf098-2644-11e5-9bb3-28cfe91fde3b',0,1,2,'task1'),
-            #                               link=reset_buffers.si(), queue='celery'),
-            #       task_runner.apply_async(('a55cf098-2644-11e5-9bb3-28cfe91fde3b',1,2,2,'task2'),
-            #                               link=reset_buffers.si(), queue='celery'))().delay()
-            # # 3. Build Celery chain
+            # 3. Build Celery chain
             tchain = tchain[:-2]
             tchain += ')()'
             logger.debug("TASK COMMAND: "+tchain)
@@ -130,7 +151,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         else:
             content = {'error': submission_form.errors}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
 
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):
     """

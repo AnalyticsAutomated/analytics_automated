@@ -46,6 +46,8 @@ class SubmissionDetailTests(APITestCase):
     file = ''
     data = {}
     factory = APIRequestFactory()
+    t = None
+    b = None
 
     def setUp(self):
         self.file = SimpleUploadedFile('file1.txt',
@@ -56,9 +58,9 @@ class SubmissionDetailTests(APITestCase):
                      'submission_name': 'test',
                      'email': 'a@b.com'}
         j1 = JobFactory.create(name="job1")
-        b = BackendFactory.create(root_path="/tmp/")
-        t = TaskFactory.create(backend=b, name="task1", executable="ls")
-        s = StepFactory(job=j1, task=t, ordering=0)
+        self.b = BackendFactory.create(root_path="/tmp/")
+        self.t = TaskFactory.create(backend=self.b, name="task1", executable="ls")
+        s = StepFactory(job=j1, task=self.t, ordering=0)
 
     def tearDown(self):
         Backend.objects.all().delete()
@@ -99,6 +101,53 @@ class SubmissionDetailTests(APITestCase):
                                                       "http://testserver" +
                                                       r1.result_data.url)
         self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    @patch('builtins.eval', return_value=True)
+    def test_submission_accepts_when_all_params_given(self, m):
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        p2 = ParameterFactory.create(task=self.t, rest_alias="that")
+        self.data['task1_this'] = "Value1"
+        self.data['task1_that'] = "Value2"
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    @patch('builtins.eval', return_value=True)
+    def test_submission_rejects_when_a_param_is_missed(self, m):
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        p2 = ParameterFactory.create(task=self.t, rest_alias="that")
+        self.data['task1_this'] = "Value1"
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
+
+    @patch('builtins.eval', return_value=True)
+    def test_submission_ignores_undefined_params(self, m):
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        self.data['task1_strange'] = "Value2"
+        self.data['task1_this'] = "Value1"
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    @patch('builtins.eval', return_value=True)
+    def test_submission_checks_params_across_more_than_one_task(self, m):
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        t2 = TaskFactory.create(backend=self.b, name="task2", executable="ls")
+        p2 = ParameterFactory.create(task=t2, rest_alias="this2")
+        self.data['task2_this2'] = "Value2"
+        self.data['task1_this'] = "Value1"
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     @patch('builtins.eval', return_value=True)
     def test_valid_submission_post_creates_entry(self, m):

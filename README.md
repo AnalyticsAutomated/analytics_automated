@@ -219,7 +219,9 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-1. Authentication
+1. Checking custom params in A_A and handling them in commandRunner
+2. Adding custom re based string checking, maybe even binary file verification
+3. Authentication
 
 Todo
 1. Add endpoint which returns all the public operations
