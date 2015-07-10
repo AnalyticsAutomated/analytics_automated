@@ -219,7 +219,7 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-1. Checking custom params in A_A and handling them in commandRunner
+1. Handling and pass additional params to commandRunner
 2. Adding custom re based string checking, maybe even binary file verification
 3. Authentication
 
