@@ -37,6 +37,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
 
+    def build_flags(self, steps, request_data):
+        return(())
+
+    def build_options(self, steps, request_data):
+        return({})
+
     def test_params(self, steps, request_data):
         """
             Check that the list of additional params the tasks take
@@ -111,9 +117,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             total_steps = len(steps)
             current_step = 1
 
+            # Check we have the params we want and then build the list of params
+            # we'll pass to the task runner.
             if not self.test_params(steps, request_contents):
                 content = {'error': "Requied Parameter Missing"}
                 return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+            flags = self.build_flags(steps, request_contents)
+            options = self.build_options(steps, request_contents)
 
             if len(steps) == 0:
                 content = {'error': "Job Requested Appears to have no Steps"}
@@ -126,7 +136,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 if step.task.backend.server_type == Backend.LOCALHOST:
                     queue_name = 'localhost'
                 # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                tchain += "task_runner.subtask(('%s',%i,%i,%i,'%s',params=request.contents), " \
+                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', " \
+                          "flags=flags, options=options), " \
                           "immutable=True, queue='%s'), " \
                           % (s.UUID,
                              step.ordering,
