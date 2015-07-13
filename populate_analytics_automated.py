@@ -11,12 +11,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 
 django.setup()
 
-
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from analytics_automated.models import Backend, Job, Task, Step
 from analytics_automated.models import Parameter, Submission, Result
-
 
 
 def populate():
@@ -38,7 +36,7 @@ def populate():
                          name="task1",
                          in_glob=".in",
                          out_glob=".out",
-                         executable="ls > $OUTPUT")
+                         executable="ls $FLAGS > $OUTPUT")
     that_task = add_task(backend=this_backend,
                          name="task2",
                          in_glob=".out",

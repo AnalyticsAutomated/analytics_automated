@@ -33,7 +33,7 @@ def add(x, y):
 # time limits?
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step,
-                total_steps, task_name, flags=(), options={}):
+                total_steps, task_name, flags, options):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -80,8 +80,9 @@ def task_runner(self, uuid, step_id, current_step,
         logger.info("Running At LOCALHOST")
         run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                           in_glob=t.in_glob, out_glob=t.out_glob,
-                          command=t.executable, input_data=data)
-
+                          command=t.executable, input_data=data, flags=flags,
+                          options=options)
+    logger.info("EXECUTABLE: "+run.command)
     run.prepare()
     exit_status = run.run_cmd()
     # if the command ran with success we'll send the file contents to the

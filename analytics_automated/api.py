@@ -37,13 +37,22 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
 
-    def build_flags(self, steps, request_data):
-        return(())
+    def __build_flags(self, task, request_data):
+        flags = []
+        params = task.parameters.all().filter(bool_valued=True)
+        for param in params:
+            if request_data[param.rest_alias] == 'True':  # check what we were passed
+                flags.append(param.flag)
+        return(flags)
 
-    def build_options(self, steps, request_data):
-        return({})
+    def __build_options(self, task, request_data):
+        options = {}
+        params = task.parameters.all().filter(bool_valued=False)
+        for param in params:
+            options[param.flag] = request_data[param.rest_alias]
+        return(options)
 
-    def test_params(self, steps, request_data):
+    def __test_params(self, steps, request_data):
         """
             Check that the list of additional params the tasks take
             has been provided by the user
@@ -119,49 +128,54 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # Check we have the params we want and then build the list of params
             # we'll pass to the task runner.
-            if not self.test_params(steps, request_contents):
+            if not self.__test_params(steps, request_contents):
                 content = {'error': "Requied Parameter Missing"}
                 return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
-            flags = self.build_flags(steps, request_contents)
-            options = self.build_options(steps, request_contents)
 
             if len(steps) == 0:
                 content = {'error': "Job Requested Appears to have no Steps"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
+            # 3. Build Celery chain
             prev_step = None
             queue_name = 'celery'
             tchain = "chain("
+            flags = {}
+            options = {}
             for step in steps:
+                flags = self.__build_flags(step.task, request_contents)
+                options = self.__build_options(step.task, request_contents)
                 if step.task.backend.server_type == Backend.LOCALHOST:
                     queue_name = 'localhost'
                 # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', " \
-                          "flags=flags, options=options), " \
+                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s), " \
                           "immutable=True, queue='%s'), " \
                           % (s.UUID,
                              step.ordering,
                              current_step,
                              total_steps,
                              step.task.name,
+                             flags,
+                             options,
                              queue_name)
                 current_step += 1
 
-            # 3. Build Celery chain
             tchain = tchain[:-2]
             tchain += ')()'
             logger.debug("TASK COMMAND: "+tchain)
+
+            # 4. Call delay on the Celery chain
             try:
                 exec(tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
-            # 4. Call delay on the Celery chain
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
         else:
             content = {'error': submission_form.errors}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):
     """

@@ -89,7 +89,7 @@ class Step(models.Model):
 
 
 class Parameter(models.Model):
-    task = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, related_name='parameters')
     flag = models.CharField(max_length=64, null=False, blank=False)
     default = models.CharField(max_length=64, null=True, blank=False)
     bool_valued = models.BooleanField(default=False, blank=False)
