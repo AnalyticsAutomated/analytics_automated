@@ -61,6 +61,23 @@ class Job(models.Model):
 # needed has been deleted
 
 
+class Validator(models.Model):
+    REGEX = 0  # a job has been submitted but no worker has claimed it
+    IMAGE = 1    # job submitted and worker has claimed it
+    MP3 = 2   # All tasks complete and results available
+    #                the job has stopped
+    VALIDATION_CHOICES = (
+        (REGEX, "Regular Expression"),
+        (IMAGE, "Image"),
+        (MP3, "MP3"),
+    )
+    job = models.ForeignKey(Job)
+    validation_type = models.IntegerField(null=False, blank=False,
+                                          choices=VALIDATION_CHOICES,
+                                          default=REGEX)
+    re_string = models.CharField(max_length=512, null=True, blank=True)
+
+
 class Task(models.Model):
     backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True,
                                 related_name='tasks')

@@ -1,13 +1,18 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 
-from .models import Backend, Job, Task, Step, Parameter, Result
+from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission
 
 
 class ParameterInline(admin.TabularInline):
     model = Parameter
     extra = 3
+
+
+class ValidatorInline(admin.TabularInline):
+    model = Validator
+    extra = 1
 
 
 class StepInline(admin.TabularInline):
@@ -41,7 +46,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class JobAdmin(admin.ModelAdmin):
-    inlines = [StepInline]
+    inlines = [ValidatorInline, StepInline]
     list_display = ('name', 'runnable', 'number_of_tasks', 'task_list')
 
     def number_of_tasks(self, obj):
