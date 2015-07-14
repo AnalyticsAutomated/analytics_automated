@@ -85,7 +85,7 @@ class Validator(models.Model):
         (IMAGE, "Image"),
         (MP3, "MP3"),
     )
-    job = models.ForeignKey(Job)
+    job = models.ForeignKey(Job, related_name="validators")
     validation_type = models.IntegerField(null=False, blank=False,
                                           choices=VALIDATION_CHOICES,
                                           default=REGEX)

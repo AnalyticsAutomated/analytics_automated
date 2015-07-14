@@ -14,7 +14,7 @@ django.setup()
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from analytics_automated.models import Backend, Job, Task, Step
-from analytics_automated.models import Parameter, Submission, Result
+from analytics_automated.models import Parameter, Submission, Result, Validator
 
 
 def populate():
@@ -26,6 +26,7 @@ def populate():
     Submission.objects.all().delete()
     Parameter.objects.all().delete()
     Result.objects.all().delete()
+    Validator.objects.all().delete()
 
     this_backend = add_backend(name="local1",
                                server_type=Backend.LOCALHOST,
@@ -58,6 +59,8 @@ def populate():
 
     add_step(this_job, this_task, 0)
     add_step(this_job, that_task, 1)
+
+    add_validator(this_job, 0, ".+")
 
     file1 = SimpleUploadedFile('file1.txt',
                                bytes('these are the file contents!', 'utf-8'))
@@ -127,6 +130,14 @@ def add_submisson(job, name, UUID, email, ip, input_data):
     s.input_data = input_data
     s.save()
     return(s)
+
+
+def add_validator(job, val_type, re_string):
+    v = Validator.objects.create(job=job)
+    v.validation_type = val_type
+    v.re_string = re_string
+    v.save()
+    return(v)
 
 # Start execution here!
 if __name__ == '__main__':
