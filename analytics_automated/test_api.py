@@ -46,6 +46,7 @@ class SubmissionDetailTests(APITestCase):
     file = ''
     data = {}
     factory = APIRequestFactory()
+    j1 = None
     t = None
     b = None
 
@@ -57,10 +58,10 @@ class SubmissionDetailTests(APITestCase):
                      'job': 'job1',
                      'submission_name': 'test',
                      'email': 'a@b.com'}
-        j1 = JobFactory.create(name="job1")
+        self.j1 = JobFactory.create(name="job1")
         self.b = BackendFactory.create(root_path="/tmp/")
         self.t = TaskFactory.create(backend=self.b, name="task1", executable="ls")
-        s = StepFactory(job=j1, task=self.t, ordering=0)
+        s = StepFactory(job=self.j1, task=self.t, ordering=0)
 
     def tearDown(self):
         Backend.objects.all().delete()
@@ -212,3 +213,25 @@ class SubmissionDetailTests(APITestCase):
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_validator_rejection_without_valid_input_data(self):
+        null_file = SimpleUploadedFile('file1.txt',
+                                       bytes('',
+                                             'utf-8'))
+        self.data['input_data'] = null_file
+        validator = ValidatorFactory(job=self.j1, validation_type=0,
+                                     re_string=".+")
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_validator_passes_with_valid_input_data(self):
+        validator = ValidatorFactory(job=self.j1, validation_type=0,
+                                     re_string=".+")
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

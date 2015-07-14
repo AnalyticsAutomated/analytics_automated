@@ -13,7 +13,8 @@ class SubmissionForm(forms.ModelForm):
         job = self.cleaned_data.get("job")
         j = Job.objects.get(name=job)
         v = j.validators.all()
-        print("\n\n\n\n\n")
+        if len(v) == 0:  # Nothing to do here
+            return(input_data)
         match_state = False
         for validator in v:
             if validator.validation_type == Validator.REGEX:
