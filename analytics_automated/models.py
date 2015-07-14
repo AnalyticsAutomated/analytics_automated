@@ -1,4 +1,6 @@
+import re
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class TimeStampedModel(models.Model):
@@ -62,6 +64,18 @@ class Job(models.Model):
 
 
 class Validator(models.Model):
+
+    def validate_re_string(value):
+        is_valid = False
+        try:
+            re.compile(value)
+            is_valid = True
+        except re.error:
+            is_valid = False
+        if is_valid is False:
+            raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
+                                  value))
+
     REGEX = 0  # a job has been submitted but no worker has claimed it
     IMAGE = 1    # job submitted and worker has claimed it
     MP3 = 2   # All tasks complete and results available
@@ -75,7 +89,7 @@ class Validator(models.Model):
     validation_type = models.IntegerField(null=False, blank=False,
                                           choices=VALIDATION_CHOICES,
                                           default=REGEX)
-    re_string = models.CharField(max_length=512, null=True, blank=True)
+    re_string = models.CharField(max_length=512, null=True, blank=True, validators=[validate_re_string])
 
 
 class Task(models.Model):

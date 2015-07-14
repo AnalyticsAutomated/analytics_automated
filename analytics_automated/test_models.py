@@ -3,8 +3,9 @@ import uuid
 from django.test import TestCase
 from django.db import transaction
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.exceptions import ValidationError
 
-from .models import Backend, Task, Job, Step, Submission
+from .models import Backend, Task, Job, Step, Submission, Validator
 from .model_factories import *
 
 
@@ -99,6 +100,27 @@ class SubmissionTest(TestCase):
         """
         s = SubmissionFactory.create()
         self.assertEqual((Submission.objects.count() == 1), True)
+
+
+class ValidatorTest(TestCase):
+
+    v = None
+
+    def tearDown(self):
+        Job.objects.all().delete()
+        Validator.objects.all().delete
+
+    def test_valid_re_string(self):
+        j = JobFactory.create()
+        self.v = Validator(job=j, validation_type=0, re_string=".+")
+        self.v.full_clean()
+        self.v.save()
+        self.assertEqual((Validator.objects.count() == 1), True)
+
+    def test_invalid_re_string(self):
+        j = JobFactory.create()
+        self.v = Validator(job=j, validation_type=0, re_string="([")
+        self.assertRaises(ValidationError, self.v.full_clean)
 
 
 class ParameterTest(TestCase):

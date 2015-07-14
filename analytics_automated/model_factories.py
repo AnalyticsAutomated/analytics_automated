@@ -10,7 +10,8 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from .models import Backend, Task, Job, Step, Submission, Parameter, Result
+from .models import Backend, Task, Job, Step, Submission
+from .models import Parameter, Result, Validator
 
 TEST_DATA = settings.BASE_DIR.child("static").child("files").child("file1.txt")
 RESULT_DATA = settings.BASE_DIR.child("static").child("files"). \
@@ -85,6 +86,15 @@ class ParameterFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = Parameter
+
+
+class ValidatorFactory(factory.DjangoModelFactory):
+    job = JobFactory.create()
+    validation_type = random.randint(0, 2)
+    re_string = ".+"
+
+    class Meta:
+        model = Validator
 
 
 class ResultFactory(factory.DjangoModelFactory):

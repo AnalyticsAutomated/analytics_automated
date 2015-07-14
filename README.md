@@ -220,8 +220,7 @@ NEXT UP TODO/REMINDERS
 
 Up next
 2. Adding custom re based string checking, maybe even binary file verification
-    user_validator table, link to job as extension. Let users add either and re
-    string or binary file validation. Have api.py call the validator and reject
+    user_validator table, link to job as extension. Have api.py call the validator and reject
     if not passed, custom validator that does different things based on the
     user_validtor table.
 3. Authentication

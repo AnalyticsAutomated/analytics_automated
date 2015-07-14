@@ -12,6 +12,9 @@ class SubmissionForm(forms.ModelForm):
         fields = ('job', 'submission_name', 'UUID', 'email',
                   'ip', 'input_data',)
 
+        def clean_input_data(self):
+            pass
+
 
 class JobForm(forms.ModelForm):
     class Meta:
@@ -23,23 +26,3 @@ class ValidatorForm(BaseInlineFormSet):
 
     class Meta:
         model = Validator
-
-    '''
-       Validate formset data here
-    '''
-    def clean(self):
-        re_string = ''
-        validation_type = ''
-        for formset in self.cleaned_data:
-            re_string = formset['re_string']
-            validation_type = formset['validation_type']
-            if validation_type == Validator.REGEX:
-                is_valid = False
-                try:
-                    re.compile(re_string)
-                    is_valid = True
-                except re.error:
-                    is_valid = False
-                if is_valid is False:
-                    raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
-                                          re_string))

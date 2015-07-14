@@ -1,8 +1,6 @@
 import re
 from django.contrib import admin
 from django.core.urlresolvers import reverse
-from django.forms.models import BaseInlineFormSet
-from django.core.exceptions import ValidationError
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission
