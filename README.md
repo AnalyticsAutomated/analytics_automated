@@ -219,11 +219,7 @@ NEXT UP TODO/REMINDERS
 ======================
 
 Up next
-2. Adding custom re based string checking, maybe even binary file verification
-    user_validator table, link to job as extension. Have api.py call the validator and reject
-    if not passed, custom validator that does different things based on the
-    user_validtor table.
-3. Authentication
+1. Sending Completion Emails!
 
 Todo
 1. Add endpoint which returns all the public operations

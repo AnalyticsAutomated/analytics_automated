@@ -9,6 +9,7 @@ from celery import shared_task
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
+from .models import BackendUser
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +77,16 @@ def task_runner(self, uuid, step_id, current_step,
     # Now we run the task handing off the actual running to the commandRunner
     # library
     run = None
+    # Here we get the users list and decide which one to submit the job with
+    # TODO: Candidate to move to the command runner as it should handle the
+    # finding out what is happening on the backend. Perhaps API call in
+    # which returns the number of running processes and maybe the load average
+
+    priority_value = getattr(BackendUser, priority)
+    users = BackendUser.objects.all().filter(priority=priority_value)
+    for user in users:
+        print(user.login_name)
+
     if t.backend.server_type == Backend.LOCALHOST:
         logger.info("Running At LOCALHOST")
         run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
@@ -112,5 +123,6 @@ def task_runner(self, uuid, step_id, current_step,
     if current_step == total_steps:
         state = Submission.COMPLETE
         message = 'Completed at step #' + str(current_step)
+        # TODO: Here we send and email to the user IF we have an email address
     Submission.update_submission_state(s, True, state, step_id, self.request.id,
                                        message)

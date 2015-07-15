@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
-from .models import Submission
+from .models import Submission, BackendUser
 from .forms import *
 
 
@@ -23,6 +23,11 @@ class StepInline(admin.TabularInline):
     extra = 3
 
 
+class BackendUserInline(admin.TabularInline):
+    model = BackendUser
+    extra = 2
+
+
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
@@ -30,6 +35,7 @@ class BackendAdmin(admin.ModelAdmin):
         ('Path', {'fields': ['root_path']}),
     ]
     list_display = ('name', 'server_type', 'ip', 'port', 'root_path')
+    inlines = [BackendUserInline]
 
 
 class TaskAdmin(admin.ModelAdmin):

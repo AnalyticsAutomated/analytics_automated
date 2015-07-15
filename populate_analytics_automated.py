@@ -14,7 +14,8 @@ django.setup()
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from analytics_automated.models import Backend, Job, Task, Step
-from analytics_automated.models import Parameter, Submission, Result, Validator
+from analytics_automated.models import Parameter, Submission, Result
+from analytics_automated.models import Validator, BackendUser
 
 
 def populate():
@@ -27,12 +28,17 @@ def populate():
     Parameter.objects.all().delete()
     Result.objects.all().delete()
     Validator.objects.all().delete()
+    BackendUser.objects.all().delete()
 
     this_backend = add_backend(name="local1",
                                server_type=Backend.LOCALHOST,
                                ip="127.0.0.1",
                                port=80,
                                root_path="/tmp/")
+    this_backenduser = add_BackendUser(backend=this_backend,
+                                       userid="dummyid",
+                                       password="p4ssw0rd",
+                                       priority=2)
     this_task = add_task(backend=this_backend,
                          name="task1",
                          in_glob=".in",
@@ -138,6 +144,14 @@ def add_validator(job, val_type, re_string):
     v.re_string = re_string
     v.save()
     return(v)
+
+
+def add_BackendUser(backend, userid, password, priority):
+    bu = BackendUser.objects.create(backend=backend)
+    bu.login_name = userid
+    bu.password = password
+    bu.priority = priority
+    bu.save()
 
 # Start execution here!
 if __name__ == '__main__':
