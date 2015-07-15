@@ -49,20 +49,20 @@ class TaskTestCase(TestCase):
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSuccess(self, m):
-        task_runner.delay(self.uuid1, 0, 1, 1, "test_task", [], {})
+        task_runner.delay(self.uuid1, 0, 1, 1, "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual((self.sub.message == "Completed at step #1"), True)
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
     def testTaskRunnerExecuteNoneZeroExit(self, m):
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1,
-                          "test_task", [], {})
+                          "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual((self.sub.message == "Failed step :0"), True)
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
-        task_runner.delay(self.uuid1, 0, 1, 2, "test_task", [], {})
+        task_runner.delay(self.uuid1, 0, 1, 2, "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual((self.sub.message == "Running"), True)
 
@@ -75,7 +75,7 @@ class TaskTestCase(TestCase):
                                    task=self.t,
                                    step=1,
                                    previous_step=None,)
-        task_runner.delay(self.uuid1, 0, 2, 2, "test_task", [], {})
+        task_runner.delay(self.uuid1, 0, 2, 2, "test_task", [], {}, "MEDIUM")
         result = Result.objects.get(submission=self.sub, step=2)
         data = ''
         result.result_data.open(mode='r')

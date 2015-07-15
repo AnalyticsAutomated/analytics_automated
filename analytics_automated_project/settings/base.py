@@ -39,6 +39,9 @@ SETTINGS_PATH = Path(__file__).ancestor(1)
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
 with open(os.path.join(BASE_SECRETS_PATH)) as f: base_secrets = json.loads(f.read())
 
+DEFAULT_JOB_PRIORITY = 'MEDIUM'
+LOGGED_IN_JOB_PRIORITY = 'HIGH'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -114,6 +117,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# redirect on  login
+LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'analytics_automated_project.wsgi.application'
 

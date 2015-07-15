@@ -7,6 +7,7 @@ from celery import chain
 
 from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
+from django.conf import settings
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -113,6 +114,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         else:
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        # Here we'll work out what priority this job will run at
+        job_priority = settings.DEFAULT_JOB_PRIORITY
+        if request.user.is_authenticated():
+            job_priority = settings.LOGGED_IN_JOB_PRIORITY
+        # In the future we'll set batch jobs to the lowest priority
+
         # TODO: VALIDATE input_data IN SOME MANNER
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
@@ -148,7 +156,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 if step.task.backend.server_type == Backend.LOCALHOST:
                     queue_name = 'localhost'
                 # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s), " \
+                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
                           "immutable=True, queue='%s'), " \
                           % (s.UUID,
                              step.ordering,
@@ -157,6 +165,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              step.task.name,
                              flags,
                              options,
+                             job_priority,
                              queue_name)
                 current_step += 1
 

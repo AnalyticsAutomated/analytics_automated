@@ -33,6 +33,8 @@ urlpatterns = [
          api.SubmissionDetails.as_view(),
          name="submissionDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
+     url(r'^login/$', 'django.contrib.auth.views.login'),
+     url(r'^logout/$', 'django.contrib.auth.views.logout'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])
 

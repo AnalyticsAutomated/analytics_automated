@@ -52,6 +52,27 @@ class Backend(models.Model):
 # places, the backend would be the default location in that instance.
 
 
+class BackendUser(models.Model):
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    PRIORITY_CHOICES = (
+        (LOW, "low"),
+        (MEDIUM, "medium"),
+        (HIGH, "high"),
+        # add more when more backends are complete
+    )
+    backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True,
+                                related_name='users')
+    login_name = models.CharField(max_length=64, unique=True, null=False,
+                                  blank=False, db_index=True)
+    password = models.CharField(max_length=64, unique=True, null=False,
+                                blank=False, db_index=True)
+    priority = models.IntegerField(null=False, blank=False,
+                                   choices=PRIORITY_CHOICES,
+                                   default=MEDIUM)
+
+
 class Job(models.Model):
     name = models.CharField(max_length=64, unique=True, null=False,
                             blank=False, db_index=True)
