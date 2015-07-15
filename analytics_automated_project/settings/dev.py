@@ -31,3 +31,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 
 # Change the test runner
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = 'psipred@cs.ucl.ac.uk'
+EMAIL_HOST_PASSWORD = ''

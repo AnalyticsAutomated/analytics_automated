@@ -7,6 +7,7 @@ from celery import Celery
 from celery import shared_task
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.mail import send_mail
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import BackendUser
@@ -123,6 +124,11 @@ def task_runner(self, uuid, step_id, current_step,
     if current_step == total_steps:
         state = Submission.COMPLETE
         message = 'Completed at step #' + str(current_step)
+        # TODO: This needs a try-catch
+        send_mail("Job Completion", "This Job is finished", "psipred@cs.ucl.ac.uk",
+                  ["daniel.buchan@ucl.ac.uk"], fail_silently=False)
+        print("sending email")
+
         # TODO: Here we send and email to the user IF we have an email address
     Submission.update_submission_state(s, True, state, step_id, self.request.id,
                                        message)
