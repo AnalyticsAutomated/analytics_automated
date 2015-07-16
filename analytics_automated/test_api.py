@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory
+from rest_framework.request import Request
 
 from .api import SubmissionDetails
 from .models import *
@@ -227,7 +228,8 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_validator_passes_with_valid_input_data(self):
+    @patch('builtins.exec', return_value=True)
+    def test_validator_passes_with_valid_input_data(self, m):
         validator = ValidatorFactory(job=self.j1, validation_type=0,
                                      re_string=".+")
         request = self.factory.post(reverse('submission'), self.data,
@@ -235,3 +237,88 @@ class SubmissionDetailTests(APITestCase):
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test__build_flags_returns_valid_array(self):
+        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
+                                     rest_alias="this")
+        sd = SubmissionDetails()
+        array = sd._SubmissionDetails__build_flags(self.t, {'task1_this': 'True'})
+        self.assertEqual(array, ["t"])
+
+    def test__build_flags_returns_nothing_flag_set_to_false(self):
+        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
+                                     rest_alias="this")
+        sd = SubmissionDetails()
+        array = sd._SubmissionDetails__build_flags(self.t, {'task1_this': 'False'})
+        self.assertEqual(array, [])
+
+    def test__build_flags_returns_nothing_with_mismatch(self):
+        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
+                                     rest_alias="this")
+        sd = SubmissionDetails()
+        array = sd._SubmissionDetails__build_flags(self.t, {'task1_that': 'False'})
+        self.assertEqual(array, [])
+
+    def test__build_options_returns_valid_dict(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        sd = SubmissionDetails()
+        dict = sd._SubmissionDetails__build_options(self.t, {'task1_this': 123})
+        self.assertEqual(dict, {"-t": 123})
+
+    def test__build_options_returns_nothing_with_mismatch(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        sd = SubmissionDetails()
+        dict = sd._SubmissionDetails__build_options(self.t, {'task1_that': 123})
+        self.assertEqual(dict, {})
+
+    def test__test_params_returns_true_when_set_is_contained(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+                                     rest_alias="that")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_that': 123,
+                                                          'task1_this': 69})
+        self.assertEqual(bool, True)
+
+    def test__test_params_returns_false_when_set_is_not_complete(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+                                     rest_alias="that")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_that': 123, })
+        self.assertEqual(bool, False)
+
+    def test__test_params_returns_true_when_too_many_items_passed(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_that': 123,
+                                                          'task1_this': 69})
+        self.assertEqual(bool, True)
+
+    def test__test_params_returns_true_with_nothing(self):
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {})
+        self.assertEqual(bool, True)
+
+    @patch('uuid.uuid1', return_value="f7a314fe-2bda-11e5-bda2-989096c13ee6")
+    def test__prepare_data(self, m):
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        drf_request = Request(request)
+        sd = SubmissionDetails()
+        data, request_data = sd._SubmissionDetails__prepare_data(drf_request)
+        self.assertEqual(data, {'UUID': "f7a314fe-2bda-11e5-bda2-989096c13ee6",
+                                'ip': '127.0.0.1', 'email': 'a@b.com',
+                                'job': 'job1', 'submission_name': 'test'})
+
+    def test__construct_chain_string(self):
+        pass

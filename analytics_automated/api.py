@@ -14,6 +14,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import request
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
@@ -42,7 +43,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         flags = []
         params = task.parameters.all().filter(bool_valued=True)
         for param in params:
-            if request_data[param.rest_alias] == 'True':  # check what we were passed
+            if param.rest_alias in request_data and \
+             request_data[param.rest_alias] == 'True':  # check what was passed
                 flags.append(param.flag)
         return(flags)
 
@@ -50,7 +52,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         options = {}
         params = task.parameters.all().filter(bool_valued=False)
         for param in params:
-            options[param.flag] = request_data[param.rest_alias]
+            if param.rest_alias in request_data:
+                options[param.flag] = request_data[param.rest_alias]
         return(options)
 
     def __test_params(self, steps, request_data):
@@ -80,15 +83,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         """
         return self.retrieve(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        """
-            This is the Job Submission endpoint.
-            Here we add things to our data object, validate using the
-            Submission Form because the serializer does NOT handle all
-            the fields we save and push the job to the queue. We could
-            write another serializer to handle this validation but that
-            seems insane when the forms functionality is already in place
-        """
+    def __prepare_data(self, request):
         request_contents = request.data
         if 'input_data' in request_contents:
             request_contents.pop('input_data')
@@ -101,13 +96,62 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['ip'] = get_ip(request)
             data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError:
+            raise MultiValueDictKeyError
+        except KeyError:
+            raise KeyError
+
+        return(data, request_contents)
+
+    def __construct_chain_string(self, steps, request_contents, UUID,
+                                 job_priority):
+        total_steps = len(steps)
+        current_step = 1
+        prev_step = None
+        queue_name = 'celery'
+        tchain = "chain("
+        flags = {}
+        options = {}
+        for step in steps:
+            flags = self.__build_flags(step.task, request_contents)
+            options = self.__build_options(step.task, request_contents)
+            if step.task.backend.server_type == Backend.LOCALHOST:
+                queue_name = 'localhost'
+            # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
+            tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
+                      "immutable=True, queue='%s'), " \
+                      % (UUID,
+                         step.ordering,
+                         current_step,
+                         total_steps,
+                         step.task.name,
+                         flags,
+                         options,
+                         job_priority,
+                         queue_name)
+            current_step += 1
+        tchain = tchain[:-2]
+        tchain += ')()'
+        logger.debug("TASK COMMAND: "+tchain)
+        return(tchain)
+
+    def post(self, request, *args, **kwargs):
+        """
+            This is the Job Submission endpoint.
+            Here we add things to our data object, validate using the
+            Submission Form because the serializer does NOT handle all
+            the fields we save and push the job to the queue. We could
+            write another serializer to handle this validation but that
+            seems insane when the forms functionality is already in place
+        """
+        # # data['input_data'] = request.data['input_data']
+        try:
+            data, request_contents = self.__prepare_data(request)
+        except MultiValueDictKeyError:
             content = {'error': "Input does not contain all required fields"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             content = {'error': "Input does not contain all required fields"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-            # TODO : We could return a message specifying what is missing.
-
         # work out which job this refers to
         if Job.objects.filter(name=data['job']).exists():
             data['job'] = Job.objects.get(name=data['job']).pk
@@ -131,8 +175,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                        .extra(order_by=['ordering'])
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
-            total_steps = len(steps)
-            current_step = 1
 
             # Check we have the params we want and then build the list of params
             # we'll pass to the task runner.
@@ -145,34 +187,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             # 3. Build Celery chain
-            prev_step = None
-            queue_name = 'celery'
-            tchain = "chain("
-            flags = {}
-            options = {}
-            for step in steps:
-                flags = self.__build_flags(step.task, request_contents)
-                options = self.__build_options(step.task, request_contents)
-                if step.task.backend.server_type == Backend.LOCALHOST:
-                    queue_name = 'localhost'
-                # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-                tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
-                          "immutable=True, queue='%s'), " \
-                          % (s.UUID,
-                             step.ordering,
-                             current_step,
-                             total_steps,
-                             step.task.name,
-                             flags,
-                             options,
-                             job_priority,
-                             queue_name)
-                current_step += 1
-
-            tchain = tchain[:-2]
-            tchain += ')()'
-            logger.debug("TASK COMMAND: "+tchain)
-
+            tchain = self.__construct_chain_string(steps, request_contents,
+                                                   s.UUID, job_priority)
             # 4. Call delay on the Celery chain
             try:
                 exec(tchain)
