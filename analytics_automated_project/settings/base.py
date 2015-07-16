@@ -37,10 +37,55 @@ STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
-with open(os.path.join(BASE_SECRETS_PATH)) as f: base_secrets = json.loads(f.read())
+with open(os.path.join(BASE_SECRETS_PATH)) as \
+    f: base_secrets = json.loads(f.read())
+
+##############################
+# Required A_A user settings #
+##############################
 
 DEFAULT_JOB_PRIORITY = 'MEDIUM'
 LOGGED_IN_JOB_PRIORITY = 'HIGH'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
+# EMAIL_PORT = ''
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# DEFAULT_FROM_EMAIL = ''
+EMAIL_SUBJECT_STRING = 'A_A Job Completion'
+EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
+                       'results from http://localhost/analytics_automated/' \
+                       'submission/'
+
+# Celery Settings
+# BROKER_URL = ''
+# CELERY_RESULT_BACKEND = ''  # This will be the postgresDB
+# CELERY_TIMEZONE = 'Europe/London'
+# CELERY_ENABLE_UTC = True
+# CELERYD_MAX_TASKS_PER_CHILD = 100
+# CELERYD_PREFETCH_MULTIPLIER = 1
+# Uncomment to allow celery tests to run
+# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+# MEDIA_URL = '/submissions/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': '',
+#         'NAME': '',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '',
+#     }
+# }
+#
+# SECRET_KEY = ''
+
+########################
+# End of User settings #
+########################
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -61,14 +106,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'djcelery'
 )
-
-# CELERY SETTINGS
-BROKER_URL = 'amqp://guest@localhost//'
-CELERY_RESULT_BACKEND = 'rpc://guest@localhost//'  # This will be the postgresDB
-CELERY_TIMEZONE = 'Europe/London'
-CELERY_ENABLE_UTC = True
-CELERYD_MAX_TASKS_PER_CHILD = 100
-CELERYD_PREFETCH_MULTIPLIER = 1
 
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
@@ -91,14 +128,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'bugsnag.django.middleware.BugsnagMiddleware'
+    # 'bugsnag.django.middleware.BugsnagMiddleware'
 )
 
-# TODO: can't use this, api key only read from env
-BUGSNAG = {
-    'api_key': get_secret("BUGSNAG", base_secrets),
-    'project_root': BASE_DIR,
-}
+# # TODO: can't use this, api key only read from env
+# BUGSNAG = {
+#     'api_key': get_secret("BUGSNAG", base_secrets),
+#     'project_root': BASE_DIR,
+# }
 
 ROOT_URLCONF = 'analytics_automated_project.urls'
 
