@@ -1,5 +1,6 @@
 import json
 import io
+import uuid
 from unipath import Path
 from unittest.mock import patch
 
@@ -321,4 +322,19 @@ class SubmissionDetailTests(APITestCase):
                                 'job': 'job1', 'submission_name': 'test'})
 
     def test__construct_chain_string(self):
-        pass
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=True,
+                                     rest_alias="this")
+        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+                                     rest_alias="that")
+        request_contents = {'task1_this': 'True', 'task1_that': 123}
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
+                    request_contents,
+                    local_id, 2)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 'task1', ['-t'], "
+                                    "{'-th': 123}, '2'), immutable=True, "
+                                    "queue='localhost'))()")
