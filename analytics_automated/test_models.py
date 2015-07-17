@@ -41,7 +41,7 @@ class TaskMethodTest(TestCase):
         """
         b = BackendFactory.create()
         t = TaskFactory.create(backend=b)
-        self.assertEqual((Task.objects.count() == 1), True)
+        self.assertEqual(Task.objects.count(), 1)
 
 
 class JobMethodTest(TestCase):
@@ -51,7 +51,7 @@ class JobMethodTest(TestCase):
             check we can load valid job data
         """
         j = JobFactory.create()
-        self.assertEqual((Job.objects.count() == 1), True)
+        self.assertEqual(Job.objects.count(), 1)
 
 
 class StepMethodTest(TestCase):
@@ -65,7 +65,7 @@ class StepMethodTest(TestCase):
         j = JobFactory.create()
         s = StepFactory(job=j, task=t, ordering=0)
         s = StepFactory(job=j, task=t, ordering=1)
-        self.assertEqual((Step.objects.count() == 2), True)
+        self.assertEqual(Step.objects.count(), 2)
 
     def test_steps_can_not_have_same_orderinge(self):
         """
@@ -89,7 +89,7 @@ class StepMethodTest(TestCase):
         s = StepFactory(job=j, task=t, ordering=0)
         s = StepFactory(job=j, task=t, ordering=1)
         Job.objects.all().delete()
-        self.assertEqual((Step.objects.count() == 0), True)
+        self.assertEqual(Step.objects.count(), 0)
 
 
 class SubmissionTest(TestCase):
@@ -99,7 +99,7 @@ class SubmissionTest(TestCase):
             simple data loading test
         """
         s = SubmissionFactory.create()
-        self.assertEqual((Submission.objects.count() == 1), True)
+        self.assertEqual(Submission.objects.count(), 1)
 
 
 class ValidatorTest(TestCase):
@@ -115,7 +115,7 @@ class ValidatorTest(TestCase):
         self.v = Validator(job=j, validation_type=0, re_string=".+")
         self.v.full_clean()
         self.v.save()
-        self.assertEqual((Validator.objects.count() == 1), True)
+        self.assertEqual(Validator.objects.count(), 1)
 
     def test_invalid_re_string(self):
         j = JobFactory.create()
@@ -127,10 +127,10 @@ class ParameterTest(TestCase):
 
     def test_parameter_submission(self):
         p = ParameterFactory.create()
-        self.assertEqual((Parameter.objects.count() == 1), True)
+        self.assertEqual(Parameter.objects.count(), 1)
 
     def test_rest_alias_takes_task_name(self):
         b = BackendFactory.create()
         t = TaskFactory.create(backend=b, name="test")
         p = ParameterFactory.create(task=t, rest_alias="alias")
-        self.assertEqual(p.rest_alias == t.name+"_alias", True)
+        self.assertEqual(p.rest_alias, t.name+"_alias")
