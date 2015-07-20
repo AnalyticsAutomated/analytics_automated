@@ -28,7 +28,7 @@ technology greatly reduces the pool of possible employees for your organisation
 and backing the "wrong horse" means if you have to change it can be very costly
 in terms of time, staffing and money.
 
-A_A is agnotic to the modeling software and technologies you choose to build
+A_A is agnostic to the modeling software and technologies you choose to build
 your group around.
 
 ### How it works
