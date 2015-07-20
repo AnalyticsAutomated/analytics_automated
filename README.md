@@ -3,7 +3,7 @@
 Current state: Release Candidate 1.0
 
 Analytics Automated (A_A) is a lightweight framework for automating long running
-distributed computation, focussed on executing Data Science tasks.
+distributed computation principally focussed on executing Data Science tasks.
 
 Today it is trivially easy for Scientists, Researchers, Data Scientists and
 Analysts to build statistical and predictive models. More often than not these
