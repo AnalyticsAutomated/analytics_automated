@@ -65,8 +65,6 @@ You will need
 NEXT UP TODO/REMINDERS
 ======================
 
-Todo
-
 1. Add endpoint which returns all the public operations
 2. Grid Engine support
 3. RServe support
