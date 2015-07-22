@@ -1,6 +1,9 @@
-*.pyc
-analytics_automated_project/dev_settings.py
+*.py[cod]
 *.json
 *~
 DEADJOE
 media/temp
+submissions/*
+__pycache__/
+*.log
+logs/*
