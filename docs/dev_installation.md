@@ -248,22 +248,3 @@ For dev purposes we can start the workers with:
     * `> celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery`
 21. Test the code also defining the settings you are using
     * `> python manage.py test --settings=analytics_automated_project.settings.dev`
-
-NEXT UP TODO/REMINDERS
-======================
-
-Todo
-
-1. Add endpoint which returns all the public operations
-
-Production things
-
-2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
-
-    enable app.Task.track_started
-    Autoscaling
-
-3. Solution for file storage in staging/production???
-4. Consider Flower for celery monitoring
-5. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-5. Investigate cached_property
