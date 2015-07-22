@@ -8,6 +8,7 @@ from celery import shared_task
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
+from django.conf import settings
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import BackendUser
@@ -32,6 +33,26 @@ def add(x, y):
     return x + y
 
 
+def get_data(s, current_step):
+    data = ''
+    previous_step = None
+    # if this is the first task in a chain get the input_data from submission
+    # if this is not the first task get the input_data from the results
+    if current_step == 1:
+        s.input_data.open(mode='r')
+        for line in s.input_data:
+            data += line.decode(encoding='UTF-8')
+        s.input_data.close()
+    else:
+        previous_step = current_step-1
+        r = Result.objects.get(submission=s, step=previous_step)
+        r.result_data.open(mode='r')
+        for line in r.result_data:
+            data += line.decode(encoding='UTF-8')
+        r.result_data.close()
+    return(data, previous_step)
+
+
 # time limits?
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step,
@@ -53,22 +74,7 @@ def task_runner(self, uuid, step_id, current_step,
     logger.info("STEP ID:" + str(step_id))
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
-    data = ''
-    previous_step = None
-    # if this is the first task in a chain get the input_data from submission
-    # if this is not the first task get the input_data from the results
-    if current_step == 1:
-        s.input_data.open(mode='r')
-        for line in s.input_data:
-            data += line.decode(encoding='UTF-8')
-        s.input_data.close()
-    else:
-        previous_step = current_step-1
-        r = Result.objects.get(submission=s, step=previous_step)
-        r.result_data.open(mode='r')
-        for line in r.result_data:
-            data += line.decode(encoding='UTF-8')
-        r.result_data.close()
+    data, previous_step = get_data(s, current_step)
 
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
@@ -82,7 +88,6 @@ def task_runner(self, uuid, step_id, current_step,
     # TODO: Candidate to move to the command runner as it should handle the
     # finding out what is happening on the backend. Perhaps API call in
     # which returns the number of running processes and maybe the load average
-
     priority_value = getattr(BackendUser, priority)
     users = BackendUser.objects.all().filter(priority=priority_value)
     for user in users:
@@ -125,10 +130,13 @@ def task_runner(self, uuid, step_id, current_step,
         state = Submission.COMPLETE
         message = 'Completed at step #' + str(current_step)
         # TODO: This needs a try-catch
-        send_mail("Job Completion", "This Job is finished", "psipred@cs.ucl.ac.uk",
-                  ["daniel.buchan@ucl.ac.uk"], fail_silently=False)
-        print("sending email")
-
+        if s.email is not None and \
+                len(s.email) > 5 and settings.DEFAULT_FROM_EMAIL is not None:
+            send_mail(settings.EMAIL_SUBJECT_STRING+": "+uuid,
+                      settings.EMAIL_MESSAGE_STRING+uuid, from_email=None,
+                      recipient_list=[s.email],
+                      fail_silently=False)
+            logger.info("SENDING MAIL TO: "+s.email)
         # TODO: Here we send and email to the user IF we have an email address
     Submission.update_submission_state(s, True, state, step_id, self.request.id,
                                        message)
