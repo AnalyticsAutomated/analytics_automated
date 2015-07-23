@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+    01_installation
+
 Indices and tables
 ==================
 
