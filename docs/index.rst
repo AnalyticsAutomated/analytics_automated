@@ -13,6 +13,9 @@ Contents:
 
     01_installation
 
+
+So this ought to be a nice bit of documentation but huh?
+
 Indices and tables
 ==================
 
