@@ -69,6 +69,8 @@ NEXT UP TODO/REMINDERS
 2. Grid Engine support
 3. RServe support
 
+4. Is it worth adding types to vars?
+
 Production things:
 
 2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
@@ -80,3 +82,6 @@ Production things:
 4. Consider Flower for celery monitoring
 5. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
 5. Investigate cached_property
+
+
+Wmy7yYjTyACHIprX
