@@ -69,7 +69,10 @@ NEXT UP TODO/REMINDERS
 2. Grid Engine support
 3. RServe support
 
-4. Is it worth adding types to vars?
+4. Is it worth adding types to vars for clarity?
+
+5. Add scheduled tasks
+6. Non-linear jobs (i.e tasks with multiple parents)
 
 Production things:
 
