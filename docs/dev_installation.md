@@ -66,9 +66,9 @@ development environments.
 2. Install git
 3. Install RabbitMQ (configuring this may hose your postgres install on OSX, so
   install RabbitMQ before postgres)
-    `http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x`
+    http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x
 4. Install postgres for your system, MacOSX version can be found at
-    `brew install postgres`
+    brew install postgres
 5. Install virtualenv and virtualenvwrapper
 
     ```
