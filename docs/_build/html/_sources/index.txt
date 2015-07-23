@@ -1,20 +1,22 @@
-.. analytics_automated documentation master file, created by
-   sphinx-quickstart on Thu Jul 23 11:25:49 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Analytics Automated documentation!
+==================================
 
-Welcome to analytics_automated's documentation!
-===============================================
+So this ought to be a nice bit of documentation but huh?
 
-Contents:
+    Well this is awkward
+    isn't it
+    print(things)
 
 .. toctree::
    :maxdepth: 2
 
-    01_installation
-
-
-So this ought to be a nice bit of documentation but huh?
+   installation
+   how_it_works
+   the_UI
+   configuring_a_basic_task
+   recipes
+   advanced
+   dev_installation
 
 Indices and tables
 ==================

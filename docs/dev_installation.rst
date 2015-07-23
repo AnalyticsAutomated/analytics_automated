@@ -1,3 +1,6 @@
+Development Installation
+========================
+
 # analytics_automated
 
 Current state: Release Candidate 1.0
