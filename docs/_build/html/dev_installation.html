@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; analytics_automated 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p># analytics_automated</p>
+<p>Current state: Release Candidate 1.0</p>
+<p>Analytics Automated (A_A) is a lightweight framework for automating long running
+distributed computation principally focused on executing Data Science tasks.</p>
+<p>Today it is trivially easy for Scientists, Researchers, Data Scientists and
+Analysts to build statistical and predictive models. More often than not these
+don&#8217;t get turned in to useful and usable services; frequently becoming reports
+on work which does not get actioned. In short, organisations often have trouble
+operationalising the models and insights which emerge from complex statistical
+research and data science.</p>
+<p>Analytics automated is targeted at streamlining the process for turning your
+predictive software into usable and maintainable services.</p>
+<p>With A_A Researchers and data scientists can build models in the modelling tool
+of their choice and then, with trivial configuration, Analytics Automated will
+turn these models in to an easy to use API for integration in to websites and
+other tools.</p>
+<p>The other principal benefit of this system is to reduce technology lock-in.
+Statistical modelling and Data Science expertise is now spread across a wide
+range of technologies (Hadoop, SAS, R and more) and such technological
+proliferation shows no sign of slowing down. Picking a single modeling
+technology greatly reduces the pool of possible employees for your organisation
+and backing the &#8220;wrong horse&#8221; means if you have to change it can be very costly
+in terms of time, staffing and money.</p>
+<p>A_A is agnostic to the modeling software and technologies you choose to build
+your group around.</p>
+<p>### How it works</p>
+<p>Users send data as a REST POST request call to a pre-configured analysis or
+prediction task and after some asynchronous processing they can come back and
+GET their results. It&#8217;s as simple as that and you are free to build this in
+to any system you have or build the UI of your choice.</p>
+<p>### Roadmap</p>
+<p>1. Allows users to configure computational jobs and run them in a distributed
+fashion  - DONE
+2. Allow jobs to run in R, Grid Engine and Hadoop - Next Up
+3. add further backends; Octave, matlab,</p>
+<p># Requirements</p>
+<p>You will need</p>
+<ul class="simple">
+<li>python3</li>
+<li>postgres</li>
+<li>rabbitmq</li>
+<li>django</li>
+<li>celery</li>
+</ul>
+<p>## Setup of analytics automated</p>
+<p>Notes for our group members who may be less than familiar with setting up python
+development environments.</p>
+<p>###Setup for a Mac which you control:</p>
+<ol class="arabic simple">
+<li>Install latest python3.x</li>
+<li>Install git</li>
+<li>Install RabbitMQ (configuring this may hose your postgres install on OSX, so</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>install RabbitMQ before postgres)</dt>
+<dd><cite>http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x</cite></dd>
+</dl>
+</div></blockquote>
+<ol class="arabic" start="4">
+<li><dl class="first docutils">
+<dt>Install postgres for your system, MacOSX version can be found at</dt>
+<dd><p class="first last"><cite>brew install postgres</cite></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Install virtualenv and virtualenvwrapper</dt>
+<dd><p class="first last">pip install virtualenv
+pip install virtualenvwrapper</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>6. Set up bashrc or bash_profile to point virtualevnwrapper at the correct
+python 3. I added this to my .bash_profile</p>
+<blockquote>
+<div><p>PATH=&#8221;/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}&#8221;
+export PATH</p>
+<p>VIRTUALENVWRAPPER_PYTHON=&#8217;/Library/Frameworks/Python.framework/Versions/3.4/bin/python3&#8217;
+export VIRTUALENVWRAPPER_PYTHON</p>
+<p>source virtualenvwrapper.sh</p>
+</div></blockquote>
+<ol class="arabic" start="7">
+<li><p class="first">Then the following to start virtualenv wrapper and create and env</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">source</span> <span class="pre">virtualenvwrapper.sh</span>
+<span class="pre">&gt;</span> <span class="pre">mkvirtualenv</span> <span class="pre">analytics_automated</span>
+<span class="pre">&gt;</span> <span class="pre">workon</span> <span class="pre">analytics_automated</span> <span class="pre">(FYI</span> <span class="pre">discontect</span> <span class="pre">with</span> <span class="pre">deactivate)</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">Install these libraries to this env</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">setuptools</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">distribute</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic" start="10">
+<li><p class="first">Once configured log in to postgres (psql) and add a postgres user for analytics automated</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">CREATE</span> <span class="pre">ROLE</span> <span class="pre">a_a_user</span> <span class="pre">WITH</span> <span class="pre">LOGIN</span> <span class="pre">PASSWORD</span> <span class="pre">'thisisthedevelopmentpasswordguys';</span>
+<span class="pre">CREATE</span> <span class="pre">DATABASE</span> <span class="pre">analytics_automated_db;</span>
+<span class="pre">GRANT</span> <span class="pre">ALL</span> <span class="pre">PRIVILEGES</span> <span class="pre">ON</span> <span class="pre">DATABASE</span> <span class="pre">analytics_automated_db</span> <span class="pre">TO</span> <span class="pre">a_a_user;</span>
+<span class="pre">ALTER</span> <span class="pre">USER</span> <span class="pre">a_a_user</span> <span class="pre">CREATEDB;</span>
+<span class="pre">`</span></code></p>
+</li>
+<li><p class="first">On Mac you probably have to link some psql bits (mind the version)</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">sudo</span> <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/usr/local/Cellar/openssl/1.0.2a-1/lib/libssl.1.0.0.dylib</span> <span class="pre">/usr/lib</span>
+<span class="pre">&gt;</span> <span class="pre">sudo</span> <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/usr/local/Cellar/openssl/1.0.2a-1/lib/libcrypto.1.0.0.dylib</span> <span class="pre">/usr/lib</span>
+<span class="pre">&gt;</span> <span class="pre">sudo</span> <span class="pre">mv</span> <span class="pre">/usr/lib/libpq.5.dylib</span> <span class="pre">/usr/lib/libpq.5.dylib.old</span>
+<span class="pre">&gt;</span> <span class="pre">sudo</span> <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/Library/PostgreSQL/9.4/lib/libpq.5.dylib</span> <span class="pre">/usr/lib</span>
+<span class="pre">`</span></code></p>
+</li>
+<li><p class="first">Check out analytics_automated from gitb</p>
+</li>
+</ol>
+<blockquote>
+<div><cite>&gt; git clone https://github.com/AnalyticsAutomated/analytics_automated.git</cite></div></blockquote>
+<ol class="arabic simple" start="13">
+<li>Install Celery</li>
+</ol>
+<blockquote>
+<div><cite>&gt; pip install celery</cite></div></blockquote>
+<ol class="arabic simple" start="14">
+<li>Install the AnalyticsAutomated requirements from the relevant project requirements (probably requirements/dev.txt)</li>
+</ol>
+<blockquote>
+<div><cite>&gt; pip install -r requirements/dev.txt</cite></div></blockquote>
+<ol class="arabic" start="15">
+<li><p class="first">add some configuration bits which are omitted from github</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">cd</span> <span class="pre">analytics_automated_project/settings/</span>
+<span class="pre">&gt;</span> <span class="pre">touch</span> <span class="pre">base_secrets.json</span>
+<span class="pre">&gt;</span> <span class="pre">touch</span> <span class="pre">dev_secrets.json</span>
+<span class="pre">`</span></code></p>
+</li>
+<li><p class="first">Add the BUGSNAG key to base_secrets.json as per</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+{</p>
+<blockquote>
+<div><p>&#8220;BUGSNAG&#8221;: &#8220;YOUR KEY HERE&#8221;t</p>
+</div></blockquote>
+</li>
+<li><p class="first">Add the dev database and secret key to the dev_secrets.json as per</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>`
+{</p>
+<blockquote>
+<div><p>&#8220;USER&#8221;: &#8220;a_a_user&#8221;,
+&#8220;PASSWORD&#8221;: &#8220;thisisthedevelopmentpasswordguys&#8221;,
+&#8220;SECRET_KEY&#8221;: &#8220;SOME ABSURDLY LONG RANDOM STRING&#8221;</p>
+</div></blockquote>
+</li>
+<li><p class="first">Run the migrations (don&#8217;t forget &#8211;settings=analytics_automated_project.settings.dev)and create and admin user for the project.
+<cite>&gt; python manage.py migrate &#8211;settings=analytics_automated_project.settings.dev</cite></p>
+</li>
+<li><p class="first">Start the server by defining the settings you are using
+<cite>&gt; python manage.py runserver &#8211;settings=analytics_automated_project.settings.dev</cite></p>
+</li>
+<li><p class="first">Test the code also defining the settings you are using
+<cite>&gt; python manage.py test &#8211;settings=analytics_automated_project.settings.dev analytics_automated</cite></p>
+</li>
+</ol>
+<p>###Setup for a linux machine on our network
+1. Set yourself up so you&#8217;re using bash rather than csh, this will make virtualenv much easier to deal with
+2. Get your own python3, somewhere local rather than on the network</p>
+<blockquote>
+<div><cite>&gt; /opt/Python/Python-3.4.1/bin/virtualenv [SOME_PATH]</cite></div></blockquote>
+<ol class="arabic" start="3">
+<li><p class="first">Add [SOME_PATH]/bin to your PATH in your .bashrc</p>
+</li>
+<li><p class="first">Install virtualenv and virtualenvwrapper</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenv`</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">virtualenvwrapper`</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">Set up bashrc or bash_profile to point virtualevnwrapper at the correct</p>
+</li>
+</ol>
+<blockquote>
+<div><dl class="docutils">
+<dt>python 3. I added all this to my .bash_profile</dt>
+<dd><p class="first"><a href="#id5"><span class="problematic" id="id6">``</span></a>`
+export WORKON_HOME=/scratch0/NOT_BACKED_UP/dbuchan/virtualenvs
+export PROJECT_HOME=$HOME/Code
+VIRTUALENVWRAPPER_PYTHON=&#8217;/scratch0/NOT_BACKED_UP/dbuchan/python3/bin/python3&#8217;
+export VIRTUALENVWRAPPER_PYTHON</p>
+<p>source virtualenvwrapper.sh</p>
+<p class="last"><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
+</dd>
+</dl>
+</div></blockquote>
+<ol class="arabic" start="6">
+<li><p class="first">Install these libraries to this env</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">setuptools</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">distribute</span>
+<span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">celery</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+</li>
+</ol>
+<p>7. Initialise postgres (you can add the path to PGDATA env var), this should
+add a superuser with your user name</p>
+<blockquote>
+<div><cite>&gt; initdb -D [SOME_PATH]</cite></div></blockquote>
+<ol class="arabic" start="8">
+<li><dl class="first docutils">
+<dt>start postgres, You may additionally need to get /var/run/postgres made writeable by all to run this.</dt>
+<dd><p class="first last"><cite>&gt; postgres -D [SOME_PATH] &gt;logfile 2&gt;&amp;1 &amp;</cite></p>
+</dd>
+</dl>
+</li>
+</ol>
+<blockquote>
+<div><p>or</p>
+<blockquote>
+<div><cite>&gt; pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile</cite></div></blockquote>
+<dl class="docutils">
+<dt>You can now log in with</dt>
+<dd><cite>&gt; psql -h localhost -d postgres</cite></dd>
+</dl>
+</div></blockquote>
+<ol class="arabic" start="9">
+<li><p class="first">Once configured add a postgres user for analytics automated</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">CREATE</span> <span class="pre">ROLE</span> <span class="pre">a_a_user</span> <span class="pre">WITH</span> <span class="pre">LOGIN</span> <span class="pre">PASSWORD</span> <span class="pre">'thisisthedevelopmentpasswordguys';</span>
+<span class="pre">CREATE</span> <span class="pre">DATABASE</span> <span class="pre">analytics_automated_db;</span>
+<span class="pre">GRANT</span> <span class="pre">ALL</span> <span class="pre">PRIVILEGES</span> <span class="pre">ON</span> <span class="pre">DATABASE</span> <span class="pre">analytics_automated_db</span> <span class="pre">TO</span> <span class="pre">a_a_user;</span>
+<span class="pre">ALTER</span> <span class="pre">USER</span> <span class="pre">a_a_user</span> <span class="pre">CREATEDB;</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">Install Erlang somewhere local (configure &#8211;prefix=[LOCAL DIR]). Don&#8217;t forget to add this location to your PATH
+<cite>http://www.erlang.org/download.html</cite></p>
+<blockquote>
+<div><p><cite>http://www.erlang.org/doc/installation_guide/INSTALL.htm</cite></p>
+</div></blockquote>
+</li>
+<li><p class="first">Install RabbitMQ
+<cite>https://www.rabbitmq.com/install-generic-unix.html</cite></p>
+</li>
+<li><p class="first">Check out analytics_automated from git
+<cite>&gt; git clone https://github.com/AnalyticsAutomated/analytics_automated.git</cite></p>
+</li>
+<li><p class="first">Install Celery
+<cite>&gt; pip install celery</cite></p>
+</li>
+<li><p class="first">Install the requirements from the relevant project requirements (probably requirements/dev.txt)
+<cite>&gt; pip install -r requirements/dev.txt</cite></p>
+</li>
+<li><p class="first">add some configuration bits which are omitted from github</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;</span> <span class="pre">cd</span> <span class="pre">analytics_automated_project/settings/`</span>
+<span class="pre">&gt;</span> <span class="pre">touch</span> <span class="pre">base_secrets.json`</span>
+<span class="pre">&gt;</span> <span class="pre">touch</span> <span class="pre">dev_secrets.json`</span>
+<span class="pre">`</span></code></p>
+</li>
+<li><p class="first">Add the BUGSNAG key to base_secrets.json as per</p>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a>`
+{</p>
+<blockquote>
+<div><p>&#8220;BUGSNAG&#8221;: &#8220;YOUR KEY HERE&#8221;</p>
+</div></blockquote>
+</li>
+<li><p class="first">Add the dev database and secret key to the dev_secrets.json as per</p>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a>`
+{</p>
+<blockquote>
+<div><p>&#8220;USER&#8221;: &#8220;a_a_user&#8221;,
+&#8220;PASSWORD&#8221;: &#8220;thisisthedevelopmentpasswordguys&#8221;,
+&#8220;SECRET_KEY&#8221;: &#8220;SOME ABSURDLY LONG RANDOM STRING&#8221;</p>
+</div></blockquote>
+</li>
+<li><p class="first">Run the migrations (don&#8217;t forget &#8211;settings=analytics_automated_project.settings.dev)and create and admin user for the project.
+<cite>&gt; python manage.py migrate &#8211;settings=analytics_automated_project.settings.dev</cite></p>
+</li>
+<li><p class="first">Start the server by defining the settings you are using
+<cite>&gt; python manage.py runserver &#8211;settings=analytics_automated_project.settings.dev</cite></p>
+</li>
+<li><p class="first">Start RabbitMQ (making sure your path to erl is good)
+<cite>&gt; rabbitmq-server start</cite></p>
+</li>
+</ol>
+<p>21. Get Celery going. You probably want to read something about celery and
+django
+<a class="reference external" href="http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/">http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/</a>
+For dev purposes we can start the workers with:</p>
+<blockquote>
+<div><cite>&gt; export PYTHONPATH=~/Code/analytics_automated/analytics_automated:$PYTHONPATH</cite>
+<cite>&gt; celery &#8211;app=analytics_automated_project.celery:app worker &#8211;loglevel=INFO -Q localhost,celery</cite></div></blockquote>
+<ol class="arabic simple" start="21">
+<li>Test the code also defining the settings you are using
+<cite>&gt; python manage.py test &#8211;settings=analytics_automated_project.settings.dev</cite></li>
+</ol>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dev_installation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Daniel Buchan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/dev_installation.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
