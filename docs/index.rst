@@ -1,26 +1,23 @@
-Analytics Automated documentation!
-==================================
+Analytics Automated
+===================
 
-So this ought to be a nice bit of documentation but huh?
+Analytics Automated is a lightweight framework for configuring pipelines
+of data processing tasks which users can call as webservices. It is targeted
+principally at running statistical and mathematical models for the purposes of
+Data Science. You can however use it to convert any code in to a web service.
 
-    Well this is awkward
-    isn't it
-    print(things)
+Another way to look at it is that it turns your data analysis pipelines in to
+RESTful web services for the purposes making your models part of your SOA
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   installation
-   how_it_works
-   the_UI
-   configuring_a_basic_task
-   recipes
-   advanced
-   dev_installation
-
-Indices and tables
-==================
-
-* :ref:`01_installation`
-* :ref:`modindex`
-* :ref:`search`
+    installation
+    how_it_works
+    the_UI
+    configuring_a_basic_task
+    recipes
+    advanced
+    dev_installation
+    roadmap
+    todo
