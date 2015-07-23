@@ -1,9 +1,10 @@
+*.py[cod]
 *.json
 *~
 DEADJOE
 media/temp
+submissions/*
 __pycache__/
-*.py[cod]
 submissions/*
 *.log
 logs/*
