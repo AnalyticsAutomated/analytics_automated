@@ -16,6 +16,6 @@ Contents:
 Indices and tables
 ==================
 
-* :ref:`genindex`
+* :ref:`01_installation`
 * :ref:`modindex`
 * :ref:`search`
