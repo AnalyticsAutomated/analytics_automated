@@ -85,6 +85,3 @@ Production things:
 4. Consider Flower for celery monitoring
 5. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
 5. Investigate cached_property
-
-
-Wmy7yYjTyACHIprX
