@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; analytics_automated 1.0 documentation</title>
+    <title>Basic Installation &mdash; analytics_automated 1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -38,8 +38,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="basic-installation">
+<h1>Basic Installation<a class="headerlink" href="#basic-installation" title="Permalink to this headline">¶</a></h1>
 <p>This guide will take you through setting up A_A in development mode. Analytics
 automated is a Django application and has a couple of required dependencies</p>
 <ul class="simple">
@@ -103,7 +103,7 @@ available via</p>
 <div class="section" id="pre-launch-configuration">
 <h2>Pre-launch configuration<a class="headerlink" href="#pre-launch-configuration" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>You need to setup some bits and pieces in postgres before we start:</li>
+<li>You need to setup some bits and pieces in postgres before we start</li>
 </ol>
 <blockquote>
 <div><ul>
@@ -140,30 +140,76 @@ A production system will need a production_secrets.json</p>
 <blockquote>
 <div><ul>
 <li><p class="first">Create the files we need:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/settings
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated_project/settings
 &gt; touch base_secrets.json`
 &gt; touch dev_secrets.json`
 </pre></div>
 </div>
 </li>
-<li><p class="first">If you&#8217;re using bugsnag add your bugsnag key to base_secrets.json</p>
+<li><p class="first">If you&#8217;re using bugsnag add your bugsnag key to base_secrets.json:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;BUGSNAG&quot;</span><span class="p">:</span> <span class="s">&quot;YOUR KEY HERE&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the dev_secrets.json settings needed to start in developments mode. The
+postgres login credentials and the secret key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;USER&quot;</span><span class="p">:</span> <span class="s">&quot;a_a_user&quot;</span><span class="p">,</span>
+  <span class="s">&quot;PASSWORD&quot;</span><span class="p">:</span> <span class="s">&quot;thisisthedevelopmentpasswordguys&quot;</span><span class="p">,</span>
+  <span class="s">&quot;SECRET_KEY&quot;</span><span class="p">:</span> <span class="s">&quot;VERY LONG KEY HERE&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Next open the base settings files in <cite>analytics_automated_project/settings/base.py</cite>
+In here you&#8217;ll find a section at the top labelled &#8220;Required A_A user settings&#8221;.
+These are all the things you need set for the app to run. We prefer to keep
+theses settings in dev.py and production.py files. Then we can start the server
+in different configs for different purposes.</p>
+<p>Either uncomment all these in base.py or move them to dev.py or production.py and
+set them there. You can leave the smtp settings commented if you do not wish to
+send alerts via email to your users.</p>
 </li>
 </ul>
 </div></blockquote>
-<div class="highlight-json"><div class="highlight"><pre>    {
-      &quot;BUGSNAG&quot;: &quot;YOUR KEY HERE&quot;
-    }
-
-* Add the dev_secrets.json settings needed to start in developments mode. The
-  postgres login credentials and the secret key
-
-    {
-      &quot;USER&quot;: &quot;a_a_user&quot;,
-      &quot;PASSWORD&quot;: &quot;thisisthedevelopmentpasswordguys&quot;,
-      &quot;SECRET_KEY&quot;: &quot;VERY LONG KEY HERE&quot;
-    }
+<ol class="arabic simple" start="3">
+<li>Starting A_A in development localhost mode</li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p class="first">Start rabbitMQ, if you want to start this in daemon mode consult the rabbitMQ docs:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; rabbitmq-server
 </pre></div>
 </div>
+</li>
+<li><p class="first">Start the celery workers, from the root dir of A_A. Note that we have to specify
+the rabbit queues the workers read from (-Q), for the basic settings we&#8217;ll have
+these workers just watch the celery and localhost queues:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
+&gt; celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery
+</pre></div>
+</div>
+</li>
+<li><p class="first">Now start A_A, again from the root dir of the app. Note we&#8217;ll start it assuming
+you put the users settings in settings/dev.py:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
+&gt; python manage.py runserver --settings=analytics_automated_project.settings.dev
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>You should now be running all the components of A_A on a single machine with
+a set of workers watching the localhost queue. This means we can now configure
+data analysis pipelines which run code on the machine which the workers are running on.
+This is the most basic setup we can run rabbitMQ, the web app, the database and the workers
+on completely separate machines and even run multiple instances of the workers watching
+the same queue. We&#8217;ll deal with this set in the <a class="reference internal" href="advanced.html#advanced-uses"><span>Advanced Uses</span></a> tutorial.</li>
+<li>Now move on to <a class="reference internal" href="how_it_works.html#how-it-works"><span>How The System Works</span></a></li>
+</ol>
 </div>
 </div>
 
@@ -175,7 +221,7 @@ A production system will need a production_secrets.json</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#">Basic Installation</a><ul>
 <li><a class="reference internal" href="#code-dependancies">Code Dependancies</a></li>
 <li><a class="reference internal" href="#pre-launch-configuration">Pre-launch configuration</a></li>
 </ul>
