@@ -1,4 +1,4 @@
 Using The User Interface
 ========================
 
-You just use it.
+Configuring jobs is most easily accomplished with the user interface

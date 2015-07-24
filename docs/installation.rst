@@ -131,6 +131,16 @@ A production system will need a production_secrets.json
       > cd analytics_automated/
       > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery
 
+  * Run the Django migrations to configure the database::
+
+      > cd analytics_automated/
+      > python manage.py migrate --settings=analytics_automated_project.settings.dev
+
+  * Add an admin user to the Django application::
+
+      > cd analytics_automated/
+      > python manage.py createsuperuser
+
   * Now start A_A, again from the root dir of the app. Note we'll start it assuming
     you put the users settings in settings/dev.py::
 
