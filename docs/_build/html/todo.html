@@ -39,7 +39,33 @@
             
   <div class="section" id="todo">
 <h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
-<p>We&#8217;re going to do stuff!</p>
+<ol class="arabic simple">
+<li>Add endpoint which returns all the public operations/jobs</li>
+<li>Grid Engine support</li>
+<li>RServe support</li>
+<li>Is it worth adding types to vars for clarity?</li>
+<li>Add scheduled tasks</li>
+<li>Non-linear jobs (i.e tasks with multiple parents)</li>
+</ol>
+<div class="section" id="production-things">
+<h2>Production things<a class="headerlink" href="#production-things" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Celery for workers <a class="reference external" href="https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html">https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html</a></p>
+<blockquote>
+<div><p>enable app.Task.track_started
+Autoscaling</p>
+</div></blockquote>
+</li>
+<li><p class="first">Solution for file storage in staging/production???</p>
+</li>
+<li><p class="first">Consider Flower for celery monitoring</p>
+</li>
+<li><p class="first">Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)</p>
+</li>
+<li><p class="first">Investigate cached_property</p>
+</li>
+</ol>
+</div>
 </div>
 
 
@@ -47,7 +73,15 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">TODO</a><ul>
+<li><a class="reference internal" href="#production-things">Production things</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>

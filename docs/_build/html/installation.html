@@ -192,6 +192,18 @@ these workers just watch the celery and localhost queues:</p>
 </pre></div>
 </div>
 </li>
+<li><p class="first">Run the Django migrations to configure the database:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
+&gt; python manage.py migrate --settings=analytics_automated_project.settings.dev
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add an admin user to the Django application:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
+&gt; python manage.py createsuperuser
+</pre></div>
+</div>
+</li>
 <li><p class="first">Now start A_A, again from the root dir of the app. Note we&#8217;ll start it assuming
 you put the users settings in settings/dev.py:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
