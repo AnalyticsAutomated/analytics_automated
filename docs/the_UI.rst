@@ -157,6 +157,18 @@ the calling user must pass in True or False
 **task2_number**: When we defined with Parameter for task2 bool_valued was *not*
 selected. The user must pass in a string value, typically a number.
 
+Checking what jobs are available
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once you have defined some jobs the system provides a GET end point, `/endpoints`
+which returns a list of all the valid jobs and their required params. You can
+access this json at
+
+http://YOUR_URI/endpoints/
+
+Submitting Data
+^^^^^^^^^^^^^^^
+
 And example of using the api can be found in the `send_file.py` script.
 
 When a submission is succesful the system returns a blob of json with a UUID.

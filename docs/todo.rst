@@ -1,14 +1,13 @@
 TODO
 ====
 
-1. Add endpoint which returns all the public operations/jobs
-2. Grid Engine support
-3. RServe support
+1. Grid Engine support
+2. RServe support
 
-4. Is it worth adding types to vars for clarity?
+3. Is it worth adding types to vars for clarity?
 
-5. Add scheduled tasks
-6. Non-linear jobs (i.e tasks with multiple parents)
+4. Add scheduled tasks
+5. Non-linear jobs (i.e tasks with multiple parents)
 
 Production things
 -----------------

@@ -30,7 +30,39 @@ class JobListTests(APITestCase):
         response.render()
         self.assertEqual(response.status_code, 200)
         test_data = '{"count":2,"next":null,"previous":null,' \
-                    '"results":[{"pk":1,"name":"job1"},{"pk":2,"name":"job2"}]}'
+                    '"results":[{"pk":2,"name":"job1"},{"pk":3,"name":"job2"}]}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+        def tearDown(self):
+            Backend.objects.all().delete()
+            Job.objects.all().delete()
+            Task.objects.all().delete()
+            Step.objects.all().delete()
+            Submission.objects.all().delete()
+            Parameter.objects.all().delete()
+            Result.objects.all().delete()
+
+
+class EndpointListTests(APITestCase):
+
+    def test_return_of_available_endpoint_types(self):
+        j1 = JobFactory.create(name="job1")
+        b = BackendFactory.create(root_path="/tmp/")
+        t1 = TaskFactory.create(backend=b, name="task1", executable="ls")
+        p1 = ParameterFactory.create(task=t1, rest_alias="this",
+                                     bool_valued=True)
+        t2 = TaskFactory.create(backend=b, name="task2",
+                                executable="grep")
+        p2 = ParameterFactory.create(task=t2, rest_alias="that")
+        s1 = StepFactory(job=j1, task=t1, ordering=0)
+        s2 = StepFactory(job=j1, task=t2, ordering=1)
+        response = self.client.get(reverse('endpoints',)+".json")
+        response.render()
+        self.assertEqual(response.status_code, 200)
+        test_data = '{"jobs":["/submission/&job=job1&' + \
+                    'submission_name=[STRING]&email=[EMAIL_STRING]&' + \
+                    'input_data=[FILE]&task1_this=[TRUE/FALSE]&' + \
+                    'task2_that=[TRUE/FALSE]"]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
         def tearDown(self):

@@ -202,6 +202,31 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 
+class Endpoints(generics.GenericAPIView):
+    """
+        returns the set of URIs to which jobs can be submitted
+    """
+    def get(self, request, *args, **kwargs):
+        jobs = Job.objects.all()
+        uris = []
+        for job in jobs:
+            uri_string = "/submission/&job="+str(job) + \
+                         "&submission_name=[STRING]&email=[EMAIL_STRING]" + \
+                         "&input_data=[FILE]"
+            steps = job.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+            for step in steps:
+                params = Parameter.objects.filter(task=step.task)
+                for param in params:
+                    if param.bool_valued is True:
+                        uri_string += "&"+param.rest_alias+"=[TRUE/FALSE]"
+                    else:
+                        uri_string += "&"+param.rest_alias+"=[VALUE]"
+            uris.append(uri_string)
+        content = {"jobs": uris}
+        return Response(content)
+
+
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):
     """
         API endpoint list the available job types on this service.
