@@ -8,3 +8,8 @@ __pycache__/
 submissions/*
 *.log
 logs/*
+analytics_automated_project/settings/staging.py
+analytics_automated_project/settings/production.py
+analytics_automated_project/settings/staging_secrets.json
+analytics_automated_project/settings/production_secrets.json
+analytics_automated_project/settings/base_secrets.json
