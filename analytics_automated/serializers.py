@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Job, Submission, Result
+from .models import *
 
 
 class ResultSerializer (serializers.ModelSerializer):
