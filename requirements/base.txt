@@ -20,3 +20,4 @@ flower==0.8.2
 django-celery==3.1.16
 commandRunner
 pyRserve==0.8.1
+drmaa==0.7.6
