@@ -79,7 +79,7 @@ def task_runner(self, uuid, step_id, current_step,
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
-                                       'Running step :' + str(step_id))
+                                       'Running step :' + str(current_step))
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -112,7 +112,7 @@ def task_runner(self, uuid, step_id, current_step,
     try:
         run.prepare()
     except Exception as e:
-        prep_message = "Unable to prepare files and tmp directory: "+str(e)
+        prep_message = "Unable to prepare files and tmp directory: "+str(e)+" : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
@@ -122,7 +122,7 @@ def task_runner(self, uuid, step_id, current_step,
         run.prepare()
         exit_status = run.run_cmd()
     except Exception as e:
-        run_message = "Unable to call commandRunner.run_cmd(): "+str(e)
+        run_message = "Unable to call commandRunner.run_cmd(): "+str(e)+" : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         raise OSError(run_message)
@@ -145,7 +145,8 @@ def task_runner(self, uuid, step_id, current_step,
     else:
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
-                                           'Failed step :' + str(step_id))
+                                           'Failed step, non 0 exit at step:' +
+                                           str(step_id))
         logger.error("Command did not run: "+run.command)
         raise OSError("Command did not run: "+run.command)
 

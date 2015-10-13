@@ -234,3 +234,6 @@ class Message(TimeStampedModel):
     step_id = models.IntegerField(null=True, blank=False)
     message = models.CharField(max_length=1024, null=True, blank=True,
                                default="Submitted")
+
+    def __str__(self):
+        return self.message

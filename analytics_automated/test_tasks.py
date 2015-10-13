@@ -7,7 +7,7 @@ from django.test import TestCase
 
 from .tasks import *
 from analytics_automated import tasks
-from .models import Submission
+from .models import Submission, Message
 from .model_factories import *
 
 
@@ -18,6 +18,7 @@ class TaskTestCase(TestCase):
     j = None
     s = None
     sub = None
+    messages = None
 
     def testTrivialAdd(self):
         """
@@ -48,6 +49,7 @@ class TaskTestCase(TestCase):
         Submission.objects.all().delete()
         Parameter.objects.all().delete()
         Result.objects.all().delete()
+        Message.objects.all().delete()
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSuccess(self, m):
@@ -55,12 +57,21 @@ class TaskTestCase(TestCase):
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed at step #1")
 
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
+    def testTaskRunnerAllMessagesSent(self, m):
+        task_runner.delay(self.uuid1, 0, 1, 1, "test_task", [], {}, "MEDIUM")
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.messages = Message.objects.all().filter(submission=self.sub)
+        # for m in self.messages:
+        #     print(str(m))
+        self.assertGreater(len(self.messages), 1)
+
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
     def testTaskRunnerExecuteNoneZeroExit(self, m):
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1,
                           "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.last_message, "Failed step :0")
+        self.assertEqual(self.sub.last_message, "Failed step, non 0 exit at step:0")
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
