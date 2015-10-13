@@ -116,6 +116,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             options = self.__build_options(step.task, request_contents)
             if step.task.backend.server_type == Backend.LOCALHOST:
                 queue_name = 'localhost'
+            if step.task.backend.server_type == Backend.GRIDENGINE:
+                queue_name = 'localhost'
+
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
                       "immutable=True, queue='%s'), " \
@@ -176,8 +179,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
 
-            # Check we have the params we want and then build the list of params
-            # we'll pass to the task runner.
+            # Check we have the params we want and then build the list of
+            # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
                 content = {'error': "Requied Parameter Missing"}
                 return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
