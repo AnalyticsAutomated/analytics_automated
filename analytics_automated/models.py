@@ -25,8 +25,8 @@ class Backend(models.Model):
     LOCALHOST = 1
     GRIDENGINE = 2
     RSERVE = 3
-    HADOOP = 4
-    NUMPY = 5
+    # HADOOP = 4
+    # NUMPY = 5
     SERVER_CHOICES = (
         (LOCALHOST, "localhost"),
         (GRIDENGINE, "GridEngine"),
@@ -36,7 +36,8 @@ class Backend(models.Model):
     name = models.CharField(max_length=64, unique=True, null=False,
                             blank=False, db_index=True)
     server_type = models.IntegerField(null=False, blank=False,
-                                      choices=SERVER_CHOICES, default=LOCALHOST)
+                                      choices=SERVER_CHOICES,
+                                      default=LOCALHOST)
     ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
                                       blank=False)
     port = models.IntegerField(default=80, null=False, blank=False)
@@ -110,13 +111,15 @@ class Validator(models.Model):
     validation_type = models.IntegerField(null=False, blank=False,
                                           choices=VALIDATION_CHOICES,
                                           default=REGEX)
-    re_string = models.CharField(max_length=512, null=True, blank=True, validators=[validate_re_string])
+    re_string = models.CharField(max_length=512, null=True, blank=True,
+                                 validators=[validate_re_string])
 
 
 class Task(models.Model):
     backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True,
                                 related_name='tasks')
-    name = models.CharField(max_length=64, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=64, unique=True, null=False,
+                            blank=False)
     in_glob = models.CharField(max_length=64, null=False, blank=False)
     out_glob = models.CharField(max_length=64, null=False, blank=False)
     executable = models.CharField(max_length=256, null=False, blank=False)
@@ -180,8 +183,8 @@ class Submission(TimeStampedModel):
     input_data = models.FileField(blank=False)
     status = models.IntegerField(null=False, blank=False,
                                  choices=STATUS_CHOICES, default=SUBMITTED)
-    message = models.CharField(max_length=256, null=True, blank=True,
-                               default="Submitted")
+    last_message = models.CharField(max_length=256, null=True, blank=True,
+                                    default="Submitted")
     claimed = models.BooleanField(null=False, default=False)
     worker_id = models.CharField(max_length=64, blank=True, null=True,
                                  default=None)
@@ -200,12 +203,17 @@ class Submission(TimeStampedModel):
         """
         s.claimed = claim
         s.status = status
-        s.message = message
+        s.last_message = message
         s.worker_id = id
         s.step_id = step
         s.save()
+        m = Message.objects.create(submission=s,
+                                   step_id=step,
+                                   message=message)
+        m.save()
 
 
+# Store results data
 class Result(models.Model):
     submission = models.ForeignKey(Submission, related_name='results')
     task = models.ForeignKey(Task)
@@ -218,3 +226,11 @@ class Result(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# keep a timestamped history of all the messages sent for this jobs
+class Message(TimeStampedModel):
+    submission = models.ForeignKey(Submission)
+    step_id = models.IntegerField(null=True, blank=False)
+    message = models.CharField(max_length=1024, null=True, blank=True,
+                               default="Submitted")

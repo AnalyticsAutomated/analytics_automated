@@ -32,7 +32,9 @@ class TaskTestCase(TestCase):
         self.uuid1 = str(uuid.uuid1())
         self.b = BackendFactory.create(root_path="/tmp/")
         self.t = TaskFactory.create(backend=self.b, name="test_task",
-                                    executable="grep 'previous' $INPUT > $OUTPUT",
+                                    executable="grep 'previous' /tmp/" +
+                                               self.uuid1+"/* > " +
+                                               self.uuid1+".out",
                                     in_glob="txt", out_glob="out")
         self.j = JobFactory.create()
         self.s = StepFactory(job=self.j, task=self.t, ordering=0)
@@ -51,20 +53,20 @@ class TaskTestCase(TestCase):
     def testTaskRunnerSuccess(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.message, "Completed at step #1")
+        self.assertEqual(self.sub.last_message, "Completed at step #1")
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
     def testTaskRunnerExecuteNoneZeroExit(self, m):
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1,
                           "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.message, "Failed step :0")
+        self.assertEqual(self.sub.last_message, "Failed step :0")
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
         task_runner.delay(self.uuid1, 0, 1, 2, "test_task", [], {}, "MEDIUM")
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.message, "Running")
+        self.assertEqual(self.sub.last_message, "Running")
 
     def testTaskRunnerDoesGetResultFromPreviousRun(self):
         '''

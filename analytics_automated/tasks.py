@@ -75,7 +75,7 @@ def task_runner(self, uuid, step_id, current_step,
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     data, previous_step = get_data(s, current_step)
-
+    data_dict = {uuid+"."+t.in_glob: data}
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
@@ -96,12 +96,37 @@ def task_runner(self, uuid, step_id, current_step,
     if t.backend.server_type == Backend.LOCALHOST:
         logger.info("Running At LOCALHOST")
         run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                          in_glob=t.in_glob, out_glob=t.out_glob,
-                          command=t.executable, input_data=data, flags=flags,
+                          out_globs=[t.out_glob, ],
+                          command=t.executable,
+                          input_data=data_dict,
+                          flags=flags,
                           options=options)
-    logger.info("EXECUTABLE: "+run.command)
-    run.prepare()
-    exit_status = run.run_cmd()
+    if t.backend.server_type == Backend.GRIDENGINE:
+        logger.info("Running At LOCALHOST")
+        run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                       out_globs=[t.out_glob, ],
+                       command=t.executable,
+                       input_data=data_dict,
+                       flags=flags,
+                       options=options)
+    try:
+        run.prepare()
+    except Exception as e:
+        prep_message = "Unable to prepare files and tmp directory: "+str(e)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, prep_message)
+        raise OSError(prep_message)
+
+    try:
+        logger.info("EXECUTABLE: "+run.command)
+        run.prepare()
+        exit_status = run.run_cmd()
+    except Exception as e:
+        run_message = "Unable to call commandRunner.run_cmd(): "+str(e)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, run_message)
+        raise OSError(run_message)
+
     # if the command ran with success we'll send the file contents to the
     # database.
     # TODO: For now we write everything to the file as utf-8 but we'll need to
@@ -110,12 +135,13 @@ def task_runner(self, uuid, step_id, current_step,
     if exit_status == 0:
         file = None
         if run.output_data is not None:
-            file = SimpleUploadedFile(uuid+"."+run.out_glob,
-                                      bytes(run.output_data, 'utf-8'))
-        r = Result.objects.create(submission=s, task=t,
-                                  step=current_step, name=t.name,
-                                  message='Result', previous_step=previous_step,
-                                  result_data=file)
+            for fName, fData in run.output_data.items():
+                file = SimpleUploadedFile(fName, bytes(fData, 'utf-8'))
+                r = Result.objects.create(submission=s, task=t,
+                                          step=current_step, name=t.name,
+                                          message='Result',
+                                          previous_step=previous_step,
+                                          result_data=file)
     else:
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
@@ -137,6 +163,6 @@ def task_runner(self, uuid, step_id, current_step,
                       recipient_list=[s.email],
                       fail_silently=False)
             logger.info("SENDING MAIL TO: "+s.email)
-        # TODO: Here we send and email to the user IF we have an email address
-    Submission.update_submission_state(s, True, state, step_id, self.request.id,
-                                       message)
+
+    Submission.update_submission_state(s, True, state, step_id,
+                                       self.request.id, message)

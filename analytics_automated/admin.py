@@ -79,7 +79,7 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('pk', 'job', 'submission_name', 'email', 'UUID', 'ip',
-                    'status', 'claimed', 'message', 'step_id', 'created',
+                    'status', 'claimed', 'last_message', 'step_id', 'created',
                     'modified')
 
 
