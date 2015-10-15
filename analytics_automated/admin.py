@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
-from .models import Submission, BackendUser
+from .models import Submission, BackendUser, Message
 from .forms import *
 
 
@@ -79,8 +79,19 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('pk', 'job', 'submission_name', 'email', 'UUID', 'ip',
-                    'status', 'claimed', 'last_message', 'step_id', 'created',
+                    'status', 'claimed', 'message_link', 'step_id', 'created',
                     'modified')
+
+    def message_link(self, obj):
+        url = reverse('admin:analytics_automated_message_change',
+                      args=(obj.pk,))
+        return('<a href="%s">%s</a>' % (url, obj.last_message))
+
+    message_link.allow_tags = True
+
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('submission', 'step_id', 'message')
 
 
 class ResultAdmin(admin.ModelAdmin):
@@ -100,6 +111,7 @@ class ResultAdmin(admin.ModelAdmin):
 
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Result, ResultAdmin)
