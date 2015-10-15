@@ -30,7 +30,7 @@ class BackendUserInline(admin.TabularInline):
 
 class MessageInline(admin.TabularInline):
     model = Message
-    extra = 5
+    extra = 0
 
 
 class BackendAdmin(admin.ModelAdmin):

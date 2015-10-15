@@ -45,6 +45,8 @@ def get_data(s, current_step):
         s.input_data.close()
     else:
         previous_step = current_step-1
+        print("STEP"+str(previous_step))
+        print(s)
         r = Result.objects.get(submission=s, step=previous_step)
         r.result_data.open(mode='r')
         for line in r.result_data:
@@ -80,7 +82,7 @@ def task_runner(self, uuid, step_id, current_step,
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
-                                       'Running step :' + str(current_step))
+                                       'About to run step: ' + str(current_step))
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -102,7 +104,9 @@ def task_runner(self, uuid, step_id, current_step,
                               command=t.executable,
                               input_data=data_dict,
                               flags=flags,
-                              options=options)
+                              options=options,
+                              input_string=uuid+"."+t.in_glob,
+                              output_string=uuid+"."+t.out_glob)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At LOCALHOST")
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
@@ -160,10 +164,10 @@ def task_runner(self, uuid, step_id, current_step,
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
-    message = "Running"
+    message = "Completed step: " + str(current_step)
     if current_step == total_steps:
         state = Submission.COMPLETE
-        message = 'Completed at step #' + str(current_step)
+        message = 'Completed job at step #' + str(current_step)
         # TODO: This needs a try-catch
         if s.email is not None and \
                 len(s.email) > 5 and settings.DEFAULT_FROM_EMAIL is not None:
