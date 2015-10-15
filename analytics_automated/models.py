@@ -236,4 +236,4 @@ class Message(TimeStampedModel):
                                default="Submitted")
 
     def __str__(self):
-        return self.message
+        return str(self.pk)

@@ -1,7 +1,7 @@
 Development Installation
 ========================
 
-**WARNING THIS DOC GOES OUT OF DATA QUICKLY INFO MAY NOT BE CURRENT**
+**WARNING THIS DOC GOES OUT OF DATE QUICKLY INFO MAY NOT BE CURRENT**
 j
 Analytics Automated (A_A) is a lightweight framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
@@ -204,7 +204,7 @@ Setup for a linux machine on our network
 
   or::
 
-    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile
+    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D /scratch0/NOT_BACKED_UP/dbuchan/postgres/
 
   You can now log in with::
 

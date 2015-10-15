@@ -28,6 +28,11 @@ class BackendUserInline(admin.TabularInline):
     extra = 2
 
 
+class MessageInline(admin.TabularInline):
+    model = Message
+    extra = 5
+
+
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
@@ -78,16 +83,10 @@ class JobAdmin(admin.ModelAdmin):
 
 
 class SubmissionAdmin(admin.ModelAdmin):
+    inlines = [MessageInline]
     list_display = ('pk', 'job', 'submission_name', 'email', 'UUID', 'ip',
-                    'status', 'claimed', 'message_link', 'step_id', 'created',
+                    'status', 'claimed', 'last_message', 'step_id', 'created',
                     'modified')
-
-    def message_link(self, obj):
-        url = reverse('admin:analytics_automated_message_change',
-                      args=(obj.pk,))
-        return('<a href="%s">%s</a>' % (url, obj.last_message))
-
-    message_link.allow_tags = True
 
 
 class MessageAdmin(admin.ModelAdmin):

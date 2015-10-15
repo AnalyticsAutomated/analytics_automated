@@ -47,10 +47,8 @@ to any system you have or build the UI of your choice.
 
 ### Roadmap
 
-1. Allows users to configure computational jobs and run them in a distributed
-fashion  - DONE
-2. Allow jobs to run in R, Grid Engine and Hadoop - Next Up
-3. add further backends; Octave, matlab,
+1. Allow jobs to run in R, and Hadoop - Next Up
+2. add further backends; Octave, matlab,
 
 # Requirements
 
@@ -65,23 +63,22 @@ You will need
 NEXT UP TODO/REMINDERS
 ======================
 
-1. Add endpoint which returns all the public operations
-2. Grid Engine support
-3. RServe support
+1. RServe support
 
-4. Is it worth adding types to vars for clarity?
+2. Is it worth adding types to vars for clarity?
 
-5. Add scheduled tasks
-6. Non-linear jobs (i.e tasks with multiple parents)
+3. Add scheduled tasks
+4. Non-linear jobs (i.e tasks with multiple parents)
 
 Production things:
 
-2. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+5. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
 
     enable app.Task.track_started
     Autoscaling
+    don't run in DEBUG mode
 
-3. Solution for file storage in staging/production???
-4. Consider Flower for celery monitoring
-5. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-5. Investigate cached_property
+6. Solution for file storage in staging/production???
+7. Consider Flower for celery monitoring
+8. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+9. Investigate cached_property

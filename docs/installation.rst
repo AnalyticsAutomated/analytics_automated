@@ -66,7 +66,7 @@ Pre-launch configuration
 
   * Start the postgres daemon::
 
-      > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile
+      > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D scratch0/NOT_BACKED_UP/dbuchan/postgres/
 
   * Then login::
 
@@ -129,7 +129,7 @@ A production system will need a production_secrets.json
     these workers just watch the celery and localhost queues::
 
       > cd analytics_automated/
-      > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery
+      > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery,gridengine
 
   * Run the Django migrations to configure the database::
 

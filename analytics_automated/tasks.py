@@ -74,6 +74,7 @@ def task_runner(self, uuid, step_id, current_step,
     logger.info("STEP ID:" + str(step_id))
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
+    state = Submission.ERROR
     data, previous_step = get_data(s, current_step)
     data_dict = {uuid+"."+t.in_glob: data}
     # update submission tracking to note that this is running
@@ -93,22 +94,29 @@ def task_runner(self, uuid, step_id, current_step,
     for user in users:
         print(user.login_name)
 
-    if t.backend.server_type == Backend.LOCALHOST:
-        logger.info("Running At LOCALHOST")
-        run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                          out_globs=[t.out_glob, ],
-                          command=t.executable,
-                          input_data=data_dict,
-                          flags=flags,
-                          options=options)
-    if t.backend.server_type == Backend.GRIDENGINE:
-        logger.info("Running At LOCALHOST")
-        run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                       out_globs=[t.out_glob, ],
-                       command=t.executable,
-                       input_data=data_dict,
-                       flags=flags,
-                       options=options)
+    try:
+        if t.backend.server_type == Backend.LOCALHOST:
+            logger.info("Running At LOCALHOST")
+            run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                              out_globs=[t.out_glob, ],
+                              command=t.executable,
+                              input_data=data_dict,
+                              flags=flags,
+                              options=options)
+        if t.backend.server_type == Backend.GRIDENGINE:
+            logger.info("Running At LOCALHOST")
+            run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                           out_globs=[t.out_glob, ],
+                           command=t.executable,
+                           input_data=data_dict,
+                           flags=flags,
+                           options=options)
+    except Exception as e:
+        cr_message = "Unable to initialise commandRunner: "+str(e)+" : "+str(current_step)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, cr_message)
+        raise OSError(cr_message)
+
     try:
         run.prepare()
     except Exception as e:
