@@ -193,11 +193,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 4. Call delay on the Celery chain
 
             try:
-                exec(tchain)
                 return Response("MADE IT HERE"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
+                exec(tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
                 return Response("MADE IT HERE2"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
+            except Exception as e:
+                logger.error('500 Error: Invalid string exec on: ' + tchain)
+                logger.error('500 Error' + str(e))
+                return Response("MADE IT HERE3"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
