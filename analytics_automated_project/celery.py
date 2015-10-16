@@ -11,7 +11,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'analytics_automated_project.set
 
 
 # logger = get_task_logger(__name__)
-app = Celery('backend_tasks')
+app = Celery('analytics_automated')
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings')
