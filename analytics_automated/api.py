@@ -200,7 +200,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)
                 logger.error('500 Error' + str(e))
-                return Response(tchain+"\n"+str(e), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response(tchain+"  "+str(e), status=status.HTTP_406_NOT_ACCEPTABLE)
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)

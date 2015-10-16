@@ -19,6 +19,6 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 CELERY_QUEUES = (
     Queue('localhost', routing_key='localhost.#'),
-    Queue('RServe', routing_key='RServe.#'),
-    Queue('GridEngine', routing_key='GridEngine.#'),
+    Queue('rserve', routing_key='rserve.#'),
+    Queue('gridengine', routing_key='gridengine.#'),
 )
