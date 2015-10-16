@@ -177,7 +177,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                        .extra(order_by=['ordering'])
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
-            return Response("MADE IT HERE", status=status.HTTP_406_NOT_ACCEPTABLE)
+
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
@@ -192,6 +192,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             tchain = self.__construct_chain_string(steps, request_contents,
                                                    s.UUID, job_priority)
             # 4. Call delay on the Celery chain
+            return Response("MADE IT HERE"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
+
             try:
                 exec(tchain)
             except SyntaxError:
