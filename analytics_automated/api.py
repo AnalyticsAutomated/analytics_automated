@@ -167,7 +167,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
         # In the future we'll set batch jobs to the lowest priority
-        return Response("MADE IT HERE", status=status.HTTP_406_NOT_ACCEPTABLE)
         # TODO: VALIDATE input_data IN SOME MANNER
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
@@ -178,7 +177,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                        .extra(order_by=['ordering'])
             # 1. Look up tasks in a job
             # 2. Order tasks by their step id
-
+            return Response("MADE IT HERE", status=status.HTTP_406_NOT_ACCEPTABLE)
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
