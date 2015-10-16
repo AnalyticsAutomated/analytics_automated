@@ -187,17 +187,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if len(steps) == 0:
                 content = {'error': "Job Requested Appears to have no Steps"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
             # 3. Build Celery chain
             tchain = self.__construct_chain_string(steps, request_contents,
                                                    s.UUID, job_priority)
             # 4. Call delay on the Celery chain
-            return Response("MADE IT HERE"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
 
             try:
                 exec(tchain)
+                return Response("MADE IT HERE"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
+                return Response("MADE IT HERE2"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
