@@ -34,6 +34,7 @@ def get_secret(setting, secrets):
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
 STATIC_PATH = BASE_DIR.child("static")
+STATIC_ROOT = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
