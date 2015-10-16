@@ -22,3 +22,5 @@ commandRunner
 pyRserve==0.8.1
 pytz==2015.4
 drmaa==0.7.6
+mod_wsgi
+mod_wsgi-httpd
