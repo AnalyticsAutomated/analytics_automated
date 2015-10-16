@@ -117,7 +117,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if step.task.backend.server_type == Backend.LOCALHOST:
                 queue_name = 'localhost'
             if step.task.backend.server_type == Backend.GRIDENGINE:
-                queue_name = 'localhost'
+                queue_name = 'gridengine'
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
@@ -167,7 +167,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
         # In the future we'll set batch jobs to the lowest priority
-
+        return Response("MADE IT HERE", status=status.HTTP_406_NOT_ACCEPTABLE)
         # TODO: VALIDATE input_data IN SOME MANNER
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
