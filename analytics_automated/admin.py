@@ -25,7 +25,7 @@ class StepInline(admin.TabularInline):
 
 class BackendUserInline(admin.TabularInline):
     model = BackendUser
-    extra = 2
+    extra = 0
 
 
 class MessageInline(admin.TabularInline):
