@@ -194,13 +194,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             try:
                 exec(tchain)
+                logger.info('Sending This chain'+tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
-                return Response("MADE IT HERE2"+tchain, status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response("MADE IT HERE2"+tchain, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)
                 logger.error('500 Error' + str(e))
-                return Response(tchain+"  "+str(e), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response(tchain+"  "+str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
