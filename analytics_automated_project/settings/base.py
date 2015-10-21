@@ -48,10 +48,10 @@ with open(os.path.join(BASE_SECRETS_PATH)) as \
 DEFAULT_JOB_PRIORITY = 'MEDIUM'
 LOGGED_IN_JOB_PRIORITY = 'HIGH'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
-# EMAIL_PORT = ''
+# EMAIL_HOST = 'smtp.xx.xx.xx'
+EMAIL_PORT = 25
 # EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = ''
 # DEFAULT_FROM_EMAIL = ''
 EMAIL_SUBJECT_STRING = 'A_A Job Completion'
 EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
@@ -60,11 +60,14 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 
 # Celery Settings
 # BROKER_URL = ''
-# CELERY_RESULT_BACKEND = ''  # This will be the postgresDB
-# CELERY_TIMEZONE = 'Europe/London'
-# CELERY_ENABLE_UTC = True
-# CELERYD_MAX_TASKS_PER_CHILD = 100
-# CELERYD_PREFETCH_MULTIPLIER = 1
+CELERY_RESULT_BACKEND = 'amqp'
+CELERY_TIMEZONE = 'Europe/London'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ENABLE_UTC = True
+CELERYD_MAX_TASKS_PER_CHILD = 30
+CELERYD_PREFETCH_MULTIPLIER = 1
 # Uncomment to allow celery tests to run
 # TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
