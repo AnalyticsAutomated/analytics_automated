@@ -13,12 +13,13 @@ from django.conf import settings
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import BackendUser
 
+logger = logging.getLogger(__name__)
+
 try:
     from commandRunner.geRunner import *
 except ImportError:
-    print("Fuggedaboutit")
-
-logger = logging.getLogger(__name__)
+    logger.info("SGE_ROOT AND DRMAALIB ARE NOT SET, GrideEngine backend" +
+                "not available")
 
 
 @shared_task
