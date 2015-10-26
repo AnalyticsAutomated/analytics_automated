@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import logging
 import time
 from commandRunner.localRunner import *
+from commandRunner.geRunner import *
 
 from celery import Celery
 from celery import shared_task
