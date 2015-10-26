@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import logging
 import time
 from commandRunner.localRunner import *
-from commandRunner.geRunner import *
+#from commandRunner.geRunner import *
 
 from celery import Celery
 from celery import shared_task
@@ -109,7 +109,7 @@ def task_runner(self, uuid, step_id, current_step,
                               input_string=uuid+"."+t.in_glob,
                               output_string=uuid+"."+t.out_glob)
         if t.backend.server_type == Backend.GRIDENGINE:
-            logger.info("Running At LOCALHOST")
+            logger.info("Running At GRIDENGINE")
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],
                            command=t.executable,
