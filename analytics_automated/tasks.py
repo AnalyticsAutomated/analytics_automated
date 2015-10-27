@@ -116,11 +116,11 @@ def task_runner(self, uuid, step_id, current_step,
                               output_string=uuid+"."+t.out_glob)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At LOCALHOST")
-            print("UUID" + uuid)
-            print("backed path" + t.backend.root_path)
-            print("exe" + t.executable)
-            print("flags" + flags)
-            print("options" + options)
+            print("UUID:" + uuid)
+            print("backed path:" + t.backend.root_path)
+            print("exe:" + t.executable)
+            print("flags:" + str(flags))
+            print("options:" + str(options))
             print("output_string" + uuid+"."+t.out_glob)
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],

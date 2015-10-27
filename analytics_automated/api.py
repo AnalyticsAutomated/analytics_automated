@@ -194,7 +194,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             try:
                 exec(tchain)
-                logger.info('Sending This chain'+tchain)
+                logger.info('Sending This chain: '+tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
                 return Response("MADE IT HERE2"+tchain, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
