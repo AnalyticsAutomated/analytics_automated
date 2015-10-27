@@ -82,7 +82,8 @@ def task_runner(self, uuid, step_id, current_step,
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
-                                       'About to run step: ' + str(current_step))
+                                       'About to run step: ' +
+                                       str(current_step))
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -109,14 +110,23 @@ def task_runner(self, uuid, step_id, current_step,
                               output_string=uuid+"."+t.out_glob)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At LOCALHOST")
+            print("UUID" + uuid)
+            print("backed path" + t.backend.root_path)
+            print("exe" + t.executable)
+            print("flags" + flags)
+            print("options" + options)
+            print("output_string" + uuid+"."+t.out_glob)
+
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],
                            command=t.executable,
                            input_data=data_dict,
                            flags=flags,
-                           options=options)
+                           options=options,
+                           output_string=uuid+"."+t.out_glob)
     except Exception as e:
-        cr_message = "Unable to initialise commandRunner: "+str(e)+" : "+str(current_step)
+        cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
+                      str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, cr_message)
         raise OSError(cr_message)
@@ -124,7 +134,8 @@ def task_runner(self, uuid, step_id, current_step,
     try:
         run.prepare()
     except Exception as e:
-        prep_message = "Unable to prepare files and tmp directory: "+str(e)+" : "+str(current_step)
+        prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
+                       " : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
@@ -134,7 +145,8 @@ def task_runner(self, uuid, step_id, current_step,
         run.prepare()
         exit_status = run.run_cmd()
     except Exception as e:
-        run_message = "Unable to call commandRunner.run_cmd(): "+str(e)+" : "+str(current_step)
+        run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
+                      " : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         raise OSError(run_message)

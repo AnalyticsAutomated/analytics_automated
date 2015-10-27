@@ -1,0 +1,4214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>OSError at /analytics_automated/submission/.json</title>
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; }
+    h2 { margin-bottom:.8em; }
+    h2 span { font-size:80%; color:#666; font-weight:normal; }
+    h3 { margin:1em 0 .5em 0; }
+    h4 { margin:0 0 .5em 0; font-weight: normal; }
+    code, pre { font-size: 100%; white-space: pre-wrap; }
+    table { border:1px solid #ccc; border-collapse: collapse; width:100%; background:white; }
+    tbody td, tbody th { vertical-align:top; padding:2px 3px; }
+    thead th {
+      padding:1px 6px 1px 3px; background:#fefefe; text-align:left;
+      font-weight:normal; font-size:11px; border:1px solid #ddd;
+    }
+    tbody th { width:12em; text-align:right; color:#666; padding-right:.5em; }
+    table.vars { margin:5px 0 2px 40px; }
+    table.vars td, table.req td { font-family:monospace; }
+    table td.code { width:100%; }
+    table td.code pre { overflow:hidden; }
+    table.source th { color:#666; }
+    table.source td { font-family:monospace; white-space:pre; border-bottom:1px solid #eee; }
+    ul.traceback { list-style-type:none; color: #222; }
+    ul.traceback li.frame { padding-bottom:1em; color:#666; }
+    ul.traceback li.user { background-color:#e0e0e0; color:#000 }
+    div.context { padding:10px 0; overflow:hidden; }
+    div.context ol { padding-left:30px; margin:0 10px; list-style-position: inside; }
+    div.context ol li { font-family:monospace; white-space:pre; color:#777; cursor:pointer; }
+    div.context ol li pre { display:inline; }
+    div.context ol.context-line li { color:#505050; background-color:#dfdfdf; }
+    div.context ol.context-line li span { position:absolute; right:32px; }
+    .user div.context ol.context-line li { background-color:#bbb; color:#000; }
+    .user div.context ol li { color:#666; }
+    div.commands { margin-left: 40px; }
+    div.commands a { color:#555; text-decoration:none; }
+    .user div.commands a { color: black; }
+    #summary { background: #ffc; }
+    #summary h2 { font-weight: normal; color: #666; }
+    #explanation { background:#eee; }
+    #template, #template-not-exist { background:#f6f6f6; }
+    #template-not-exist ul { margin: 0 0 0 20px; }
+    #unicode-hint { background:#eee; }
+    #traceback { background:#eee; }
+    #requestinfo { background:#f6f6f6; padding-left:120px; }
+    #summary table { border:none; background:transparent; }
+    #requestinfo h2, #requestinfo h3 { position:relative; margin-left:-100px; }
+    #requestinfo h3 { margin-bottom:-1em; }
+    .error { background: #ffc; }
+    .specific { color:#cc3300; font-weight:bold; }
+    h2 span.commands { font-size:.7em;}
+    span.commands a:link {color:#5E5694;}
+    pre.exception_value { font-family: sans-serif; color: #666; font-size: 1.5em; margin: 10px 0 10px 0; }
+  </style>
+  
+  <script type="text/javascript">
+  //<!--
+    function getElementsByClassName(oElm, strTagName, strClassName){
+        // Written by Jonathan Snook, http://www.snook.ca/jon; Add-ons by Robert Nyman, http://www.robertnyman.com
+        var arrElements = (strTagName == "*" && document.all)? document.all :
+        oElm.getElementsByTagName(strTagName);
+        var arrReturnElements = new Array();
+        strClassName = strClassName.replace(/\-/g, "\-");
+        var oRegExp = new RegExp("(^|\s)" + strClassName + "(\s|$)");
+        var oElement;
+        for(var i=0; i<arrElements.length; i++){
+            oElement = arrElements[i];
+            if(oRegExp.test(oElement.className)){
+                arrReturnElements.push(oElement);
+            }
+        }
+        return (arrReturnElements)
+    }
+    function hideAll(elems) {
+      for (var e = 0; e < elems.length; e++) {
+        elems[e].style.display = 'none';
+      }
+    }
+    window.onload = function() {
+      hideAll(getElementsByClassName(document, 'table', 'vars'));
+      hideAll(getElementsByClassName(document, 'ol', 'pre-context'));
+      hideAll(getElementsByClassName(document, 'ol', 'post-context'));
+      hideAll(getElementsByClassName(document, 'div', 'pastebin'));
+    }
+    function toggle() {
+      for (var i = 0; i < arguments.length; i++) {
+        var e = document.getElementById(arguments[i]);
+        if (e) {
+          e.style.display = e.style.display == 'none' ? 'block': 'none';
+        }
+      }
+      return false;
+    }
+    function varToggle(link, id) {
+      toggle('v' + id);
+      var s = link.getElementsByTagName('span')[0];
+      var uarr = String.fromCharCode(0x25b6);
+      var darr = String.fromCharCode(0x25bc);
+      s.innerHTML = s.innerHTML == uarr ? darr : uarr;
+      return false;
+    }
+    function switchPastebinFriendly(link) {
+      s1 = "Switch to copy-and-paste view";
+      s2 = "Switch back to interactive view";
+      link.innerHTML = link.innerHTML == s1 ? s2: s1;
+      toggle('browserTraceback', 'pastebinTraceback');
+      return false;
+    }
+    //-->
+  </script>
+  
+</head>
+<body>
+<div id="summary">
+  <h1>OSError at /analytics_automated/submission/.json</h1>
+  <pre class="exception_value">[Errno 37] No locks available</pre>
+  <table class="meta">
+
+    <tr>
+      <th>Request Method:</th>
+      <td>POST</td>
+    </tr>
+    <tr>
+      <th>Request URL:</th>
+      <td>http://127.0.0.1:8000/analytics_automated/submission/.json</td>
+    </tr>
+
+    <tr>
+      <th>Django Version:</th>
+      <td>1.8.1</td>
+    </tr>
+
+    <tr>
+      <th>Exception Type:</th>
+      <td>OSError</td>
+    </tr>
+
+
+    <tr>
+      <th>Exception Value:</th>
+      <td><pre>[Errno 37] No locks available</pre></td>
+    </tr>
+
+
+    <tr>
+      <th>Exception Location:</th>
+      <td>/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/locks.py in lock, line 108</td>
+    </tr>
+
+    <tr>
+      <th>Python Executable:</th>
+      <td>/home/django_aa/aa_env/bin/python</td>
+    </tr>
+    <tr>
+      <th>Python Version:</th>
+      <td>3.4.3</td>
+    </tr>
+    <tr>
+      <th>Python Path:</th>
+      <td><pre>[&#39;/home/django_aa/analytics_automated&#39;,
+ &#39;/home/django_aa/aa_env/lib64/python34.zip&#39;,
+ &#39;/home/django_aa/aa_env/lib64/python3.4&#39;,
+ &#39;/home/django_aa/aa_env/lib64/python3.4/plat-linux&#39;,
+ &#39;/home/django_aa/aa_env/lib64/python3.4/lib-dynload&#39;,
+ &#39;/usr/lib64/python3.4&#39;,
+ &#39;/usr/lib/python3.4&#39;,
+ &#39;/home/django_aa/aa_env/lib/python3.4/site-packages&#39;,
+ &#39;/home/django_aa/analytics_automated&#39;]</pre></td>
+    </tr>
+    <tr>
+      <th>Server time:</th>
+      <td>Wed, 21 Oct 2015 16:51:08 +0000</td>
+    </tr>
+  </table>
+</div>
+
+
+
+
+<div id="traceback">
+  <h2>Traceback <span class="commands"><a href="#" onclick="return switchPastebinFriendly(this);">
+    Switch to copy-and-paste view</a></span>
+  </h2>
+  
+  <div id="browserTraceback">
+    <ul class="traceback">
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/handlers/base.py</code> in <code>get_response</code>
+
+          
+            <div class="context" id="c139694092325320">
+              
+                <ol start="125" class="pre-context" id="pre139694092325320">
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    response = middleware_method(request, callback, callback_args, callback_kwargs)</pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    if response:</pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                        break</pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>            if response is None:</pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                wrapped_callback = self.make_view_atomic(callback)</pre></li>
+                
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                try:</pre></li>
+                
+                </ol>
+              
+              <ol start="132" class="context-line">
+                <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>
+                                response = wrapped_callback(request, *callback_args, **callback_kwargs)</pre> <span>...</span></li></ol>
+              
+                <ol start='133' class="post-context" id="post139694092325320">
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                except Exception as e:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    # If the view raised an exception, run it through exception</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    # middleware, and if the exception middleware returns a</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    # response, use that. Otherwise, reraise the exception.</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                    for middleware_method in self._exception_middleware:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325320', 'post139694092325320')"><pre>                        response = middleware_method(request, e)</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092325320')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092325320">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>urlconf</td>
+                    <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback_kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>resolver</td>
+                    <td class="code"><pre>&lt;RegexURLResolver &#39;analytics_automated_project.urls&#39; (None:None) ^/&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback</td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f0d10c4e268&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>wrapped_callback</td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f0d10c4e268&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>(&#39;&lt;WSGIRequest\n&#39;
+ &#39;path:/analytics_automated/submission/.json,\n&#39;
+ &#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
+ &quot;POST:{&#39;email&#39;: &#39;daniel.buchan@ucl.ac.uk&#39;,\n&quot;
+ &quot; &#39;job&#39;: &#39;ls_test_job&#39;,\n&quot;
+ &quot; &#39;ls_test_task_all&#39;: &#39;True&#39;,\n&quot;
+ &quot; &#39;submission_name&#39;: &#39;test&#39;},\n&quot;
+ &#39;COOKIES:{},\n&#39;
+ &quot;META:{&#39;CONTENT_LENGTH&#39;: &#39;585&#39;,\n&quot;
+ &quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
+ &quot;                 &#39;boundary=d83ab6ab65334916915810a1e3ac0b4f&#39;,\n&quot;
+ &quot; &#39;CSRF_COOKIE&#39;: &#39;Mp46rK2z8xJtDQAzaLNPE83MMmlorDeH&#39;,\n&quot;
+ &quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &quot;
+ &quot;&#39;analytics_automated_project.settings.staging&#39;,\n&quot;
+ &quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
+ &quot; &#39;HISTSIZE&#39;: &#39;1000&#39;,\n&quot;
+ &quot; &#39;HOME&#39;: &#39;/home/django_aa&#39;,\n&quot;
+ &quot; &#39;HOSTNAME&#39;: &#39;bioinfstage3.cs.ucl.ac.uk&#39;,\n&quot;
+ &quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
+ &quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
+ &quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
+ &quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
+ &quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.3 &#39;\n&quot;
+ &quot;                    &#39;Linux/3.10.0-229.11.1.el7.x86_64&#39;,\n&quot;
+ &quot; &#39;KDEDIRS&#39;: &#39;/usr&#39;,\n&quot;
+ &quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
+ &quot; &#39;LESSOPEN&#39;: &#39;||/usr/bin/lesspipe.sh %s&#39;,\n&quot;
+ &quot; &#39;LOGNAME&#39;: &#39;django_aa&#39;,\n&quot;
+ &quot; &#39;LS_COLORS&#39;: &quot;
+ &quot;&#39;rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:&#39;,\n&quot;
+ &quot; &#39;MAIL&#39;: &#39;/var/spool/mail/dbuchan&#39;,\n&quot;
+ &quot; &#39;OLDPWD&#39;: &quot;
+ &quot;&#39;/home/django_aa/analytics_automated/analytics_automated_project/settings&#39;,\n&quot;
+ &quot; &#39;PATH&#39;: &quot;
+ &quot;&#39;/home/django_aa/aa_env/bin:/home/django_aa/perl5/bin:/root/perl5/bin:/sbin:/bin:/usr/sbin:/usr/bin&#39;,\n&quot;
+ &quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
+ &quot; &#39;PERL5LIB&#39;: &#39;/home/django_aa/perl5/lib/perl5:/root/perl5/lib/perl5:&#39;,\n&quot;
+ &quot; &#39;PERL_LOCAL_LIB_ROOT&#39;: &#39;:/root/perl5:/home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PERL_MB_OPT&#39;: &#39;--install_base /home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PERL_MM_OPT&#39;: &#39;INSTALL_BASE=/home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PS1&#39;: &#39;(aa_env)[\\\\u@\\\\h \\\\W]\\\\$ &#39;,\n&quot;
+ &quot; &#39;PWD&#39;: &#39;/home/django_aa/analytics_automated&#39;,\n&quot;
+ &quot; &#39;QTDIR&#39;: &#39;/usr/lib64/qt-3.3&#39;,\n&quot;
+ &quot; &#39;QT_GRAPHICSSYSTEM_CHECKED&#39;: &#39;1&#39;,\n&quot;
+ &quot; &#39;QT_PLUGIN_PATH&#39;: &#39;/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins&#39;,\n&quot;
+ &quot; &#39;QUERY_STRING&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;REMOTE_ADDR&#39;: &#39;128.16.14.83&#39;,\n&quot;
+ &quot; &#39;REMOTE_HOST&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;REQUEST_METHOD&#39;: &#39;POST&#39;,\n&quot;
+ &quot; &#39;RUN_MAIN&#39;: &#39;true&#39;,\n&quot;
+ &quot; &#39;SCRIPT_NAME&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;SERVER_NAME&#39;: &#39;localhost.localdomain&#39;,\n&quot;
+ &quot; &#39;SERVER_PORT&#39;: &#39;8000&#39;,\n&quot;
+ &quot; &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,\n&quot;
+ &quot; &#39;SERVER_SOFTWARE&#39;: &#39;WSGIServer/0.2&#39;,\n&quot;
+ &quot; &#39;SGE_ROOT&#39;: &#39;/opt/ogs_src/GE2011.11/&#39;,\n&quot;
+ &quot; &#39;SHELL&#39;: &#39;/bin/bash&#39;,\n&quot;
+ &quot; &#39;SHLVL&#39;: &#39;2&#39;,\n&quot;
+ &quot; &#39;SUDO_COMMAND&#39;: &#39;/bin/su&#39;,\n&quot;
+ &quot; &#39;SUDO_GID&#39;: &#39;500&#39;,\n&quot;
+ &quot; &#39;SUDO_UID&#39;: &#39;16482&#39;,\n&quot;
+ &quot; &#39;SUDO_USER&#39;: &#39;dbuchan&#39;,\n&quot;
+ &quot; &#39;TERM&#39;: &#39;xterm&#39;,\n&quot;
+ &quot; &#39;TZ&#39;: &#39;UTC&#39;,\n&quot;
+ &quot; &#39;USER&#39;: &#39;django_aa&#39;,\n&quot;
+ &quot; &#39;USERNAME&#39;: &#39;root&#39;,\n&quot;
+ &quot; &#39;VIRTUALENVWRAPPER_HOOK_DIR&#39;: &#39;/root/.virtualenvs&#39;,\n&quot;
+ &quot; &#39;VIRTUALENVWRAPPER_PROJECT_FI... &lt;trimmed 4721 bytes string&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>response</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f0d150c2f28&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>resolver_match</td>
+                    <td class="code"><pre>ResolverMatch(func=analytics_automated.api.SubmissionDetails, args=(), kwargs={&#39;format&#39;: &#39;json&#39;}, url_name=submission, app_name=None, namespaces=[])</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback_args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>middleware_method</td>
+                    <td class="code"><pre>&lt;bound method CsrfViewMiddleware.process_view of &lt;django.middleware.csrf.CsrfViewMiddleware object at 0x7f0d1199e2e8&gt;&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/views/decorators/csrf.py</code> in <code>wrapped_view</code>
+
+          
+            <div class="context" id="c139694092327688">
+              
+                <ol start="51" class="pre-context" id="pre139694092327688">
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    Marks a view function as being exempt from the CSRF view protection.</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    # We could just do view_func.csrf_exempt = True, but decorators</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    # are nicer if they don&#39;t have side-effects, so we return a new</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    # function.</pre></li>
+                
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    def wrapped_view(*args, **kwargs):</pre></li>
+                
+                </ol>
+              
+              <ol start="58" class="context-line">
+                <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>
+                    return view_func(*args, **kwargs)</pre> <span>...</span></li></ol>
+              
+                <ol start='59' class="post-context" id="post139694092327688">
+                  
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    wrapped_view.csrf_exempt = True</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327688', 'post139694092327688')"><pre>    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092327688')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092327688">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>(&lt;WSGIRequest: POST &#39;/analytics_automated/submission/.json&#39;&gt;,)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>view_func</td>
+                    <td class="code"><pre>&lt;function SubmissionDetails at 0x7f0d119442f0&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/views/generic/base.py</code> in <code>view</code>
+
+          
+            <div class="context" id="c139694092327240">
+              
+                <ol start="64" class="pre-context" id="pre139694092327240">
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>        def view(request, *args, **kwargs):</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>            self = cls(**initkwargs)</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>            if hasattr(self, &#39;get&#39;) and not hasattr(self, &#39;head&#39;):</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>                self.head = self.get</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>            self.request = request</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>            self.args = args</pre></li>
+                
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>            self.kwargs = kwargs</pre></li>
+                
+                </ol>
+              
+              <ol start="71" class="context-line">
+                <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>
+                        return self.dispatch(request, *args, **kwargs)</pre> <span>...</span></li></ol>
+              
+                <ol start='72' class="post-context" id="post139694092327240">
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>        # take name and docstring from class</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>        update_wrapper(view, cls, updated=())</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>        # and possible attributes set by decorators</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327240', 'post139694092327240')"><pre>        # like csrf_exempt from dispatch</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092327240')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092327240">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>cls</td>
+                    <td class="code"><pre>&lt;class &#39;analytics_automated.api.SubmissionDetails&#39;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>(&#39;&lt;WSGIRequest\n&#39;
+ &#39;path:/analytics_automated/submission/.json,\n&#39;
+ &#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
+ &quot;POST:{&#39;email&#39;: &#39;daniel.buchan@ucl.ac.uk&#39;,\n&quot;
+ &quot; &#39;job&#39;: &#39;ls_test_job&#39;,\n&quot;
+ &quot; &#39;ls_test_task_all&#39;: &#39;True&#39;,\n&quot;
+ &quot; &#39;submission_name&#39;: &#39;test&#39;},\n&quot;
+ &#39;COOKIES:{},\n&#39;
+ &quot;META:{&#39;CONTENT_LENGTH&#39;: &#39;585&#39;,\n&quot;
+ &quot; &#39;CONTENT_TYPE&#39;: &#39;multipart/form-data; &#39;\n&quot;
+ &quot;                 &#39;boundary=d83ab6ab65334916915810a1e3ac0b4f&#39;,\n&quot;
+ &quot; &#39;CSRF_COOKIE&#39;: &#39;Mp46rK2z8xJtDQAzaLNPE83MMmlorDeH&#39;,\n&quot;
+ &quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &quot;
+ &quot;&#39;analytics_automated_project.settings.staging&#39;,\n&quot;
+ &quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
+ &quot; &#39;HISTSIZE&#39;: &#39;1000&#39;,\n&quot;
+ &quot; &#39;HOME&#39;: &#39;/home/django_aa&#39;,\n&quot;
+ &quot; &#39;HOSTNAME&#39;: &#39;bioinfstage3.cs.ucl.ac.uk&#39;,\n&quot;
+ &quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
+ &quot; &#39;HTTP_ACCEPT_ENCODING&#39;: &#39;gzip, deflate&#39;,\n&quot;
+ &quot; &#39;HTTP_CONNECTION&#39;: &#39;keep-alive&#39;,\n&quot;
+ &quot; &#39;HTTP_HOST&#39;: &#39;127.0.0.1:8000&#39;,\n&quot;
+ &quot; &#39;HTTP_USER_AGENT&#39;: &#39;python-requests/2.7.0 CPython/3.4.3 &#39;\n&quot;
+ &quot;                    &#39;Linux/3.10.0-229.11.1.el7.x86_64&#39;,\n&quot;
+ &quot; &#39;KDEDIRS&#39;: &#39;/usr&#39;,\n&quot;
+ &quot; &#39;LANG&#39;: &#39;en_GB.UTF-8&#39;,\n&quot;
+ &quot; &#39;LESSOPEN&#39;: &#39;||/usr/bin/lesspipe.sh %s&#39;,\n&quot;
+ &quot; &#39;LOGNAME&#39;: &#39;django_aa&#39;,\n&quot;
+ &quot; &#39;LS_COLORS&#39;: &quot;
+ &quot;&#39;rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:&#39;,\n&quot;
+ &quot; &#39;MAIL&#39;: &#39;/var/spool/mail/dbuchan&#39;,\n&quot;
+ &quot; &#39;OLDPWD&#39;: &quot;
+ &quot;&#39;/home/django_aa/analytics_automated/analytics_automated_project/settings&#39;,\n&quot;
+ &quot; &#39;PATH&#39;: &quot;
+ &quot;&#39;/home/django_aa/aa_env/bin:/home/django_aa/perl5/bin:/root/perl5/bin:/sbin:/bin:/usr/sbin:/usr/bin&#39;,\n&quot;
+ &quot; &#39;PATH_INFO&#39;: &#39;/analytics_automated/submission/.json&#39;,\n&quot;
+ &quot; &#39;PERL5LIB&#39;: &#39;/home/django_aa/perl5/lib/perl5:/root/perl5/lib/perl5:&#39;,\n&quot;
+ &quot; &#39;PERL_LOCAL_LIB_ROOT&#39;: &#39;:/root/perl5:/home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PERL_MB_OPT&#39;: &#39;--install_base /home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PERL_MM_OPT&#39;: &#39;INSTALL_BASE=/home/django_aa/perl5&#39;,\n&quot;
+ &quot; &#39;PS1&#39;: &#39;(aa_env)[\\\\u@\\\\h \\\\W]\\\\$ &#39;,\n&quot;
+ &quot; &#39;PWD&#39;: &#39;/home/django_aa/analytics_automated&#39;,\n&quot;
+ &quot; &#39;QTDIR&#39;: &#39;/usr/lib64/qt-3.3&#39;,\n&quot;
+ &quot; &#39;QT_GRAPHICSSYSTEM_CHECKED&#39;: &#39;1&#39;,\n&quot;
+ &quot; &#39;QT_PLUGIN_PATH&#39;: &#39;/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins&#39;,\n&quot;
+ &quot; &#39;QUERY_STRING&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;REMOTE_ADDR&#39;: &#39;128.16.14.83&#39;,\n&quot;
+ &quot; &#39;REMOTE_HOST&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;REQUEST_METHOD&#39;: &#39;POST&#39;,\n&quot;
+ &quot; &#39;RUN_MAIN&#39;: &#39;true&#39;,\n&quot;
+ &quot; &#39;SCRIPT_NAME&#39;: &#39;&#39;,\n&quot;
+ &quot; &#39;SERVER_NAME&#39;: &#39;localhost.localdomain&#39;,\n&quot;
+ &quot; &#39;SERVER_PORT&#39;: &#39;8000&#39;,\n&quot;
+ &quot; &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,\n&quot;
+ &quot; &#39;SERVER_SOFTWARE&#39;: &#39;WSGIServer/0.2&#39;,\n&quot;
+ &quot; &#39;SGE_ROOT&#39;: &#39;/opt/ogs_src/GE2011.11/&#39;,\n&quot;
+ &quot; &#39;SHELL&#39;: &#39;/bin/bash&#39;,\n&quot;
+ &quot; &#39;SHLVL&#39;: &#39;2&#39;,\n&quot;
+ &quot; &#39;SUDO_COMMAND&#39;: &#39;/bin/su&#39;,\n&quot;
+ &quot; &#39;SUDO_GID&#39;: &#39;500&#39;,\n&quot;
+ &quot; &#39;SUDO_UID&#39;: &#39;16482&#39;,\n&quot;
+ &quot; &#39;SUDO_USER&#39;: &#39;dbuchan&#39;,\n&quot;
+ &quot; &#39;TERM&#39;: &#39;xterm&#39;,\n&quot;
+ &quot; &#39;TZ&#39;: &#39;UTC&#39;,\n&quot;
+ &quot; &#39;USER&#39;: &#39;django_aa&#39;,\n&quot;
+ &quot; &#39;USERNAME&#39;: &#39;root&#39;,\n&quot;
+ &quot; &#39;VIRTUALENVWRAPPER_HOOK_DIR&#39;: &#39;/root/.virtualenvs&#39;,\n&quot;
+ &quot; &#39;VIRTUALENVWRAPPER_PROJECT_FI... &lt;trimmed 4721 bytes string&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>initkwargs</td>
+                    <td class="code"><pre>{}</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame user">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
+
+          
+            <div class="context" id="c139694092325960">
+              
+                <ol start="449" class="pre-context" id="pre139694092325960">
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>            else:</pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>            response = handler(request, *args, **kwargs)</pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>        except Exception as exc:</pre></li>
+                
+                </ol>
+              
+              <ol start="456" class="context-line">
+                <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>
+                        response = self.handle_exception(exc)</pre> <span>...</span></li></ol>
+              
+                <ol start='457' class="post-context" id="post139694092325960">
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>        return self.response</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>    def options(self, request, *args, **kwargs):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092325960', 'post139694092325960')"><pre>        &quot;&quot;&quot;</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092325960')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092325960">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>handler</td>
+                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f0d10b49320&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame user">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/rest_framework/views.py</code> in <code>dispatch</code>
+
+          
+            <div class="context" id="c139694092327624">
+              
+                <ol start="446" class="pre-context" id="pre139694092327624">
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>            # Get the appropriate handler method</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>            if request.method.lower() in self.http_method_names:</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>                handler = getattr(self, request.method.lower(),</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>            else:</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre></pre></li>
+                
+                </ol>
+              
+              <ol start="453" class="context-line">
+                <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>
+                        response = handler(request, *args, **kwargs)</pre> <span>...</span></li></ol>
+              
+                <ol start='454' class="post-context" id="post139694092327624">
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>        except Exception as exc:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>            response = self.handle_exception(exc)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327624', 'post139694092327624')"><pre>        return self.response</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092327624')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092327624">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>handler</td>
+                    <td class="code"><pre>&lt;bound method SubmissionDetails.post of &lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f0d10b49320&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame user">
+          <code>/home/django_aa/analytics_automated/analytics_automated/api.py</code> in <code>post</code>
+
+          
+            <div class="context" id="c139694092326728">
+              
+                <ol start="166" class="pre-context" id="pre139694092326728">
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        job_priority = settings.DEFAULT_JOB_PRIORITY</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        if request.user.is_authenticated():</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            job_priority = settings.LOGGED_IN_JOB_PRIORITY</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        # In the future we&#39;ll set batch jobs to the lowest priority</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        # TODO: VALIDATE input_data IN SOME MANNER</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        submission_form = SubmissionForm(data, request.FILES)</pre></li>
+                
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>        if submission_form.is_valid():</pre></li>
+                
+                </ol>
+              
+              <ol start="173" class="context-line">
+                <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>
+                        s = submission_form.save()</pre> <span>...</span></li></ol>
+              
+                <ol start='174' class="post-context" id="post139694092326728">
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            # Send to the Job Queue and set queued message if that is a success</pre></li>
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            job = Job.objects.get(name=s.job)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            steps = job.steps.all().select_related(&#39;task&#39;) \</pre></li>
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>                       .extra(order_by=[&#39;ordering&#39;])</pre></li>
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            # 1. Look up tasks in a job</pre></li>
+                  
+                  <li onclick="toggle('pre139694092326728', 'post139694092326728')"><pre>            # 2. Order tasks by their step id</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092326728')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092326728">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>submission_form</td>
+                    <td class="code"><pre>&lt;SubmissionForm bound=True, valid=True, fields=(job;submission_name;UUID;email;ip;input_data)&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>()</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;format&#39;: &#39;json&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>data</td>
+                    <td class="code"><pre>{&#39;UUID&#39;: &#39;ed164418-7813-11e5-a84a-00163e100e53&#39;,
+ &#39;email&#39;: &#39;daniel.buchan@ucl.ac.uk&#39;,
+ &#39;ip&#39;: &#39;128.16.14.83&#39;,
+ &#39;job&#39;: 1,
+ &#39;submission_name&#39;: &#39;test&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request</td>
+                    <td class="code"><pre>&lt;rest_framework.request.Request object at 0x7f0d10b49320&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;analytics_automated.api.SubmissionDetails object at 0x7f0d10bfc278&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>job_priority</td>
+                    <td class="code"><pre>&#39;MEDIUM&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>request_contents</td>
+                    <td class="code"><pre>&lt;QueryDict: {&#39;ls_test_task_all&#39;: [&#39;True&#39;]}&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/forms/models.py</code> in <code>save</code>
+
+          
+            <div class="context" id="c139694092328648">
+              
+                <ol start="456" class="pre-context" id="pre139694092328648">
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>        &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>        if self.instance.pk is None:</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>            fail_message = &#39;created&#39;</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>        else:</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>            fail_message = &#39;changed&#39;</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>        return save_instance(self, self.instance, self._meta.fields,</pre></li>
+                
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>                             fail_message, commit, self._meta.exclude,</pre></li>
+                
+                </ol>
+              
+              <ol start="463" class="context-line">
+                <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>
+                                         construct=False)</pre> <span>...</span></li></ol>
+              
+                <ol start='464' class="post-context" id="post139694092328648">
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>    save.alters_data = True</pre></li>
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>class ModelForm(six.with_metaclass(ModelFormMetaclass, BaseModelForm)):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092328648', 'post139694092328648')"><pre>    pass</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092328648')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092328648">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;SubmissionForm bound=True, valid=True, fields=(job;submission_name;UUID;email;ip;input_data)&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fail_message</td>
+                    <td class="code"><pre>&#39;created&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>commit</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/forms/models.py</code> in <code>save_instance</code>
+
+          
+            <div class="context" id="c139694092327304">
+              
+                <ol start="98" class="pre-context" id="pre139694092327304">
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>                continue</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>            if exclude and f.name in exclude:</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>                continue</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>            if f.name in cleaned_data:</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>                f.save_form_data(instance, cleaned_data[f.name])</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>    if commit:</pre></li>
+                
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>        # If we are committing, save the instance and the m2m data immediately.</pre></li>
+                
+                </ol>
+              
+              <ol start="105" class="context-line">
+                <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>
+                    instance.save()</pre> <span>...</span></li></ol>
+              
+                <ol start='106' class="post-context" id="post139694092327304">
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>        save_m2m()</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>    else:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>        # We&#39;re not committing. Add a method to the form to allow deferred</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>        # saving of m2m data.</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>        form.save_m2m = save_m2m</pre></li>
+                  
+                  <li onclick="toggle('pre139694092327304', 'post139694092327304')"><pre>    return instance</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092327304')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092327304">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>instance</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fail_message</td>
+                    <td class="code"><pre>&#39;created&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>save_m2m</td>
+                    <td class="code"><pre>&lt;function save_instance.&lt;locals&gt;.save_m2m at 0x7f0d10b43d08&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>form</td>
+                    <td class="code"><pre>&lt;SubmissionForm bound=True, valid=True, fields=(job;submission_name;UUID;email;ip;input_data)&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>exclude</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>construct</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>(&#39;job&#39;, &#39;submission_name&#39;, &#39;UUID&#39;, &#39;email&#39;, &#39;ip&#39;, &#39;input_data&#39;)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>opts</td>
+                    <td class="code"><pre>&lt;Options for Submission&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>commit</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py</code> in <code>save</code>
+
+          
+            <div class="context" id="c139694092707528">
+              
+                <ol start="703" class="pre-context" id="pre139694092707528">
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>            ]</pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>            loaded_fields = field_names.difference(deferred_fields)</pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>            if loaded_fields:</pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>                update_fields = frozenset(loaded_fields)</pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>        self.save_base(using=using, force_insert=force_insert,</pre></li>
+                
+                </ol>
+              
+              <ol start="710" class="context-line">
+                <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>
+                                   force_update=force_update, update_fields=update_fields)</pre> <span>...</span></li></ol>
+              
+                <ol start='711' class="post-context" id="post139694092707528">
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>    save.alters_data = True</pre></li>
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>    def save_base(self, raw=False, force_insert=False,</pre></li>
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>                  force_update=False, using=None, update_fields=None):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>        &quot;&quot;&quot;</pre></li>
+                  
+                  <li onclick="toggle('pre139694092707528', 'post139694092707528')"><pre>        Handles the parts of saving which should be done only once per save,</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092707528')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092707528">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>using</td>
+                    <td class="code"><pre>&#39;default&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>update_fields</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_update</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_insert</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py</code> in <code>save_base</code>
+
+          
+            <div class="context" id="c139694092721608">
+              
+                <ol start="731" class="pre-context" id="pre139694092721608">
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        meta = cls._meta</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        if not meta.auto_created:</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>            signals.pre_save.send(sender=origin, instance=self, raw=raw, using=using,</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>                                  update_fields=update_fields)</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        with transaction.atomic(using=using, savepoint=False):</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>            if not raw:</pre></li>
+                
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>                self._save_parents(cls, using, update_fields)</pre></li>
+                
+                </ol>
+              
+              <ol start="738" class="context-line">
+                <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>
+                        updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)</pre> <span>...</span></li></ol>
+              
+                <ol start='739' class="post-context" id="post139694092721608">
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        # Store the database on which the object was saved</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        self._state.db = using</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        # Once saved, this is no longer a to-be-added instance.</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        self._state.adding = False</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092721608', 'post139694092721608')"><pre>        # Signal that the save is complete</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092721608')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092721608">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>origin</td>
+                    <td class="code"><pre>&lt;class &#39;analytics_automated.models.Submission&#39;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>using</td>
+                    <td class="code"><pre>&#39;default&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>cls</td>
+                    <td class="code"><pre>&lt;class &#39;analytics_automated.models.Submission&#39;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>meta</td>
+                    <td class="code"><pre>&lt;Options for Submission&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_insert</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_update</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>update_fields</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>raw</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py</code> in <code>_save_table</code>
+
+          
+            <div class="context" id="c139694092721864">
+              
+                <ol start="815" class="pre-context" id="pre139694092721864">
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>                self._order = order_value</pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>            fields = meta.local_concrete_fields</pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>            if not pk_set:</pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>                fields = [f for f in fields if not isinstance(f, AutoField)]</pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>            update_pk = bool(meta.has_auto_field and not pk_set)</pre></li>
+                
+                </ol>
+              
+              <ol start="822" class="context-line">
+                <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>
+                        result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)</pre> <span>...</span></li></ol>
+              
+                <ol start='823' class="post-context" id="post139694092721864">
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>            if update_pk:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>                setattr(self, meta.pk.attname, result)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>        return updated</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>    def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721864', 'post139694092721864')"><pre>        &quot;&quot;&quot;</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092721864')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092721864">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>using</td>
+                    <td class="code"><pre>&#39;default&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>cls</td>
+                    <td class="code"><pre>&lt;class &#39;analytics_automated.models.Submission&#39;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_insert</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>update_pk</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>force_update</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>update_fields</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>pk_val</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>meta</td>
+                    <td class="code"><pre>&lt;Options for Submission&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>updated</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>non_pks</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>pk_set</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>raw</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py</code> in <code>_do_insert</code>
+
+          
+            <div class="context" id="c139694092720840">
+              
+                <ol start="854" class="pre-context" id="pre139694092720840">
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>    def _do_insert(self, manager, using, fields, update_pk, raw):</pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        Do an INSERT. If update_pk is defined then this method should return</pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        the new pk for the model.</pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        return manager._insert([self], fields=fields, return_id=update_pk,</pre></li>
+                
+                </ol>
+              
+              <ol start="861" class="context-line">
+                <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>
+                                           using=using, raw=raw)</pre> <span>...</span></li></ol>
+              
+                <ol start='862' class="post-context" id="post139694092720840">
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>    def delete(self, using=None):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        using = using or router.db_for_write(self.__class__, instance=self)</pre></li>
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>        assert self._get_pk_val() is not None, (</pre></li>
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>            &quot;%s object can&#39;t be deleted because its %s attribute is set to None.&quot; %</pre></li>
+                  
+                  <li onclick="toggle('pre139694092720840', 'post139694092720840')"><pre>            (self._meta.object_name, self._meta.pk.attname)</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092720840')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092720840">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>using</td>
+                    <td class="code"><pre>&#39;default&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>manager</td>
+                    <td class="code"><pre>&lt;django.db.models.manager.Manager object at 0x7f0d1284deb8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>raw</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>update_pk</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/manager.py</code> in <code>manager_method</code>
+
+          
+            <div class="context" id="c139694092721928">
+              
+                <ol start="120" class="pre-context" id="pre139694092721928">
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>    def check(self, **kwargs):</pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>        return []</pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>    @classmethod</pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>    def _get_queryset_methods(cls, queryset_class):</pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>        def create_method(name, method):</pre></li>
+                
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>            def manager_method(self, *args, **kwargs):</pre></li>
+                
+                </ol>
+              
+              <ol start="127" class="context-line">
+                <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>
+                            return getattr(self.get_queryset(), name)(*args, **kwargs)</pre> <span>...</span></li></ol>
+              
+                <ol start='128' class="post-context" id="post139694092721928">
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>            manager_method.__name__ = method.__name__</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>            manager_method.__doc__ = method.__doc__</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>            return manager_method</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>        new_methods = {}</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721928', 'post139694092721928')"><pre>        # Refs http://bugs.python.org/issue1785.</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092721928')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092721928">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.manager.Manager object at 0x7f0d1284deb8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>([&lt;Submission: None&gt;],)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#39;fields&#39;: [&lt;django.db.models.fields.DateTimeField: created&gt;,
+            &lt;django.db.models.fields.DateTimeField: modified&gt;,
+            &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+            &lt;django.db.models.fields.CharField: submission_name&gt;,
+            &lt;django.db.models.fields.CharField: UUID&gt;,
+            &lt;django.db.models.fields.EmailField: email&gt;,
+            &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+            &lt;django.db.models.fields.files.FileField: input_data&gt;,
+            &lt;django.db.models.fields.IntegerField: status&gt;,
+            &lt;django.db.models.fields.CharField: last_message&gt;,
+            &lt;django.db.models.fields.BooleanField: claimed&gt;,
+            &lt;django.db.models.fields.CharField: worker_id&gt;,
+            &lt;django.db.models.fields.IntegerField: step_id&gt;],
+ &#39;raw&#39;: False,
+ &#39;return_id&#39;: True,
+ &#39;using&#39;: &#39;default&#39;}</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>name</td>
+                    <td class="code"><pre>&#39;_insert&#39;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/query.py</code> in <code>_insert</code>
+
+          
+            <div class="context" id="c139694092721736">
+              
+                <ol start="913" class="pre-context" id="pre139694092721736">
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        the InsertQuery class and is how Model.save() is implemented.</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        &quot;&quot;&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        self._for_write = True</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        if using is None:</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>            using = self.db</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        query = sql.InsertQuery(self.model)</pre></li>
+                
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        query.insert_values(fields, objs, raw=raw)</pre></li>
+                
+                </ol>
+              
+              <ol start="920" class="context-line">
+                <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>
+                    return query.get_compiler(using=using).execute_sql(return_id)</pre> <span>...</span></li></ol>
+              
+                <ol start='921' class="post-context" id="post139694092721736">
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>    _insert.alters_data = True</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>    _insert.queryset_only = False</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>    def _batched_insert(self, objs, fields, batch_size):</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        &quot;&quot;&quot;</pre></li>
+                  
+                  <li onclick="toggle('pre139694092721736', 'post139694092721736')"><pre>        A little helper method for bulk_insert to insert the bulk one batch</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092721736')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092721736">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>return_id</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>using</td>
+                    <td class="code"><pre>&#39;default&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>query</td>
+                    <td class="code"><pre>&lt;django.db.models.sql.subqueries.InsertQuery object at 0x7f0d10b49c18&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>raw</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>objs</td>
+                    <td class="code"><pre>[&lt;Submission: None&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>[&lt;Submission: 3&gt;, &lt;Submission: 4&gt;, &lt;Submission: 5&gt;, &lt;Submission: 6&gt;, &lt;Submission: 7&gt;, &lt;Submission: 8&gt;, &lt;Submission: 9&gt;, &lt;Submission: 10&gt;, &lt;Submission: 11&gt;, &lt;Submission: 12&gt;, &lt;Submission: 13&gt;, &lt;Submission: 14&gt;, &lt;Submission: 15&gt;, &lt;Submission: 16&gt;, &lt;Submission: 17&gt;, &lt;Submission: 18&gt;, &lt;Submission: 19&gt;, &lt;Submission: 20&gt;, &lt;Submission: 21&gt;, &lt;Submission: 22&gt;, &#39;...(remaining elements truncated)...&#39;]</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py</code> in <code>execute_sql</code>
+
+          
+            <div class="context" id="c139694090929032">
+              
+                <ol start="963" class="pre-context" id="pre139694090929032">
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>                for p, vals in zip(placeholders, params)</pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>            ]</pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>    def execute_sql(self, return_id=False):</pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>        assert not (return_id and len(self.query.objs) != 1)</pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>        self.return_id = return_id</pre></li>
+                
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>        with self.connection.cursor() as cursor:</pre></li>
+                
+                </ol>
+              
+              <ol start="970" class="context-line">
+                <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>
+                        for sql, params in self.as_sql():</pre> <span>...</span></li></ol>
+              
+                <ol start='971' class="post-context" id="post139694090929032">
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>                cursor.execute(sql, params)</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>            if not (return_id and cursor):</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>                return</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>            if self.connection.features.can_return_id_from_insert:</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>                return self.connection.ops.fetch_returned_insert_id(cursor)</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929032', 'post139694090929032')"><pre>            return self.connection.ops.last_insert_id(cursor,</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694090929032')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694090929032">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>return_id</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>cursor</td>
+                    <td class="code"><pre>&lt;django.db.backends.utils.CursorDebugWrapper object at 0x7f0d10b49b00&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.sql.compiler.SQLInsertCompiler object at 0x7f0d10b49cf8&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py</code> in <code>as_sql</code>
+
+          
+            <div class="context" id="c139694090928968">
+              
+                <ol start="921" class="pre-context" id="pre139694090928968">
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>            params = values = [</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                [</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                    f.get_db_prep_save(</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                        getattr(obj, f.attname) if self.query.raw else f.pre_save(obj, True),</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                        connection=self.connection</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                    ) for f in fields</pre></li>
+                
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>                ]</pre></li>
+                
+                </ol>
+              
+              <ol start="928" class="context-line">
+                <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>
+                            for obj in self.query.objs</pre> <span>...</span></li></ol>
+              
+                <ol start='929' class="post-context" id="post139694090928968">
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>            ]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>        else:</pre></li>
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>            values = [[self.connection.ops.pk_default_value()] for obj in self.query.objs]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>            params = [[]]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>            fields = [None]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090928968', 'post139694090928968')"><pre>        can_bulk = (not any(hasattr(field, &quot;get_placeholder&quot;) for field in fields) and</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694090928968')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694090928968">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>opts</td>
+                    <td class="code"><pre>&lt;Options for Submission&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>result</td>
+                    <td class="code"><pre>[&#39;INSERT INTO &quot;analytics_automated_submission&quot;&#39;,
+ &#39;(&quot;created&quot;, &quot;modified&quot;, &quot;job_id&quot;, &quot;submission_name&quot;, &quot;UUID&quot;, &quot;email&quot;, &#39;
+ &#39;&quot;ip&quot;, &quot;input_data&quot;, &quot;status&quot;, &quot;last_message&quot;, &quot;claimed&quot;, &quot;worker_id&quot;, &#39;
+ &#39;&quot;step_id&quot;)&#39;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.sql.compiler.SQLInsertCompiler object at 0x7f0d10b49cf8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>has_fields</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>qn</td>
+                    <td class="code"><pre>&lt;bound method DatabaseOperations.quote_name of &lt;django.db.backends.postgresql_psycopg2.operations.DatabaseOperations object at 0x7f0d10c65fd0&gt;&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py</code> in <code>&lt;listcomp&gt;</code>
+
+          
+            <div class="context" id="c139694090932040">
+              
+                <ol start="921" class="pre-context" id="pre139694090932040">
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>            params = values = [</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                [</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                    f.get_db_prep_save(</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                        getattr(obj, f.attname) if self.query.raw else f.pre_save(obj, True),</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                        connection=self.connection</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                    ) for f in fields</pre></li>
+                
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>                ]</pre></li>
+                
+                </ol>
+              
+              <ol start="928" class="context-line">
+                <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>
+                            for obj in self.query.objs</pre> <span>...</span></li></ol>
+              
+                <ol start='929' class="post-context" id="post139694090932040">
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>            ]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>        else:</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>            values = [[self.connection.ops.pk_default_value()] for obj in self.query.objs]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>            params = [[]]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>            fields = [None]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932040', 'post139694090932040')"><pre>        can_bulk = (not any(hasattr(field, &quot;get_placeholder&quot;) for field in fields) and</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694090932040')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694090932040">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.sql.compiler.SQLInsertCompiler object at 0x7f0d10b49cf8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>obj</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>.0</td>
+                    <td class="code"><pre>&lt;list_iterator object at 0x7f0d10b49dd8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fields</td>
+                    <td class="code"><pre>[&lt;django.db.models.fields.DateTimeField: created&gt;,
+ &lt;django.db.models.fields.DateTimeField: modified&gt;,
+ &lt;django.db.models.fields.related.ForeignKey: job&gt;,
+ &lt;django.db.models.fields.CharField: submission_name&gt;,
+ &lt;django.db.models.fields.CharField: UUID&gt;,
+ &lt;django.db.models.fields.EmailField: email&gt;,
+ &lt;django.db.models.fields.GenericIPAddressField: ip&gt;,
+ &lt;django.db.models.fields.files.FileField: input_data&gt;,
+ &lt;django.db.models.fields.IntegerField: status&gt;,
+ &lt;django.db.models.fields.CharField: last_message&gt;,
+ &lt;django.db.models.fields.BooleanField: claimed&gt;,
+ &lt;django.db.models.fields.CharField: worker_id&gt;,
+ &lt;django.db.models.fields.IntegerField: step_id&gt;]</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py</code> in <code>&lt;listcomp&gt;</code>
+
+          
+            <div class="context" id="c139694090932104">
+              
+                <ol start="919" class="pre-context" id="pre139694090932104">
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>        if has_fields:</pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>            params = values = [</pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                [</pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                    f.get_db_prep_save(</pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                        getattr(obj, f.attname) if self.query.raw else f.pre_save(obj, True),</pre></li>
+                
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                        connection=self.connection</pre></li>
+                
+                </ol>
+              
+              <ol start="926" class="context-line">
+                <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>
+                                ) for f in fields</pre> <span>...</span></li></ol>
+              
+                <ol start='927' class="post-context" id="post139694090932104">
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                ]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>                for obj in self.query.objs</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>            ]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>        else:</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>            values = [[self.connection.ops.pk_default_value()] for obj in self.query.objs]</pre></li>
+                  
+                  <li onclick="toggle('pre139694090932104', 'post139694090932104')"><pre>            params = [[]]</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694090932104')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694090932104">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.sql.compiler.SQLInsertCompiler object at 0x7f0d10b49cf8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>f</td>
+                    <td class="code"><pre>&lt;django.db.models.fields.files.FileField: input_data&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>.0</td>
+                    <td class="code"><pre>&lt;list_iterator object at 0x7f0d10b49d30&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>obj</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/fields/files.py</code> in <code>pre_save</code>
+
+          
+            <div class="context" id="c139694090929480">
+              
+                <ol start="308" class="pre-context" id="pre139694090929480">
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        return six.text_type(value)</pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>    def pre_save(self, model_instance, add):</pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        &quot;Returns field&#39;s value just before saving.&quot;</pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        file = super(FileField, self).pre_save(model_instance, add)</pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        if file and not file._committed:</pre></li>
+                
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>            # Commit the file to storage prior to saving the model</pre></li>
+                
+                </ol>
+              
+              <ol start="315" class="context-line">
+                <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>
+                        file.save(file.name, file, save=False)</pre> <span>...</span></li></ol>
+              
+                <ol start='316' class="post-context" id="post139694090929480">
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        return file</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>    def contribute_to_class(self, cls, name, **kwargs):</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        super(FileField, self).contribute_to_class(cls, name, **kwargs)</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre>        setattr(cls, self.name, self.descriptor_class(self))</pre></li>
+                  
+                  <li onclick="toggle('pre139694090929480', 'post139694090929480')"><pre></pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694090929480')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694090929480">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.db.models.fields.files.FileField: input_data&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>file</td>
+                    <td class="code"><pre>&lt;FieldFile: input.txt&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>add</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>model_instance</td>
+                    <td class="code"><pre>&lt;Submission: None&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>__class__</td>
+                    <td class="code"><pre>&lt;class &#39;django.db.models.fields.files.FileField&#39;&gt;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/fields/files.py</code> in <code>save</code>
+
+          
+            <div class="context" id="c139694092278024">
+              
+                <ol start="87" class="pre-context" id="pre139694092278024">
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>    # associated model instance.</pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>    def save(self, name, content, save=True):</pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>        name = self.field.generate_filename(self.instance, name)</pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>        args, varargs, varkw, defaults = getargspec(self.storage.save)</pre></li>
+                
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>        if &#39;max_length&#39; in args:</pre></li>
+                
+                </ol>
+              
+              <ol start="94" class="context-line">
+                <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>
+                        self.name = self.storage.save(name, content, max_length=self.field.max_length)</pre> <span>...</span></li></ol>
+              
+                <ol start='95' class="post-context" id="post139694092278024">
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>        else:</pre></li>
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>            warnings.warn(</pre></li>
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>                &#39;Backwards compatibility for storage backends without &#39;</pre></li>
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>                &#39;support for the `max_length` argument in &#39;</pre></li>
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>                &#39;Storage.save() will be removed in Django 2.0.&#39;,</pre></li>
+                  
+                  <li onclick="toggle('pre139694092278024', 'post139694092278024')"><pre>                RemovedInDjango20Warning, stacklevel=2</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092278024')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092278024">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>defaults</td>
+                    <td class="code"><pre>(None,)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>save</td>
+                    <td class="code"><pre>False</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>[&#39;self&#39;, &#39;name&#39;, &#39;content&#39;, &#39;max_length&#39;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;FieldFile: input.txt&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>varargs</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>varkw</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>content</td>
+                    <td class="code"><pre>&lt;FieldFile: input.txt&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>name</td>
+                    <td class="code"><pre>&#39;./input.txt&#39;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/storage.py</code> in <code>save</code>
+
+          
+            <div class="context" id="c139694092279368">
+              
+                <ol start="57" class="pre-context" id="pre139694092279368">
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>                &#39;Backwards compatibility for storage backends without &#39;</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>                &#39;support for the `max_length` argument in &#39;</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>                &#39;Storage.get_available_name() will be removed in Django 2.0.&#39;,</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>                RemovedInDjango20Warning, stacklevel=2</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>            )</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>            name = self.get_available_name(name)</pre></li>
+                
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre></pre></li>
+                
+                </ol>
+              
+              <ol start="64" class="context-line">
+                <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>
+                    name = self._save(name, content)</pre> <span>...</span></li></ol>
+              
+                <ol start='65' class="post-context" id="post139694092279368">
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>        # Store filenames with forward slashes, even on Windows</pre></li>
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>        return force_text(name.replace(&#39;\\&#39;, &#39;/&#39;))</pre></li>
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre>    # These methods are part of the public API, with default implementations.</pre></li>
+                  
+                  <li onclick="toggle('pre139694092279368', 'post139694092279368')"><pre></pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694092279368')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694092279368">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>defaults</td>
+                    <td class="code"><pre>(None,)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>args</td>
+                    <td class="code"><pre>[&#39;self&#39;, &#39;name&#39;, &#39;max_length&#39;]</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.files.storage.FileSystemStorage object at 0x7f0d10bfc550&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>varargs</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>max_length</td>
+                    <td class="code"><pre>100</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>varkw</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>content</td>
+                    <td class="code"><pre>&lt;FieldFile: input.txt&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>name</td>
+                    <td class="code"><pre>&#39;./input_r6CfHeI.txt&#39;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/storage.py</code> in <code>_save</code>
+
+          
+            <div class="context" id="c139694091349384">
+              
+                <ol start="245" class="pre-context" id="pre139694091349384">
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    # OSError if the file already exists before we open it.</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    flags = (os.O_WRONLY | os.O_CREAT | os.O_EXCL |</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                             getattr(os, &#39;O_BINARY&#39;, 0))</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    # The current umask value is masked out by os.open!</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    fd = os.open(full_path, flags, 0o666)</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    _file = None</pre></li>
+                
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    try:</pre></li>
+                
+                </ol>
+              
+              <ol start="252" class="context-line">
+                <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>
+                                    locks.lock(fd, locks.LOCK_EX)</pre> <span>...</span></li></ol>
+              
+                <ol start='253' class="post-context" id="post139694091349384">
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                        for chunk in content.chunks():</pre></li>
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                            if _file is None:</pre></li>
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                                mode = &#39;wb&#39; if isinstance(chunk, bytes) else &#39;wt&#39;</pre></li>
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                                _file = os.fdopen(fd, mode)</pre></li>
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                            _file.write(chunk)</pre></li>
+                  
+                  <li onclick="toggle('pre139694091349384', 'post139694091349384')"><pre>                    finally:</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694091349384')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694091349384">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>directory</td>
+                    <td class="code"><pre>&#39;/home/django_aa/analytics_automated/submissions&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>full_path</td>
+                    <td class="code"><pre>&#39;/home/django_aa/analytics_automated/submissions/input_r6CfHeI.txt&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>fd</td>
+                    <td class="code"><pre>11</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>_file</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.files.storage.FileSystemStorage object at 0x7f0d10bfc550&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>flags</td>
+                    <td class="code"><pre>193</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>content</td>
+                    <td class="code"><pre>&lt;FieldFile: input.txt&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>name</td>
+                    <td class="code"><pre>&#39;./input_r6CfHeI.txt&#39;</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+        <li class="frame django">
+          <code>/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/locks.py</code> in <code>lock</code>
+
+          
+            <div class="context" id="c139694091344904">
+              
+                <ol start="101" class="pre-context" id="pre139694091344904">
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            return False</pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre></pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>        def unlock(f):</pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            # File is unlocked</pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            return True</pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>    else:</pre></li>
+                
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>        def lock(f, flags):</pre></li>
+                
+                </ol>
+              
+              <ol start="108" class="context-line">
+                <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>
+                        ret = fcntl.flock(_fd(f), flags)</pre> <span>...</span></li></ol>
+              
+                <ol start='109' class="post-context" id="post139694091344904">
+                  
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            return (ret == 0)</pre></li>
+                  
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre></pre></li>
+                  
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>        def unlock(f):</pre></li>
+                  
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            ret = fcntl.flock(_fd(f), fcntl.LOCK_UN)</pre></li>
+                  
+                  <li onclick="toggle('pre139694091344904', 'post139694091344904')"><pre>            return (ret == 0)</pre></li>
+                  
+              </ol>
+              
+            </div>
+          
+
+          
+            <div class="commands">
+                
+                    <a href="#" onclick="return varToggle(this, '139694091344904')"><span>&#x25b6;</span> Local vars</a>
+                
+            </div>
+            <table class="vars" id="v139694091344904">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td>f</td>
+                    <td class="code"><pre>11</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>flags</td>
+                    <td class="code"><pre>2</pre></td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          
+        </li>
+      
+    </ul>
+  </div>
+  
+  <form action="http://dpaste.com/" name="pasteform" id="pasteform" method="post">
+
+  <div id="pastebinTraceback" class="pastebin">
+    <input type="hidden" name="language" value="PythonConsole">
+    <input type="hidden" name="title"
+      value="OSError at /analytics_automated/submission/.json">
+    <input type="hidden" name="source" value="Django Dpaste Agent">
+    <input type="hidden" name="poster" value="Django">
+    <textarea name="content" id="traceback_area" cols="140" rows="25">
+Environment:
+
+
+Request Method: POST
+Request URL: http://127.0.0.1:8000/analytics_automated/submission/.json
+
+Django Version: 1.8.1
+Python Version: 3.4.3
+Installed Applications:
+(&#39;django_admin_bootstrapped&#39;,
+ &#39;django.contrib.admin&#39;,
+ &#39;django.contrib.auth&#39;,
+ &#39;django.contrib.contenttypes&#39;,
+ &#39;django.contrib.sessions&#39;,
+ &#39;django.contrib.messages&#39;,
+ &#39;django.contrib.staticfiles&#39;,
+ &#39;analytics_automated&#39;,
+ &#39;rest_framework&#39;,
+ &#39;djcelery&#39;,
+ &#39;mod_wsgi.server&#39;)
+Installed Middleware:
+(&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
+ &#39;django.middleware.common.CommonMiddleware&#39;,
+ &#39;django.middleware.csrf.CsrfViewMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,
+ &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,
+ &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;,
+ &#39;django.middleware.security.SecurityMiddleware&#39;)
+
+
+Traceback:
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/handlers/base.py" in get_response
+  132.                     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/views/decorators/csrf.py" in wrapped_view
+  58.         return view_func(*args, **kwargs)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/views/generic/base.py" in view
+  71.             return self.dispatch(request, *args, **kwargs)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
+  456.             response = self.handle_exception(exc)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/rest_framework/views.py" in dispatch
+  453.             response = handler(request, *args, **kwargs)
+File "/home/django_aa/analytics_automated/analytics_automated/api.py" in post
+  173.             s = submission_form.save()
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/forms/models.py" in save
+  463.                              construct=False)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/forms/models.py" in save_instance
+  105.         instance.save()
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py" in save
+  710.                        force_update=force_update, update_fields=update_fields)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py" in save_base
+  738.             updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py" in _save_table
+  822.             result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/base.py" in _do_insert
+  861.                                using=using, raw=raw)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/manager.py" in manager_method
+  127.                 return getattr(self.get_queryset(), name)(*args, **kwargs)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/query.py" in _insert
+  920.         return query.get_compiler(using=using).execute_sql(return_id)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py" in execute_sql
+  970.             for sql, params in self.as_sql():
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py" in as_sql
+  928.                 for obj in self.query.objs
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py" in &lt;listcomp&gt;
+  928.                 for obj in self.query.objs
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/sql/compiler.py" in &lt;listcomp&gt;
+  926.                     ) for f in fields
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/fields/files.py" in pre_save
+  315.             file.save(file.name, file, save=False)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/db/models/fields/files.py" in save
+  94.             self.name = self.storage.save(name, content, max_length=self.field.max_length)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/storage.py" in save
+  64.         name = self._save(name, content)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/storage.py" in _save
+  252.                         locks.lock(fd, locks.LOCK_EX)
+File "/home/django_aa/aa_env/lib/python3.4/site-packages/django/core/files/locks.py" in lock
+  108.             ret = fcntl.flock(_fd(f), flags)
+
+Exception Type: OSError at /analytics_automated/submission/.json
+Exception Value: [Errno 37] No locks available
+</textarea>
+  <br><br>
+  <input type="submit" value="Share this traceback on a public Web site">
+  </div>
+</form>
+</div>
+
+
+
+<div id="requestinfo">
+  <h2>Request information</h2>
+
+
+  <h3 id="get-info">GET</h3>
+  
+    <p>No GET data</p>
+  
+
+  <h3 id="post-info">POST</h3>
+  
+    <table class="req">
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td>job</td>
+            <td class="code"><pre>&#39;ls_test_job&#39;</pre></td>
+          </tr>
+        
+          <tr>
+            <td>ls_test_task_all</td>
+            <td class="code"><pre>&#39;True&#39;</pre></td>
+          </tr>
+        
+          <tr>
+            <td>email</td>
+            <td class="code"><pre>&#39;daniel.buchan@ucl.ac.uk&#39;</pre></td>
+          </tr>
+        
+          <tr>
+            <td>submission_name</td>
+            <td class="code"><pre>&#39;test&#39;</pre></td>
+          </tr>
+        
+      </tbody>
+    </table>
+  
+  <h3 id="files-info">FILES</h3>
+  
+    <table class="req">
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>input_data</td>
+                    <td class="code"><pre>&lt;InMemoryUploadedFile: input.txt ()&gt;</pre></td>
+                </tr>
+            
+        </tbody>
+    </table>
+  
+
+
+  <h3 id="cookie-info">COOKIES</h3>
+  
+    <p>No cookie data</p>
+  
+
+  <h3 id="meta-info">META</h3>
+  <table class="req">
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_HOOK_DIR</td>
+          <td class="code"><pre>&#39;/root/.virtualenvs&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SCRIPT_NAME</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QT_GRAPHICSSYSTEM_CHECKED</td>
+          <td class="code"><pre>&#39;1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QTDIR</td>
+          <td class="code"><pre>&#39;/usr/lib64/qt-3.3&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TERM</td>
+          <td class="code"><pre>&#39;xterm&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANG</td>
+          <td class="code"><pre>&#39;en_GB.UTF-8&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QT_PLUGIN_PATH</td>
+          <td class="code"><pre>&#39;/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SUDO_USER</td>
+          <td class="code"><pre>&#39;dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>XDG_SESSION_ID</td>
+          <td class="code"><pre>&#39;8886&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REMOTE_HOST</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>RUN_MAIN</td>
+          <td class="code"><pre>&#39;true&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USER</td>
+          <td class="code"><pre>&#39;django_aa&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PROTOCOL</td>
+          <td class="code"><pre>&#39;HTTP/1.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LS_COLORS</td>
+          <td class="code"><pre>&#39;rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USERNAME</td>
+          <td class="code"><pre>&#39;root&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;multipart/form-data; boundary=d83ab6ab65334916915810a1e3ac0b4f&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PORT</td>
+          <td class="code"><pre>&#39;8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REQUEST_METHOD</td>
+          <td class="code"><pre>&#39;POST&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.url_scheme</td>
+          <td class="code"><pre>&#39;http&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LESSOPEN</td>
+          <td class="code"><pre>&#39;||/usr/bin/lesspipe.sh %s&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_MM_OPT</td>
+          <td class="code"><pre>&#39;INSTALL_BASE=/home/django_aa/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE</td>
+          <td class="code"><pre>&#39;Mp46rK2z8xJtDQAzaLNPE83MMmlorDeH&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_NAME</td>
+          <td class="code"><pre>&#39;localhost.localdomain&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>KDEDIRS</td>
+          <td class="code"><pre>&#39;/usr&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PATH_INFO</td>
+          <td class="code"><pre>&#39;/analytics_automated/submission/.json&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MAIL</td>
+          <td class="code"><pre>&#39;/var/spool/mail/dbuchan&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_SCRIPT</td>
+          <td class="code"><pre>&#39;/etc/profile.d/virtualenvwrapper.sh&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>OLDPWD</td>
+          <td class="code"><pre>&#39;/home/django_aa/analytics_automated/analytics_automated_project/settings&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.file_wrapper</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_SOFTWARE</td>
+          <td class="code"><pre>&#39;WSGIServer/0.2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_MB_OPT</td>
+          <td class="code"><pre>&#39;--install_base /home/django_aa/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_USER_AGENT</td>
+          <td class="code"><pre>&#39;python-requests/2.7.0 CPython/3.4.3 Linux/3.10.0-229.11.1.el7.x86_64&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOME</td>
+          <td class="code"><pre>&#39;/home/django_aa&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL_LOCAL_LIB_ROOT</td>
+          <td class="code"><pre>&#39;:/root/perl5:/home/django_aa/perl5&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOSTNAME</td>
+          <td class="code"><pre>&#39;bioinfstage3.cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TZ</td>
+          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PWD</td>
+          <td class="code"><pre>&#39;/home/django_aa/analytics_automated&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multithread</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>GATEWAY_INTERFACE</td>
+          <td class="code"><pre>&#39;CGI/1.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SGE_ROOT</td>
+          <td class="code"><pre>&#39;/opt/ogs_src/GE2011.11/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGNAME</td>
+          <td class="code"><pre>&#39;django_aa&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_ACCEPT</td>
+          <td class="code"><pre>&#39;*/*&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>_</td>
+          <td class="code"><pre>&#39;/home/django_aa/aa_env/bin/python&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUAL_ENV</td>
+          <td class="code"><pre>&#39;/home/django_aa/aa_env&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHLVL</td>
+          <td class="code"><pre>&#39;2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.version</td>
+          <td class="code"><pre>(1, 0)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PATH</td>
+          <td class="code"><pre>&#39;/home/django_aa/aa_env/bin:/home/django_aa/perl5/bin:/root/perl5/bin:/sbin:/bin:/usr/sbin:/usr/bin&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_CONNECTION</td>
+          <td class="code"><pre>&#39;keep-alive&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_ACCEPT_ENCODING</td>
+          <td class="code"><pre>&#39;gzip, deflate&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HISTSIZE</td>
+          <td class="code"><pre>&#39;1000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.errors</td>
+          <td class="code"><pre>&lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; encoding=&#39;UTF-8&#39;&gt;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SUDO_COMMAND</td>
+          <td class="code"><pre>&#39;/bin/su&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SUDO_UID</td>
+          <td class="code"><pre>&#39;16482&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REMOTE_ADDR</td>
+          <td class="code"><pre>&#39;128.16.14.83&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DJANGO_SETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;analytics_automated_project.settings.staging&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CONTENT_LENGTH</td>
+          <td class="code"><pre>&#39;585&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PERL5LIB</td>
+          <td class="code"><pre>&#39;/home/django_aa/perl5/lib/perl5:/root/perl5/lib/perl5:&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>VIRTUALENVWRAPPER_PROJECT_FILENAME</td>
+          <td class="code"><pre>&#39;.project&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHELL</td>
+          <td class="code"><pre>&#39;/bin/bash&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QUERY_STRING</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multiprocess</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.input</td>
+          <td class="code"><pre>&lt;_io.BufferedReader name=5&gt;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_HOST</td>
+          <td class="code"><pre>&#39;127.0.0.1:8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PS1</td>
+          <td class="code"><pre>&#39;(aa_env)[\\u@\\h \\W]\\$ &#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.run_once</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>WORKON_HOME</td>
+          <td class="code"><pre>&#39;/root/.virtualenvs&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SUDO_GID</td>
+          <td class="code"><pre>&#39;500&#39;</pre></td>
+        </tr>
+      
+    </tbody>
+  </table>
+
+
+  <h3 id="settings-info">Settings</h3>
+  <h4>Using settings module <code>analytics_automated_project.settings.staging</code></h4>
+  <table class="req">
+    <thead>
+      <tr>
+        <th>Setting</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td>SECURE_HSTS_INCLUDE_SUBDOMAINS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>X_FRAME_OPTIONS</td>
+          <td class="code"><pre>&#39;SAMEORIGIN&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PASSWORD_HASHERS</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_MESSAGE_STRING</td>
+          <td class="code"><pre>(&#39;Your analysis is complete.\n&#39;
+ &#39;You can retrieve the results from &#39;
+ &#39;http://localhost/analytics_automated/submission/&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_FINDERS</td>
+          <td class="code"><pre>(&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
+ &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_DIRS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%H:%M:%S&#39;, &#39;%H:%M:%S.%f&#39;, &#39;%H:%M&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MONTH_DAY_FORMAT</td>
+          <td class="code"><pre>&#39;F j&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_URL</td>
+          <td class="code"><pre>&#39;/static/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATES</td>
+          <td class="code"><pre>[{&#39;APP_DIRS&#39;: True,
+  &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,
+  &#39;DIRS&#39;: [Path(&#39;/home/django_aa/analytics_automated/templates&#39;)],
+  &#39;OPTIONS&#39;: {&#39;context_processors&#39;: [&#39;django.template.context_processors.debug&#39;,
+                                     &#39;django.template.context_processors.request&#39;,
+                                     &#39;django.contrib.auth.context_processors.auth&#39;,
+                                     &#39;django.contrib.messages.context_processors.messages&#39;]}}]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REST_FRAMEWORK</td>
+          <td class="code"><pre>{&#39;DEFAULT_PARSER_CLASSES&#39;: (&#39;rest_framework.parsers.JSONParser&#39;,
+                            &#39;rest_framework_xml.parsers.XMLParser&#39;),
+ &#39;DEFAULT_RENDERER_CLASSES&#39;: (&#39;rest_framework.renderers.BrowsableAPIRenderer&#39;,
+                              &#39;rest_framework.renderers.JSONRenderer&#39;,
+                              &#39;rest_framework_xml.renderers.XMLRenderer&#39;),
+ &#39;PAGE_SIZE&#39;: 10,
+ &#39;TEST_REQUEST_DEFAULT_FORMAT&#39;: &#39;json&#39;}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECRET_KEY</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>IGNORABLE_404_URLS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_BACKEND</td>
+          <td class="code"><pre>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOCALE_PATHS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_LOADERS</td>
+          <td class="code"><pre>(&#39;django.template.loaders.filesystem.Loader&#39;,
+ &#39;django.template.loaders.app_directories.Loader&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_DIRECTORY_PERMISSIONS</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FIXTURE_DIRS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_DEBUG</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ADMINS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BASE_DIR</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_I18N</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_PROXY_SSL_HEADER</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_ROOT</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated/static_root&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_PATH</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated/static&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MIDDLEWARE_CLASSES</td>
+          <td class="code"><pre>(&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
+ &#39;django.middleware.common.CommonMiddleware&#39;,
+ &#39;django.middleware.csrf.CsrfViewMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,
+ &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,
+ &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;,
+ &#39;django.middleware.security.SecurityMiddleware&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_FORMAT</td>
+          <td class="code"><pre>&#39;P&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_HSTS_SECONDS</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGING_CONFIG</td>
+          <td class="code"><pre>&#39;logging.config.dictConfig&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SSL_CERTFILE</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FORCE_SCRIPT_NAME</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_CONTEXT_PROCESSORS</td>
+          <td class="code"><pre>(&#39;django.contrib.auth.context_processors.auth&#39;,
+ &#39;django.template.context_processors.debug&#39;,
+ &#39;django.template.context_processors.i18n&#39;,
+ &#39;django.template.context_processors.media&#39;,
+ &#39;django.template.context_processors.static&#39;,
+ &#39;django.template.context_processors.tz&#39;,
+ &#39;django.contrib.messages.context_processors.messages&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SIGNING_BACKEND</td>
+          <td class="code"><pre>&#39;django.core.signing.TimestampSigner&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_PATH</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated/templates&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_EXPIRE_AT_BROWSER_CLOSE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_MAX_MEMORY_SIZE</td>
+          <td class="code"><pre>2621440</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_USE_TLS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;text/html&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SUBJECT_STRING</td>
+          <td class="code"><pre>&#39;A_A Job Completion&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DECIMAL_SEPARATOR</td>
+          <td class="code"><pre>&#39;.&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_RESULT_SERIALIZER</td>
+          <td class="code"><pre>&#39;json&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DISALLOWED_USER_AGENTS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>WSGI_APPLICATION</td>
+          <td class="code"><pre>&#39;analytics_automated_project.wsgi.application&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGOUT_URL</td>
+          <td class="code"><pre>&#39;/accounts/logout/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHORT_DATE_FORMAT</td>
+          <td class="code"><pre>&#39;m/d/Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y, P&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEBUG_PROPAGATE_EXCEPTIONS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEST_RUNNER</td>
+          <td class="code"><pre>&#39;django.test.runner.DiscoverRunner&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_X_FORWARDED_HOST</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_ENABLE_UTC</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>APPEND_SLASH</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_RESULT_BACKEND</td>
+          <td class="code"><pre>&#39;amqp&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_USER</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>INTERNAL_IPS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>YEAR_MONTH_FORMAT</td>
+          <td class="code"><pre>&#39;F Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>NUMBER_GROUPING</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_AGE</td>
+          <td class="code"><pre>1209600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERYD_MAX_TASKS_PER_CHILD</td>
+          <td class="code"><pre>30</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_ZONE</td>
+          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_CONTENT_TYPE_NOSNIFF</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_ETAGS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_ACCEPT_CONTENT</td>
+          <td class="code"><pre>[&#39;json&#39;]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ABSOLUTE_URL_OVERRIDES</td>
+          <td class="code"><pre>{}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;django_language&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_AGE</td>
+          <td class="code"><pre>31449600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHES</td>
+          <td class="code"><pre>{&#39;default&#39;: {&#39;BACKEND&#39;: &#39;django.core.cache.backends.locmem.LocMemCache&#39;}}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;csrftoken&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_SERIALIZER</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGING</td>
+          <td class="code"><pre>{&#39;disable_existing_loggers&#39;: False,
+ &#39;filters&#39;: {&#39;require_debug_false&#39;: {&#39;()&#39;: &#39;django.utils.log.RequireDebugFalse&#39;},
+             &#39;require_debug_true&#39;: {&#39;()&#39;: &#39;django.utils.log.RequireDebugTrue&#39;}},
+ &#39;formatters&#39;: {&#39;simple&#39;: {&#39;format&#39;: &#39;%(levelname)s %(message)s&#39;},
+                &#39;verbose&#39;: {&#39;datefmt&#39;: &#39;%d/%b/%Y %H:%M:%S&#39;,
+                            &#39;format&#39;: &#39;[%(asctime)s] %(levelname)s &#39;
+                                      &#39;[%(name)s:%(lineno)s] %(message)s&#39;}},
+ &#39;handlers&#39;: {&#39;console&#39;: {&#39;class&#39;: &#39;logging.StreamHandler&#39;,
+                          &#39;filters&#39;: [&#39;require_debug_true&#39;],
+                          &#39;level&#39;: &#39;DEBUG&#39;,
+                          &#39;stream&#39;: &lt;_io.TextIOWrapper name=&#39;&lt;stdout&gt;&#39; mode=&#39;w&#39; encoding=&#39;UTF-8&#39;&gt;},
+              &#39;debug&#39;: {&#39;backupCount&#39;: 5,
+                        &#39;class&#39;: &#39;logging.handlers.RotatingFileHandler&#39;,
+                        &#39;filename&#39;: &#39;logs/debug.log&#39;,
+                        &#39;filters&#39;: [&#39;require_debug_true&#39;],
+                        &#39;formatter&#39;: &#39;verbose&#39;,
+                        &#39;level&#39;: &#39;DEBUG&#39;,
+                        &#39;maxBytes&#39;: 10485760},
+              &#39;production&#39;: {&#39;class&#39;: &#39;logging.FileHandler&#39;,
+                             &#39;filename&#39;: &#39;logs/production.log&#39;,
+                             &#39;filters&#39;: [&#39;require_debug_false&#39;],
+                             &#39;formatter&#39;: &#39;verbose&#39;,
+                             &#39;level&#39;: &#39;INFO&#39;},
+              &#39;request_handler&#39;: {&#39;backupCount&#39;: 5,
+                                  &#39;class&#39;: &#39;logging.handlers.RotatingFileHandler&#39;,
+                                  &#39;filename&#39;: &#39;logs/django_request.log&#39;,
+                                  &#39;formatter&#39;: &#39;verbose&#39;,
+                                  &#39;level&#39;: &#39;DEBUG&#39;,
+                                  &#39;maxBytes&#39;: 10485760}},
+ &#39;loggers&#39;: {&#39;&#39;: {&#39;handlers&#39;: [&#39;debug&#39;, &#39;production&#39;, &#39;console&#39;],
+                  &#39;level&#39;: &#39;DEBUG&#39;,
+                  &#39;propagate&#39;: True},
+             &#39;django.request&#39;: {&#39;handlers&#39;: [&#39;request_handler&#39;],
+                                &#39;level&#39;: &#39;DEBUG&#39;,
+                                &#39;propagate&#39;: False}},
+ &#39;version&#39;: 1}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_REDIRECT_URL</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_BROWSER_XSS_FILTER</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGED_IN_JOB_PRIORITY</td>
+          <td class="code"><pre>&#39;HIGH&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_PERMISSIONS</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEV_SECRETS_PATH</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATABASES</td>
+          <td class="code"><pre>{&#39;default&#39;: {&#39;ATOMIC_REQUESTS&#39;: False,
+             &#39;AUTOCOMMIT&#39;: True,
+             &#39;CONN_MAX_AGE&#39;: 0,
+             &#39;ENGINE&#39;: &#39;django.db.backends.postgresql_psycopg2&#39;,
+             &#39;HOST&#39;: &#39;128.16.14.80&#39;,
+             &#39;NAME&#39;: &#39;analytics_automated_db&#39;,
+             &#39;OPTIONS&#39;: {},
+             &#39;PASSWORD&#39;: &#39;********************&#39;,
+             &#39;PORT&#39;: &#39;5432&#39;,
+             &#39;TEST&#39;: {&#39;CHARSET&#39;: None,
+                      &#39;COLLATION&#39;: None,
+                      &#39;MIRROR&#39;: None,
+                      &#39;NAME&#39;: None},
+             &#39;TIME_ZONE&#39;: &#39;UTC&#39;,
+             &#39;USER&#39;: &#39;a_a_user&#39;}}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_SSL_REDIRECT</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MEDIA_ROOT</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated/submissions&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEBUG</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FIRST_DAY_OF_WEEK</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_URL</td>
+          <td class="code"><pre>&#39;/accounts/login/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>AUTH_USER_MODEL</td>
+          <td class="code"><pre>&#39;auth.User&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGES</td>
+          <td class="code"><pre>((&#39;af&#39;, &#39;Afrikaans&#39;),
+ (&#39;ar&#39;, &#39;Arabic&#39;),
+ (&#39;ast&#39;, &#39;Asturian&#39;),
+ (&#39;az&#39;, &#39;Azerbaijani&#39;),
+ (&#39;bg&#39;, &#39;Bulgarian&#39;),
+ (&#39;be&#39;, &#39;Belarusian&#39;),
+ (&#39;bn&#39;, &#39;Bengali&#39;),
+ (&#39;br&#39;, &#39;Breton&#39;),
+ (&#39;bs&#39;, &#39;Bosnian&#39;),
+ (&#39;ca&#39;, &#39;Catalan&#39;),
+ (&#39;cs&#39;, &#39;Czech&#39;),
+ (&#39;cy&#39;, &#39;Welsh&#39;),
+ (&#39;da&#39;, &#39;Danish&#39;),
+ (&#39;de&#39;, &#39;German&#39;),
+ (&#39;el&#39;, &#39;Greek&#39;),
+ (&#39;en&#39;, &#39;English&#39;),
+ (&#39;en-au&#39;, &#39;Australian English&#39;),
+ (&#39;en-gb&#39;, &#39;British English&#39;),
+ (&#39;eo&#39;, &#39;Esperanto&#39;),
+ (&#39;es&#39;, &#39;Spanish&#39;),
+ (&#39;es-ar&#39;, &#39;Argentinian Spanish&#39;),
+ (&#39;es-mx&#39;, &#39;Mexican Spanish&#39;),
+ (&#39;es-ni&#39;, &#39;Nicaraguan Spanish&#39;),
+ (&#39;es-ve&#39;, &#39;Venezuelan Spanish&#39;),
+ (&#39;et&#39;, &#39;Estonian&#39;),
+ (&#39;eu&#39;, &#39;Basque&#39;),
+ (&#39;fa&#39;, &#39;Persian&#39;),
+ (&#39;fi&#39;, &#39;Finnish&#39;),
+ (&#39;fr&#39;, &#39;French&#39;),
+ (&#39;fy&#39;, &#39;Frisian&#39;),
+ (&#39;ga&#39;, &#39;Irish&#39;),
+ (&#39;gl&#39;, &#39;Galician&#39;),
+ (&#39;he&#39;, &#39;Hebrew&#39;),
+ (&#39;hi&#39;, &#39;Hindi&#39;),
+ (&#39;hr&#39;, &#39;Croatian&#39;),
+ (&#39;hu&#39;, &#39;Hungarian&#39;),
+ (&#39;ia&#39;, &#39;Interlingua&#39;),
+ (&#39;id&#39;, &#39;Indonesian&#39;),
+ (&#39;io&#39;, &#39;Ido&#39;),
+ (&#39;is&#39;, &#39;Icelandic&#39;),
+ (&#39;it&#39;, &#39;Italian&#39;),
+ (&#39;ja&#39;, &#39;Japanese&#39;),
+ (&#39;ka&#39;, &#39;Georgian&#39;),
+ (&#39;kk&#39;, &#39;Kazakh&#39;),
+ (&#39;km&#39;, &#39;Khmer&#39;),
+ (&#39;kn&#39;, &#39;Kannada&#39;),
+ (&#39;ko&#39;, &#39;Korean&#39;),
+ (&#39;lb&#39;, &#39;Luxembourgish&#39;),
+ (&#39;lt&#39;, &#39;Lithuanian&#39;),
+ (&#39;lv&#39;, &#39;Latvian&#39;),
+ (&#39;mk&#39;, &#39;Macedonian&#39;),
+ (&#39;ml&#39;, &#39;Malayalam&#39;),
+ (&#39;mn&#39;, &#39;Mongolian&#39;),
+ (&#39;mr&#39;, &#39;Marathi&#39;),
+ (&#39;my&#39;, &#39;Burmese&#39;),
+ (&#39;nb&#39;, &#39;Norwegian Bokmal&#39;),
+ (&#39;ne&#39;, &#39;Nepali&#39;),
+ (&#39;nl&#39;, &#39;Dutch&#39;),
+ (&#39;nn&#39;, &#39;Norwegian Nynorsk&#39;),
+ (&#39;os&#39;, &#39;Ossetic&#39;),
+ (&#39;pa&#39;, &#39;Punjabi&#39;),
+ (&#39;pl&#39;, &#39;Polish&#39;),
+ (&#39;pt&#39;, &#39;Portuguese&#39;),
+ (&#39;pt-br&#39;, &#39;Brazilian Portuguese&#39;),
+ (&#39;ro&#39;, &#39;Romanian&#39;),
+ (&#39;ru&#39;, &#39;Russian&#39;),
+ (&#39;sk&#39;, &#39;Slovak&#39;),
+ (&#39;sl&#39;, &#39;Slovenian&#39;),
+ (&#39;sq&#39;, &#39;Albanian&#39;),
+ (&#39;sr&#39;, &#39;Serbian&#39;),
+ (&#39;sr-latn&#39;, &#39;Serbian Latin&#39;),
+ (&#39;sv&#39;, &#39;Swedish&#39;),
+ (&#39;sw&#39;, &#39;Swahili&#39;),
+ (&#39;ta&#39;, &#39;Tamil&#39;),
+ (&#39;te&#39;, &#39;Telugu&#39;),
+ (&#39;th&#39;, &#39;Thai&#39;),
+ (&#39;tr&#39;, &#39;Turkish&#39;),
+ (&#39;tt&#39;, &#39;Tatar&#39;),
+ (&#39;udm&#39;, &#39;Udmurt&#39;),
+ (&#39;uk&#39;, &#39;Ukrainian&#39;),
+ (&#39;ur&#39;, &#39;Urdu&#39;),
+ (&#39;vi&#39;, &#39;Vietnamese&#39;),
+ (&#39;zh-cn&#39;, &#39;Simplified Chinese&#39;),
+ (&#39;zh-hans&#39;, &#39;Simplified Chinese&#39;),
+ (&#39;zh-hant&#39;, &#39;Traditional Chinese&#39;),
+ (&#39;zh-tw&#39;, &#39;Traditional Chinese&#39;))</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_FAILURE_VIEW</td>
+          <td class="code"><pre>&#39;django.views.csrf.csrf_failure&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SUBJECT_PREFIX</td>
+          <td class="code"><pre>&#39;[Django] &#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MEDIA_URL</td>
+          <td class="code"><pre>&#39;/submissions/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_EXCEPTION_REPORTER_FILTER</td>
+          <td class="code"><pre>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATABASE_ROUTERS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;sessionid&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SILENCED_SYSTEM_CHECKS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PREPEND_WWW</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_KEY_PREFIX</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_STRING_IF_INVALID</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_ENGINE</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.backends.db&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_HOSTS</td>
+          <td class="code"><pre>[&#39;localhost&#39;, &#39;127.0.0.1&#39;, &#39;128.16.14.83&#39;]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SSL_KEYFILE</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DAB_FIELD_RENDERER</td>
+          <td class="code"><pre>&#39;django_admin_bootstrapped.renderers.BootstrapFieldRenderer&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_REDIRECT_EXEMPT</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_PASSWORD</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>THOUSAND_SEPARATOR</td>
+          <td class="code"><pre>&#39;,&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SETTINGS_PATH</td>
+          <td class="code"><pre>Path(&#39;/home/django_aa/analytics_automated/analytics_automated_project/settings&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_JOB_PRIORITY</td>
+          <td class="code"><pre>&#39;MEDIUM&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_SECONDS</td>
+          <td class="code"><pre>600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_FILE_PATH</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PASSWORD_RESET_TIMEOUT_DAYS</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%Y-%m-%d&#39;,
+ &#39;%m/%d/%Y&#39;,
+ &#39;%m/%d/%y&#39;,
+ &#39;%b %d %Y&#39;,
+ &#39;%b %d, %Y&#39;,
+ &#39;%d %b %Y&#39;,
+ &#39;%d %b, %Y&#39;,
+ &#39;%B %d %Y&#39;,
+ &#39;%B %d, %Y&#39;,
+ &#39;%d %B %Y&#39;,
+ &#39;%d %B, %Y&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_THOUSAND_SEPARATOR</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MIGRATION_MODULES</td>
+          <td class="code"><pre>{}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BROKER_URL</td>
+          <td class="code"><pre>&#39;amqp://external_worker:4SJtN3tVqR8p8vm3@128.16.14.77//&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_SAVE_EVERY_REQUEST</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_CODE</td>
+          <td class="code"><pre>&#39;en-us&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MESSAGE_TAGS</td>
+          <td class="code"><pre>{25: &#39;alert-success success&#39;,
+ 30: &#39;alert-warning warning&#39;,
+ 40: &#39;alert-danger error&#39;}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEST_NON_SERIALIZED_APPS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHORT_DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;m/d/Y P&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_INCLUDE_ROOTS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_L10N</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MESSAGE_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST</td>
+          <td class="code"><pre>&#39;smtp.cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_TEMP_DIR</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>INSTALLED_APPS</td>
+          <td class="code"><pre>(&#39;django_admin_bootstrapped&#39;,
+ &#39;django.contrib.admin&#39;,
+ &#39;django.contrib.auth&#39;,
+ &#39;django.contrib.contenttypes&#39;,
+ &#39;django.contrib.sessions&#39;,
+ &#39;django.contrib.messages&#39;,
+ &#39;django.contrib.staticfiles&#39;,
+ &#39;analytics_automated&#39;,
+ &#39;rest_framework&#39;,
+ &#39;djcelery&#39;,
+ &#39;mod_wsgi.server&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PROPAGATE_EXCEPTIONS</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_EMAIL</td>
+          <td class="code"><pre>&#39;root@localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_FILE_STORAGE</td>
+          <td class="code"><pre>&#39;django.core.files.storage.FileSystemStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>AUTHENTICATION_BACKENDS</td>
+          <td class="code"><pre>(&#39;django.contrib.auth.backends.ModelBackend&#39;,)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_DIRS</td>
+          <td class="code"><pre>[Path(&#39;/home/django_aa/analytics_automated/static&#39;)]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATETIME_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%Y-%m-%d %H:%M:%S&#39;,
+ &#39;%Y-%m-%d %H:%M:%S.%f&#39;,
+ &#39;%Y-%m-%d %H:%M&#39;,
+ &#39;%Y-%m-%d&#39;,
+ &#39;%m/%d/%Y %H:%M:%S&#39;,
+ &#39;%m/%d/%Y %H:%M:%S.%f&#39;,
+ &#39;%m/%d/%Y %H:%M&#39;,
+ &#39;%m/%d/%Y&#39;,
+ &#39;%m/%d/%y %H:%M:%S&#39;,
+ &#39;%m/%d/%y %H:%M:%S.%f&#39;,
+ &#39;%m/%d/%y %H:%M&#39;,
+ &#39;%m/%d/%y&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_HANDLERS</td>
+          <td class="code"><pre>(&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;,
+ &#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_CACHE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_INDEX_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_TIMEZONE</td>
+          <td class="code"><pre>&#39;Europe/London&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_TIMEOUT</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_AGE</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_SSL_HOST</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ROOT_URLCONF</td>
+          <td class="code"><pre>&#39;analytics_automated_project.urls&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;analytics_automated_project.settings.staging&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_PORT</td>
+          <td class="code"><pre>25</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FORMAT_MODULE_PATH</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BASE_SECRETS_PATH</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERY_TASK_SERIALIZER</td>
+          <td class="code"><pre>&#39;json&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_TZ</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MANAGERS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CELERYD_PREFETCH_MULTIPLIER</td>
+          <td class="code"><pre>1</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_USE_SSL</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGES_BIDI</td>
+          <td class="code"><pre>(&#39;he&#39;, &#39;ar&#39;, &#39;fa&#39;, &#39;ur&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_FROM_EMAIL</td>
+          <td class="code"><pre>&#39;psipred@cs.ucl.ac.uk&#39;</pre></td>
+        </tr>
+      
+    </tbody>
+  </table>
+
+</div>
+
+  <div id="explanation">
+    <p>
+      You're seeing this error because you have <code>DEBUG = True</code> in your
+      Django settings file. Change that to <code>False</code>, and Django will
+      display a standard page generated by the handler for this status code.
+    </p>
+  </div>
+
+</body>
+</html>
+
