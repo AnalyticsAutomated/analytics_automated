@@ -104,6 +104,8 @@ def task_runner(self, uuid, step_id, current_step,
         print(user.login_name)
 
     try:
+        iglob = t.in_glob.lstrip(".")
+        oglob = t.out_glob.lstrip(".")
         if t.backend.server_type == Backend.LOCALHOST:
             logger.info("Running At LOCALHOST")
             run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
@@ -112,23 +114,17 @@ def task_runner(self, uuid, step_id, current_step,
                               input_data=data_dict,
                               flags=flags,
                               options=options,
-                              input_string=uuid+"."+t.in_glob,
-                              output_string=uuid+"."+t.out_glob)
+                              input_string=uuid+"."+iglob,
+                              output_string=uuid+"."+oglob)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At LOCALHOST")
-            print("UUID:" + uuid)
-            print("backed path:" + t.backend.root_path)
-            print("exe:" + t.executable)
-            print("flags:" + str(flags))
-            print("options:" + str(options))
-            print("output_string" + uuid+"."+t.out_glob)
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],
                            command=t.executable,
                            input_data=data_dict,
                            flags=flags,
                            options=options,
-                           output_string=uuid+"."+t.out_glob)
+                           output_string=uuid+"."+oglob)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
