@@ -15,6 +15,12 @@ from .models import BackendUser
 
 logger = logging.getLogger(__name__)
 
+try:
+    from commandRunner.geRunner import *
+except ImportError:
+    logger.info("SGE_ROOT AND DRMAALIB ARE NOT SET, GrideEngine backend" +
+                "not available")
+
 
 @shared_task
 def wait(t):
@@ -109,6 +115,7 @@ def task_runner(self, uuid, step_id, current_step,
                               input_string=uuid+"."+t.in_glob,
                               output_string=uuid+"."+t.out_glob)
         if t.backend.server_type == Backend.GRIDENGINE:
+<<<<<<< HEAD
             logger.info("Running At LOCALHOST")
             print("UUID" + uuid)
             print("backed path" + t.backend.root_path)
@@ -117,6 +124,9 @@ def task_runner(self, uuid, step_id, current_step,
             print("options" + options)
             print("output_string" + uuid+"."+t.out_glob)
 
+=======
+            logger.info("Running At GRIDENGINE")
+>>>>>>> 382175a04a27eec8b8c53308f627392733c614cb
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],
                            command=t.executable,
