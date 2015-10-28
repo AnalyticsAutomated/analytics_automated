@@ -126,7 +126,7 @@ def task_runner(self, uuid, step_id, current_step,
                            options=options,
                            std_out_string=uuid+".stdout",
                            input_string=uuid+"."+iglob,
-                           output_string=uuid"."+oglob)
+                           output_string=uuid+"."+oglob)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
