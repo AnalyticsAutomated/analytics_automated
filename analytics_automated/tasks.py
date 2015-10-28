@@ -84,7 +84,9 @@ def task_runner(self, uuid, step_id, current_step,
     t = Task.objects.get(name=task_name)
     state = Submission.ERROR
     data, previous_step = get_data(s, current_step)
-    data_dict = {uuid+"."+t.in_glob: data}
+    iglob = t.in_glob.lstrip(".")
+    oglob = t.out_glob.lstrip(".")
+    data_dict = {uuid+"."+iglob: data}
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
@@ -104,8 +106,6 @@ def task_runner(self, uuid, step_id, current_step,
         print(user.login_name)
 
     try:
-        iglob = t.in_glob.lstrip(".")
-        oglob = t.out_glob.lstrip(".")
         if t.backend.server_type == Backend.LOCALHOST:
             logger.info("Running At LOCALHOST")
             run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
@@ -124,7 +124,9 @@ def task_runner(self, uuid, step_id, current_step,
                            input_data=data_dict,
                            flags=flags,
                            options=options,
-                           output_string=uuid+"."+oglob)
+                           std_out_string=uuid+".stdout"
+                           input_string=uuid+"."+iglob
+                           output_string=uuid"."+oglob)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
