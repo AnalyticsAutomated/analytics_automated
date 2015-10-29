@@ -51,8 +51,7 @@ def get_data(s, current_step):
         s.input_data.close()
     else:
         previous_step = current_step-1
-        print("STEP"+str(previous_step))
-        print(s)
+        #print("STEP"+str(previous_step))
         r = Result.objects.get(submission=s, step=previous_step)
         r.result_data.open(mode='r')
         for line in r.result_data:
@@ -154,7 +153,7 @@ def task_runner(self, uuid, step_id, current_step,
     # TODO: For now we write everything to the file as utf-8 but we'll need to
     # handle binary data eventually
 
-    #if DEBUG settings are true we leave behind the temp working dir.
+    # if DEBUG settings are true we leave behind the temp working dir.
     if settings.DEBUG is not True:
         run.tidy()
 
@@ -168,6 +167,12 @@ def task_runner(self, uuid, step_id, current_step,
                                           message='Result',
                                           previous_step=previous_step,
                                           result_data=file)
+        else:
+            r = Result.objects.create(submission=s, task=t,
+                                      step=current_step, name=t.name,
+                                      message='Result',
+                                      previous_step=previous_step,
+                                      result_data=None)
     else:
         Submission.update_submission_state(s, True, Submission.ERROR, step_id,
                                            self.request.id,
@@ -179,6 +184,7 @@ def task_runner(self, uuid, step_id, current_step,
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     message = "Completed step: " + str(current_step)
+
     if current_step == total_steps:
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)

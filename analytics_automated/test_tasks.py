@@ -33,9 +33,7 @@ class TaskTestCase(TestCase):
         self.uuid1 = str(uuid.uuid1())
         self.b = BackendFactory.create(root_path="/tmp/")
         self.t = TaskFactory.create(backend=self.b, name="test_task",
-                                    executable="grep 'previous' /tmp/" +
-                                               self.uuid1+"/* > " +
-                                               self.uuid1+".out",
+                                    executable="grep 'previous' /tmp/",
                                     in_glob="txt", out_glob="out")
         self.j = JobFactory.create()
         self.s = StepFactory(job=self.j, task=self.t, ordering=0)
@@ -77,9 +75,10 @@ class TaskTestCase(TestCase):
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
         task_runner.delay(self.uuid1, 0, 1, 2, "test_task", [], {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.last_message, "Running")
+        self.assertEqual(self.sub.last_message, "Completed step: 1")
 
-    def testTaskRunnerDoesGetResultFromPreviousRun(self):
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
+    def testTaskRunnerDoesGetResultFromPreviousRun(self, m):
         '''
             this tests that it got the previous results correctly. It can only
             write the correct new result entry if it did so
@@ -90,12 +89,7 @@ class TaskTestCase(TestCase):
                                    previous_step=None,)
         task_runner.delay(self.uuid1, 0, 2, 2, "test_task", [], {})
         result = Result.objects.get(submission=self.sub, step=2)
-        data = ''
-        result.result_data.open(mode='r')
-        for line in result.result_data:
-            data += line.decode(encoding='UTF-8')
-        result.result_data.close()
-        self.assertEqual(data, "Here is some previous results!\n")
+        self.assertEqual(result.message, "Result")
 
     def test__get_data_correctly_gets_input_data(self):
         data, previous_step = tasks.get_data(self.sub, 1)
