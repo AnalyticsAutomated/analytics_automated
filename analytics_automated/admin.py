@@ -84,9 +84,15 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     inlines = [MessageInline]
-    list_display = ('pk', 'job', 'submission_name', 'email', 'UUID', 'ip',
-                    'status', 'claimed', 'last_message', 'step_id', 'created',
-                    'modified')
+    list_display = ('pk', 'link_to_Job', 'submission_name', 'email', 'UUID',
+                    'ip', 'status', 'claimed', 'last_message', 'step_id',
+                    'created', 'modified')
+
+    def link_to_Job(self, obj):
+        link = urlresolvers.reverse("admin:analytics_automated_job_change",
+                                    args=[obj.kob.id])
+        return u'<a href="%s">%s</a>' % (link, obj.job.name)
+    link_to_Job.allow_tags = True
 
 
 class MessageAdmin(admin.ModelAdmin):
