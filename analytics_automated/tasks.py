@@ -160,7 +160,7 @@ def task_runner(self, uuid, step_id, current_step,
     # handle binary data eventually
 
     #if DEBUG settings are true we leave behind the temp working dir.
-    if settings.DEBUG not True:
+    if settings.DEBUG is not True:
         run.tidy()
 
     if exit_status == 0:
