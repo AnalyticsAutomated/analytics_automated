@@ -92,6 +92,7 @@ class SubmissionAdmin(admin.ModelAdmin):
         link = reverse("admin:analytics_automated_job_change",
                        args=[obj.job.id])
         return u'<a href="%s">%s</a>' % (link, obj.job.name)
+
     link_to_Job.allow_tags = True
 
 
@@ -100,8 +101,13 @@ class MessageAdmin(admin.ModelAdmin):
 
 
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'step', 'message', 'submission_name',
+    list_display = ('pk', 'link_to_Task', 'step', 'message', 'submission_name',
                     'submission_uuid')
+
+    def link_to_Task(self, obj):
+        link = reverse("admin:analytics_automated_task.change",
+                       args=[obj.task.id])
+        return u'<a href="%s">%s</a>' % (link, obj.task.name)
 
     def submission_name(self, obj):
         url = reverse('admin:analytics_automated_submission_change',
@@ -109,9 +115,15 @@ class ResultAdmin(admin.ModelAdmin):
         return '<a href="%s">%s</a>' % (url, obj.submission.submission_name)
 
     def submission_uuid(self, obj):
-        return(obj.submission.UUID)
+        url = reverse('admin:analytics_automated_submission_change',
+                      args=(obj.submission.pk,))
+        return '<a href="%s">%s</a>' % (url, obj.submission.UUID)
 
     submission_name.allow_tags = True
+    submission_uuid.allow_tags = True
+    link_to_Task.allow_tags = True
+
+
 # Register your models here.
 
 admin.site.register(Backend, BackendAdmin)
