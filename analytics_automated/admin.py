@@ -97,7 +97,14 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('submission', 'step_id', 'message')
+    list_display = ('pk', 'submission_uuid', 'step_id', 'message')
+
+    def submission_uuid(self, obj):
+        url = reverse('admin:analytics_automated_submission_change',
+                      args=(obj.submission.pk,))
+        return '<a href="%s">%s</a>' % (url, obj.submission.UUID)
+
+    submission_uuid.allow_tags = True
 
 
 class ResultAdmin(admin.ModelAdmin):
