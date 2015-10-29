@@ -118,9 +118,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 queue_name = 'localhost'
             if step.task.backend.server_type == Backend.GRIDENGINE:
                 queue_name = 'gridengine'
+            if job_priority is Submission.LOW:
+                queue_name = "low_"+queue_name
+            if job_priority is Submission.HIGH:
+                queue_name = "high_"+queue_name
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-            tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s, '%s'), " \
+            tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s), " \
                       "immutable=True, queue='%s'), " \
                       % (UUID,
                          step.ordering,
@@ -129,7 +133,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                          step.task.name,
                          flags,
                          options,
-                         job_priority,
                          queue_name)
             current_step += 1
         tchain = tchain[:-2]

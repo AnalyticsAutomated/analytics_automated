@@ -365,8 +365,8 @@ class SubmissionDetailTests(APITestCase):
         local_id = str(uuid.uuid1())
         chain_str = sd._SubmissionDetails__construct_chain_string(steps,
                     request_contents,
-                    local_id, 2)
+                    local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 'task1', ['-t'], "
-                                    "{'-th': 123}, '2'), immutable=True, "
+                                    "{'-th': 123}), immutable=True, "
                                     "queue='localhost'))()")

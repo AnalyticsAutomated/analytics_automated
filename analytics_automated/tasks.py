@@ -17,9 +17,9 @@ logger = logging.getLogger(__name__)
 
 try:
     from commandRunner.geRunner import *
-except ImportError:
-    logger.info("SGE_ROOT AND DRMAALIB ARE NOT SET, GrideEngine backend" +
-                "not available")
+except Exception as e:
+    logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
+                "GrideEngine backend not available")
 
 
 @shared_task
@@ -64,7 +64,7 @@ def get_data(s, current_step):
 # time limits?
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step,
-                total_steps, task_name, flags, options, priority):
+                total_steps, task_name, flags, options):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -100,11 +100,6 @@ def task_runner(self, uuid, step_id, current_step,
     # TODO: Candidate to move to the command runner as it should handle the
     # finding out what is happening on the backend. Perhaps API call in
     # which returns the number of running processes and maybe the load average
-    priority_value = getattr(BackendUser, priority)
-    users = BackendUser.objects.all().filter(priority=priority_value)
-    for user in users:
-        print(user.login_name)
-
     try:
         if t.backend.server_type == Backend.LOCALHOST:
             logger.info("Running At LOCALHOST")

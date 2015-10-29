@@ -84,9 +84,9 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     inlines = [MessageInline]
-    list_display = ('pk', 'link_to_Job', 'submission_name', 'email', 'UUID',
-                    'ip', 'status', 'claimed', 'last_message', 'step_id',
-                    'created', 'modified')
+    list_display = ('pk', 'link_to_Job', 'submission_name', 'priority',
+                    'email', 'UUID', 'ip', 'status', 'claimed',
+                    'last_message', 'step_id', 'created', 'modified')
 
     def link_to_Job(self, obj):
         link = reverse("admin:analytics_automated_job_change",

@@ -54,9 +54,9 @@ class Backend(models.Model):
 
 
 class BackendUser(models.Model):
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
+    LOW = 0
+    MEDIUM = 1
+    HIGH = 2
     PRIORITY_CHOICES = (
         (LOW, "low"),
         (MEDIUM, "medium"),
@@ -173,10 +173,22 @@ class Submission(TimeStampedModel):
         (ERROR, "Error"),
         (CRASH, "Crash"),
     )
+
+    LOW = 0
+    MEDIUM = 1
+    HIGH = 2
+    PRIORITY_CHOICES = (
+        (LOW, "Low"),
+        (MEDIUM, "Medium"),
+        (HIGH, "High"),
+    )
+
     job = models.ForeignKey(Job)
     submission_name = models.CharField(max_length=64, null=False, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
                             db_index=True)
+    priority = models.IntegerField(null=False, blank=False,
+                                   choices=PRIORITY_CHOICES, default=MEDIUM)
     email = models.EmailField(max_length=256, null=True, blank=False)
     ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
                                       blank=False)
