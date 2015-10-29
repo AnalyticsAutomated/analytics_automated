@@ -167,7 +167,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
         # Here we'll work out what priority this job will run at
         job_priority = settings.DEFAULT_JOB_PRIORITY
-        subs = Submission.objects.filter(ip=data['ip'])
+        subs = Submission.objects.filter(ip=data['ip'], status__lte=2)
         if len(subs) >= settings.QUEUE_HOG_SIZE:
             job_priority = Submission.LOW
         if request.user.is_authenticated():
