@@ -167,13 +167,19 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
         # Here we'll work out what priority this job will run at
         job_priority = settings.DEFAULT_JOB_PRIORITY
+        subs = Submission.objects.filter(ip=data['ip'])
+        if len(subs) >= settings.QUEUE_HOG_SIZE:
+            job_priority = Submission.LOW
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
+
         # In the future we'll set batch jobs to the lowest priority
         # TODO: VALIDATE input_data IN SOME MANNER
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
+            s.priority = job_priority
+            s.save()
             # Send to the Job Queue and set queued message if that is a success
             job = Job.objects.get(name=s.job)
             steps = job.steps.all().select_related('task') \

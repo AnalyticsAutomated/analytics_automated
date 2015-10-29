@@ -51,7 +51,7 @@ def get_data(s, current_step):
         s.input_data.close()
     else:
         previous_step = current_step-1
-        #print("STEP"+str(previous_step))
+        # print("STEP"+str(previous_step))
         r = Result.objects.get(submission=s, step=previous_step)
         r.result_data.open(mode='r')
         for line in r.result_data:

@@ -30,7 +30,8 @@ class JobListTests(APITestCase):
         response.render()
         self.assertEqual(response.status_code, 200)
         test_data = '{"count":2,"next":null,"previous":null,' \
-                    '"results":[{"pk":2,"name":"job1"},{"pk":3,"name":"job2"}]}'
+                    '"results":[{"pk":2,"name":"job1"},{"pk":3'\
+                    ',"name":"job2"}]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
         def tearDown(self):
@@ -94,7 +95,8 @@ class SubmissionDetailTests(APITestCase):
                      'email': 'a@b.com'}
         self.j1 = JobFactory.create(name="job1")
         self.b = BackendFactory.create(root_path="/tmp/")
-        self.t = TaskFactory.create(backend=self.b, name="task1", executable="ls")
+        self.t = TaskFactory.create(backend=self.b, name="task1",
+                                    executable="ls")
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
 
     def tearDown(self):
@@ -192,6 +194,26 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    @patch('builtins.exec', return_value=True)
+    def test_valid_submission_gets_medium_priority(self, m):
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        subs = Submission.objects.get()
+        self.assertEqual(subs.priority, Submission.MEDIUM)
+
+    @patch('builtins.exec', return_value=True)
+    def test_submissions_after_threshold_get_low_priority(self, m):
+        for i in range(0, settings.QUEUE_HOG_SIZE):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        subs = Submission.objects.all()
+        self.assertEqual(subs[10].priority, Submission.LOW)
+
     def test_rejection_with_bad_email(self):
         self.data['email'] = 'b'
         request = self.factory.post(reverse('submission'), self.data,
@@ -275,41 +297,47 @@ class SubmissionDetailTests(APITestCase):
         p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
                                      rest_alias="this")
         sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t, {'task1_this': 'True'})
+        array = sd._SubmissionDetails__build_flags(self.t,
+                                                   {'task1_this': 'True'})
         self.assertEqual(array, ["t"])
 
     def test__build_flags_returns_nothing_flag_set_to_false(self):
         p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
                                      rest_alias="this")
         sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t, {'task1_this': 'False'})
+        array = sd._SubmissionDetails__build_flags(self.t,
+                                                   {'task1_this': 'False'})
         self.assertEqual(array, [])
 
     def test__build_flags_returns_nothing_with_mismatch(self):
         p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
                                      rest_alias="this")
         sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t, {'task1_that': 'False'})
+        array = sd._SubmissionDetails__build_flags(self.t,
+                                                   {'task1_that': 'False'})
         self.assertEqual(array, [])
 
     def test__build_options_returns_valid_dict(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
         sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t, {'task1_this': 123})
+        dict = sd._SubmissionDetails__build_options(self.t,
+                                                    {'task1_this': 123})
         self.assertEqual(dict, {"-t": 123})
 
     def test__build_options_returns_nothing_with_mismatch(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
         sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t, {'task1_that': 123})
+        dict = sd._SubmissionDetails__build_options(self.t,
+                                                    {'task1_that': 123})
         self.assertEqual(dict, {})
 
     def test__test_params_returns_true_when_set_is_contained(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
-        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
                                      rest_alias="that")
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
@@ -320,7 +348,8 @@ class SubmissionDetailTests(APITestCase):
     def test__test_params_returns_false_when_set_is_not_complete(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
-        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
                                      rest_alias="that")
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
@@ -356,7 +385,8 @@ class SubmissionDetailTests(APITestCase):
     def test__construct_chain_string(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=True,
                                      rest_alias="this")
-        p1 = ParameterFactory.create(task=self.t, flag="-th", bool_valued=False,
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
                                      rest_alias="that")
         request_contents = {'task1_this': 'True', 'task1_that': 123}
         steps = self.j1.steps.all().select_related('task') \

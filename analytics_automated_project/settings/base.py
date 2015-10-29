@@ -45,8 +45,9 @@ with open(os.path.join(BASE_SECRETS_PATH)) as \
 # Required A_A user settings #
 ##############################
 
-DEFAULT_JOB_PRIORITY = 'MEDIUM'
-LOGGED_IN_JOB_PRIORITY = 'HIGH'
+DEFAULT_JOB_PRIORITY = 1
+LOGGED_IN_JOB_PRIORITY = 2
+QUEUE_HOG_SIZE = 10
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.xx.xx.xx'
 EMAIL_PORT = 25
