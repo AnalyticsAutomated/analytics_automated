@@ -89,7 +89,7 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'created', 'modified')
 
     def link_to_Job(self, obj):
-        link = urlresolvers.reverse("admin:analytics_automated_job_change",
+        link = reverse("admin:analytics_automated_job_change",
                                     args=[obj.kob.id])
         return u'<a href="%s">%s</a>' % (link, obj.job.name)
     link_to_Job.allow_tags = True
