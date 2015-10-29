@@ -117,7 +117,7 @@ def task_runner(self, uuid, step_id, current_step,
                               input_string=uuid+"."+iglob,
                               output_string=uuid+"."+oglob)
         if t.backend.server_type == Backend.GRIDENGINE:
-            logger.info("Running At LOCALHOST")
+            logger.info("Running At GRIDENGINE")
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=[t.out_glob, ],
                            command=t.executable,
@@ -158,7 +158,11 @@ def task_runner(self, uuid, step_id, current_step,
     # database.
     # TODO: For now we write everything to the file as utf-8 but we'll need to
     # handle binary data eventually
-    run.tidy()
+
+    #if DEBUG settings are true we leave behind the temp working dir.
+    if settings.DEBUG not True:
+        run.tidy()
+
     if exit_status == 0:
         file = None
         if run.output_data is not None:
