@@ -105,7 +105,7 @@ class ResultAdmin(admin.ModelAdmin):
                     'submission_uuid')
 
     def link_to_Task(self, obj):
-        link = reverse("admin:analytics_automated_task.change",
+        link = reverse("admin:analytics_automated_task_change",
                        args=[obj.task.id])
         return u'<a href="%s">%s</a>' % (link, obj.task.name)
 
