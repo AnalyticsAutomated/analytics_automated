@@ -6,11 +6,11 @@ How The System Works
 A_A turns data analysis code in to RESTful webservices for the purpose of building
 SOA systems. A_A is made up of 2 main components;
 
-1. A system for designing data analysis workflows.
+1. A system for configuring data analysis workflows.
 
 2. A system of Celery workers which can receive the data and run those workflows.
 
-A design goal for A_A is to make it agnostic to the technology which runs the
+A design goal for A_A is to make it agnostic to the technology which executes the
 data analysis steps. This will free up analysts and scientists to use the technology
 or tool which is most appropriate for any given data transformation or analysis
 task.
@@ -24,7 +24,7 @@ Workflows
 
 In A_A terminology a workflow is known as a **Job**. **Jobs** are made up of sequential
 reusable **Tasks**. Each **Task** defines the data analysis it is going to perform
-and understands where (on which **Backend**) it is going to run. And a task
+and understands where (on which **Backend**) it is going to run. A task
 also understands how it is going to execute. Tasks are run by
 `Celery <https://celery.readthedocs.org/en/latest/>`_ workers and the default
 execution location (LOCALHOST) is on the machine the worker is running on.

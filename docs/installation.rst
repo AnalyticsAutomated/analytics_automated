@@ -33,14 +33,14 @@ or::
 
     apt-get install postgres
 
-3. Erlang, rabbitMQ requires this, you may not have it installed and compiled. It's
-available via
+3. Erlang (rabbitMQ requires thi), you may not have it installed and compiled.
+It's available via:
 
     http://www.erlang.org/download.html
 
     http://www.erlang.org/doc/installation_guide/INSTALL.htm
 
-4. RabbitMQ, the message queue that the app and celery use
+4. RabbitMQ, the message queue that both the app and celery use
 
     https://www.rabbitmq.com/install-generic-unix.html
 
@@ -62,7 +62,7 @@ Pre-launch configuration
 
   * You may need to initialise postgres::
 
-      > initdb -D [SOME_PATH
+      > initdb -D [SOME_PATH]
 
   * Start the postgres daemon::
 
@@ -81,9 +81,9 @@ Pre-launch configuration
       GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
       ALTER USER a_a_user CREATEDB;
 
-2. Now configure Django. We maintain the idea of seperate secrets files
+2. Now configure Django. We maintain the idea of separate secrets files
 which only you have control of. You need to create these and populate them.
-base_secrets.json at site wide settings which dev and production will use.
+base_secrets.json are site wide settings which dev and production will use.
 dev_secrets.json are settings which only the dev installation will will access.
 A production system will need a production_secrets.json
 
@@ -126,10 +126,13 @@ A production system will need a production_secrets.json
 
   * Start the celery workers, from the root dir of A_A. Note that we have to specify
     the rabbit queues the workers read from (-Q), for the basic settings we'll have
-    these workers just watch the celery and localhost queues::
+    these workers just watch the celery and localhost queues, note that the
+    workers are watching the low priority, normal priority and high priority
+    localhost queues::
 
       > cd analytics_automated/
-      > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery,gridengine
+      > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,celery
+
 
   * Run the Django migrations to configure the database::
 
