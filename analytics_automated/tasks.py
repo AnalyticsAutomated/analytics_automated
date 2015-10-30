@@ -50,17 +50,21 @@ def get_data(s, uuid, current_step, in_globs):
         for line in s.input_data:
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
-        data_dict = {uuid+"."+in_globs[0]: data}
+        local_glob = in_globs[0].lstrip(".")
+        data_dict[uuid+"."+local_glob] = data
     else:
         previous_step = current_step-1
         # print("STEP"+str(previous_step))
         r = Result.objects.filter(submission=s, step=previous_step).all()
         for result in r:
-            r.result_data.open(mode='r')
-            for line in r.result_data:
-                data += line.decode(encoding='UTF-8')
-            data_dict = {r.name: data}
-            r.result_data.close()
+            for glob in in_globs:
+                if glob in result.result_data.name:
+                    result.result_data.open(mode='r')
+                    data = ""
+                    for line in result.result_data:
+                        data += line.decode(encoding='UTF-8')
+                        data_dict[result.result_data.name] = data
+                    result.result_data.close()
 
     return(data_dict, previous_step)
 

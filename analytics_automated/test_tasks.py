@@ -91,14 +91,41 @@ class TaskTestCase(TestCase):
         result = Result.objects.get(submission=self.sub, step=2)
         self.assertEqual(result.message, "Result")
 
-    def test__get_data_correctly_gets_input_data(self):
-        data, previous_step = tasks.get_data(self.sub, 1)
-        self.assertEqual(data, "these are the file contents!\n")
+    def test_get_data_correctly_gets_input_data(self):
+        data, previous_step = tasks.get_data(self.sub, self.sub.UUID, 1,
+                                             [".txt", ])
+        self.assertEqual(data, {self.sub.UUID+".txt": "these are the file contents!\n"})
 
-    def test__get_data_correctly_gets_previous_data(self):
+    def test_get_data_correctly_gets_previous_data(self):
         res = ResultFactory.create(submission=self.sub,
                                    task=self.t,
                                    step=1,
                                    previous_step=None,)
-        data, previous_step = tasks.get_data(self.sub, 2)
-        self.assertEqual(data, "Here is some previous results!\n")
+        data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
+                                             [".txt"])
+        self.assertEqual(data, {res.result_data.name: "Here is some previous results!\n"})
+
+    def test_correctly_gets_multiple_prior_results(self):
+        res = ResultFactory.create(submission=self.sub,
+                                   task=self.t,
+                                   step=1,
+                                   previous_step=None,)
+        res2 = ResultFactory.create(submission=self.sub,
+                                   task=self.t,
+                                   step=1,
+                                   previous_step=None,)
+        data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
+                                             [".txt"])
+        self.assertEqual(data,
+                         {res2.result_data.name: "Here is some previous results!\n",
+                          res.result_data.name: "Here is some previous results!\n"
+                          })
+
+    def test_only_gets_previous_data_when_there_is_an_inglobs_match(self):
+        res = ResultFactory.create(submission=self.sub,
+                                   task=self.t,
+                                   step=1,
+                                   previous_step=None,)
+        data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
+                                             [".csv"])
+        self.assertEqual(data, {})
