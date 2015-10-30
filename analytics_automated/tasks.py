@@ -114,7 +114,7 @@ def task_runner(self, uuid, step_id, current_step,
         if t.backend.server_type == Backend.LOCALHOST:
             logger.info("Running At LOCALHOST")
             run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                              out_globs=[t.out_glob, ],
+                              out_globs=out_globs,
                               command=t.executable,
                               input_data=data_dict,
                               flags=flags,
@@ -125,7 +125,7 @@ def task_runner(self, uuid, step_id, current_step,
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At GRIDENGINE")
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                           out_globs=[t.out_glob, ],
+                           out_globs=out_globs,
                            command=t.executable,
                            input_data=data_dict,
                            flags=flags,
