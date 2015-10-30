@@ -39,7 +39,8 @@ def add(x, y):
     return x + y
 
 
-def get_data(s, current_step):
+def get_data(s, uuid, current_step, in_globs):
+    data_dict = {}
     data = ''
     previous_step = None
     # if this is the first task in a chain get the input_data from submission
@@ -49,15 +50,19 @@ def get_data(s, current_step):
         for line in s.input_data:
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
+        data_dict = {uuid+"."+in_globs[0]: data}
     else:
         previous_step = current_step-1
         # print("STEP"+str(previous_step))
-        r = Result.objects.get(submission=s, step=previous_step)
-        r.result_data.open(mode='r')
-        for line in r.result_data:
-            data += line.decode(encoding='UTF-8')
-        r.result_data.close()
-    return(data, previous_step)
+        r = Result.objects.filter(submission=s, step=previous_step).all()
+        for result in r:
+            r.result_data.open(mode='r')
+            for line in r.result_data:
+                data += line.decode(encoding='UTF-8')
+            data_dict = {r.name: data}
+            r.result_data.close()
+
+    return(data_dict, previous_step)
 
 
 # time limits?
@@ -82,10 +87,12 @@ def task_runner(self, uuid, step_id, current_step,
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
     state = Submission.ERROR
-    data, previous_step = get_data(s, current_step)
-    iglob = t.in_glob.lstrip(".")
-    oglob = t.out_glob.lstrip(".")
-    data_dict = {uuid+"."+iglob: data}
+    in_globs = "".join(t.in_glob.split()).split(",")
+    out_globs = "".join(t.out_glob.split()).split(",")
+
+    data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
+    iglob = in_globs[0].lstrip(".")
+    oglob = out_globs[0].lstrip(".")
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
@@ -202,6 +209,6 @@ def task_runner(self, uuid, step_id, current_step,
             logger.info("SENDING MAIL TO: "+s.email)
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
-            
+
     Submission.update_submission_state(s, True, state, step_id,
                                        self.request.id, message)
