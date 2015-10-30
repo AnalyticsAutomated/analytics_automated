@@ -79,7 +79,8 @@ list will be used to created a file string of the format JOB_UUID.[ENDING] for
 interpolation in to the $OUTPUT flag (see below)
 
 **Executable**: This is the program the worker will execute with any default
-flags and options
+flags and options **NOTE THAT TO JUDGE A TASK SUCCESSFUL IT MUST RETURN A 0
+EXIT STATUS (THIS WILL BE CHANGED IN THE FUTURE)**
 
 Parameters
 ^^^^^^^^^^
