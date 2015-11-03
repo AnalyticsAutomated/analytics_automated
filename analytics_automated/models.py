@@ -226,7 +226,7 @@ class Submission(TimeStampedModel):
 
 
 # Store results data
-class Result(models.Model):
+class Result(TimeStampedModel):
     submission = models.ForeignKey(Submission, related_name='results')
     task = models.ForeignKey(Task)
     step = models.IntegerField(null=False, blank=False)

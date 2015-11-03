@@ -109,7 +109,7 @@ class MessageAdmin(admin.ModelAdmin):
 
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('pk', 'link_to_Task', 'step', 'message', 'submission_name',
-                    'submission_uuid')
+                    'submission_uuid', 'created')
 
     def link_to_Task(self, obj):
         link = reverse("admin:analytics_automated_task_change",
