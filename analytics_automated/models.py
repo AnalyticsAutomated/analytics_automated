@@ -242,7 +242,8 @@ class Result(TimeStampedModel):
 # keep a timestamped history of all the messages sent for this jobs
 class Message(TimeStampedModel):
     submission = models.ForeignKey(Submission, related_name='messages')
-    step_id = models.IntegerField(null=True, blank=False)
+    step_id = models.IntegerField(null=True, blank=False,
+                                  on_delete=models.SET_NULL, null=True)
     message = models.CharField(max_length=1024, null=True, blank=True,
                                default="Submitted")
 
