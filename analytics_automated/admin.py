@@ -33,6 +33,11 @@ class MessageInline(admin.TabularInline):
     extra = 0
 
 
+class ResultInline(admin.TabularInline):
+    model = Result
+    extra = 0
+
+
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
@@ -83,7 +88,7 @@ class JobAdmin(admin.ModelAdmin):
 
 
 class SubmissionAdmin(admin.ModelAdmin):
-    inlines = [MessageInline]
+    inlines = [ResultInline, MessageInline]
     list_display = ('pk', 'link_to_Job', 'submission_name', 'priority',
                     'email', 'UUID', 'ip', 'status', 'claimed',
                     'last_message', 'step_id', 'created', 'modified')
