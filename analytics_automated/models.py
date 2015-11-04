@@ -126,14 +126,13 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-# TODO: add 2 tables to let tasks have multiple inputs and multiple outputs
-# TODO: deleting a task should delete all it's params and set any jobs to
-# runnable false where it is missing
+# TODO: deleting a task should set any jobs to runnable false where it is
+# missing
 
 
 class Step(models.Model):
     job = models.ForeignKey(Job, related_name='steps')
-    task = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
     ordering = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
@@ -228,7 +227,7 @@ class Submission(TimeStampedModel):
 # Store results data
 class Result(TimeStampedModel):
     submission = models.ForeignKey(Submission, related_name='results')
-    task = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
     step = models.IntegerField(null=False, blank=False)
     previous_step = models.IntegerField(null=True, blank=False)
     result_data = models.FileField(null=False)
