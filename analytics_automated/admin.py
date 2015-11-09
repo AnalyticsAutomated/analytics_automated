@@ -57,7 +57,7 @@ class TaskAdmin(admin.ModelAdmin):
 
     fieldsets = [
         (None,               {'fields': ['name']}),
-        ('Details', {'fields': ['backend', 'name', 'in_glob', 'out_glob',
+        ('Details', {'fields': ['backend', 'description,' 'in_glob', 'out_glob',
                                 'executable']}),
     ]
     inlines = [ParameterInline]
