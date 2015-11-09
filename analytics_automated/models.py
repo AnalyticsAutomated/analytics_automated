@@ -123,6 +123,7 @@ class Task(models.Model):
     description = models.CharField(max_length=256, null=True)
     in_glob = models.CharField(max_length=256, null=False, blank=False)
     out_glob = models.CharField(max_length=256, null=False, blank=False)
+    stdout_glob = models.CharField(max_length=256, null=True)
     executable = models.CharField(max_length=256, null=False, blank=False)
 
     def __str__(self):

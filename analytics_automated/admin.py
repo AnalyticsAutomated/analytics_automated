@@ -58,7 +58,7 @@ class TaskAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
         ('Details', {'fields': ['backend', 'description', 'in_glob', 'out_glob',
-                                'executable']}),
+                                'stdout_glob', 'executable']}),
     ]
     inlines = [ParameterInline]
     list_display = ('name', 'processing_backend', 'executable')

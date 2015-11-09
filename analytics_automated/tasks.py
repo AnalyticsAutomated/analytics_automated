@@ -19,7 +19,7 @@ try:
     from commandRunner.geRunner import *
 except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
-                "GrideEngine backend not available")
+                "GridEngine backend not available")
 
 
 @shared_task
@@ -102,6 +102,9 @@ def task_runner(self, uuid, step_id, current_step,
                                        self.request.id,
                                        'About to run step: ' +
                                        str(current_step))
+    stdoglob = ".stdout"
+    if t.stdout_glob is not None and len(t.stdout_glob) > 0:
+        stdoglob = "."+t.stdout_glob.lstrip(".")
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -119,7 +122,7 @@ def task_runner(self, uuid, step_id, current_step,
                               input_data=data_dict,
                               flags=flags,
                               options=options,
-                              std_out_str=uuid+".stdout",
+                              std_out_str=uuid+stdoglob,
                               input_string=uuid+"."+iglob,
                               output_string=uuid+"."+oglob)
         if t.backend.server_type == Backend.GRIDENGINE:
@@ -130,7 +133,7 @@ def task_runner(self, uuid, step_id, current_step,
                            input_data=data_dict,
                            flags=flags,
                            options=options,
-                           std_out_str=uuid+".stdout",
+                           std_out_str=uuid+stdoglob,
                            input_string=uuid+"."+iglob,
                            output_string=uuid+"."+oglob)
     except Exception as e:
