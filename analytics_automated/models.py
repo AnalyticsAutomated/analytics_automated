@@ -120,7 +120,7 @@ class Task(models.Model):
                                 related_name='tasks')
     name = models.CharField(max_length=64, unique=True, null=False,
                             blank=False)
-    description = models.CharField(max_length=256)
+    description = models.CharField(max_length=256, null=True)
     in_glob = models.CharField(max_length=256, null=False, blank=False)
     out_glob = models.CharField(max_length=256, null=False, blank=False)
     executable = models.CharField(max_length=256, null=False, blank=False)
