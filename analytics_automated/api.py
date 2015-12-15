@@ -163,13 +163,16 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['job'] = Job.objects.get(name=data['job']).pk
         else:
             content = {'error': 'Job name supplied does not exist'}
-            return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         # Here we'll work out what priority this job will run at
         job_priority = settings.DEFAULT_JOB_PRIORITY
         subs = Submission.objects.filter(ip=data['ip'], status__lte=1)
         if len(subs) >= settings.QUEUE_HOG_SIZE:
             job_priority = Submission.LOW
+        if len(subs) >= settings.QUEUE_HARD_LIMIT:
+            content = {'error': "You have too many concurrent jobs running"}
+            return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
 
@@ -190,11 +193,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
-                content = {'error': "Requied Parameter Missing"}
-                return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+                content = {'error': "Required Parameter Missing"}
+                return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             if len(steps) == 0:
-                content = {'error': "Job Requested Appears to have no Steps"}
+                content = {'error': "Job Requested appears to have no Steps"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
             # 3. Build Celery chain
             tchain = self.__construct_chain_string(steps, request_contents,

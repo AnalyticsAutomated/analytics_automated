@@ -160,7 +160,7 @@ class SubmissionDetailTests(APITestCase):
                                     format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch('builtins.exec', return_value=True)
     def test_submission_ignores_undefined_params(self, m):
@@ -214,6 +214,16 @@ class SubmissionDetailTests(APITestCase):
         subs = Submission.objects.all()
         self.assertEqual(subs[10].priority, Submission.LOW)
 
+    @patch('builtins.exec', return_value=True)
+    def test_submissions_after_hard_limit_get_rejection(self, m):
+        for i in range(0, settings.QUEUE_HARD_LIMIT):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
+
     def test_rejection_with_bad_email(self):
         self.data['email'] = 'b'
         request = self.factory.post(reverse('submission'), self.data,
@@ -228,7 +238,7 @@ class SubmissionDetailTests(APITestCase):
                                     format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_rejection_with_blank_submission_name(self):
         self.data['submission_name'] = ""
