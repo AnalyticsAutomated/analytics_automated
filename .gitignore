@@ -5,7 +5,6 @@ DEADJOE
 media/temp
 submissions/*
 __pycache__/
-submissions/*
 *.log
 logs/*
 analytics_automated_project/settings/staging.py
