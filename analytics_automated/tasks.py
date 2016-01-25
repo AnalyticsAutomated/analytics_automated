@@ -154,7 +154,7 @@ def task_runner(self, uuid, step_id, current_step,
 
     try:
         logger.info("EXECUTABLE: "+run.command)
-        run.prepare()
+        # run.prepare()
         exit_status = run.run_cmd()
     except Exception as e:
         run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
