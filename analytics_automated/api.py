@@ -99,7 +99,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             raise MultiValueDictKeyError
         except KeyError:
             raise KeyError
-
         return(data, request_contents)
 
     def __construct_chain_string(self, steps, request_contents, UUID,
@@ -168,7 +167,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         # Here we'll work out what priority this job will run at
         job_priority = settings.DEFAULT_JOB_PRIORITY
         subs = Submission.objects.filter(ip=data['ip'], status__lte=1)
-        
+
         if len(subs) >= settings.QUEUE_HOG_SIZE:
             job_priority = Submission.LOW
         if len(subs) >= settings.QUEUE_HARD_LIMIT:
@@ -194,7 +193,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
-                content = {'error': "Required Parameter Missing"}
+                content = {'error': "Required Parameter Missing. GET /analytics_automated/endpoints to discover all required options"}
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             if len(steps) == 0:
