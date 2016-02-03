@@ -64,10 +64,12 @@ the grep will be available to the users.
 
 **Backend**: The backend where this task will run, as defined above
 
+**Description**: This allows you to enter a short description of the task.
+
 **In Glob**: A comma separated list of file endings (i.e. .txt, .pdf, etc..)
-If the executable needs to consume a user input file the data provided will
-be to a file using the first glob in the list. Note that the 1st file ending
-in this list will be used to created an internal file string of the format
+If this task is the 1st in a job and needs to consume a user input file then
+the file will be given a suffix using the first glob in the list. Note that the
+1st file ending in this list will be used to created an internal file string of the format
 JOB_UUID.[ENDING] this will be used interpolation in to the $INPUT control (see
 below). If the task is not the first one in a job the remaining globs will
 be used to retrieve all matching files from the previous task's results.
@@ -78,8 +80,13 @@ returned to the database when the task completes. Note that the 1st file ending 
 list will be used to created a file string of the format JOB_UUID.[ENDING] for
 interpolation in to the $OUTPUT flag (see below)
 
+**stdout glob**: If you wish to record the tasks stdout then you can provide a
+file suffix. The task will now perform as though you had used a standard unix
+file redirect.
+
 **Executable**: This is the program the worker will execute with any default
-flags and options **NOTE THAT TO JUDGE A TASK SUCCESSFUL IT MUST RETURN A 0
+flags and options. Using $INPUT and $OUTPUT allows you to insert
+strings JOB_UUID.[1stInGlob] and JOB_UUID.[1stOutGlob] **NOTE THAT TO JUDGE A TASK SUCCESSFUL IT MUST RETURN A 0
 EXIT STATUS (THIS WILL BE CHANGED IN THE FUTURE)**
 
 Parameters

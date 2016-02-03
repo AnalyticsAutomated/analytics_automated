@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'analytics_automated',
     'rest_framework',
+    'corsheaders',
     'djcelery'
 )
 
@@ -127,6 +128,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
