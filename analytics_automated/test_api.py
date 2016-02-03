@@ -161,6 +161,7 @@ class SubmissionDetailTests(APITestCase):
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(Submission.objects.all()), 0)
 
     @patch('builtins.exec', return_value=True)
     def test_submission_ignores_undefined_params(self, m):

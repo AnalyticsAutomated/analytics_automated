@@ -194,10 +194,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
                 content = {'error': "Required Parameter Missing. GET /analytics_automated/endpoints to discover all required options"}
+                s.delete()
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             if len(steps) == 0:
                 content = {'error': "Job Requested appears to have no Steps"}
+                s.delete()
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
             # 3. Build Celery chain
             tchain = self.__construct_chain_string(steps, request_contents,
