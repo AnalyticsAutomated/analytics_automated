@@ -168,10 +168,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         # Here we'll work out what priority this job will run at
         job_priority = settings.DEFAULT_JOB_PRIORITY
         subs = Submission.objects.filter(ip=data['ip'], status__lte=1)
+        
         if len(subs) >= settings.QUEUE_HOG_SIZE:
             job_priority = Submission.LOW
         if len(subs) >= settings.QUEUE_HARD_LIMIT:
-            content = {'error': "You have too many concurrent jobs running"}
+            content = {'error': "You have too many, "+str(len(subs))+", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
