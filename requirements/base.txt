@@ -24,3 +24,4 @@ pytz==2015.4
 drmaa==0.7.6
 mod_wsgi
 mod_wsgi-httpd
+django-cors-headers==1.1.0
