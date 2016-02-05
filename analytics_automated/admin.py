@@ -50,14 +50,12 @@ class BackendAdmin(admin.ModelAdmin):
 
 class TaskAdmin(admin.ModelAdmin):
     def processing_backend(self, obj):
-
-        url = reverse('admin:analytics_automated_backend_change',
-                      args=(obj.backend.pk,))
-        print(url)
-        if url:
+        if obj.backend:
+            url = reverse('admin:analytics_automated_backend_change',
+                          args=(obj.backend.pk,))
             return '<a href="%s">%s</a>' % (url, obj.backend)
         else:
-            return 'Backend Removed' % (url, obj.backend)
+            return 'Backend Unavailable'
     processing_backend.allow_tags = True
 
     fieldsets = [
