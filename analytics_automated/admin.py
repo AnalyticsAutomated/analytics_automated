@@ -124,9 +124,12 @@ class ResultAdmin(admin.ModelAdmin):
                     'submission_uuid', 'created')
 
     def link_to_Task(self, obj):
-        link = reverse("admin:analytics_automated_task_change",
-                       args=[obj.task.id])
-        return u'<a href="%s">%s</a>' % (link, obj.task.name)
+        if obj.task:
+            link = reverse("admin:analytics_automated_task_change",
+                           args=[obj.task.id])
+            return u'<a href="%s">%s</a>' % (link, obj.task.name)
+        else:
+            return u'Task no longer exists'
 
     def submission_name(self, obj):
         url = reverse('admin:analytics_automated_submission_change',
