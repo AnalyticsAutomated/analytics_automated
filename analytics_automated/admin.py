@@ -64,7 +64,7 @@ class TaskAdmin(admin.ModelAdmin):
                                 'stdout_glob', 'executable']}),
     ]
     inlines = [ParameterInline]
-    list_display = ('name', 'processing_backend', 'executable')
+    list_display = ('name', 'processing_backend', 'in_glob', 'out_glob', 'executable')
 
 class JobAdmin(admin.ModelAdmin):
     inlines = [ValidatorInline, StepInline]
@@ -80,12 +80,17 @@ class JobAdmin(admin.ModelAdmin):
     def task_list(self, obj):
         j = Job.objects.get(pk=obj.pk)
         task_list = ""
+
         for s in j.steps.all():
             url = reverse('admin:analytics_automated_task_change',
-                          args=(s.task.pk,))
+                        args=(s.task.pk,))
             task_list += '<a href="%s"> %s </a> ->' % (url, s.task)
-        task_list = task_list.rstrip(' ->')
+            task_list = task_list.rstrip(' ->')
+
+        task_list += 'No Tasks for job'
+
         return task_list
+
     task_list.allow_tags = True
 
 
@@ -146,3 +151,4 @@ admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Result, ResultAdmin)
+admin.site.register(Step)

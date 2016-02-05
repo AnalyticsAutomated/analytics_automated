@@ -32,6 +32,15 @@ class BackendMethodTests(TestCase):
             error_ocurred = True
         self.assertTrue(error_ocurred)
 
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
+
 
 class TaskMethodTest(TestCase):
 
@@ -43,6 +52,15 @@ class TaskMethodTest(TestCase):
         t = TaskFactory.create(backend=b)
         self.assertEqual(Task.objects.count(), 1)
 
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
+
 
 class JobMethodTest(TestCase):
 
@@ -52,6 +70,15 @@ class JobMethodTest(TestCase):
         """
         j = JobFactory.create()
         self.assertEqual(Job.objects.count(), 1)
+
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
 
 
 class StepMethodTest(TestCase):
@@ -67,7 +94,7 @@ class StepMethodTest(TestCase):
         s = StepFactory(job=j, task=t, ordering=1)
         self.assertEqual(Step.objects.count(), 2)
 
-    def test_steps_can_not_have_same_orderinge(self):
+    def test_steps_can_not_have_same_ordering(self):
         """
             Checks the same step order value is not allowed for a given job
         """
@@ -77,7 +104,8 @@ class StepMethodTest(TestCase):
         s = StepFactory(job=j, task=t, ordering=0)
         error_occurred = False
         try:
-            s = StepFactory(job=j, task=t, ordering=0)
+            with transaction.atomic():
+                s = StepFactory(job=j, task=t, ordering=0)
         except Exception as e:
             error_ocurred = True
         self.assertTrue(error_ocurred)
@@ -91,6 +119,15 @@ class StepMethodTest(TestCase):
         Job.objects.all().delete()
         self.assertEqual(Step.objects.count(), 0)
 
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
+
 
 class SubmissionTest(TestCase):
 
@@ -100,6 +137,15 @@ class SubmissionTest(TestCase):
         """
         s = SubmissionFactory.create()
         self.assertEqual(Submission.objects.count(), 1)
+
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
 
 
 class ValidatorTest(TestCase):
@@ -122,6 +168,15 @@ class ValidatorTest(TestCase):
         self.v = Validator(job=j, validation_type=0, re_string="([")
         self.assertRaises(ValidationError, self.v.full_clean)
 
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
+
 
 class ParameterTest(TestCase):
 
@@ -134,3 +189,12 @@ class ParameterTest(TestCase):
         t = TaskFactory.create(backend=b, name="test")
         p = ParameterFactory.create(task=t, rest_alias="alias")
         self.assertEqual(p.rest_alias, t.name+"_alias")
+
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()

@@ -34,14 +34,14 @@ class JobListTests(APITestCase):
                     ',"name":"job2"}]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
-        def tearDown(self):
-            Backend.objects.all().delete()
-            Job.objects.all().delete()
-            Task.objects.all().delete()
-            Step.objects.all().delete()
-            Submission.objects.all().delete()
-            Parameter.objects.all().delete()
-            Result.objects.all().delete()
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
 
 
 class EndpointListTests(APITestCase):
@@ -66,14 +66,14 @@ class EndpointListTests(APITestCase):
                     'task2_that=[TRUE/FALSE]"]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
-        def tearDown(self):
-            Backend.objects.all().delete()
-            Job.objects.all().delete()
-            Task.objects.all().delete()
-            Step.objects.all().delete()
-            Submission.objects.all().delete()
-            Parameter.objects.all().delete()
-            Result.objects.all().delete()
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
 
 
 class SubmissionDetailTests(APITestCase):
@@ -113,7 +113,7 @@ class SubmissionDetailTests(APITestCase):
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{{"submission_name":"submission_1","UUID":"{0}"' \
+        test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
                     ',"state":"Submitted","results":[]}}'.format(s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 

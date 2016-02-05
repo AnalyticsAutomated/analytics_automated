@@ -134,7 +134,7 @@ class Task(models.Model):
 
 class Step(models.Model):
     job = models.ForeignKey(Job, related_name='steps')
-    task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
+    task = models.ForeignKey(Task, null=True)
     ordering = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):

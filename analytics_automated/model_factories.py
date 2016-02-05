@@ -36,7 +36,7 @@ class BackendFactory(factory.DjangoModelFactory):
 
 
 class TaskFactory(factory.DjangoModelFactory):
-    backend = BackendFactory.create()
+    backend = factory.SubFactory(BackendFactory)
     name = factory.Sequence(lambda n: 'task_{}'.format(n))
     in_glob = factory.LazyAttribute(lambda t: random_string())
     out_glob = factory.LazyAttribute(lambda t: random_string())
@@ -57,8 +57,8 @@ class JobFactory(factory.DjangoModelFactory):
 
 
 class StepFactory(factory.DjangoModelFactory):
-    job = JobFactory.create()
-    task = TaskFactory.create()
+    job = factory.SubFactory(JobFactory)
+    task = factory.SubFactory(TaskFactory)
     ordering = random.randint(0, 20)
 
     class Meta:
@@ -66,7 +66,7 @@ class StepFactory(factory.DjangoModelFactory):
 
 
 class SubmissionFactory(factory.DjangoModelFactory):
-    job = JobFactory.create()
+    job = factory.SubFactory(JobFactory)
     submission_name = factory.Sequence(lambda n: 'submission_{}'.format(n))
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
@@ -78,7 +78,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
 
 
 class ParameterFactory(factory.DjangoModelFactory):
-    task = TaskFactory.create()
+    task = factory.SubFactory(TaskFactory)
     flag = factory.LazyAttribute(lambda t: random_string())
     default = factory.LazyAttribute(lambda t: random_string())
     bool_valued = True
@@ -89,7 +89,7 @@ class ParameterFactory(factory.DjangoModelFactory):
 
 
 class ValidatorFactory(factory.DjangoModelFactory):
-    job = JobFactory.create()
+    job = factory.SubFactory(JobFactory)
     validation_type = random.randint(0, 2)
     re_string = ".+"
 
@@ -98,8 +98,8 @@ class ValidatorFactory(factory.DjangoModelFactory):
 
 
 class ResultFactory(factory.DjangoModelFactory):
-    submission = SubmissionFactory.create()
-    task = TaskFactory.create()
+    submission = factory.SubFactory(SubmissionFactory)
+    task = factory.SubFactory(TaskFactory)
     step = step_value
     previous_step = step_value-1
     result_data = factory.LazyAttribute(lambda t: File(open(RESULT_DATA)))
