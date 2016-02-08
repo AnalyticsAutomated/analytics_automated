@@ -184,7 +184,7 @@ class Submission(TimeStampedModel):
         (HIGH, "High"),
     )
 
-    job = models.ForeignKey(Job)
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
     submission_name = models.CharField(max_length=64, null=False, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
                             db_index=True)

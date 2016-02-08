@@ -66,6 +66,7 @@ class TaskAdmin(admin.ModelAdmin):
     inlines = [ParameterInline]
     list_display = ('name', 'processing_backend', 'in_glob', 'out_glob', 'executable')
 
+
 class JobAdmin(admin.ModelAdmin):
     inlines = [ValidatorInline, StepInline]
     list_display = ('name', 'runnable', 'number_of_tasks', 'task_list')
@@ -83,7 +84,7 @@ class JobAdmin(admin.ModelAdmin):
 
         for s in j.steps.all():
             url = reverse('admin:analytics_automated_task_change',
-                        args=(s.task.pk,))
+                          args=(s.task.pk,))
             task_list += '<a href="%s"> %s </a> ->' % (url, s.task)
         task_list = task_list.rstrip(' ->')
 
