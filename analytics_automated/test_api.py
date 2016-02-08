@@ -114,7 +114,8 @@ class SubmissionDetailTests(APITestCase):
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
-                    ',"state":"Submitted","results":[]}}'.format(s1.UUID)
+                    ',"state":"Submitted","last_message":"Submitted",' \
+                    '"results":[]}}'.format(s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_submission_with_results_is_returned(self,):
@@ -130,7 +131,8 @@ class SubmissionDetailTests(APITestCase):
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"{0}","UUID":"{1}"' \
-                    ',"state":"Submitted","results":[{{"task":{2},' \
+                    ',"state":"Submitted","last_message":"Submitted",' \
+                    '"results":[{{"task":{2},' \
                     '"name":"{3}","message":"{4}","step":{5},' \
                     '"result_data":"{6}"}}]}}'.format(s1.submission_name,
                                                       s1.UUID, t1.pk, 'test',
