@@ -85,7 +85,7 @@ class JobAdmin(admin.ModelAdmin):
             url = reverse('admin:analytics_automated_task_change',
                         args=(s.task.pk,))
             task_list += '<a href="%s"> %s </a> ->' % (url, s.task)
-            task_list = task_list.rstrip(' ->')
+        task_list = task_list.rstrip(' ->')
 
         task_list += 'No Tasks for job'
 
