@@ -102,10 +102,13 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'last_message', 'step_id', 'created', 'modified')
 
     def link_to_Job(self, obj):
-        link = reverse("admin:analytics_automated_job_change",
-                       args=[obj.job.id])
-        return u'<a href="%s">%s</a>' % (link, obj.job.name)
-
+        if obj.job:
+            link = reverse("admin:analytics_automated_job_change",
+                           args=[obj.job.id])
+            return u'<a href="%s">%s</a>' % (link, obj.job.name)
+        else:
+            return 'Job does not exist'
+            
     link_to_Job.allow_tags = True
 
 
