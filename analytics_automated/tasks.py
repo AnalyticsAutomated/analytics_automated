@@ -154,6 +154,7 @@ def task_runner(self, uuid, step_id, current_step,
 
     try:
         logger.info("EXECUTABLE: "+run.command)
+        logger.info("STD OUT: "+run.std_out_str)
         # run.prepare()
         exit_status = run.run_cmd()
     except Exception as e:

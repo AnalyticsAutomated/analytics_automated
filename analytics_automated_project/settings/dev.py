@@ -32,7 +32,7 @@ INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 # TODO: Change this for staging and production
 MEDIA_URL = '/submissions/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
-
+STATIC_URL = '/static_dev/'
 # Change the test runner
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
