@@ -196,7 +196,7 @@ class Submission(TimeStampedModel):
     input_data = models.FileField(blank=False)
     status = models.IntegerField(null=False, blank=False,
                                  choices=STATUS_CHOICES, default=SUBMITTED)
-    last_message = models.CharField(max_length=256, null=True, blank=True,
+    last_message = models.CharField(max_length=2046, null=True, blank=True,
                                     default="Submitted")
     claimed = models.BooleanField(null=False, default=False)
     worker_id = models.CharField(max_length=64, blank=True, null=True,
