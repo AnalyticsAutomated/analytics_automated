@@ -245,7 +245,7 @@ class Result(TimeStampedModel):
 class Message(TimeStampedModel):
     submission = models.ForeignKey(Submission, related_name='messages')
     step_id = models.IntegerField(null=True, blank=False)
-    message = models.CharField(max_length=1024, null=True, blank=True,
+    message = models.CharField(max_length=2046, null=True, blank=True,
                                default="Submitted")
 
     def __str__(self):
