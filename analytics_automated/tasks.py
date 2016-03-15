@@ -148,7 +148,7 @@ def task_runner(self, uuid, step_id, current_step,
     except Exception as e:
         prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
                        " : "+str(current_step)
-        Submission.update_submission_state(s, True, state.ERROR, step_id,
+        Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
 
@@ -160,9 +160,8 @@ def task_runner(self, uuid, step_id, current_step,
     except Exception as e:
         run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                       " : "+str(current_step)
-        try:
-            Submission.update_submission_state(s, True, state.ERROR, step_id,
-                                               self.request.id, run_message)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, run_message)
         raise OSError(run_message)
 
     # if the command ran with success we'll send the file contents to the
@@ -192,7 +191,7 @@ def task_runner(self, uuid, step_id, current_step,
                                       previous_step=previous_step,
                                       result_data=None)
     else:
-        Submission.update_submission_state(s, True, Submission.ERROR, step_id,
+        Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
                                            str(step_id))
