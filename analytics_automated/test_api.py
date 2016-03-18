@@ -46,7 +46,9 @@ class JobListTests(APITestCase):
 class JobTimeTests(APITestCase):
 
     def test_return_time_when_available(self):
-        pass
+        response = self.client.get(reverse('jobtime',
+                                           args=["hello", ]))
+        self.assertEqual(response.status_code, 200)
 
     def test_return_nothing_where_no_jobs_run(self):
         pass
@@ -134,6 +136,7 @@ class SubmissionDetailTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
+                    '"input_data":"http://testserver/submissions/file1_yrgE0W9.txt",' \
                     '"results":[]}}'.format(s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 

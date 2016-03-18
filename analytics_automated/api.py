@@ -255,12 +255,13 @@ class JobTime(generics.GenericAPIView):
         takes
     """
     def get(self, request, *args, **kwargs):
-        job = Job.objects.get(name="psipred")
-        submission_set = Submission.objects.get(job=job)
-        # loop over these submissions and get the average time
-        times = []
-        for submission in submission_set:
-            pass
+        print(args)
+        # job = Job.objects.get(name=self.job_name)
+        # submission_set = Submission.objects.get(job=job)
+        # # loop over these submissions and get the average time
+        # times = []
+        # for submission in submission_set:
+        #     pass
         #job_submissions =
 
 
