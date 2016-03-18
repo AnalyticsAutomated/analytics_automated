@@ -43,6 +43,25 @@ class JobListTests(APITestCase):
         Parameter.objects.all().delete()
         Result.objects.all().delete()
 
+class JobTimeTests(APITestCase):
+
+    def test_return_time_when_available(self):
+        pass
+
+    def test_return_nothing_where_no_jobs_run(self):
+        pass
+
+    def test_return_undef_if_job_type_does_not_exists(self):
+        pass
+
+    def tearDown(self):
+        Backend.objects.all().delete()
+        Job.objects.all().delete()
+        Task.objects.all().delete()
+        Step.objects.all().delete()
+        Submission.objects.all().delete()
+        Parameter.objects.all().delete()
+        Result.objects.all().delete()
 
 class EndpointListTests(APITestCase):
 

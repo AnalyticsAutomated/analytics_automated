@@ -248,6 +248,21 @@ class Endpoints(generics.GenericAPIView):
         content = {"jobs": uris}
         return Response(content)
 
+class JobTime(generics.GenericAPIView):
+    """
+        Here we take a job name from the list of job names that an endpoint
+        call allows and we return the average time in seconds that such a job
+        takes
+    """
+    def get(self, request, *args, **kwargs):
+        job = Job.objects.get(name="psipred")
+        submission_set = Submission.objects.get(job=job)
+        # loop over these submissions and get the average time
+        times = []
+        for submission in submission_set:
+            pass
+        #job_submissions =
+
 
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):
     """
