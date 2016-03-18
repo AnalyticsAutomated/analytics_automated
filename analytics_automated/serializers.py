@@ -21,8 +21,7 @@ class SubmissionOutputSerializer (serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ('submission_name', 'UUID', 'state', 'last_message', 'results')
-
+        fields = ('submission_name', 'UUID', 'state', 'last_message', 'input_data', 'results')
 
 class JobSerializer (serializers.ModelSerializer):
     class Meta:
