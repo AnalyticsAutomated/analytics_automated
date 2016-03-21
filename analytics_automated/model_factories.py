@@ -3,7 +3,6 @@ import string
 import factory
 import uuid
 import os
-
 from unipath import Path
 
 from django.test import TestCase

@@ -34,7 +34,7 @@ urlpatterns = [
          name="submissionDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
      url(r'^analytics_automated/endpoints/$', api.Endpoints.as_view(), name="endpoints"),
-     url(r'^analytics_automated/jobtime/(?P<job_name>.+)$', api.JobTime.as_view(), name="jobtime"),
+     url(r'^analytics_automated/jobtimes/$', api.JobTimes.as_view(), name="jobtimes"),
      url(r'^login/$', 'django.contrib.auth.views.login'),
      url(r'^logout/$', 'django.contrib.auth.views.logout'),
 ]

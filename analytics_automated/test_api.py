@@ -1,6 +1,8 @@
 import json
 import io
 import uuid
+import datetime
+import pytz
 from unipath import Path
 from unittest.mock import patch
 
@@ -42,19 +44,46 @@ class JobListTests(APITestCase):
         Submission.objects.all().delete()
         Parameter.objects.all().delete()
         Result.objects.all().delete()
+        SubmissionFactory.reset_sequence()
+
 
 class JobTimeTests(APITestCase):
 
-    def test_return_time_when_available(self):
-        response = self.client.get(reverse('jobtime',
-                                           args=["hello", ]))
+    def test_return_times_when_available(self):
+        j1 = JobFactory.create(name="job1")
+        j2 = JobFactory.create(name="job2")
+
+        this_s1 = SubmissionFactory.create(job=j1)
+        start1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=15, second=0, tzinfo=pytz.UTC)
+        stop1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=45, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s1.pk).update(created=start1,
+                                                        modified=stop1)
+        this_s2 = SubmissionFactory.create(job=j1)
+        start2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=40, second=0, tzinfo=pytz.UTC)
+        stop2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=45, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s2.pk).update(created=start2,
+                                                        modified=stop2)
+        this_s3 = SubmissionFactory.create(job=j2)
+        start3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=5, second=0, tzinfo=pytz.UTC)
+        stop3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=50, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s3.pk).update(created=start3,
+                                                        modified=stop3)
+        response = self.client.get(reverse('jobtimes',)+".json")
         self.assertEqual(response.status_code, 200)
+        test_data = '{"4":1050,"5":2700}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_return_nothing_where_no_jobs_run(self):
-        pass
-
-    def test_return_undef_if_job_type_does_not_exists(self):
-        pass
+        response = self.client.get(reverse('jobtimes',)+".json")
+        self.assertEqual(response.status_code, 200)
+        test_data = '{}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def tearDown(self):
         Backend.objects.all().delete()
@@ -64,6 +93,8 @@ class JobTimeTests(APITestCase):
         Submission.objects.all().delete()
         Parameter.objects.all().delete()
         Result.objects.all().delete()
+        SubmissionFactory.reset_sequence()
+
 
 class EndpointListTests(APITestCase):
 

@@ -1,6 +1,7 @@
 import ast
 import uuid
 from ipware.ip import get_ip
+from collections import defaultdict
 import logging
 
 from celery import chain
@@ -8,6 +9,7 @@ from celery import chain
 from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
 from django.conf import settings
+from django.db.models import F, Func
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -248,21 +250,26 @@ class Endpoints(generics.GenericAPIView):
         content = {"jobs": uris}
         return Response(content)
 
-class JobTime(generics.GenericAPIView):
+class JobTimes(generics.GenericAPIView):
     """
         Here we take a job name from the list of job names that an endpoint
         call allows and we return the average time in seconds that such a job
         takes
     """
     def get(self, request, *args, **kwargs):
-        print(args)
-        # job = Job.objects.get(name=self.job_name)
-        # submission_set = Submission.objects.get(job=job)
-        # # loop over these submissions and get the average time
-        # times = []
-        # for submission in submission_set:
-        #     pass
-        #job_submissions =
+        # Ok here we get the last 5000 results what we'd really like is
+        # 500 results for each job types but I don't really want to
+        # query the db once for each job type
+        times = Submission.objects.values('job').annotate(time=Func(F('modified'), F('created'), function='age'))[:5000]
+        results = defaultdict(lambda: [])
+        for row in times:
+            results[row['job']].append(int(row['time'].total_seconds()))
+        for job in results:
+            try:
+                results[job] = int(sum(results[job])/len(results[job]))
+            except Exception as e:
+                results[job] = None
+        return Response(results)
 
 
 class JobList(mixins.ListModelMixin, generics.GenericAPIView):
