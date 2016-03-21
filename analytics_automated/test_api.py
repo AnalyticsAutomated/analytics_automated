@@ -130,18 +130,18 @@ class SubmissionDetailTests(APITestCase):
         Result.objects.all().delete()
 
     def test_submission_detail_is_returned(self,):
-        s1 = SubmissionFactory.create()
+        s1 = SubmissionFactory.create(input_data="test.txt")
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
-                    '"input_data":"http://testserver/submissions/file1_yrgE0W9.txt",' \
+                    '"input_data":"http://testserver/submissions/test.txt",' \
                     '"results":[]}}'.format(s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_submission_with_results_is_returned(self,):
-        s1 = SubmissionFactory.create()
+        s1 = SubmissionFactory.create(input_data="test.txt")
         t1 = TaskFactory.create(name='task1')
         r1 = ResultFactory.create(submission=s1,
                                   task=t1,
@@ -154,6 +154,7 @@ class SubmissionDetailTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"{0}","UUID":"{1}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
+                    '"input_data":"http://testserver/submissions/test.txt",' \
                     '"results":[{{"task":{2},' \
                     '"name":"{3}","message":"{4}","step":{5},' \
                     '"result_data":"{6}"}}]}}'.format(s1.submission_name,
