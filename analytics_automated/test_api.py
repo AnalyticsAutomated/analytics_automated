@@ -76,7 +76,7 @@ class JobTimeTests(APITestCase):
                                                         modified=stop3)
         response = self.client.get(reverse('jobtimes',)+".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{"4":1050,"5":2700}'
+        test_data = '{"job1":1050,"job2":2700}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_return_nothing_where_no_jobs_run(self):

@@ -260,15 +260,18 @@ class JobTimes(generics.GenericAPIView):
         # Ok here we get the last 5000 results what we'd really like is
         # 500 results for each job types but I don't really want to
         # query the db once for each job type
+        # Note there is a query for each job now so maybe this is rubbish
         times = Submission.objects.values('job').annotate(time=Func(F('modified'), F('created'), function='age'))[:5000]
-        results = defaultdict(lambda: [])
+        times_dict = defaultdict(lambda: [])
         for row in times:
-            results[row['job']].append(int(row['time'].total_seconds()))
-        for job in results:
+            times_dict[row['job']].append(int(row['time'].total_seconds()))
+        results = {}
+        for job in times_dict:
+            obj = Job.objects.get(pk=job)
             try:
-                results[job] = int(sum(results[job])/len(results[job]))
+                results[obj.name] = int(sum(times_dict[job])/len(times_dict[job]))
             except Exception as e:
-                results[job] = None
+                results[obj.name] = None
         return Response(results)
 
 

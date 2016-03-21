@@ -108,7 +108,7 @@ class SubmissionAdmin(admin.ModelAdmin):
             return u'<a href="%s">%s</a>' % (link, obj.job.name)
         else:
             return 'Job does not exist'
-            
+
     link_to_Job.allow_tags = True
 
 
