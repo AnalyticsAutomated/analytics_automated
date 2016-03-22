@@ -85,6 +85,37 @@ class JobTimeTests(APITestCase):
         test_data = '{}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
+    def test_correctly_handle_missing_job(self):
+        j1 = JobFactory.create(name="job1")
+        j2 = JobFactory.create(name="job2")
+
+        this_s1 = SubmissionFactory.create(job=j1)
+        start1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=15, second=0, tzinfo=pytz.UTC)
+        stop1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=45, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s1.pk).update(created=start1,
+                                                        modified=stop1)
+        this_s2 = SubmissionFactory.create(job=j1)
+        start2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=40, second=0, tzinfo=pytz.UTC)
+        stop2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=45, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s2.pk).update(created=start2,
+                                                        modified=stop2)
+        this_s3 = SubmissionFactory.create(job=j2)
+        start3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                   minute=5, second=0, tzinfo=pytz.UTC)
+        stop3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
+                                  minute=50, second=0, tzinfo=pytz.UTC)
+        Submission.objects.filter(pk=this_s3.pk).update(created=start3,
+                                                        modified=stop3)
+        j1.delete()
+        response = self.client.get(reverse('jobtimes',)+".json")
+        self.assertEqual(response.status_code, 200)
+        test_data = '{"job2":2700}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
     def tearDown(self):
         Backend.objects.all().delete()
         Job.objects.all().delete()

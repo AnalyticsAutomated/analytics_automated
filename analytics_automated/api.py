@@ -266,12 +266,18 @@ class JobTimes(generics.GenericAPIView):
         for row in times:
             times_dict[row['job']].append(int(row['time'].total_seconds()))
         results = {}
-        for job in times_dict:
-            obj = Job.objects.get(pk=job)
+        for job_id in times_dict:
+            job_name = ''
             try:
-                results[obj.name] = int(sum(times_dict[job])/len(times_dict[job]))
+                obj = Job.objects.get(pk=job_id)
+                job_name = obj.name
+                try:
+                    obj = Job.objects.get(pk=job_id)
+                    results[job_name] = int(sum(times_dict[job_id])/len(times_dict[job_id]))
+                except Exception as e:
+                    results[job_name] = None
             except Exception as e:
-                results[obj.name] = None
+                logger.info('Attempting to get times for deleted job')
         return Response(results)
 
 
