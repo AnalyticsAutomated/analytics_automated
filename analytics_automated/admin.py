@@ -41,10 +41,12 @@ class ResultInline(admin.TabularInline):
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
-        ('Configuration', {'fields': ['server_type', 'ip', 'port']}),
+        #('Configuration', {'fields': ['server_type', 'ip', 'port']}),
+        ('Configuration', {'fields': ['server_type']}),
         ('Path', {'fields': ['root_path']}),
     ]
-    list_display = ('name', 'server_type', 'ip', 'port', 'root_path')
+    # list_display = ('name', 'server_type', 'ip', 'port', 'root_path')
+    list_display = ('name', 'server_type', 'root_path')
     inlines = [BackendUserInline]
 
 

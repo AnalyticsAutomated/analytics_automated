@@ -66,20 +66,18 @@ NEXT UP TODO/REMINDERS
 1. On Submission delete propagate message to workers to kill task
 2. RServe support
 
-3. Is it worth adding types to vars for clarity?
-
-4. Add scheduled tasks
-5. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
+3. Add scheduled tasks
+4. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
 
 Production things:
 
-6. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+5. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
 
     enable app.Task.track_started
     Autoscaling
     don't run in DEBUG mode
 
-7. Solution for file storage in staging/production???
-8. Consider Flower for celery monitoring
-9. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-10. Investigate cached_property
+6. Solution for file storage in staging/production???
+7. Consider Flower for celery monitoring
+8. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+9. Investigate cached_property

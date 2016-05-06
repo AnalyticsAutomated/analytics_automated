@@ -76,8 +76,14 @@ class JobTimeTests(APITestCase):
                                                         modified=stop3)
         response = self.client.get(reverse('jobtimes',)+".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{"job1":1050,"job2":2700}'
-        self.assertEqual(response.content.decode("utf-8"), test_data)
+        test_data = '{"job2":2700,"job1":1050}'
+        test_data_alt = '{"job1":1050,"job2":2700}'
+        # either of these return strings is valid. Should possibly force
+        # a return order in the API
+        try:
+            self.assertEqual(response.content.decode("utf-8"), test_data)
+        except:
+            self.assertEqual(response.content.decode("utf-8"), test_data_alt)
 
     def test_return_nothing_where_no_jobs_run(self):
         response = self.client.get(reverse('jobtimes',)+".json")

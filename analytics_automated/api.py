@@ -112,6 +112,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         tchain = "chain("
         flags = {}
         options = {}
+
+        #loop over steps and build the subtask string for each
+        #track which have the same step priority
+        #build group() for any which have equivalent priority
+            #where priority list > 1
+        #insert subtask or group in to chain()()
+
         for step in steps:
             flags = self.__build_flags(step.task, request_contents)
             options = self.__build_options(step.task, request_contents)

@@ -25,8 +25,8 @@ def random_string(length=10):
 class BackendFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'test_{}'.format(n))
     server_type = Backend.LOCALHOST
-    ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
-    port = random.randint(1, 65325)
+    # ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
+    # port = random.randint(1, 65325)
     root_path = factory.LazyAttribute(lambda t: random_string())
 
     class Meta:

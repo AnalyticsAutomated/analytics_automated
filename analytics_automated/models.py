@@ -38,9 +38,10 @@ class Backend(models.Model):
     server_type = models.IntegerField(null=False, blank=False,
                                       choices=SERVER_CHOICES,
                                       default=LOCALHOST)
-    ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
-                                      blank=False)
-    port = models.IntegerField(default=80, null=False, blank=False)
+    # removing log in details as remote backend is NOT YET IMPLEMENTED
+    # ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
+    #                                   blank=False)
+    # port = models.IntegerField(default=80, null=False, blank=False)
     root_path = models.CharField(max_length=256, null=False, default="/tmp/",
                                  blank=False)
 
