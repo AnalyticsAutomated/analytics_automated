@@ -79,6 +79,8 @@ def get_data(s, uuid, current_step, in_globs):
 # total_step   a totall of all the units of work/tasks that a job has
 # TODO: Almost certainly a job can not end with a celery group(), some sort
 #       of reduce step is 'required' this needs fix.
+#       One way to handle this would be to add a dummy "end" task to the chain()
+#       if the chain would otherwise end in a group()
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step, step_counter,
                 total_steps, task_name, flags, options):

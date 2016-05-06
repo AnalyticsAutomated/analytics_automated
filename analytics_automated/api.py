@@ -103,6 +103,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             raise KeyError
         return(data, request_contents)
 
+    # TODO: Almost certainly a job can not end with a celery group(), some sort
+    #       of reduce step is 'required' this needs fix.
+    #       One way to handle this would be to add a dummy "end" task to the chain()
+    #       if the chain would otherwise end in a group()
     def __construct_chain_string(self, steps, request_contents, UUID,
                                  job_priority):
         total_steps = len(steps)
