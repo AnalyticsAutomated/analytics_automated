@@ -94,21 +94,22 @@ class StepMethodTest(TestCase):
         s = StepFactory(job=j, task=t, ordering=1)
         self.assertEqual(Step.objects.count(), 2)
 
-    def test_steps_can_not_have_same_ordering(self):
-        """
-            Checks the same step order value is not allowed for a given job
-        """
-        b = BackendFactory.create()
-        t = TaskFactory.create(backend=b)
-        j = JobFactory.create()
-        s = StepFactory(job=j, task=t, ordering=0)
-        error_occurred = False
-        try:
-            with transaction.atomic():
-                s = StepFactory(job=j, task=t, ordering=0)
-        except Exception as e:
-            error_ocurred = True
-        self.assertTrue(error_ocurred)
+    # DB : removed to support concurrent tasks
+    # def test_steps_can_not_have_same_ordering(self):
+    #     """
+    #         Checks the same step order value is not allowed for a given job
+    #     """
+    #     b = BackendFactory.create()
+    #     t = TaskFactory.create(backend=b)
+    #     j = JobFactory.create()
+    #     s = StepFactory(job=j, task=t, ordering=0)
+    #     error_occurred = False
+    #     try:
+    #         with transaction.atomic():
+    #             s = StepFactory(job=j, task=t, ordering=0)
+    #     except Exception as e:
+    #         error_ocurred = True
+    #     self.assertTrue(error_ocurred)
 
     def test_ensure_all_steps_are_removed_on_job_deletion(self):
         b = BackendFactory.create()

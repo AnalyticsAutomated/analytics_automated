@@ -70,8 +70,17 @@ def get_data(s, uuid, current_step, in_globs):
 
 
 # time limits?
+# step_id is the numerical value the user provides when they set the steps in the UI
+# current_step is a counter of where in the process we are, celery groups take
+#              the same step value, which allows a subsequent step to get all the
+#              results from the group
+# step_counter a counter which counts which step this is in sequence used in
+#              conjunction with total_steps to tell when a job has finished
+# total_step   a totall of all the units of work/tasks that a job has
+# TODO: Almost certainly a job can not end with a celery group(), some sort
+#       of reduce step is 'required' this needs fix.
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
-def task_runner(self, uuid, step_id, current_step,
+def task_runner(self, uuid, step_id, current_step, step_counter,
                 total_steps, task_name, flags, options):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
@@ -204,7 +213,7 @@ def task_runner(self, uuid, step_id, current_step,
     state = Submission.RUNNING
     message = "Completed step: " + str(current_step)
 
-    if current_step == total_steps:
+    if step_counter == total_steps:
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)
         # TODO: This needs a try-catch

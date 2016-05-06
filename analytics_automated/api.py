@@ -106,13 +106,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __construct_chain_string(self, steps, request_contents, UUID,
                                  job_priority):
         total_steps = len(steps)
-        current_step = 1
+        current_step = 0
+        step_counter = 1
         prev_step = None
         queue_name = 'celery'
-        tchain = "chain("
         flags = {}
         options = {}
 
+        task_strings ={}
         #loop over steps and build the subtask string for each
         #track which have the same step priority
         #build group() for any which have equivalent priority
@@ -131,20 +132,43 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if job_priority is Submission.HIGH:
                 queue_name = "high_"+queue_name
 
+            if step.ordering != prev_step:
+                current_step += 1
+
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-            tchain += "task_runner.subtask(('%s', %i, %i, %i, '%s', %s, %s), " \
-                      "immutable=True, queue='%s'), " \
+            task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', %s, %s), " \
+                      "immutable=True, queue='%s')" \
                       % (UUID,
                          step.ordering,
                          current_step,
+                         step_counter,
                          total_steps,
                          step.task.name,
                          flags,
                          options,
                          queue_name)
-            current_step += 1
+
+            if step.ordering in task_strings:
+                task_strings[step.ordering].append(task_string)
+            else:
+                task_strings[step.ordering] = [task_string]
+            prev_step = step.ordering
+            step_counter+=1
+
+        tchain = "chain("
+        for key in sorted(task_strings):
+            if len(task_strings[key]) > 1:
+                tchain += "group("
+            for task_string in task_strings[key]:
+                tchain += task_string+", "
+            if len(task_strings[key]) > 1:
+                tchain = tchain[:-2]
+                tchain += "), "
         tchain = tchain[:-2]
         tchain += ')()'
+
+        # print(tchain)
+
         logger.debug("TASK COMMAND: "+tchain)
         return(tchain)
 

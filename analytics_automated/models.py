@@ -141,8 +141,9 @@ class Step(models.Model):
     def __str__(self):
         return str(self.task)
 
-    class Meta:
-        unique_together = ('job', 'ordering',)
+    # DB: removed this to enable chorded/concurrent celery jobs
+    # class Meta:
+    #     unique_together = ('job', 'ordering',)
 
 
 class Parameter(models.Model):

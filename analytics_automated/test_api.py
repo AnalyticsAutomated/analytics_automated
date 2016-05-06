@@ -501,6 +501,59 @@ class SubmissionDetailTests(APITestCase):
                     request_contents,
                     local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 'task1', ['-t'], "
+                                    "', 0, 1, 1, 1, 'task1', ['-t'], "
                                     "{'-th': 123}), immutable=True, "
                                     "queue='localhost'))()")
+
+    def test__construct_chain_string_multitask(self):
+        self.t2 = TaskFactory.create(backend=self.b, name="task2",
+                                    executable="rm")
+        s = StepFactory(job=self.j1, task=self.t2, ordering=1)
+
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        request_contents = {}
+        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
+                    request_contents,
+                    local_id, 1)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 2, 'task1', [], "
+                                    "{}), immutable=True, "
+                                    "queue='localhost'), task_runner.subtask(('"
+                                    + local_id + "', 1, 2, 2, 2, 'task2', [], "
+                                    "{}), immutable=True, "
+                                    "queue='localhost'))()")
+
+    def test__construct_group_chain_string(self):
+        self.t2 = TaskFactory.create(backend=self.b, name="task2",
+                                    executable="rm")
+        s = StepFactory(job=self.j1, task=self.t2, ordering=1)
+        self.t3 = TaskFactory.create(backend=self.b, name="task3",
+                                    executable="diff")
+        s = StepFactory(job=self.j1, task=self.t3, ordering=1)
+        self.t4 = TaskFactory.create(backend=self.b, name="task4",
+                                    executable="wc")
+        s = StepFactory(job=self.j1, task=self.t4, ordering=2)
+
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        request_contents = {}
+        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
+                    request_contents,
+                    local_id, 1)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 4, 'task1', [], {}), "
+                                    "immutable=True, queue='localhost'), "
+                                    "group(task_runner.subtask(('" + local_id +
+                                    "', 1, 2, 2, 4, 'task2', [], {}), "
+                                    "immutable=True, queue='localhost'), "
+                                    "task_runner.subtask(('" + local_id +
+                                    "', 1, 2, 3, 4, 'task3', [], {}), "
+                                    "immutable=True, queue='localhost')), "
+                                    "task_runner.subtask(('" + local_id +
+                                    "', 2, 3, 4, 4, 'task4', [], {}), "
+                                    "immutable=True, queue='localhost'))()")
