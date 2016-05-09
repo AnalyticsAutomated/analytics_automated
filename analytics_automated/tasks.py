@@ -5,6 +5,7 @@ from commandRunner.localRunner import *
 
 from celery import Celery
 from celery import shared_task
+from celery import group
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
@@ -230,6 +231,29 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             logger.info("SENDING MAIL TO: "+s.email)
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
+
+    Submission.update_submission_state(s, True, state, step_id,
+                                       self.request.id, message)
+
+
+@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
+def chord_end(self, uuid):
+    s = Submission.objects.get(UUID=uuid)
+
+    state = Submission.COMPLETE
+    message = 'Completed job at step #' + str(current_step)
+    # TODO: This needs a try-catch
+    try:
+        if s.email is not None and \
+                len(s.email) > 5 and \
+                settings.DEFAULT_FROM_EMAIL is not None:
+            send_mail(settings.EMAIL_SUBJECT_STRING+": "+uuid,
+                      settings.EMAIL_MESSAGE_STRING+uuid, from_email=None,
+                      recipient_list=[s.email],
+                      fail_silently=False)
+        logger.info("SENDING MAIL TO: "+s.email)
+    except Exception as e:
+        logger.info("Mail server not available:" + str(e))
 
     Submission.update_submission_state(s, True, state, step_id,
                                        self.request.id, message)

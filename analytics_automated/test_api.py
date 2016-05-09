@@ -316,7 +316,8 @@ class SubmissionDetailTests(APITestCase):
                                     format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
+        self.assertEqual(response.status_code,
+                         status.HTTP_429_TOO_MANY_REQUESTS)
 
     def test_rejection_with_bad_email(self):
         self.data['email'] = 'b'
@@ -497,9 +498,8 @@ class SubmissionDetailTests(APITestCase):
                        .extra(order_by=['ordering'])
         sd = SubmissionDetails()
         local_id = str(uuid.uuid1())
-        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
-                    request_contents,
-                    local_id, 1)
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 1, 'task1', ['-t'], "
                                     "{'-th': 123}), immutable=True, "
@@ -507,7 +507,7 @@ class SubmissionDetailTests(APITestCase):
 
     def test__construct_chain_string_multitask(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
-                                    executable="rm")
+                                     executable="rm")
         s = StepFactory(job=self.j1, task=self.t2, ordering=1)
 
         steps = self.j1.steps.all().select_related('task') \
@@ -515,26 +515,26 @@ class SubmissionDetailTests(APITestCase):
         sd = SubmissionDetails()
         local_id = str(uuid.uuid1())
         request_contents = {}
-        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
-                    request_contents,
-                    local_id, 1)
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 2, 'task1', [], "
                                     "{}), immutable=True, "
-                                    "queue='localhost'), task_runner.subtask(('"
-                                    + local_id + "', 1, 2, 2, 2, 'task2', [], "
+                                    "queue='localhost'), "
+                                    "task_runner.subtask(('" + local_id +
+                                    "', 1, 2, 2, 2, 'task2', [], "
                                     "{}), immutable=True, "
                                     "queue='localhost'))()")
 
     def test__construct_group_chain_string(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
-                                    executable="rm")
+                                     executable="rm")
         s = StepFactory(job=self.j1, task=self.t2, ordering=1)
         self.t3 = TaskFactory.create(backend=self.b, name="task3",
-                                    executable="diff")
+                                     executable="diff")
         s = StepFactory(job=self.j1, task=self.t3, ordering=1)
         self.t4 = TaskFactory.create(backend=self.b, name="task4",
-                                    executable="wc")
+                                     executable="wc")
         s = StepFactory(job=self.j1, task=self.t4, ordering=2)
 
         steps = self.j1.steps.all().select_related('task') \
@@ -542,9 +542,8 @@ class SubmissionDetailTests(APITestCase):
         sd = SubmissionDetails()
         local_id = str(uuid.uuid1())
         request_contents = {}
-        chain_str = sd._SubmissionDetails__construct_chain_string(steps,
-                    request_contents,
-                    local_id, 1)
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 4, 'task1', [], {}), "
                                     "immutable=True, queue='localhost'), "
@@ -557,3 +556,31 @@ class SubmissionDetailTests(APITestCase):
                                     "task_runner.subtask(('" + local_id +
                                     "', 2, 3, 4, 4, 'task4', [], {}), "
                                     "immutable=True, queue='localhost'))()")
+
+    def test__construct_chain_string_with_ending_group(self):
+        self.t2 = TaskFactory.create(backend=self.b, name="task2",
+                                     executable="rm")
+        s = StepFactory(job=self.j1, task=self.t2, ordering=1)
+        self.t3 = TaskFactory.create(backend=self.b, name="task3",
+                                     executable="diff")
+        s = StepFactory(job=self.j1, task=self.t3, ordering=1)
+
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        request_contents = {}
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
+        # print(chain_str)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 4, 'task1', [], {}), "
+                                    "immutable=True, queue='localhost'), "
+                                    "group(task_runner.subtask(('" + local_id +
+                                    "', 1, 2, 2, 4, 'task2', [], {}), "
+                                    "immutable=True, queue='localhost'), "
+                                    "task_runner.subtask(('" + local_id +
+                                    "', 1, 2, 3, 4, 'task3', [], {}), "
+                                    "immutable=True, queue='localhost')), "
+                                    "chord_end.subtask(('" + local_id +
+                                    "'), immutable=True, queue='localhost'))()")

@@ -105,11 +105,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     # TODO: Almost certainly a job can not end with a celery group(), some sort
     #       of reduce step is 'required' this needs fix.
-    #       One way to handle this would be to add a dummy "end" task to the chain()
-    #       if the chain would otherwise end in a group()
+    #       One way to handle this would be to add a dummy "end" task to the
+    #       chain()
+    #       if the chain would otherwise end in a group(), for instance wait 1
+    #       second with the task.wait(1)
     def __construct_chain_string(self, steps, request_contents, UUID,
                                  job_priority):
         total_steps = len(steps)
+        chord_end = False
         current_step = 0
         step_counter = 1
         prev_step = None
@@ -117,12 +120,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         flags = {}
         options = {}
 
-        task_strings ={}
-        #loop over steps and build the subtask string for each
-        #track which have the same step priority
-        #build group() for any which have equivalent priority
-            #where priority list > 1
-        #insert subtask or group in to chain()()
+        if total_steps > 1:
+            if steps[total_steps-1].ordering == steps[total_steps-2].ordering:
+                total_steps += 1
+                chord_end = True
+
+        task_strings = {}
+        # loop over steps and build the subtask string for each
+        # track which have the same step priority
+        # build group() for any which have equivalent priority
+        # where priority list > 1
+        # insert subtask or group in to chain()()
 
         for step in steps:
             flags = self.__build_flags(step.task, request_contents)
@@ -141,23 +149,23 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', %s, %s), " \
-                      "immutable=True, queue='%s')" \
-                      % (UUID,
-                         step.ordering,
-                         current_step,
-                         step_counter,
-                         total_steps,
-                         step.task.name,
-                         flags,
-                         options,
-                         queue_name)
+                          "immutable=True, queue='%s')" \
+                          % (UUID,
+                             step.ordering,
+                             current_step,
+                             step_counter,
+                             total_steps,
+                             step.task.name,
+                             flags,
+                             options,
+                             queue_name)
 
             if step.ordering in task_strings:
                 task_strings[step.ordering].append(task_string)
             else:
                 task_strings[step.ordering] = [task_string]
             prev_step = step.ordering
-            step_counter+=1
+            step_counter += 1
 
         tchain = "chain("
         for key in sorted(task_strings):
@@ -169,6 +177,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 tchain = tchain[:-2]
                 tchain += "), "
         tchain = tchain[:-2]
+
+        # This hack means that a job which ends in a chord won't complete during
+        # the chord
+        if chord_end is True:
+            tchain += ", chord_end.subtask(('%s'), " \
+                      "immutable=True, queue='%s')" \
+                      % (UUID, queue_name)
         tchain += ')()'
 
         # print(tchain)
@@ -208,7 +223,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if len(subs) >= settings.QUEUE_HOG_SIZE:
             job_priority = Submission.LOW
         if len(subs) >= settings.QUEUE_HARD_LIMIT:
-            content = {'error': "You have too many, "+str(len(subs))+", concurrent jobs running"}
+            content = {'error': "You have too many, "+str(len(subs)) +
+                                ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
         if request.user.is_authenticated():
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
@@ -230,7 +246,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
             if not self.__test_params(steps, request_contents):
-                content = {'error': "Required Parameter Missing. GET /analytics_automated/endpoints to discover all required options"}
+                content = {'error': "Required Parameter Missing. GET "
+                                    "/analytics_automated/endpoints to "
+                                    "discover all required options"}
                 s.delete()
                 return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
@@ -248,11 +266,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 logger.info('Sending This chain: '+tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
-                return Response("MADE IT HERE2"+tchain, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response("MADE IT HERE2"+tchain,
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)
                 logger.error('500 Error' + str(e))
-                return Response(tchain+"  "+str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response(tchain+"  "+str(e),
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             return Response(content, status=status.HTTP_201_CREATED)
@@ -285,6 +305,7 @@ class Endpoints(generics.GenericAPIView):
         content = {"jobs": uris}
         return Response(content)
 
+
 class JobTimes(generics.GenericAPIView):
     """
         Here we take a job name from the list of job names that an endpoint
@@ -296,7 +317,8 @@ class JobTimes(generics.GenericAPIView):
         # 500 results for each job types but I don't really want to
         # query the db once for each job type
         # Note there is a query for each job now so maybe this is rubbish
-        times = Submission.objects.values('job').annotate(time=Func(F('modified'), F('created'), function='age'))[:5000]
+        times = Submission.objects.values('job').annotate(
+                time=Func(F('modified'), F('created'), function='age'))[:5000]
         times_dict = defaultdict(lambda: [])
         for row in times:
             times_dict[row['job']].append(int(row['time'].total_seconds()))
@@ -308,7 +330,8 @@ class JobTimes(generics.GenericAPIView):
                 job_name = obj.name
                 try:
                     obj = Job.objects.get(pk=job_id)
-                    results[job_name] = int(sum(times_dict[job_id])/len(times_dict[job_id]))
+                    results[job_name] = int(sum(times_dict[job_id])/len(
+                                        times_dict[job_id]))
                 except Exception as e:
                     results[job_name] = None
             except Exception as e:
