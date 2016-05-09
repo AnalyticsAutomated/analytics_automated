@@ -583,4 +583,4 @@ class SubmissionDetailTests(APITestCase):
                                     "', 1, 2, 3, 4, 'task3', [], {}), "
                                     "immutable=True, queue='localhost')), "
                                     "chord_end.subtask(('" + local_id +
-                                    "'), immutable=True, queue='localhost'))()")
+                                    "', 2, 4), immutable=True, queue='localhost'))()")

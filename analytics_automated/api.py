@@ -183,7 +183,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         if chord_end is True:
             tchain += ", chord_end.subtask(('%s', %i, %i), " \
                       "immutable=True, queue='%s')" \
-                      % (UUID, queue_name, total_steps current_step)
+                      % (UUID, current_step, total_steps, queue_name)
         tchain += ')()'
 
         # print(tchain)

@@ -237,7 +237,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
 
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
-def chord_end(self, uuid, current_step):
+def chord_end(self, uuid, step_id, current_step):
     s = Submission.objects.get(UUID=uuid)
 
     state = Submission.COMPLETE
