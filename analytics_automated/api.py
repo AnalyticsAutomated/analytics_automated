@@ -181,9 +181,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         # This hack means that a job which ends in a chord won't complete during
         # the chord
         if chord_end is True:
-            tchain += ", chord_end.subtask(('%s'), " \
+            tchain += ", chord_end.subtask(('%s', %i, %i), " \
                       "immutable=True, queue='%s')" \
-                      % (UUID, queue_name)
+                      % (UUID, queue_name, total_steps current_step)
         tchain += ')()'
 
         # print(tchain)
