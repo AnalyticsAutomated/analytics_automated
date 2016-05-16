@@ -126,6 +126,8 @@ class Task(models.Model):
     out_glob = models.CharField(max_length=256, null=False, blank=False)
     stdout_glob = models.CharField(max_length=256, null=True)
     executable = models.CharField(max_length=2048, null=False, blank=False)
+    environment_variables = models.CharField(max_length=2048, null=False,
+                                             blank=False)
 
     def __str__(self):
         return self.name
