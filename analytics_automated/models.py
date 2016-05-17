@@ -105,8 +105,8 @@ class Validator(models.Model):
     #                the job has stopped
     VALIDATION_CHOICES = (
         (REGEX, "Regular Expression"),
-        (IMAGE, "Image"),
-        (MP3, "MP3"),
+        # (IMAGE, "Image"),
+        # (MP3, "MP3"),
     )
     job = models.ForeignKey(Job, related_name="validators")
     validation_type = models.IntegerField(null=False, blank=False,
@@ -126,8 +126,6 @@ class Task(models.Model):
     out_glob = models.CharField(max_length=256, null=False, blank=False)
     stdout_glob = models.CharField(max_length=256, null=True)
     executable = models.CharField(max_length=2048, null=False, blank=False)
-    environment_variables = models.CharField(max_length=2048, null=False,
-                                             blank=False)
 
     def __str__(self):
         return self.name
@@ -146,6 +144,31 @@ class Step(models.Model):
     # DB: removed this to enable chorded/concurrent celery jobs
     # class Meta:
     #     unique_together = ('job', 'ordering',)
+
+
+class Environment(models.Model):
+    task = models.ForeignKey(Task, related_name='environment')
+    env = models.CharField(max_length=129, null=True, blank=False)
+    value = models.CharField(max_length=2048, null=True, blank=False)
+
+    def __str__(self):
+        return self.env
+
+
+class Parameter(models.Model):
+    task = models.ForeignKey(Task, related_name='parameters')
+    flag = models.CharField(max_length=64, null=False, blank=False)
+    default = models.CharField(max_length=64, null=True, blank=False)
+    bool_valued = models.BooleanField(default=False, blank=False)
+    rest_alias = models.CharField(max_length=64, unique=True, null=False,
+                                  blank=False)
+
+    def __str__(self):
+        return self.flag
+
+    def save(self, *args, **kwargs):
+        self.rest_alias = str(self.task)+"_"+self.rest_alias
+        super(Parameter, self).save(*args, **kwargs)
 
 
 class Parameter(models.Model):

@@ -58,6 +58,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 options[param.flag] = request_data[param.rest_alias]
         return(options)
 
+    def __build_environment(self, task, request_data):
+        environment = {}
+        envs = task.environment.all()
+        for env in envs:
+            environment[env.env] = env.value
+        return(environment)
+
     def __test_params(self, steps, request_data):
         """
             Check that the list of additional params the tasks take
@@ -135,6 +142,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for step in steps:
             flags = self.__build_flags(step.task, request_contents)
             options = self.__build_options(step.task, request_contents)
+            environment = self.__build_environment(step.task, request_contents)
             if step.task.backend.server_type == Backend.LOCALHOST:
                 queue_name = 'localhost'
             if step.task.backend.server_type == Backend.GRIDENGINE:
@@ -148,7 +156,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 current_step += 1
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
-            task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', %s, %s), " \
+            task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
+                          "%s, %s, %s), " \
                           "immutable=True, queue='%s')" \
                           % (UUID,
                              step.ordering,
@@ -158,6 +167,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              step.task.name,
                              flags,
                              options,
+                             environment,
                              queue_name)
 
             if step.ordering in task_strings:

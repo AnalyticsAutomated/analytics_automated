@@ -71,10 +71,11 @@ def get_data(s, uuid, current_step, in_globs):
 
 
 # time limits?
-# step_id is the numerical value the user provides when they set the steps in the UI
+# step_id is the numerical value the user provides when they set the steps
+#         in the UI
 # current_step is a counter of where in the process we are, celery groups take
-#              the same step value, which allows a subsequent step to get all the
-#              results from the group
+#              the same step value, which allows a subsequent step to get all
+#              the results from the group
 # step_counter a counter which counts which step this is in sequence used in
 #              conjunction with total_steps to tell when a job has finished
 # total_step   a totall of all the units of work/tasks that a job has
@@ -84,7 +85,7 @@ def get_data(s, uuid, current_step, in_globs):
 #       if the chain would otherwise end in a group()
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step, step_counter,
-                total_steps, task_name, flags, options):
+                total_steps, task_name, flags, options, environment):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -137,7 +138,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                               identifier=uuid,
                               std_out_str=uuid+stdoglob,
                               input_string=uuid+"."+iglob,
-                              output_string=uuid+"."+oglob)
+                              output_string=uuid+"."+oglob,
+                              env_vars=environment)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At GRIDENGINE")
             run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
@@ -149,7 +151,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                            identifier=uuid,
                            std_out_str=uuid+stdoglob,
                            input_string=uuid+"."+iglob,
-                           output_string=uuid+"."+oglob)
+                           output_string=uuid+"."+oglob,
+                           env_vars=environment)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)

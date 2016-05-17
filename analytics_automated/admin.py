@@ -3,12 +3,17 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
-from .models import Submission, BackendUser, Message
+from .models import Submission, BackendUser, Message, Environment
 from .forms import *
 
 
 class ParameterInline(admin.TabularInline):
     model = Parameter
+    extra = 3
+
+
+class EnvironmentInline(admin.TabularInline):
+    model = Environment
     extra = 3
 
 
@@ -41,7 +46,7 @@ class ResultInline(admin.TabularInline):
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
-        #('Configuration', {'fields': ['server_type', 'ip', 'port']}),
+        # ('Configuration', {'fields': ['server_type', 'ip', 'port']}),
         ('Configuration', {'fields': ['server_type']}),
         ('Path', {'fields': ['root_path']}),
     ]
@@ -63,11 +68,11 @@ class TaskAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
         ('Details', {'fields': ['backend', 'description', 'in_glob', 'out_glob',
-                                'stdout_glob', 'environment_variables',
-                                'executable']}),
+                                'stdout_glob', 'executable']}),
     ]
-    inlines = [ParameterInline]
-    list_display = ('name', 'processing_backend', 'in_glob', 'out_glob', 'executable')
+    inlines = [ParameterInline, EnvironmentInline]
+    list_display = ('name', 'processing_backend', 'in_glob', 'out_glob',
+                    'executable')
 
 
 class JobAdmin(admin.ModelAdmin):
