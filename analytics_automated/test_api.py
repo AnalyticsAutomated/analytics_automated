@@ -438,6 +438,17 @@ class SubmissionDetailTests(APITestCase):
                                                     {'task1_that': 123})
         self.assertEqual(dict, {})
 
+    def test__build_environment_returns_valid_dict(self):
+        p1 = EnvironmentFactory.create(task=self.t, env="Test", value="McPath")
+        sd = SubmissionDetails()
+        dict = sd._SubmissionDetails__build_environment(self.t)
+        self.assertEqual(dict, {"Test": "McPath"})
+
+    def test__build_environment_returns_empty_dict_without_settings(self):
+        sd = SubmissionDetails()
+        dict = sd._SubmissionDetails__build_environment(self.t)
+        self.assertEqual(dict, {})
+
     def test__test_params_returns_true_when_set_is_contained(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
@@ -502,7 +513,7 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 1, 'task1', ['-t'], "
-                                    "{'-th': 123}), immutable=True, "
+                                    "{'-th': 123}, {}), immutable=True, "
                                     "queue='localhost'))()")
 
     def test__construct_chain_string_multitask(self):
@@ -519,11 +530,11 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 2, 'task1', [], "
-                                    "{}), immutable=True, "
+                                    "{}, {}), immutable=True, "
                                     "queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
                                     "', 1, 2, 2, 2, 'task2', [], "
-                                    "{}), immutable=True, "
+                                    "{}, {}), immutable=True, "
                                     "queue='localhost'))()")
 
     def test__construct_group_chain_string(self):
@@ -545,16 +556,16 @@ class SubmissionDetailTests(APITestCase):
         chain_str = sd._SubmissionDetails__construct_chain_string(
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 4, 'task1', [], {}), "
+                                    "', 0, 1, 1, 4, 'task1', [], {}, {}), "
                                     "immutable=True, queue='localhost'), "
                                     "group(task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 2, 4, 'task2', [], {}), "
+                                    "', 1, 2, 2, 4, 'task2', [], {}, {}), "
                                     "immutable=True, queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 3, 4, 'task3', [], {}), "
+                                    "', 1, 2, 3, 4, 'task3', [], {}, {}), "
                                     "immutable=True, queue='localhost')), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 2, 3, 4, 4, 'task4', [], {}), "
+                                    "', 2, 3, 4, 4, 'task4', [], {}, {}), "
                                     "immutable=True, queue='localhost'))()")
 
     def test__construct_chain_string_with_ending_group(self):
@@ -574,13 +585,13 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         # print(chain_str)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 4, 'task1', [], {}), "
+                                    "', 0, 1, 1, 4, 'task1', [], {}, {}), "
                                     "immutable=True, queue='localhost'), "
                                     "group(task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 2, 4, 'task2', [], {}), "
+                                    "', 1, 2, 2, 4, 'task2', [], {}, {}), "
                                     "immutable=True, queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 3, 4, 'task3', [], {}), "
+                                    "', 1, 2, 3, 4, 'task3', [], {}, {}), "
                                     "immutable=True, queue='localhost')), "
                                     "chord_end.subtask(('" + local_id +
                                     "', 2, 4), immutable=True, queue='localhost'))()")

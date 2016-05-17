@@ -58,7 +58,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 options[param.flag] = request_data[param.rest_alias]
         return(options)
 
-    def __build_environment(self, task, request_data):
+    def __build_environment(self, task):
         environment = {}
         envs = task.environment.all()
         for env in envs:
@@ -142,7 +142,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for step in steps:
             flags = self.__build_flags(step.task, request_contents)
             options = self.__build_options(step.task, request_contents)
-            environment = self.__build_environment(step.task, request_contents)
+            environment = self.__build_environment(step.task)
             if step.task.backend.server_type == Backend.LOCALHOST:
                 queue_name = 'localhost'
             if step.task.backend.server_type == Backend.GRIDENGINE:

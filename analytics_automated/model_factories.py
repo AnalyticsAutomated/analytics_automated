@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.files import File
 
 from .models import Backend, Task, Job, Step, Submission
-from .models import Parameter, Result, Validator
+from .models import Parameter, Result, Validator, Environment
 
 TEST_DATA = settings.BASE_DIR.child("static").child("files").child("file1.txt")
 RESULT_DATA = settings.BASE_DIR.child("static").child("files"). \
@@ -85,6 +85,15 @@ class ParameterFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = Parameter
+
+
+class EnvironmentFactory(factory.DjangoModelFactory):
+    task = factory.SubFactory(TaskFactory)
+    env = factory.LazyAttribute(lambda t: random_string())
+    value = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = Environment
 
 
 class ValidatorFactory(factory.DjangoModelFactory):
