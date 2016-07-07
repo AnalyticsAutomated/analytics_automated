@@ -195,7 +195,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         if run.output_data is not None:
             for fName, fData in run.output_data.items():
                 print("Writing Captured data")
-                file = SimpleUploadedFile(fName, bytes(fData, 'utf-8'))
+                file = SimpleUploadedFile(fName, fData)
                 r = Result.objects.create(submission=s, task=t,
                                           step=current_step, name=t.name,
                                           message='Result',
