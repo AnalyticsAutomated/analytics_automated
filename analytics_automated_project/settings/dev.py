@@ -29,6 +29,10 @@ DEBUG = True
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 
+DEBUG_TOOLBAR_CONFIG = {
+    'JQUERY_URL': "/static/js/jquery.min.js",
+}
+
 # TODO: Change this for staging and production
 MEDIA_URL = '/submissions/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
