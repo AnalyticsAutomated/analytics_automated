@@ -21,7 +21,6 @@ from unipath import Path
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
-
 def get_secret(setting, secrets):
     """Get the secret variable or return explicit exception."""
     try:
@@ -181,7 +180,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+SMUGGLER_EXCLUDE_LIST = ['contenttypes','admin', 'auth', 'sessions',
+                         'corsheaders', 'analytics_automated.result',
+                         'analytics_automated.submission',
+                         'analytics_automated.message',
+                         'analytics_automated.message',
+                         ]
+SMUGGLER_FORMAT = 'yaml'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
