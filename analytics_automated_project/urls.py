@@ -25,6 +25,7 @@ from analytics_automated import views
 from analytics_automated import api
 
 urlpatterns = [
+     url(r'^admin/', include('smuggler.urls')),
      url(r'^admin/', include(admin.site.urls)),
      url(r'^analytics_automated/', include('analytics_automated.urls')),
      url(r'^analytics_automated/submission/$',
@@ -38,6 +39,7 @@ urlpatterns = [
      url(r'^analytics_automated/jobtimes/$', api.JobTimes.as_view(), name="jobtimes"),
      url(r'^login/$', auth_views.login),
      url(r'^logout/$', auth_views.logout),
+
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])
 

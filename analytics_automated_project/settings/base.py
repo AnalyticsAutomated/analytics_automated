@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'analytics_automated',
     'rest_framework',
     'corsheaders',
+    'smuggler',
 )
 
 REST_FRAMEWORK = {
