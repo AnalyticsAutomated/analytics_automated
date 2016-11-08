@@ -13,8 +13,9 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,16 +36,18 @@ urlpatterns = [
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
      url(r'^analytics_automated/endpoints/$', api.Endpoints.as_view(), name="endpoints"),
      url(r'^analytics_automated/jobtimes/$', api.JobTimes.as_view(), name="jobtimes"),
-     url(r'^login/$', 'django.contrib.auth.views.login'),
-     url(r'^logout/$', 'django.contrib.auth.views.logout'),
+     url(r'^login/$', auth_views.login),
+     url(r'^logout/$', auth_views.logout),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])
 
 # UNDERNEATH your urlpatterns definition, add the following two lines:
 if settings.DEBUG:
-    urlpatterns += patterns('django.views.static',
-                            (
-                                r'^submissions/(?P<path>.*)', 'serve',
-                                {'document_root': settings.MEDIA_ROOT}
-                            ),
-                            )
+    # urlpatterns += patterns('django.views.static',
+    #                         (
+    #                             r'^submissions/(?P<path>.*)', 'serve',
+    #                             {'document_root': settings.MEDIA_ROOT}
+    #                         ),
+    #                         )
+
+    urlpatterns += static(r'^submissions/(?P<path>.*)', document_root=settings.MEDIA_ROOT)

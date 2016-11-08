@@ -171,22 +171,6 @@ class Parameter(models.Model):
         super(Parameter, self).save(*args, **kwargs)
 
 
-class Parameter(models.Model):
-    task = models.ForeignKey(Task, related_name='parameters')
-    flag = models.CharField(max_length=64, null=False, blank=False)
-    default = models.CharField(max_length=64, null=True, blank=False)
-    bool_valued = models.BooleanField(default=False, blank=False)
-    rest_alias = models.CharField(max_length=64, unique=True, null=False,
-                                  blank=False)
-
-    def __str__(self):
-        return self.flag
-
-    def save(self, *args, **kwargs):
-        self.rest_alias = str(self.task)+"_"+self.rest_alias
-        super(Parameter, self).save(*args, **kwargs)
-
-
 class Submission(TimeStampedModel):
     SUBMITTED = 0  # a job has been submitted but no worker has claimed it
     RUNNING = 1    # job submitted and worker has claimed it

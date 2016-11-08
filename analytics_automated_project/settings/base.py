@@ -111,7 +111,6 @@ INSTALLED_APPS = (
     'analytics_automated',
     'rest_framework',
     'corsheaders',
-    'djcelery'
 )
 
 REST_FRAMEWORK = {
@@ -126,7 +125,7 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,7 +136,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     # 'bugsnag.django.middleware.BugsnagMiddleware'
-)
+]
 
 # # TODO: can't use this, api key only read from env
 # BUGSNAG = {
