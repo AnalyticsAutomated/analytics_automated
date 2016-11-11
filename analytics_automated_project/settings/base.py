@@ -182,7 +182,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SMUGGLER_EXCLUDE_LIST = ['contenttypes','admin', 'auth', 'sessions',
+SMUGGLER_EXCLUDE_LIST = ['contenttypes','admin', 'sessions',
                          'corsheaders', 'analytics_automated.result',
                          'analytics_automated.submission',
                          'analytics_automated.message',

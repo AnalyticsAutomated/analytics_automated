@@ -1,0 +1,435 @@
+- model: auth.permission
+  fields:
+    name: Can add log entry
+    content_type: [admin, logentry]
+    codename: add_logentry
+- model: auth.permission
+  fields:
+    name: Can change log entry
+    content_type: [admin, logentry]
+    codename: change_logentry
+- model: auth.permission
+  fields:
+    name: Can delete log entry
+    content_type: [admin, logentry]
+    codename: delete_logentry
+- model: auth.permission
+  fields:
+    name: Can add permission
+    content_type: [auth, permission]
+    codename: add_permission
+- model: auth.permission
+  fields:
+    name: Can change permission
+    content_type: [auth, permission]
+    codename: change_permission
+- model: auth.permission
+  fields:
+    name: Can delete permission
+    content_type: [auth, permission]
+    codename: delete_permission
+- model: auth.permission
+  fields:
+    name: Can add group
+    content_type: [auth, group]
+    codename: add_group
+- model: auth.permission
+  fields:
+    name: Can change group
+    content_type: [auth, group]
+    codename: change_group
+- model: auth.permission
+  fields:
+    name: Can delete group
+    content_type: [auth, group]
+    codename: delete_group
+- model: auth.permission
+  fields:
+    name: Can add user
+    content_type: [auth, user]
+    codename: add_user
+- model: auth.permission
+  fields:
+    name: Can change user
+    content_type: [auth, user]
+    codename: change_user
+- model: auth.permission
+  fields:
+    name: Can delete user
+    content_type: [auth, user]
+    codename: delete_user
+- model: auth.permission
+  fields:
+    name: Can add content type
+    content_type: [contenttypes, contenttype]
+    codename: add_contenttype
+- model: auth.permission
+  fields:
+    name: Can change content type
+    content_type: [contenttypes, contenttype]
+    codename: change_contenttype
+- model: auth.permission
+  fields:
+    name: Can delete content type
+    content_type: [contenttypes, contenttype]
+    codename: delete_contenttype
+- model: auth.permission
+  fields:
+    name: Can add session
+    content_type: [sessions, session]
+    codename: add_session
+- model: auth.permission
+  fields:
+    name: Can change session
+    content_type: [sessions, session]
+    codename: change_session
+- model: auth.permission
+  fields:
+    name: Can delete session
+    content_type: [sessions, session]
+    codename: delete_session
+- model: auth.permission
+  fields:
+    name: Can add backend
+    content_type: [analytics_automated, backend]
+    codename: add_backend
+- model: auth.permission
+  fields:
+    name: Can change backend
+    content_type: [analytics_automated, backend]
+    codename: change_backend
+- model: auth.permission
+  fields:
+    name: Can delete backend
+    content_type: [analytics_automated, backend]
+    codename: delete_backend
+- model: auth.permission
+  fields:
+    name: Can add backend user
+    content_type: [analytics_automated, backenduser]
+    codename: add_backenduser
+- model: auth.permission
+  fields:
+    name: Can change backend user
+    content_type: [analytics_automated, backenduser]
+    codename: change_backenduser
+- model: auth.permission
+  fields:
+    name: Can delete backend user
+    content_type: [analytics_automated, backenduser]
+    codename: delete_backenduser
+- model: auth.permission
+  fields:
+    name: Can add job
+    content_type: [analytics_automated, job]
+    codename: add_job
+- model: auth.permission
+  fields:
+    name: Can change job
+    content_type: [analytics_automated, job]
+    codename: change_job
+- model: auth.permission
+  fields:
+    name: Can delete job
+    content_type: [analytics_automated, job]
+    codename: delete_job
+- model: auth.permission
+  fields:
+    name: Can add validator
+    content_type: [analytics_automated, validator]
+    codename: add_validator
+- model: auth.permission
+  fields:
+    name: Can change validator
+    content_type: [analytics_automated, validator]
+    codename: change_validator
+- model: auth.permission
+  fields:
+    name: Can delete validator
+    content_type: [analytics_automated, validator]
+    codename: delete_validator
+- model: auth.permission
+  fields:
+    name: Can add task
+    content_type: [analytics_automated, task]
+    codename: add_task
+- model: auth.permission
+  fields:
+    name: Can change task
+    content_type: [analytics_automated, task]
+    codename: change_task
+- model: auth.permission
+  fields:
+    name: Can delete task
+    content_type: [analytics_automated, task]
+    codename: delete_task
+- model: auth.permission
+  fields:
+    name: Can add step
+    content_type: [analytics_automated, step]
+    codename: add_step
+- model: auth.permission
+  fields:
+    name: Can change step
+    content_type: [analytics_automated, step]
+    codename: change_step
+- model: auth.permission
+  fields:
+    name: Can delete step
+    content_type: [analytics_automated, step]
+    codename: delete_step
+- model: auth.permission
+  fields:
+    name: Can add environment
+    content_type: [analytics_automated, environment]
+    codename: add_environment
+- model: auth.permission
+  fields:
+    name: Can change environment
+    content_type: [analytics_automated, environment]
+    codename: change_environment
+- model: auth.permission
+  fields:
+    name: Can delete environment
+    content_type: [analytics_automated, environment]
+    codename: delete_environment
+- model: auth.permission
+  fields:
+    name: Can add parameter
+    content_type: [analytics_automated, parameter]
+    codename: add_parameter
+- model: auth.permission
+  fields:
+    name: Can change parameter
+    content_type: [analytics_automated, parameter]
+    codename: change_parameter
+- model: auth.permission
+  fields:
+    name: Can delete parameter
+    content_type: [analytics_automated, parameter]
+    codename: delete_parameter
+- model: auth.permission
+  fields:
+    name: Can add submission
+    content_type: [analytics_automated, submission]
+    codename: add_submission
+- model: auth.permission
+  fields:
+    name: Can change submission
+    content_type: [analytics_automated, submission]
+    codename: change_submission
+- model: auth.permission
+  fields:
+    name: Can delete submission
+    content_type: [analytics_automated, submission]
+    codename: delete_submission
+- model: auth.permission
+  fields:
+    name: Can add result
+    content_type: [analytics_automated, result]
+    codename: add_result
+- model: auth.permission
+  fields:
+    name: Can change result
+    content_type: [analytics_automated, result]
+    codename: change_result
+- model: auth.permission
+  fields:
+    name: Can delete result
+    content_type: [analytics_automated, result]
+    codename: delete_result
+- model: auth.permission
+  fields:
+    name: Can add message
+    content_type: [analytics_automated, message]
+    codename: add_message
+- model: auth.permission
+  fields:
+    name: Can change message
+    content_type: [analytics_automated, message]
+    codename: change_message
+- model: auth.permission
+  fields:
+    name: Can delete message
+    content_type: [analytics_automated, message]
+    codename: delete_message
+- model: auth.permission
+  fields:
+    name: Can add cors model
+    content_type: [corsheaders, corsmodel]
+    codename: add_corsmodel
+- model: auth.permission
+  fields:
+    name: Can change cors model
+    content_type: [corsheaders, corsmodel]
+    codename: change_corsmodel
+- model: auth.permission
+  fields:
+    name: Can delete cors model
+    content_type: [corsheaders, corsmodel]
+    codename: delete_corsmodel
+- model: auth.user
+  fields:
+    password: pbkdf2_sha256$30000$FiP4Uy6te0xm$iwIWVM6MJsZwtba9LX3a0NoHWAGMe8TqGwS5f8pwMyk=
+    last_login: 2016-11-11 16:47:14.952756+00:00
+    is_superuser: true
+    username: admin
+    first_name: ''
+    last_name: ''
+    email: a@be.com
+    is_staff: true
+    is_active: true
+    date_joined: 2016-11-11 15:43:02.421810+00:00
+    groups: []
+    user_permissions: []
+- model: analytics_automated.backend
+  pk: 37
+  fields: {name: local1, server_type: 1, root_path: /tmp/}
+- model: analytics_automated.backend
+  pk: 39
+  fields: {name: gridengine_default, server_type: 2, root_path: /tmp/}
+- model: analytics_automated.backenduser
+  pk: 1
+  fields: {backend: 37, login_name: dummyid, password: p4ssw0rd, priority: 2}
+- model: analytics_automated.job
+  pk: 57
+  fields: {name: psipred, runnable: true}
+- model: analytics_automated.job
+  pk: 58
+  fields: {name: disopred, runnable: true}
+- model: analytics_automated.task
+  pk: 60
+  fields: {backend: 37, name: task1, description: null, in_glob: .in, out_glob: .stdout,
+    stdout_glob: null, executable: ls}
+- model: analytics_automated.task
+  pk: 61
+  fields: {backend: 37, name: task2, description: null, in_glob: .stdout, out_glob: .final,
+    stdout_glob: null, executable: '/usr/bin/grep "/" $INPUT || :'}
+- model: analytics_automated.task
+  pk: 74
+  fields: {backend: 37, name: psiblast seq, description: Run psiblast, in_glob: .input,
+    out_glob: .chk, stdout_glob: .stdout, executable: /opt/Applications/ncbi-blast-2.2.31+/bin/psiblast
+      -db /opt/Data/uniref/uniref_test_db/uniref_test.fasta -query $INPUT -inclusion_ethresh
+      0.001 -out_pssm $OUTPUT -num_iterations 3 -num_alignments 0}
+- model: analytics_automated.task
+  pk: 75
+  fields: {backend: 37, name: Run chkparse, description: Runs chkparse, in_glob: .chk,
+    out_glob: .mtx, stdout_glob: .mtx, executable: /opt/Code/psipred/bin/chkparse
+      $INPUT}
+- model: analytics_automated.task
+  pk: 76
+  fields: {backend: 37, name: Psipred, description: Runs main psipred exe, in_glob: .mtx,
+    out_glob: .ss, stdout_glob: .ss, executable: /opt/Code/psipred/bin/psipred $INPUT
+      /opt/Code/psipred/data/weights.dat /opt/Code/psipred/data/weights.dat2 /opt/Code/psipred/data/weights.dat3}
+- model: analytics_automated.task
+  pk: 77
+  fields: {backend: 37, name: psipass2, description: Runs psipass2, in_glob: .ss,
+    out_glob: '.ss2,.horiz', stdout_glob: .horiz, executable: /opt/Code/psipred/bin/psipass2
+      /opt/Code/psipred/data/weights_p2.dat 1 1.0 1.0 $OUTPUT $INPUT}
+- model: analytics_automated.task
+  pk: 78
+  fields: {backend: 37, name: PSGraphic, description: Runs psipred graphics thing,
+    in_glob: .ss2, out_glob: .ps, stdout_glob: .ps, executable: /bin/java -classpath
+      /opt/Code/psipred/PSIPredViewer/ PSIPredViewer $INPUT}
+- model: analytics_automated.task
+  pk: 79
+  fields: {backend: 37, name: ps2pdf, description: run ps2pdf, in_glob: .ps, out_glob: .pdf,
+    stdout_glob: .out, executable: /bin/ps2pdf $INPUT $OUTPUT}
+- model: analytics_automated.task
+  pk: 80
+  fields: {backend: 37, name: PsipredGS, description: convert ps to png, in_glob: .ps,
+    out_glob: .png, stdout_glob: .out, executable: /bin/gs -q -dTextAlphaBits=2 -dNOPAUSE
+      -dBATCH -sDEVICE=png16m -sOutputFile=$ID_%d.png -c save pop -f $INPUT}
+- model: analytics_automated.task
+  pk: 81
+  fields: {backend: 37, name: disopred2, description: Runs the disopred2 exe, in_glob: .mtx,
+    out_glob: .diso, stdout_glob: .stdout, executable: /opt/Code/disopred/bin/disopred2
+      $ID $INPUT /opt/Code/disopred/data/ 5}
+- model: analytics_automated.task
+  pk: 82
+  fields: {backend: 37, name: diso_neu_net, description: Runs the disopred neural
+      network, in_glob: .mtx, out_glob: .nndiso, stdout_glob: .nndiso, executable: /opt/Code/disopred/bin/diso_neu_net
+      /opt/Code/disopred/data/weights.dat.nmr_nonpdb $INPUT}
+- model: analytics_automated.task
+  pk: 83
+  fields: {backend: 37, name: diso_nearest_neighbour, description: Runs the disopred
+      knn calculation, in_glob: .mtx, out_glob: .dnb, stdout_glob: .dnb, executable: /opt/Code/disopred/bin/diso_neighb
+      $INPUT /opt/Code/disopred/data/dso.lst}
+- model: analytics_automated.task
+  pk: 84
+  fields: {backend: 37, name: diso_combine, description: Runs the predictor combiner,
+    in_glob: '.nndiso,.dnb,.diso', out_glob: .comb, stdout_glob: .comb, executable: /opt/Code/disopred/bin/combine
+      /opt/Code/disopred/data/weights_comb.dat $ID.diso $ID.nndiso $ID.dnb}
+- model: analytics_automated.task
+  pk: 85
+  fields: {backend: 37, name: diso_parse_combine, description: Runs the parse combine
+      helper scripts, in_glob: '.mtx,.comb', out_glob: .in_svm_dat, stdout_glob: .stdout,
+    executable: /opt/Code/disopred/web/parse_combine.pl $ID.comb $ID.mtx $ID.in_svm_dat}
+- model: analytics_automated.task
+  pk: 86
+  fields: {backend: 37, name: diso_svm_predict, description: Runs the svmlight wvm_predict,
+    in_glob: .in_svm_dat, out_glob: .out_svm_dat, stdout_glob: .stdout, executable: /opt/Code/disopred/bin/svm-predict
+      -b 1 -q $INPUT /opt/Code/disopred/data/ProtBind_IDR_Model.dat $OUTPUT}
+- model: analytics_automated.task
+  pk: 87
+  fields: {backend: 37, name: diso_format, description: Format the disopred results
+      for output, in_glob: '.comb,.out_svm_dat', out_glob: .pbdat, stdout_glob: .stdout,
+    executable: /opt/Code/disopred/web/format_protein_binding_predictions.pl $ID.comb
+      $ID.out_svm_dat $ID.pbdat}
+- model: analytics_automated.step
+  pk: 46
+  fields: {job: 57, task: 74, ordering: 0}
+- model: analytics_automated.step
+  pk: 47
+  fields: {job: 57, task: 75, ordering: 1}
+- model: analytics_automated.step
+  pk: 48
+  fields: {job: 57, task: 76, ordering: 2}
+- model: analytics_automated.step
+  pk: 49
+  fields: {job: 57, task: 77, ordering: 3}
+- model: analytics_automated.step
+  pk: 50
+  fields: {job: 57, task: 78, ordering: 4}
+- model: analytics_automated.step
+  pk: 51
+  fields: {job: 57, task: 79, ordering: 5}
+- model: analytics_automated.step
+  pk: 52
+  fields: {job: 57, task: 80, ordering: 6}
+- model: analytics_automated.step
+  pk: 53
+  fields: {job: 58, task: 74, ordering: 0}
+- model: analytics_automated.step
+  pk: 54
+  fields: {job: 58, task: 75, ordering: 1}
+- model: analytics_automated.step
+  pk: 55
+  fields: {job: 58, task: 81, ordering: 2}
+- model: analytics_automated.step
+  pk: 56
+  fields: {job: 58, task: 82, ordering: 3}
+- model: analytics_automated.step
+  pk: 57
+  fields: {job: 58, task: 83, ordering: 4}
+- model: analytics_automated.step
+  pk: 58
+  fields: {job: 58, task: 84, ordering: 5}
+- model: analytics_automated.step
+  pk: 59
+  fields: {job: 58, task: 85, ordering: 6}
+- model: analytics_automated.step
+  pk: 60
+  fields: {job: 58, task: 86, ordering: 7}
+- model: analytics_automated.step
+  pk: 61
+  fields: {job: 58, task: 87, ordering: 8}
+- model: analytics_automated.environment
+  pk: 1
+  fields: {task: 83, env: DSO_LIB_PATH, value: /opt/Code/disopred/dso_lib/}
+- model: analytics_automated.parameter
+  pk: 40
+  fields: {task: 60, flag: -lah, default: 'True', bool_valued: true, rest_alias: task1_all}
+- model: analytics_automated.parameter
+  pk: 41
+  fields: {task: 61, flag: -a, default: '10', bool_valued: false, rest_alias: task2_number}
