@@ -40,6 +40,9 @@ class TaskFactory(factory.DjangoModelFactory):
     in_glob = factory.LazyAttribute(lambda t: random_string())
     out_glob = factory.LazyAttribute(lambda t: random_string())
     executable = factory.LazyAttribute(lambda t: random_string())
+    no_outputs_behaviour = 3
+    custom_exit_status = None
+    custom_exit_behaviour = None
 
     class Meta:
         model = Task
@@ -69,7 +72,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
     submission_name = factory.Sequence(lambda n: 'submission_{}'.format(n))
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
-    input_data = factory.LazyAttribute(lambda t: File(open(TEST_DATA)))
+    input_data = factory.django.FileField(from_path=TEST_DATA, filename="example")
 
     class Meta:
         model = Submission

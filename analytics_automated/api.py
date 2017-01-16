@@ -17,6 +17,8 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import request
+from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import FormParser
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
@@ -40,6 +42,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     # ValidationError(_('invalid_value'), code='invalid')
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
+    parser_classes = (MultiPartParser, FormParser,)
 
     def __build_flags(self, task, request_data):
         flags = []

@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from analytics_automated import views
 from analytics_automated import api
 
 urlpatterns = [
