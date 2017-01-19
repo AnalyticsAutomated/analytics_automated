@@ -36,10 +36,10 @@ MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 # TODO: Change this for staging and production
 MEDIA_URL = '/submissions/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
-STATIC_URL = '/static_dev/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions/')
+STATIC_URL = '/static/'
 # Change the test runner
-# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

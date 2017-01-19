@@ -226,7 +226,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     message = "Completed step: " + str(current_step)
-
     if step_counter == total_steps:
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)

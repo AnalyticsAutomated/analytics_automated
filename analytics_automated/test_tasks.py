@@ -1,4 +1,6 @@
 import uuid
+import glob
+import os
 
 from unittest.mock import patch
 
@@ -48,11 +50,19 @@ class TaskTestCase(TestCase):
         Parameter.objects.all().delete()
         Result.objects.all().delete()
         Message.objects.all().delete()
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions")+"/file1*"):
+            os.remove(file_1)
+        for example in glob.glob(settings.BASE_DIR.child("submissions")+"/example*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions")+"/result1*"):
+            os.remove(example)
+
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSuccess(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
+        #print(self.sub)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)

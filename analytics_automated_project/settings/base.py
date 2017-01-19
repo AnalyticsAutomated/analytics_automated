@@ -32,8 +32,7 @@ def get_secret(setting, secrets):
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
-STATIC_PATH = BASE_DIR.child("static")
-STATIC_ROOT = BASE_DIR.child("static_root")
+STATIC_ROOT = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
@@ -107,6 +106,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
     'analytics_automated',
     'rest_framework',
     'corsheaders',
@@ -192,7 +192,7 @@ SMUGGLER_FORMAT = 'yaml'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATICFILES_DIRS = [STATIC_PATH, ]
+STATICFILES_DIRS = [STATIC_ROOT, ]
 
 
 # Add bits for bootstrap 3 and message bits
