@@ -33,6 +33,7 @@ def get_secret(setting, secrets):
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
 STATIC_ROOT = BASE_DIR.child("static")
+STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
@@ -69,7 +70,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 # CELERYD_MAX_TASKS_PER_CHILD = 30
 # CELERYD_PREFETCH_MULTIPLIER = 1
 CELERY_RESULT_BACKEND = 'amqp'
-#BACKEND SHOULD BE SENT TO STAGING SETTINGS 
+#BACKEND SHOULD BE SENT TO STAGING SETTINGS
 timezone = 'Europe/London'
 accept_content = ['json']
 task_serializer = 'json'
@@ -199,7 +200,7 @@ SMUGGLER_FORMAT = 'yaml'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATICFILES_DIRS = [STATIC_ROOT, ]
+STATICFILES_DIRS = [ ]
 
 
 # Add bits for bootstrap 3 and message bits

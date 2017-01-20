@@ -69,7 +69,7 @@ class TaskAdmin(admin.ModelAdmin):
         (None,               {'fields': ['name']}),
         ('Details', {'fields': ['backend', 'description', 'in_glob',
                                 'out_glob', 'stdout_glob', 'executable']}),
-        ('Job termination behaviour', {'fields': ['no_outputs_behaviour',
+        ('Job termination behaviour', {'fields': ['incomplete_outputs_behaviour',
                                                   'custom_exit_status',
                                                   'custom_exit_behaviour', ]}),
     ]
