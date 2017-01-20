@@ -17,6 +17,8 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import request
+from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import FormParser
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
 from .serializers import JobSerializer
@@ -40,6 +42,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     # ValidationError(_('invalid_value'), code='invalid')
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
+    parser_classes = (MultiPartParser, FormParser,)
 
     def __build_flags(self, task, request_data):
         flags = []
@@ -276,7 +279,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 logger.info('Sending This chain: '+tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
-                return Response("MADE IT HERE2"+tchain,
+                return Response(tchain,
                                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)

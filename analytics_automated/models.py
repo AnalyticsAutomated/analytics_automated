@@ -117,8 +117,17 @@ class Validator(models.Model):
 
 
 class Task(models.Model):
+    CONTINUE = 0   # The task should continue to the next step
+    TERMINATE = 1  # The task should terminate
+    FAIL = 3       # The task should terminate and raise an error
+    #                the job has stopped
+    COMPLETION_CHOICES = (
+        (CONTINUE, "Continue Running Tasks"),
+        (TERMINATE, "Stop Running Tasks (do not raise error)"),
+        (FAIL, "Stop Running Tasks (raise error)")
+    )
     backend = models.ForeignKey(Backend, on_delete=models.SET_NULL, null=True,
-                                related_name='tasks')
+                                related_name='tasks', blank=False)
     name = models.CharField(max_length=64, unique=True, null=False,
                             blank=False)
     description = models.CharField(max_length=256, null=True)
@@ -126,6 +135,12 @@ class Task(models.Model):
     out_glob = models.CharField(max_length=256, null=False, blank=False)
     stdout_glob = models.CharField(max_length=256, null=True)
     executable = models.CharField(max_length=2048, null=False, blank=False)
+    no_outputs_behaviour = models.IntegerField(null=False, blank=False,
+                                               choices=COMPLETION_CHOICES,
+                                               default=FAIL)
+    custom_exit_status = models.IntegerField(null=True, blank=True)
+    custom_exit_behaviour = models.IntegerField(null=True, blank=True,
+                                                choices=COMPLETION_CHOICES,)
 
     def __str__(self):
         return self.name

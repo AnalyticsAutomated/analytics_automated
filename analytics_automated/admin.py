@@ -67,8 +67,11 @@ class TaskAdmin(admin.ModelAdmin):
 
     fieldsets = [
         (None,               {'fields': ['name']}),
-        ('Details', {'fields': ['backend', 'description', 'in_glob', 'out_glob',
-                                'stdout_glob', 'executable']}),
+        ('Details', {'fields': ['backend', 'description', 'in_glob',
+                                'out_glob', 'stdout_glob', 'executable']}),
+        ('Job termination behaviour', {'fields': ['no_outputs_behaviour',
+                                                  'custom_exit_status',
+                                                  'custom_exit_behaviour', ]}),
     ]
     inlines = [ParameterInline, EnvironmentInline]
     list_display = ('name', 'processing_backend', 'in_glob', 'out_glob',

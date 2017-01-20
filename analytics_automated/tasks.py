@@ -22,7 +22,6 @@ except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
 
-
 @shared_task
 def wait(t):
     """
@@ -193,6 +192,11 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if exit_status == 0:
         file = None
         if run.output_data is not None:
+            # Here we need to test if we have at least 1 of each of the
+            # required file types in the out glob.
+            # If not we trigger the No Outputs behaviour instead of pushing
+            # the results to the db
+
             for fName, fData in run.output_data.items():
                 print("Writing Captured data")
                 file = SimpleUploadedFile(fName, fData)
@@ -208,6 +212,9 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                       previous_step=previous_step,
                                       result_data=None)
     else:
+        # Here we test the custom exit status. And do as it requires
+        # skipping the regular raise() if needed
+
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
@@ -218,7 +225,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     message = "Completed step: " + str(current_step)
-
     if step_counter == total_steps:
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)

@@ -81,3 +81,7 @@ Production things:
 7. Consider Flower for celery monitoring
 8. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
 9. Investigate cached_property
+10. CELERY_RESULT_BACKEND = 'amqp', amqp now deprecated should be changed to
+    database for staging and production (maybe also dev)
+    result_backend = 'db+postgresql://scott:tiger@localhost/mydatabase'
+    dialect+driver://username:password@host:port/database

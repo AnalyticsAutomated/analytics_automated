@@ -32,8 +32,7 @@ def get_secret(setting, secrets):
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
-STATIC_PATH = BASE_DIR.child("static")
-STATIC_ROOT = BASE_DIR.child("static_root")
+STATIC_ROOT = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
@@ -61,16 +60,22 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 
 # Celery Settings
 # BROKER_URL = ''
+# CELERY_RESULT_BACKEND = 'amqp'
+# CELERY_TIMEZONE = 'Europe/London'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_ENABLE_UTC = True
+# CELERYD_MAX_TASKS_PER_CHILD = 30
+# CELERYD_PREFETCH_MULTIPLIER = 1
 CELERY_RESULT_BACKEND = 'amqp'
-CELERY_TIMEZONE = 'Europe/London'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ENABLE_UTC = True
-CELERYD_MAX_TASKS_PER_CHILD = 30
-CELERYD_PREFETCH_MULTIPLIER = 1
-# Uncomment to allow celery tests to run
-# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+timezone = 'Europe/London'
+accept_content = ['json']
+task_serializer = 'json'
+result_serializer = 'json'
+enable_utc = True
+worker_max_tasks_per_child = 30
+worker_prefetch_multiplier = 1
 
 # MEDIA_URL = '/submissions/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
@@ -107,6 +112,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'djcelery',
     'analytics_automated',
     'rest_framework',
     'corsheaders',
@@ -119,7 +125,9 @@ REST_FRAMEWORK = {
                                  'rest_framework.renderers.JSONRenderer',
                                  'rest_framework_xml.renderers.XMLRenderer',
                                  ),
-    'DEFAULT_PARSER_CLASSES': ('rest_framework.parsers.JSONParser',
+    'DEFAULT_PARSER_CLASSES': ('rest_framework.parsers.FormParser',
+                               'rest_framework.parsers.MultiPartParser',
+                               'rest_framework.parsers.JSONParser',
                                'rest_framework_xml.parsers.XMLParser',
                                ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
@@ -180,7 +188,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SMUGGLER_EXCLUDE_LIST = ['contenttypes','admin', 'auth', 'sessions',
+SMUGGLER_EXCLUDE_LIST = ['contenttypes', 'admin', 'sessions',
                          'corsheaders', 'analytics_automated.result',
                          'analytics_automated.submission',
                          'analytics_automated.message',
@@ -190,7 +198,7 @@ SMUGGLER_FORMAT = 'yaml'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATICFILES_DIRS = [STATIC_PATH, ]
+STATICFILES_DIRS = [STATIC_ROOT, ]
 
 
 # Add bits for bootstrap 3 and message bits
