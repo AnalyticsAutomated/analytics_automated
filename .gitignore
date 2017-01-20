@@ -6,7 +6,7 @@ media/temp
 static/example*
 submissions/example*
 submissions/file1*
-submissions/files/result1*
+submissions/result1*
 __pycache__/
 *.log
 logs/*

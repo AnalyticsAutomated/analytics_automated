@@ -69,6 +69,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 # CELERYD_MAX_TASKS_PER_CHILD = 30
 # CELERYD_PREFETCH_MULTIPLIER = 1
 CELERY_RESULT_BACKEND = 'amqp'
+#BACKEND SHOULD BE SENT TO STAGING SETTINGS 
 timezone = 'Europe/London'
 accept_content = ['json']
 task_serializer = 'json'
