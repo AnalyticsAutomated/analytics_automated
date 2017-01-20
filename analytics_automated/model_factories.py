@@ -41,7 +41,7 @@ class TaskFactory(factory.DjangoModelFactory):
     in_glob = factory.LazyAttribute(lambda t: random_string())
     out_glob = factory.LazyAttribute(lambda t: random_string())
     executable = factory.LazyAttribute(lambda t: random_string())
-    no_outputs_behaviour = 3
+    incomplete_outputs_behaviour = 3
     custom_exit_status = None
     custom_exit_behaviour = None
 

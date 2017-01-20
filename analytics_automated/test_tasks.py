@@ -23,7 +23,7 @@ class TaskTestCase(TestCase):
     s = None
     sub = None
     messages = None
-    
+
     @override_settings(
         task_eager_propagates=True,
         task_always_eager=True,
@@ -98,7 +98,8 @@ class TaskTestCase(TestCase):
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
                           "test_task", [], {}, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        self.assertEqual(self.sub.last_message, "Failed step, non 0 exit at step:0")
+        self.assertEqual(self.sub.last_message, "Failed step, non 0 exit at "
+                                                "step: 0. Exit status:1")
 
     @override_settings(
         task_eager_propagates=True,

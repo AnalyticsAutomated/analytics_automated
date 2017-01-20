@@ -189,7 +189,13 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if settings.DEBUG is not True:
         run.tidy()
 
-    if exit_status == 0:
+    # set the valid exit statuses in case their is a defined value alternative
+    valid_exit_status = [0, ]
+    if t.custom_exit_status is not None:
+        if t.custom_exit_behaviour == Task.CONTINUE or t.custom_exit_behaviour == Task.TERMINATE:
+            valud_exit_status.append(t.custom_exit_status)
+
+    if exit_status in valid_exit_status:
         file = None
         if run.output_data is not None:
             # Here we need to test if we have at least 1 of each of the
@@ -211,21 +217,42 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                       message='Result',
                                       previous_step=previous_step,
                                       result_data=None)
-    else:
-        # Here we test the custom exit status. And do as it requires
-        # skipping the regular raise() if needed
-
+    elif exit_status == t.custom_exit_status and t.custom_exit_behaviour == Task.FAIL:
+        #if we hit an exit status that we ought to fail on raise an error
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
                                            str(step_id))
-        logger.error("Command did not run: "+run.command)
-        raise OSError("Command did not run: "+run.command)
+        logger.error("Exit Status " + str(exit_status) +
+                     ": Terminated with custom exit status: "+run.command)
+        raise OSError("Exit Status " + str(exit_status) +
+                      ": Terminated with custom exit status: "+run.command)
+    else:
+        # Here we test the custom exit status. And do as it requires
+        # skipping the regular raise() if needed
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id,
+                                           'Failed step, non 0' +
+                                           ' exit at step: ' +
+                                           str(step_id) + ". Exit status:" +
+                                           str(exit_status))
+        logger.error("Exit Status " + str(exit_status) +
+                     ": Command did not run: "+run.command)
+        raise OSError("Exit Status " + str(exit_status) +
+                      ": Command did not run: "+run.command)
+
+    # decide if we should complete the job
+    complete_job = False
+    if t.custom_exit_status is not None:
+        if t.custom_exit_behaviour == Task.TERMINATE:
+            complete_job = True
+    if step_counter == total_steps:
+        complete_job = True
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
     message = "Completed step: " + str(current_step)
-    if step_counter == total_steps:
+    if complete_job:
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)
         # TODO: This needs a try-catch
@@ -244,6 +271,10 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     Submission.update_submission_state(s, True, state, step_id,
                                        self.request.id, message)
 
+    if t.custom_exit_status is not None:
+        if t.custom_exit_behaviour == Task.TERMINATE:
+            if self.request.callbacks:
+                self.request.callbacks[:] = []
 
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def chord_end(self, uuid, step_id, current_step):
