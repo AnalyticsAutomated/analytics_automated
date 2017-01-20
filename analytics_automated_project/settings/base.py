@@ -60,14 +60,22 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 
 # Celery Settings
 # BROKER_URL = ''
+# CELERY_RESULT_BACKEND = 'amqp'
+# CELERY_TIMEZONE = 'Europe/London'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_ENABLE_UTC = True
+# CELERYD_MAX_TASKS_PER_CHILD = 30
+# CELERYD_PREFETCH_MULTIPLIER = 1
 CELERY_RESULT_BACKEND = 'amqp'
-CELERY_TIMEZONE = 'Europe/London'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ENABLE_UTC = True
-CELERYD_MAX_TASKS_PER_CHILD = 30
-CELERYD_PREFETCH_MULTIPLIER = 1
+timezone = 'Europe/London'
+accept_content = ['json']
+task_serializer = 'json'
+result_serializer = 'json'
+enable_utc = True
+worker_max_tasks_per_child = 30
+worker_prefetch_multiplier = 1
 # Uncomment to allow celery tests to run
 # TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
@@ -106,7 +114,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djcelery',
+    #'djcelery',
     'analytics_automated',
     'rest_framework',
     'corsheaders',

@@ -22,7 +22,6 @@ except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
 
-
 @shared_task
 def wait(t):
     """

@@ -5,7 +5,9 @@ import os
 from unittest.mock import patch
 
 from commandRunner.localRunner import *
+
 from django.test import TestCase
+from django.test import override_settings
 
 from .tasks import *
 from analytics_automated import tasks
@@ -57,7 +59,12 @@ class TaskTestCase(TestCase):
         for example in glob.glob(settings.BASE_DIR.child("submissions")+"/result1*"):
             os.remove(example)
 
-
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSuccess(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, {})
@@ -65,6 +72,12 @@ class TaskTestCase(TestCase):
         #print(self.sub)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerAllMessagesSent(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, {})
@@ -81,12 +94,24 @@ class TaskTestCase(TestCase):
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Failed step, non 0 exit at step:0")
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_task", [], {}, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed step: 1")
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerDoesGetResultFromPreviousRun(self, m):
         '''
