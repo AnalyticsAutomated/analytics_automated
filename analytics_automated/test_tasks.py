@@ -23,7 +23,13 @@ class TaskTestCase(TestCase):
     s = None
     sub = None
     messages = None
-
+    
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
     def testTrivialAdd(self):
         """
             Here we test that our task_runner function does it's thing

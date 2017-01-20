@@ -76,8 +76,6 @@ result_serializer = 'json'
 enable_utc = True
 worker_max_tasks_per_child = 30
 worker_prefetch_multiplier = 1
-# Uncomment to allow celery tests to run
-# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
 # MEDIA_URL = '/submissions/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
