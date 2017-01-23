@@ -58,11 +58,14 @@ class TaskTestCase(TestCase):
         Parameter.objects.all().delete()
         Result.objects.all().delete()
         Message.objects.all().delete()
-        for file_1 in glob.glob(settings.BASE_DIR.child("submissions")+"/file1*"):
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+                                "/file1*"):
             os.remove(file_1)
-        for example in glob.glob(settings.BASE_DIR.child("submissions")+"/example*"):
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/example*"):
             os.remove(example)
-        for example in glob.glob(settings.BASE_DIR.child("submissions")+"/result1*"):
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/result1*"):
             os.remove(example)
 
     @override_settings(
@@ -75,7 +78,7 @@ class TaskTestCase(TestCase):
     def testTaskRunnerSuccess(self, m):
         task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
-        #print(self.sub)
+        # print(self.sub)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
     @override_settings(
@@ -133,10 +136,75 @@ class TaskTestCase(TestCase):
         result = Result.objects.get(submission=self.sub, step=2)
         self.assertEqual(result.message, "Result")
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
+    def testCustomExitContinues(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status=123,
+                                custom_exit_behaviour=Task.CONTINUE)
+        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
+                          {}, {})
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.assertEqual(self.sub.last_message, "Completed step: 1")
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
+    def testCustomExitFails(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status=123,
+                                custom_exit_behaviour=Task.FAIL)
+        self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
+                          "test_custom_continue", [], {}, {})
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
+    def testCustomExitTerminates(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status=123,
+                                custom_exit_behaviour=Task.TERMINATE)
+        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
+                          {}, {})
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.assertEqual(self.sub.last_message, "Completed job at step #1")
+
     def test_get_data_correctly_gets_input_data(self):
         data, previous_step = tasks.get_data(self.sub, self.sub.UUID, 1,
                                              [".txt", ])
-        self.assertEqual(data, {self.sub.UUID+".txt": "these are the file contents!\n"})
+        self.assertEqual(data, {self.sub.UUID+".txt": "these are the file "
+                                                      "contents!\n"})
 
     def test_get_data_correctly_gets_previous_data(self):
         res = ResultFactory.create(submission=self.sub,
@@ -145,7 +213,8 @@ class TaskTestCase(TestCase):
                                    previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
                                              [".txt"])
-        self.assertEqual(data, {res.result_data.name: "Here is some previous results!\n"})
+        self.assertEqual(data, {res.result_data.name: "Here is some previous "
+                                                      "results!\n"})
 
     def test_correctly_gets_multiple_prior_results(self):
         res = ResultFactory.create(submission=self.sub,
@@ -153,14 +222,16 @@ class TaskTestCase(TestCase):
                                    step=1,
                                    previous_step=None,)
         res2 = ResultFactory.create(submission=self.sub,
-                                   task=self.t,
-                                   step=1,
-                                   previous_step=None,)
+                                    task=self.t,
+                                    step=1,
+                                    previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
                                              [".txt"])
         self.assertEqual(data,
-                         {res2.result_data.name: "Here is some previous results!\n",
-                          res.result_data.name: "Here is some previous results!\n"
+                         {res2.result_data.name: "Here is some previous "
+                                                 "results!\n",
+                          res.result_data.name: "Here is some previous "
+                                                "results!\n"
                           })
 
     def test_only_gets_previous_data_when_there_is_an_inglobs_match(self):

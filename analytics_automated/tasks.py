@@ -193,7 +193,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     valid_exit_status = [0, ]
     if t.custom_exit_status is not None:
         if t.custom_exit_behaviour == Task.CONTINUE or t.custom_exit_behaviour == Task.TERMINATE:
-            valud_exit_status.append(t.custom_exit_status)
+            valid_exit_status.append(t.custom_exit_status)
 
     if exit_status in valid_exit_status:
         file = None
@@ -224,9 +224,9 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            'Failed step, non 0 exit at step:' +
                                            str(step_id))
         logger.error("Exit Status " + str(exit_status) +
-                     ": Terminated with custom exit status: "+run.command)
+                     ": Failed with custom exit status: "+run.command)
         raise OSError("Exit Status " + str(exit_status) +
-                      ": Terminated with custom exit status: "+run.command)
+                      ": Failed with custom exit status: "+run.command)
     else:
         # Here we test the custom exit status. And do as it requires
         # skipping the regular raise() if needed
