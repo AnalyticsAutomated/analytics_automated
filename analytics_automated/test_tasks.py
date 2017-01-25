@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 from commandRunner.localRunner import *
 
+
 from django.test import TestCase
 from django.test import override_settings
 
@@ -200,6 +201,31 @@ class TaskTestCase(TestCase):
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    # @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
+    def testIncompleteFilesContinues(self):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out, this",
+                                incomplete_outputs_behaviour=Task.CONTINUE)
+        with patch('analytics_automated.tasks.localRunner') as lr:
+            lr().run_cmd.return_value = 0
+            lr().output_data = {"huh.py": b"this"}
+            task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue", [],
+                          {}, {})
+            self.sub = Submission.objects.get(UUID=self.uuid1)
+            self.assertEqual(self.sub.last_message, "Completed job at step #1")
+
+
     def test_get_data_correctly_gets_input_data(self):
         data, previous_step = tasks.get_data(self.sub, self.sub.UUID, 1,
                                              [".txt", ])
@@ -212,7 +238,7 @@ class TaskTestCase(TestCase):
                                    step=1,
                                    previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
-                                             [".txt"])
+                                             [".out"])
         self.assertEqual(data, {res.result_data.name: "Here is some previous "
                                                       "results!\n"})
 
@@ -226,7 +252,7 @@ class TaskTestCase(TestCase):
                                     step=1,
                                     previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
-                                             [".txt"])
+                                             [".out"])
         self.assertEqual(data,
                          {res2.result_data.name: "Here is some previous "
                                                  "results!\n",

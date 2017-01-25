@@ -22,6 +22,7 @@ except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
 
+
 @shared_task
 def wait(t):
     """
@@ -80,8 +81,8 @@ def get_data(s, uuid, current_step, in_globs):
 # total_step   a totall of all the units of work/tasks that a job has
 # TODO: Almost certainly a job can not end with a celery group(), some sort
 #       of reduce step is 'required' this needs fix.
-#       One way to handle this would be to add a dummy "end" task to the chain()
-#       if the chain would otherwise end in a group()
+#       One way to handle this would be to add a dummy "end" task to the
+#       chain() if the chain would otherwise end in a group()
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def task_runner(self, uuid, step_id, current_step, step_counter,
                 total_steps, task_name, flags, options, environment):
@@ -192,33 +193,57 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # set the valid exit statuses in case their is a defined value alternative
     valid_exit_status = [0, ]
     if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.CONTINUE or t.custom_exit_behaviour == Task.TERMINATE:
+        if t.custom_exit_behaviour == Task.CONTINUE or \
+           t.custom_exit_behaviour == Task.TERMINATE:
             valid_exit_status.append(t.custom_exit_status)
 
     if exit_status in valid_exit_status:
         file = None
+        found_endings = []
         if run.output_data is not None:
+            for fName, fData in run.output_data.items():
+                found_endings.append(fName.split(".")[-1])
+
+        if set(out_globs).issubset(found_endings):
             # Here we need to test if we have at least 1 of each of the
             # required file types in the out glob.
-            # If not we trigger the No Outputs behaviour instead of pushing
-            # the results to the db
+            if run.output_data is not None:
+                # If not we trigger the No Outputs behaviour instead of pushing
+                # the results to the db
 
-            for fName, fData in run.output_data.items():
-                print("Writing Captured data")
-                file = SimpleUploadedFile(fName, fData)
+                for fName, fData in run.output_data.items():
+                    print("Writing Captured data")
+                    file = SimpleUploadedFile(fName, fData)
+                    r = Result.objects.create(submission=s, task=t,
+                                              step=current_step, name=t.name,
+                                              message='Result',
+                                              previous_step=previous_step,
+                                              result_data=file)
+            else:
                 r = Result.objects.create(submission=s, task=t,
                                           step=current_step, name=t.name,
                                           message='Result',
                                           previous_step=previous_step,
-                                          result_data=file)
+                                          result_data=None)
         else:
-            r = Result.objects.create(submission=s, task=t,
-                                      step=current_step, name=t.name,
-                                      message='Result',
-                                      previous_step=previous_step,
-                                      result_data=None)
-    elif exit_status == t.custom_exit_status and t.custom_exit_behaviour == Task.FAIL:
-        #if we hit an exit status that we ought to fail on raise an error
+            if t.incomplete_outputs_behaviour == Task.FAIL:
+                pass
+            if t.incomplete_outputs_behaviour == Task.TERMINATE:
+                pass
+            if t.incomplete_outputs_behaviour == Task.CONTINUE:
+                for fName, fData in run.output_data.items():
+                    print("Writing Captured data")
+                    file = SimpleUploadedFile(fName, fData)
+                    r = Result.objects.create(submission=s, task=t,
+                                              step=current_step, name=t.name,
+                                              message='Result',
+                                              previous_step=previous_step,
+                                              result_data=file)
+            #now handle what happens if we didn't get all the files from the
+            #previous step.
+    elif exit_status == t.custom_exit_status and \
+            t.custom_exit_behaviour == Task.FAIL:
+        # if we hit an exit status that we ought to fail on raise an error
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
@@ -275,6 +300,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         if t.custom_exit_behaviour == Task.TERMINATE:
             if self.request.callbacks:
                 self.request.callbacks[:] = []
+
 
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
 def chord_end(self, uuid, step_id, current_step):

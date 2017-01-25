@@ -15,7 +15,7 @@ from .models import Parameter, Result, Validator, Environment
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")
 RESULT_DATA = settings.BASE_DIR.child("submissions").child("files"). \
-                                                     child("result1.txt")
+                                                     child("result1.out")
 step_value = random.randint(1, 20)
 
 
