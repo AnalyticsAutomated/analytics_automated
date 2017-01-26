@@ -15,7 +15,7 @@ from .models import Parameter, Result, Validator, Environment
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")
 RESULT_DATA = settings.BASE_DIR.child("submissions").child("files"). \
-                                                     child("result1.out")
+                                                     child("result1.txt")
 step_value = random.randint(1, 20)
 
 
@@ -41,7 +41,7 @@ class TaskFactory(factory.DjangoModelFactory):
     in_glob = factory.LazyAttribute(lambda t: random_string())
     out_glob = factory.LazyAttribute(lambda t: random_string())
     executable = factory.LazyAttribute(lambda t: random_string())
-    incomplete_outputs_behaviour = Task.FAIL
+    incomplete_outputs_behaviour = Task.CONTINUE
     custom_exit_status = None
     custom_exit_behaviour = None
 

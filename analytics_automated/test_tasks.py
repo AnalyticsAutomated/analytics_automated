@@ -68,6 +68,10 @@ class TaskTestCase(TestCase):
         for example in glob.glob(settings.BASE_DIR.child("submissions") +
                                  "/result1*"):
             os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/huh*"):
+            os.remove(example)
+
 
     @override_settings(
         task_eager_propagates=True,
@@ -135,6 +139,7 @@ class TaskTestCase(TestCase):
                                    previous_step=None,)
         task_runner.delay(self.uuid1, 0, 2, 2, 2, "test_task", [], {}, {})
         result = Result.objects.get(submission=self.sub, step=2)
+        print(result)
         self.assertEqual(result.message, "Result")
 
     @override_settings(
@@ -238,7 +243,7 @@ class TaskTestCase(TestCase):
                                    step=1,
                                    previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
-                                             [".out"])
+                                             [".txt"])
         self.assertEqual(data, {res.result_data.name: "Here is some previous "
                                                       "results!\n"})
 
@@ -252,7 +257,7 @@ class TaskTestCase(TestCase):
                                     step=1,
                                     previous_step=None,)
         data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 2,
-                                             [".out"])
+                                             [".txt"])
         self.assertEqual(data,
                          {res2.result_data.name: "Here is some previous "
                                                  "results!\n",

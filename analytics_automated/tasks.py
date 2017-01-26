@@ -69,6 +69,25 @@ def get_data(s, uuid, current_step, in_globs):
 
     return(data_dict, previous_step)
 
+def insert_data(output_data, s, t, current_step, previous_step):
+    if output_data is not None:
+        # If not we trigger the No Outputs behaviour instead of pushing
+        # the results to the db
+
+        for fName, fData in output_data.items():
+            print("Writing Captured data")
+            file = SimpleUploadedFile(fName, fData)
+            r = Result.objects.create(submission=s, task=t,
+                                      step=current_step, name=t.name,
+                                      message='Result',
+                                      previous_step=previous_step,
+                                      result_data=file)
+    else:
+        r = Result.objects.create(submission=s, task=t,
+                                  step=current_step, name=t.name,
+                                  message='Result',
+                                  previous_step=previous_step,
+                                  result_data=None)
 
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
@@ -203,44 +222,19 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         if run.output_data is not None:
             for fName, fData in run.output_data.items():
                 found_endings.append(fName.split(".")[-1])
-
+        
         if set(out_globs).issubset(found_endings):
-            # Here we need to test if we have at least 1 of each of the
-            # required file types in the out glob.
-            if run.output_data is not None:
-                # If not we trigger the No Outputs behaviour instead of pushing
-                # the results to the db
-
-                for fName, fData in run.output_data.items():
-                    print("Writing Captured data")
-                    file = SimpleUploadedFile(fName, fData)
-                    r = Result.objects.create(submission=s, task=t,
-                                              step=current_step, name=t.name,
-                                              message='Result',
-                                              previous_step=previous_step,
-                                              result_data=file)
-            else:
-                r = Result.objects.create(submission=s, task=t,
-                                          step=current_step, name=t.name,
-                                          message='Result',
-                                          previous_step=previous_step,
-                                          result_data=None)
+            insert_data(run.output_data, s, t, current_step, previous_step)
         else:
             if t.incomplete_outputs_behaviour == Task.FAIL:
-                pass
+                # insert what we have and then raise and error
+                insert_data(run.output_data, s, t, current_step, previous_step)
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
-                pass
+                # insert what we have and end the job gracefully
+                insert_data(run.output_data, s, t, current_step, previous_step)
             if t.incomplete_outputs_behaviour == Task.CONTINUE:
-                for fName, fData in run.output_data.items():
-                    print("Writing Captured data")
-                    file = SimpleUploadedFile(fName, fData)
-                    r = Result.objects.create(submission=s, task=t,
-                                              step=current_step, name=t.name,
-                                              message='Result',
-                                              previous_step=previous_step,
-                                              result_data=file)
-            #now handle what happens if we didn't get all the files from the
-            #previous step.
+                # by default we insert whatever results we have and keep going
+                insert_data(run.output_data, s, t, current_step, previous_step)
     elif exit_status == t.custom_exit_status and \
             t.custom_exit_behaviour == Task.FAIL:
         # if we hit an exit status that we ought to fail on raise an error
