@@ -8,6 +8,7 @@ submissions/example*
 submissions/file1*
 submissions/result1*
 submissions/input_*
+submissions/huh*
 __pycache__/
 *.log
 logs/*
