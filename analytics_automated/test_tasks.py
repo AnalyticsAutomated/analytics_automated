@@ -139,7 +139,6 @@ class TaskTestCase(TestCase):
                                    previous_step=None,)
         task_runner.delay(self.uuid1, 0, 2, 2, 2, "test_task", [], {}, {})
         result = Result.objects.get(submission=self.sub, step=2)
-        print(result)
         self.assertEqual(result.message, "Result")
 
     @override_settings(
@@ -225,11 +224,56 @@ class TaskTestCase(TestCase):
         with patch('analytics_automated.tasks.localRunner') as lr:
             lr().run_cmd.return_value = 0
             lr().output_data = {"huh.py": b"this"}
-            task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue", [],
-                          {}, {})
+            task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue",
+                              [], {}, {})
             self.sub = Submission.objects.get(UUID=self.uuid1)
             self.assertEqual(self.sub.last_message, "Completed job at step #1")
+            # this test ends up being the same as the Terminates one and
+            # we should test something else here
 
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    def testIncompleteFilesFails(self):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out, this",
+                                incomplete_outputs_behaviour=Task.FAIL)
+        with patch('analytics_automated.tasks.localRunner') as lr:
+            lr().run_cmd.return_value = 0
+            lr().output_data = {"huh.py": b"this"}
+            self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
+                              "test_custom_continue", [], {}, {})
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    def testIncompleteFilesTerminates(self):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out, this",
+                                incomplete_outputs_behaviour=Task.TERMINATE)
+        with patch('analytics_automated.tasks.localRunner') as lr:
+            lr().run_cmd.return_value = 0
+            lr().output_data = {"huh.py": b"this"}
+            task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue",
+                              [], {}, {})
+            self.sub = Submission.objects.get(UUID=self.uuid1)
+            self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
     def test_get_data_correctly_gets_input_data(self):
         data, previous_step = tasks.get_data(self.sub, self.sub.UUID, 1,

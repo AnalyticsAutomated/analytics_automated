@@ -75,7 +75,7 @@ def insert_data(output_data, s, t, current_step, previous_step):
         # the results to the db
 
         for fName, fData in output_data.items():
-            print("Writing Captured data")
+            # print("Writing Captured data")
             file = SimpleUploadedFile(fName, fData)
             r = Result.objects.create(submission=s, task=t,
                                       step=current_step, name=t.name,
@@ -216,22 +216,30 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
            t.custom_exit_behaviour == Task.TERMINATE:
             valid_exit_status.append(t.custom_exit_status)
 
+    incomplete_outputs_termination = False
     if exit_status in valid_exit_status:
         file = None
         found_endings = []
         if run.output_data is not None:
             for fName, fData in run.output_data.items():
                 found_endings.append(fName.split(".")[-1])
-        
+
         if set(out_globs).issubset(found_endings):
             insert_data(run.output_data, s, t, current_step, previous_step)
         else:
             if t.incomplete_outputs_behaviour == Task.FAIL:
                 # insert what we have and then raise and error
                 insert_data(run.output_data, s, t, current_step, previous_step)
+                logger.error("Exit Status " + str(exit_status) +
+                             ": Failed : "+run.command)
+                raise OSError("Exit Status " + str(exit_status) +
+                              ": Failed with custom exit status: "+run.command)
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
                 # insert what we have and end the job gracefully
                 insert_data(run.output_data, s, t, current_step, previous_step)
+                if self.request.callbacks:
+                    self.request.callbacks[:] = []
+                incomplete_outputs_termination = True
             if t.incomplete_outputs_behaviour == Task.CONTINUE:
                 # by default we insert whatever results we have and keep going
                 insert_data(run.output_data, s, t, current_step, previous_step)
@@ -265,6 +273,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if t.custom_exit_status is not None:
         if t.custom_exit_behaviour == Task.TERMINATE:
             complete_job = True
+    if incomplete_outputs_termination is True:
+        complete_job = True
     if step_counter == total_steps:
         complete_job = True
 
