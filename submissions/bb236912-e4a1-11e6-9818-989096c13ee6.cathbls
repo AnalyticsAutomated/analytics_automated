@@ -1,0 +1,151 @@
+PSIBLAST 2.2.31+
+
+
+Reference: Stephen F. Altschul, Thomas L. Madden, Alejandro A.
+Schaffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J.
+Lipman (1997), "Gapped BLAST and PSI-BLAST: a new generation of
+protein database search programs", Nucleic Acids Res. 25:3389-3402.
+
+
+Reference for compositional score matrix adjustment: Stephen F.
+Altschul, John C. Wootton, E. Michael Gertz, Richa Agarwala,
+Aleksandr Morgulis, Alejandro A. Schaffer, and Yi-Kuo Yu (2005)
+"Protein database searches using compositionally adjusted
+substitution matrices", FEBS J. 272:5101-5109.
+
+
+Reference for composition-based statistics starting in round 2:
+Alejandro A. Schaffer, L. Aravind, Thomas L. Madden, Sergei
+Shavirin, John L. Spouge, Yuri I. Wolf, Eugene V. Koonin, and
+Stephen F. Altschul (2001), "Improving the accuracy of PSI-BLAST
+protein database searches with composition-based statistics and
+other refinements", Nucleic Acids Res. 29:2994-3005.
+
+
+
+Database: CathDomainSeqs.S100.ATOM
+           45,868 sequences; 7,551,767 total letters
+
+Results from round 1
+
+
+Query= TestingSeq
+
+Length=458
+                                                                      Score     E
+Sequences producing significant alignments:                          (Bits)  Value
+
+  domain|3kdpB02|3_5_0                                                28.1    6.4  
+  domain|3bu8A00|3_5_0                                                27.7    7.5  
+
+
+> domain|3kdpB02|3_5_0
+Length=242
+
+ Score = 28.1 bits (61),  Expect = 6.4, Method: Compositional matrix adjust.
+ Identities = 12/24 (50%), Positives = 16/24 (67%), Gaps = 0/24 (0%)
+
+Query  403  TITNLMKSLGFKPKPKKIQSIDRY  426
+             I  L + LGFKPKP K +S++ Y
+Sbjct  115  VIIKLNRVLGFKPKPPKNESLETY  138
+
+
+> domain|3bu8A00|3_5_0
+Length=204
+
+ Score = 27.7 bits (60),  Expect = 7.5, Method: Compositional matrix adjust.
+ Identities = 21/77 (27%), Positives = 34/77 (44%), Gaps = 9/77 (12%)
+
+Query  18  DFSNIQDVAQFLLFDPIWNEQPGSIVPWKMNREQALAERYPELQTSEPSEDYSGPVESLE  77
+           DF  I+D+ Q LL  P+  E   S    ++ R      R  E +  + S D        E
+Sbjct  32  DFRQIRDIMQALLVRPLGKEHTVS----RLLRVMQCLSRIEEGENLDCSFDMEA-----E  82
+
+Query  78  LLPLEIKLDIMQYLSWE  94
+           L PLE  +++++ +  E
+Sbjct  83  LTPLESAINVLEMIKTE  99
+
+
+
+Lambda      K        H        a         alpha
+   0.316    0.134    0.420    0.792     4.96 
+
+Gapped
+Lambda      K        H        a         alpha    sigma
+   0.267   0.0410    0.140     1.90     42.6     43.6 
+
+Effective search space used: 1159533441
+Results from round 2
+
+
+Query= TestingSeq
+
+Length=458
+                                                                      Score     E
+Sequences producing significant alignments:                          (Bits)  Value
+
+  domain|1ytuA01|3_5_0                                                30.4    1.1  
+  domain|3kdpB02|3_5_0                                                29.6    2.2  
+  domain|3e2tA00|3_5_0                                                29.6    2.3  
+
+
+> domain|1ytuA01|3_5_0
+Length=242
+
+ Score = 30.4 bits (67),  Expect = 1.1, Method: Composition-based stats.
+ Identities = 21/78 (27%), Positives = 34/78 (44%), Gaps = 7/78 (9%)
+
+Query  212  DMHPRWFGPVMDGIKSMQSTLKYLY-IFETYGVNKPFVQWCTDNIETFYCTNSYRYENVP  270
+            + HP W G   +G K   S+ +YL  + + Y +    V+  +DN      T+   Y NV 
+Sbjct  127  ETHPFWVGDPYEGTKVKLSSKRYLLTLLQPYPIKPLSVEIVSDN-----WTSEEYYHNV-  180
+
+Query  271  RPIYVWVLFQEDEWHGYR  288
+              I   + +    W G+R
+Sbjct  181  HEILDEIYYLSKNWRGFR  198
+
+
+> domain|3kdpB02|3_5_0
+Length=242
+
+ Score = 29.6 bits (65),  Expect = 2.2, Method: Composition-based stats.
+ Identities = 12/23 (52%), Positives = 16/23 (70%), Gaps = 0/23 (0%)
+
+Query  404  ITNLMKSLGFKPKPKKIQSIDRY  426
+            I  L + LGFKPKP K +S++ Y
+Sbjct  116  IIKLNRVLGFKPKPPKNESLETY  138
+
+
+> domain|3e2tA00|3_5_0
+Length=307
+
+ Score = 29.6 bits (65),  Expect = 2.3, Method: Composition-based stats.
+ Identities = 17/40 (43%), Positives = 20/40 (50%), Gaps = 3/40 (8%)
+
+Query  109  YKDNVVRVSAITFEDFQREYAFPEKIQEIHFTDTRAEEIK  148
+            +KDNV R     F D    Y   + I EI FT+   EEIK
+Sbjct  33   FKDNVYRKRRKYFADLAMNYKHGDPIPEIEFTE---EEIK  69
+
+
+
+Lambda      K        H        a         alpha
+   0.316    0.134    0.420    0.792     4.96 
+
+Gapped
+Lambda      K        H        a         alpha    sigma
+   0.267   0.0410    0.140     1.90     42.6     43.6 
+
+Effective search space used: 1159533441
+
+Search has CONVERGED!
+
+
+  Database: CathDomainSeqs.S100.ATOM
+    Posted date:  Jul 2, 2013  5:11 PM
+  Number of letters in database: 7,551,767
+  Number of sequences in database:  45,868
+
+
+
+Matrix: BLOSUM62
+Gap Penalties: Existence: 11, Extension: 1
+Neighboring words threshold: 11
+Window for multiple hits: 40

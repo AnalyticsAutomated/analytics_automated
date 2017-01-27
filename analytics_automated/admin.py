@@ -169,4 +169,4 @@ admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Result, ResultAdmin)
-admin.site.register(Step)
+# gitadmin.site.register(Step

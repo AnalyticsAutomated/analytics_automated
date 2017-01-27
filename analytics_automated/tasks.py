@@ -77,12 +77,15 @@ def insert_data(output_data, s, t, current_step, previous_step):
         for fName, fData in output_data.items():
             # print("Writing Captured data")
             file = SimpleUploadedFile(fName, fData)
+            logger.info("Result: Adding file to Results "+fName)
             r = Result.objects.create(submission=s, task=t,
                                       step=current_step, name=t.name,
                                       message='Result',
                                       previous_step=previous_step,
                                       result_data=file)
+            logger.info("Result: File added")
     else:
+        logger.info("Result: No files to add")
         r = Result.objects.create(submission=s, task=t,
                                   step=current_step, name=t.name,
                                   message='Result',
@@ -132,7 +135,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # update submission tracking to note that this is running
     Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
                                        self.request.id,
-                                       'About to run step: ' +
+                                       'Running step: ' +
                                        str(current_step))
     stdoglob = ".stdout"
     if t.stdout_glob is not None and len(t.stdout_glob) > 0:
@@ -232,13 +235,18 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                 insert_data(run.output_data, s, t, current_step, previous_step)
                 logger.error("Exit Status " + str(exit_status) +
                              ": Failed : "+run.command)
+                Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id,
+                                           'Exit Status:' + str(exit_status) +
+                                           ': Failed : '+run.command)
                 raise OSError("Exit Status " + str(exit_status) +
                               ": Failed with custom exit status: "+run.command)
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
                 # insert what we have and end the job gracefully
                 insert_data(run.output_data, s, t, current_step, previous_step)
-                if self.request.callbacks:
-                    self.request.callbacks[:] = []
+                if self.request.chain:
+                    logger.info("Erm Wut?")
+                    self.request.chain = None
                 incomplete_outputs_termination = True
             if t.incomplete_outputs_behaviour == Task.CONTINUE:
                 # by default we insert whatever results we have and keep going
@@ -301,9 +309,10 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                        self.request.id, message)
 
     if t.custom_exit_status is not None:
+        logger.info("Erm?")
         if t.custom_exit_behaviour == Task.TERMINATE:
-            if self.request.callbacks:
-                self.request.callbacks[:] = []
+            if self.request.chain:
+                self.request.chain = None
 
 
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
