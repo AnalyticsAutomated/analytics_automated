@@ -10,6 +10,7 @@ from celery import group
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db import transaction
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import BackendUser
@@ -133,14 +134,15 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     iglob = in_globs[0].lstrip(".")
     oglob = out_globs[0].lstrip(".")
     # update submission tracking to note that this is running
-    Submission.update_submission_state(s, True, Submission.RUNNING, step_id,
-                                       self.request.id,
-                                       'Running step: ' +
-                                       str(current_step))
+    with transaction.atomic():
+        Submission.update_submission_state(s, True, Submission.RUNNING,
+                                           step_id,
+                                           self.request.id,
+                                           'Running step: ' +
+                                           str(current_step))
     stdoglob = ".stdout"
     if t.stdout_glob is not None and len(t.stdout_glob) > 0:
         stdoglob = "."+t.stdout_glob.lstrip(".")
-
     # Now we run the task handing off the actual running to the commandRunner
     # library
     run = None
@@ -222,8 +224,9 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     custom_exit_termination = False
     incomplete_outputs_termination = False
     if exit_status in valid_exit_status:
-        if exit_status == t.custom_exit_status:
-            custom_exit_termination
+        if exit_status == t.custom_exit_status and \
+                       t.custom_exit_behaviour == Task.TERMINATE:
+            custom_exit_termination = True
 
         found_endings = []
         if run.output_data is not None:
@@ -236,15 +239,16 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             if t.incomplete_outputs_behaviour == Task.FAIL:
                 # insert what we have and then raise and error
                 insert_data(run.output_data, s, t, current_step, previous_step)
-                logger.error("Exit Status " + str(exit_status) +
-                             ": Failed : "+run.command)
                 Submission.update_submission_state(s, True, state, step_id,
                                                    self.request.id,
-                                                   'Exit Status:' +
+                                                   "Exit Status " +
                                                    str(exit_status) +
-                                                   ': Failed : '+run.command)
+                                                   ": Failed with custom exit"
+                                                   " status: "+str(run.command))
+                logger.error("Exit Status " + str(exit_status) +
+                             ": Failed with custom exit status: "+str(run.command))
                 raise OSError("Exit Status " + str(exit_status) +
-                              ": Failed with custom exit status: "+run.command)
+                              ": Failed with custom exit status: "+str(run.command))
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
                 # insert what we have and end the job gracefully
                 insert_data(run.output_data, s, t, current_step, previous_step)
@@ -257,14 +261,15 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     elif exit_status == t.custom_exit_status and \
             t.custom_exit_behaviour == Task.FAIL:
             # if we hit an exit status that we ought to fail on raise an error
+        insert_data(run.output_data, s, t, current_step, previous_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
                                            str(step_id))
         logger.error("Exit Status " + str(exit_status) +
-                     ": Failed with custom exit status: "+run.command)
+                     ": Failed with custom exit status: "+str(run.command))
         raise OSError("Exit Status " + str(exit_status) +
-                      ": Failed with custom exit status: "+run.command)
+                      ": Failed with custom exit status: "+str(run.command))
     else:
         # Here we test the custom exit status. And do as it requires
         # skipping the regular raise() if needed
@@ -275,13 +280,12 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            str(step_id) + ". Exit status:" +
                                            str(exit_status))
         logger.error("Exit Status " + str(exit_status) +
-                     ": Command did not run: "+run.command)
+                     ": Command did not run: "+str(run.command))
         raise OSError("Exit Status " + str(exit_status) +
-                      ": Command did not run: "+run.command)
+                      ": Command did not run: "+str(run.command))
 
     # decide if we should complete the job
     complete_job = False
-    print(t.custom_exit_status)
     if custom_exit_termination:
         complete_job = True
     if incomplete_outputs_termination:
@@ -291,7 +295,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
-    print(complete_job)
     message = "Completed step: " + str(current_step)
     if complete_job:
         state = Submission.COMPLETE

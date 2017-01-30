@@ -6,8 +6,9 @@ from unittest.mock import patch
 
 from commandRunner.localRunner import *
 
-
+from django.db import transaction
 from django.test import TestCase
+
 from django.test import override_settings
 
 from .tasks import *
@@ -249,8 +250,9 @@ class TaskTestCase(TestCase):
         with patch('analytics_automated.tasks.localRunner') as lr:
             lr().run_cmd.return_value = 0
             lr().output_data = {"huh.py": b"this"}
-            self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
-                              "test_custom_continue", [], {}, {})
+            with transaction.atomic():
+                self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
+                                  "test_custom_continue", [], {}, {})
 
     @override_settings(
         task_eager_propagates=True,

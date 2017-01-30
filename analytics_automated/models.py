@@ -1,5 +1,6 @@
 import re
 from django.db import models
+from django.db import transaction
 from django.core.exceptions import ValidationError
 
 
@@ -236,6 +237,7 @@ class Submission(TimeStampedModel):
         d = dict(Submission.STATUS_CHOICES)
         return(d[self.status])
 
+    @transaction.atomic
     def update_submission_state(s, claim, status, step, id, message):
         """
             Updates the Submission object with some book keeping
