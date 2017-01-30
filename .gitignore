@@ -4,11 +4,8 @@
 DEADJOE
 media/temp
 static/example*
-submissions/example*
-submissions/file1*
-submissions/result1*
-submissions/input_*
-submissions/huh*
+submissions/*
+!submissions/files/
 __pycache__/
 *.log
 logs/*
