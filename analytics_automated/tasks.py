@@ -225,8 +225,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         found_endings = []
         if run.output_data is not None:
             for fName, fData in run.output_data.items():
-                found_endings.append(fName.split(".")[-1])
-
+                found_endings.append("."+fName.split(".")[-1])
         if set(out_globs).issubset(found_endings):
             insert_data(run.output_data, s, t, current_step, previous_step)
         else:
@@ -245,7 +244,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                 # insert what we have and end the job gracefully
                 insert_data(run.output_data, s, t, current_step, previous_step)
                 if self.request.chain:
-                    logger.info("Erm Wut?")
                     self.request.chain = None
                 incomplete_outputs_termination = True
             if t.incomplete_outputs_behaviour == Task.CONTINUE:
@@ -309,7 +307,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                        self.request.id, message)
 
     if t.custom_exit_status is not None:
-        logger.info("Erm?")
         if t.custom_exit_behaviour == Task.TERMINATE:
             if self.request.chain:
                 self.request.chain = None
