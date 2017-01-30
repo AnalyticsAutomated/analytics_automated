@@ -219,13 +219,17 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
            t.custom_exit_behaviour == Task.TERMINATE:
             valid_exit_status.append(t.custom_exit_status)
 
+    custom_exit_termination = False
     incomplete_outputs_termination = False
     if exit_status in valid_exit_status:
-        file = None
+        if exit_status == t.custom_exit_status:
+            custom_exit_termination
+
         found_endings = []
         if run.output_data is not None:
             for fName, fData in run.output_data.items():
                 found_endings.append("."+fName.split(".")[-1])
+
         if set(out_globs).issubset(found_endings):
             insert_data(run.output_data, s, t, current_step, previous_step)
         else:
@@ -235,9 +239,10 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                 logger.error("Exit Status " + str(exit_status) +
                              ": Failed : "+run.command)
                 Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id,
-                                           'Exit Status:' + str(exit_status) +
-                                           ': Failed : '+run.command)
+                                                   self.request.id,
+                                                   'Exit Status:' +
+                                                   str(exit_status) +
+                                                   ': Failed : '+run.command)
                 raise OSError("Exit Status " + str(exit_status) +
                               ": Failed with custom exit status: "+run.command)
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
@@ -251,7 +256,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                 insert_data(run.output_data, s, t, current_step, previous_step)
     elif exit_status == t.custom_exit_status and \
             t.custom_exit_behaviour == Task.FAIL:
-        # if we hit an exit status that we ought to fail on raise an error
+            # if we hit an exit status that we ought to fail on raise an error
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
@@ -276,16 +281,17 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
     # decide if we should complete the job
     complete_job = False
-    if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.TERMINATE:
-            complete_job = True
-    if incomplete_outputs_termination is True:
+    print(t.custom_exit_status)
+    if custom_exit_termination:
+        complete_job = True
+    if incomplete_outputs_termination:
         complete_job = True
     if step_counter == total_steps:
         complete_job = True
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
+    print(complete_job)
     message = "Completed step: " + str(current_step)
     if complete_job:
         state = Submission.COMPLETE
