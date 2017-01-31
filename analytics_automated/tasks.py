@@ -241,14 +241,11 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                 insert_data(run.output_data, s, t, current_step, previous_step)
                 Submission.update_submission_state(s, True, state, step_id,
                                                    self.request.id,
-                                                   "Exit Status " +
-                                                   str(exit_status) +
-                                                   ": Failed with custom exit"
-                                                   " status: "+str(run.command))
-                logger.error("Exit Status " + str(exit_status) +
-                             ": Failed with custom exit status: "+str(run.command))
-                raise OSError("Exit Status " + str(exit_status) +
-                              ": Failed with custom exit status: "+str(run.command))
+                                                   "Failed with missing"
+                                                   " outputs: " +
+                                                   str(run.command))
+                logger.error("Failed with missing outputs: "+str(run.command))
+                raise OSError("Failed with missing outputs: "+str(run.command))
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
                 # insert what we have and end the job gracefully
                 insert_data(run.output_data, s, t, current_step, previous_step)
