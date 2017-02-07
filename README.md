@@ -68,6 +68,8 @@ NEXT UP TODO/REMINDERS
 
 3. Add scheduled tasks
 4. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
+5. Add CWL support to configure and dump tasks/jobs. Consider importing
+   Toil library to handle parsing the yaml and pushing the results to the db
 
 Production things:
 
@@ -85,3 +87,16 @@ Production things:
     database for staging and production (maybe also dev)
     result_backend = 'db+postgresql://scott:tiger@localhost/mydatabase'
     dialect+driver://username:password@host:port/database
+
+Missing
+=======
+1. Robust to worker failure, CELERY_ACKS_LATE = True
+
+2. Robust to task failure. Some types of exception should probably be tried again,
+some should propagate to the user
+http://agiliq.com/blog/2015/08/retrying-celery-failed-tasks/
+http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-something-fails
+
+3. Worker monitoring (flower)
+
+4. Let jobs run jobs as nested structures

@@ -23,7 +23,6 @@ except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
 
-
 @shared_task
 def wait(t):
     """
@@ -93,6 +92,7 @@ def insert_data(output_data, s, t, current_step, previous_step):
                                   previous_step=previous_step,
                                   result_data=None)
 
+
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
 #         in the UI
@@ -135,11 +135,12 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     oglob = out_globs[0].lstrip(".")
     # update submission tracking to note that this is running
     with transaction.atomic():
-        Submission.update_submission_state(s, True, Submission.RUNNING,
-                                           step_id,
-                                           self.request.id,
-                                           'Running step: ' +
-                                           str(current_step))
+        if s.status != Submission.ERROR or s.status != Submission.CRASH:
+            Submission.update_submission_state(s, True, Submission.RUNNING,
+                                               step_id,
+                                               self.request.id,
+                                               'Running step: ' +
+                                               str(current_step))
     stdoglob = ".stdout"
     if t.stdout_glob is not None and len(t.stdout_glob) > 0:
         stdoglob = "."+t.stdout_glob.lstrip(".")
@@ -200,7 +201,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         exit_status = run.run_cmd()
     except Exception as e:
         run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
-                      " : "+str(current_step)
+                      " : "+str(current_step) + " : " + run.command
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         raise OSError(run_message)
