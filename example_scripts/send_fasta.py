@@ -7,7 +7,7 @@ url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
 
 payload = {'input_data': ('prot.txt', open('../submissions/files/prot.txt', 'rb'))}
 #payload = {'input_data': ('prot.txt', open('known_pdb.fasta', 'rb'))}
-data = {'job': 'ffpred_human',
+data = {'job': 'metapsicov',
         'submission_name': 'test',
         'email': 'daniel.buchan@ucl.ac.uk'}
 r = requests.post(url, data=data, files=payload)
