@@ -32,7 +32,7 @@ def get_secret(setting, secrets):
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 BASE_DIR = Path(__file__).ancestor(3)
 TEMPLATE_PATH = BASE_DIR.child("templates")
-STATIC_ROOT = BASE_DIR.child("static")
+STATIC_ROOT = BASE_DIR.child("production_static")
 STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
@@ -200,7 +200,7 @@ SMUGGLER_FORMAT = 'yaml'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATICFILES_DIRS = [ ]
+STATICFILES_DIRS = [BASE_DIR.child("static"), ]
 
 
 # Add bits for bootstrap 3 and message bits

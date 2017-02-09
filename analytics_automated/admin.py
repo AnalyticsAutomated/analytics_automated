@@ -77,6 +77,9 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('name', 'processing_backend', 'in_glob', 'out_glob',
                     'executable')
 
+    class Media:
+        css = {'all': ('css/task.css', )}
+
 
 class JobAdmin(admin.ModelAdmin):
     inlines = [ValidatorInline, StepInline]
