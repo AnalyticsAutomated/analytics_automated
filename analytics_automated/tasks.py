@@ -194,16 +194,24 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
 
+    # set the valid exit statuses in case their is a defined value alternative
+    valid_exit_status = [0, ]
+    if t.custom_exit_status is not None:
+        if t.custom_exit_behaviour == Task.CONTINUE or \
+           t.custom_exit_behaviour == Task.TERMINATE:
+            valid_exit_status.append(t.custom_exit_status)
     try:
         logger.info("EXECUTABLE: "+run.command)
         logger.info("STD OUT: "+run.std_out_str)
         # run.prepare()
-        exit_status = run.run_cmd()
+        exit_status = run.run_cmd(valid_exit_status)
     except Exception as e:
         run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                       " : "+str(current_step) + " : " + run.command
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
+        # We don't raise and error here as we want to test the exit status
+        # and make a decision later
         raise OSError(run_message)
 
     # if the command ran with success we'll send the file contents to the
@@ -214,13 +222,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # if DEBUG settings are true we leave behind the temp working dir.
     if settings.DEBUG is not True:
         run.tidy()
-
-    # set the valid exit statuses in case their is a defined value alternative
-    valid_exit_status = [0, ]
-    if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.CONTINUE or \
-           t.custom_exit_behaviour == Task.TERMINATE:
-            valid_exit_status.append(t.custom_exit_status)
 
     custom_exit_termination = False
     incomplete_outputs_termination = False

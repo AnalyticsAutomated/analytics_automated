@@ -94,23 +94,23 @@ class JobAdmin(admin.ModelAdmin):
 
     def task_list(self, obj):
         j = Job.objects.get(pk=obj.pk)
-        task_list = ""
+        task_list = "No Tasks for job"
+        if len(j.steps.all()) > 0:
+            task_list = ''
 
         previous_step_number = None
         for s in j.steps.all():
             url = reverse('admin:analytics_automated_task_change',
                           args=(s.task.pk,))
-            task_list += '<a href="%s"> %s </a>' % (url, s.task)
             if s.ordering == previous_step_number:
-                task_list+=" +"
-            else:
-                task_list+=" ->"
+                task_list = task_list[:-2]
+                task_list += "+"
+
+            task_list += '<a href="%s"> %s </a> ->' % (url, s.task)
             previous_step_number = s.ordering
+
         task_list = task_list.rstrip(' ->')
         task_list = task_list.rstrip(' +')
-
-
-        task_list += 'No Tasks for job'
 
         return task_list
 
