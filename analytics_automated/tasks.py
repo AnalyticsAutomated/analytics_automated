@@ -313,12 +313,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
     # s2 = Submission.objects.get(UUID=uuid)
     s.refresh_from_db()
-    print("STATUS BEFORE COMMIT:" + str(s.status))
-    print("ERROR STATUS:" + str(Submission.ERROR))
-    print("CRASH STATUS:" + str(Submission.CRASH))
-
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
-        print("HI THERE")
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
 
