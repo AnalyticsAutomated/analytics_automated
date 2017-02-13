@@ -106,7 +106,7 @@ def insert_data(output_data, s, t, current_step, previous_step):
 #       of reduce step is 'required' this needs fix.
 #       One way to handle this would be to add a dummy "end" task to the
 #       chain() if the chain would otherwise end in a group()
-@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40)
+@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40, max_retries=5)
 def task_runner(self, uuid, step_id, current_step, step_counter,
                 total_steps, task_name, flags, options, environment):
     """
@@ -135,7 +135,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     oglob = out_globs[0].lstrip(".")
     # update submission tracking to note that this is running
     with transaction.atomic():
-        if s.status != Submission.ERROR or s.status != Submission.CRASH:
+        if s.status != Submission.ERROR and s.status != Submission.CRASH:
             Submission.update_submission_state(s, True, Submission.RUNNING,
                                                step_id,
                                                self.request.id,
@@ -311,12 +311,21 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
 
-    Submission.update_submission_state(s, True, state, step_id,
-                                       self.request.id, message)
+    # s2 = Submission.objects.get(UUID=uuid)
+    s.refresh_from_db()
+    print("STATUS BEFORE COMMIT:" + str(s.status))
+    print("ERROR STATUS:" + str(Submission.ERROR))
+    print("CRASH STATUS:" + str(Submission.CRASH))
+
+    if s.status != Submission.ERROR and s.status != Submission.CRASH:
+        print("HI THERE")
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, message)
 
     if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.TERMINATE:
+        if t.custom_exit_behaviour == Task.TERMINATE and exit_status == t.custom_exit_status:
             if self.request.chain:
+                # print("hi there")
                 self.request.chain = None
 
 
@@ -339,5 +348,7 @@ def chord_end(self, uuid, step_id, current_step):
     except Exception as e:
         logger.info("Mail server not available:" + str(e))
 
-    Submission.update_submission_state(s, True, state, step_id,
-                                       self.request.id, message)
+    s.refresh_from_db()
+    if s.status != Submission.ERROR and s.status != Submission.CRASH:
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, message)

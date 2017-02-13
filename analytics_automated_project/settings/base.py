@@ -60,7 +60,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
                        'submission/'
 
 # Celery Settings
-# BROKER_URL = ''
+CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERY_RESULT_BACKEND = 'amqp'
 # CELERY_TIMEZONE = 'Europe/London'
 # CELERY_ACCEPT_CONTENT = ['json']
@@ -69,7 +69,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 # CELERY_ENABLE_UTC = True
 # CELERYD_MAX_TASKS_PER_CHILD = 30
 # CELERYD_PREFETCH_MULTIPLIER = 1
-CELERY_RESULT_BACKEND = 'amqp'
+CELERY_RESULT_BACKEND = 'redis'
 #BACKEND SHOULD BE SENT TO STAGING SETTINGS
 timezone = 'Europe/London'
 accept_content = ['json']

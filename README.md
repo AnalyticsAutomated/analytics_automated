@@ -100,3 +100,10 @@ http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-
 3. Worker monitoring (flower)
 
 4. Let jobs run jobs as nested structures
+
+THINGS FOR ANSIBLE update
+=========================
+
+pip install -U "celery[redis]"
+sudo yum install redis
+redis-server (now runs on port 6379, not much point in adding authentication)
