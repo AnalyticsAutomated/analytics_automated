@@ -235,6 +235,26 @@ class TaskTestCase(TestCase):
         backend='memory',
     )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
+    def testCustomExitFailsIfGivenNonNumbericalExitStatuses(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status="123,ARGHEL",
+                                custom_exit_behaviour=Task.FAIL)
+        self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
+                          "test_custom_continue", [], {}, None, {})
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
     def testCustomExitTerminates(self, m):
         '''
             If we set an alternate exit status and that the job should continue

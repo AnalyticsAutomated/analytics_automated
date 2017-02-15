@@ -226,7 +226,17 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     valid_exit_status = [0, ]
     custom_exit_statuses = []
     if t.custom_exit_status is not None:
-        custom_exit_statuses = list(map(int, t.custom_exit_status.split(",")))
+        statuses = t.custom_exit_status.replace(" ", "")
+        try:
+            custom_exit_statuses = list(map(int, statuses.split(",")))
+        except Exception as e:
+            exit_status_message = "Exit statuses contains non-numerical and " \
+                                  "other punctuation "+str(e) + \
+                                  " : "+str(current_step) + " : " + run.command
+            Submission.update_submission_state(s, True, state, step_id,
+                                               self.request.id,
+                                               exit_status_message)
+            raise OSError(exit_status_message)
         if t.custom_exit_behaviour == Task.CONTINUE or \
            t.custom_exit_behaviour == Task.TERMINATE:
             valid_exit_status += custom_exit_statuses
