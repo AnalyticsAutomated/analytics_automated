@@ -228,7 +228,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if t.custom_exit_status is not None:
         statuses = t.custom_exit_status.replace(" ", "")
         try:
-            custom_exit_statuses = list(map(int, statuses.split(",")))
+            if len(statuses) > 0:
+                custom_exit_statuses = list(map(int, statuses.split(",")))
         except Exception as e:
             exit_status_message = "Exit statuses contains non-numerical and " \
                                   "other punctuation "+str(e) + \
@@ -245,7 +246,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         logger.info("EXECUTABLE: "+run.command)
         logger.info("STD OUT: "+run.std_out_str)
         # run.prepare()
-        print("EXIT STATUSES: "+valid_exit_status)
+        logger.info("EXIT STATUSES: "+str(valid_exit_status))
         exit_status = run.run_cmd(valid_exit_status)
     except Exception as e:
         run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
