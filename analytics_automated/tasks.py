@@ -108,7 +108,7 @@ def insert_data(output_data, s, t, current_step, previous_step):
 #       chain() if the chain would otherwise end in a group()
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40, max_retries=5)
 def task_runner(self, uuid, step_id, current_step, step_counter,
-                total_steps, task_name, flags, options, environment):
+                total_steps, task_name, flags, options, value, environment):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -154,7 +154,21 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     try:
         if t.backend.server_type == Backend.LOCALHOST:
             logger.info("Running At LOCALHOST")
-            run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+            if value:
+                run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                              out_globs=out_globs,
+                              command=t.executable,
+                              input_data=data_dict,
+                              flags=flags,
+                              options=options,
+                              identifier=uuid,
+                              std_out_str=uuid+stdoglob,
+                              input_string=uuid+"."+iglob,
+                              output_string=uuid+"."+oglob,
+                              value_string=value,
+                              env_vars=environment)
+            else:
+                run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                               out_globs=out_globs,
                               command=t.executable,
                               input_data=data_dict,
@@ -167,7 +181,21 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                               env_vars=environment)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At GRIDENGINE")
-            run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+            if value:
+                run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                           out_globs=out_globs,
+                           command=t.executable,
+                           input_data=data_dict,
+                           flags=flags,
+                           options=options,
+                           identifier=uuid,
+                           std_out_str=uuid+stdoglob,
+                           input_string=uuid+"."+iglob,
+                           output_string=uuid+"."+oglob,
+                           value_string=value,
+                           env_vars=environment)
+            else:
+                run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=out_globs,
                            command=t.executable,
                            input_data=data_dict,

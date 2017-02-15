@@ -57,9 +57,22 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         options = {}
         params = task.parameters.all().filter(bool_valued=False)
         for param in params:
+            if "VALUE" in param.flag: #skip the special param
+                continue
             if param.rest_alias in request_data:
                 options[param.flag] = request_data[param.rest_alias]
         return(options)
+
+    def __return_value(self, task, request_data):
+        options = {}
+        params = task.parameters.all().filter(bool_valued=False)
+        alias = None
+        for param in params:
+            if "VALUE" in param.flag:
+                if param.rest_alias in request_data:
+                    return request_data[param.rest_alias]
+                else:
+                    return param.default
 
     def __build_environment(self, task):
         environment = {}
@@ -129,6 +142,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         queue_name = 'celery'
         flags = {}
         options = {}
+        value = None
 
         if total_steps > 1:
             if steps[total_steps-1].ordering == steps[total_steps-2].ordering:
@@ -160,7 +174,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
-                          "%s, %s, %s), " \
+                          "%s, %s, %s, %s), " \
                           "immutable=True, queue='%s')" \
                           % (UUID,
                              step.ordering,
@@ -170,6 +184,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              step.task.name,
                              flags,
                              options,
+                             value,
                              environment,
                              queue_name)
 
