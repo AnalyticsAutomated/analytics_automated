@@ -139,7 +139,7 @@ class Task(models.Model):
     incomplete_outputs_behaviour = models.IntegerField(null=False, blank=False,
                                                choices=COMPLETION_CHOICES,
                                                default=FAIL)
-    custom_exit_status = models.IntegerField(null=True, blank=True)
+    custom_exit_status = models.CharField(max_length=256, null=True, blank=True)
     custom_exit_behaviour = models.IntegerField(null=True, blank=True,
                                                 choices=COMPLETION_CHOICES,)
 

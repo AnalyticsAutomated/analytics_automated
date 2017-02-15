@@ -157,7 +157,51 @@ class TaskTestCase(TestCase):
         t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
                                 executable="grep 'previous' /tmp/",
                                 in_glob="in", out_glob="out",
-                                custom_exit_status=123,
+                                custom_exit_status="123",
+                                custom_exit_behaviour=Task.CONTINUE)
+        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
+                          {}, None, {})
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.assertEqual(self.sub.last_message, "Completed step: 1")
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=123)
+    def testCustomExitTakesMultipleValues123(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status="123,500",
+                                custom_exit_behaviour=Task.CONTINUE)
+        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
+                          {}, None, {})
+        self.sub = Submission.objects.get(UUID=self.uuid1)
+        self.assertEqual(self.sub.last_message, "Completed step: 1")
+
+    @override_settings(
+        task_eager_propagates=True,
+        task_always_eager=True,
+        broker_url='memory://',
+        backend='memory',
+    )
+    @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=500)
+    def testCustomExitTakesMultipleValues500(self, m):
+        '''
+            If we set an alternate exit status and that the job should continue
+            then we should see the job end at the 2nd task
+        '''
+        t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
+                                executable="grep 'previous' /tmp/",
+                                in_glob="in", out_glob="out",
+                                custom_exit_status="123,500",
                                 custom_exit_behaviour=Task.CONTINUE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
                           {}, None, {})
@@ -179,7 +223,7 @@ class TaskTestCase(TestCase):
         t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
                                 executable="grep 'previous' /tmp/",
                                 in_glob="in", out_glob="out",
-                                custom_exit_status=123,
+                                custom_exit_status="123",
                                 custom_exit_behaviour=Task.FAIL)
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
                           "test_custom_continue", [], {}, None, {})
@@ -199,7 +243,7 @@ class TaskTestCase(TestCase):
         t2 = TaskFactory.create(backend=self.b, name="test_custom_continue",
                                 executable="grep 'previous' /tmp/",
                                 in_glob="in", out_glob="out",
-                                custom_exit_status=123,
+                                custom_exit_status="123",
                                 custom_exit_behaviour=Task.TERMINATE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
                           {}, None, {})

@@ -493,14 +493,14 @@ class SubmissionDetailTests(APITestCase):
                                                     {'task1_that': 456})
         self.assertEqual(value, "A")
 
-    def test__return_value_none_with_no_value_set(self):
+    def test__return_value_empty_string_with_no_value_set(self):
         p1 = ParameterFactory.create(task=self.t, flag="thingy",
                                      bool_valued=False,
                                      rest_alias="this")
         sd = SubmissionDetails()
         value = sd._SubmissionDetails__return_value(self.t,
                                                     {'task1_this': 456})
-        self.assertEqual(value, None)
+        self.assertEqual(value, '')
 
     def test__build_environment_returns_valid_dict(self):
         p1 = EnvironmentFactory.create(task=self.t, env="Test", value="McPath")
@@ -573,7 +573,13 @@ class SubmissionDetailTests(APITestCase):
         p1 = ParameterFactory.create(task=self.t, flag="-th",
                                      bool_valued=False,
                                      rest_alias="that")
-        request_contents = {'task1_this': 'True', 'task1_that': 123}
+        p1 = ParameterFactory.create(task=self.t, flag="VALUE",
+                                     bool_valued=False,
+                                     rest_alias="other",
+                                     default="huh")
+
+        request_contents = {'task1_this': 'True', 'task1_that': 123,
+                            'task1_other': 'things'}
         steps = self.j1.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])
         sd = SubmissionDetails()
@@ -582,8 +588,8 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 1, 'task1', ['-t'], "
-                                    "{'-th': 123}, None, {}), immutable=True, "
-                                    "queue='localhost'))()")
+                                    "{'-th': 123}, 'things', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
 
     def test__construct_chain_string_multitask(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
@@ -599,12 +605,12 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 2, 'task1', [], "
-                                    "{}, None, {}), immutable=True, "
+                                    "{}, '', {}), immutable=True, "
                                     "queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
                                     "', 1, 2, 2, 2, 'task2', [], "
-                                    "{}, None, {}), immutable=True, "
-                                    "queue='localhost'))()")
+                                    "{}, '', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
 
     def test__construct_group_chain_string(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
@@ -625,17 +631,18 @@ class SubmissionDetailTests(APITestCase):
         chain_str = sd._SubmissionDetails__construct_chain_string(
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 4, 'task1', [], {}, None, {}), "
+                                    "', 0, 1, 1, 4, 'task1', [], {}, '', {}), "
                                     "immutable=True, queue='localhost'), "
                                     "group(task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 2, 4, 'task2', [], {}, None, {}), "
+                                    "', 1, 2, 2, 4, 'task2', [], {}, '', {}), "
                                     "immutable=True, queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 3, 4, 'task3', [], {}, None, {}), "
+                                    "', 1, 2, 3, 4, 'task3', [], {}, '', {}), "
                                     "immutable=True, queue='localhost')), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 2, 3, 4, 4, 'task4', [], {}, None, {}), "
-                                    "immutable=True, queue='localhost'))()")
+                                    "', 2, 3, 4, 4, 'task4', [], {}, '', {}), "
+                                    "immutable=True, "
+                                    "queue='localhost'),).apply_async()")
 
     def test__construct_chain_string_with_ending_group(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
@@ -654,13 +661,14 @@ class SubmissionDetailTests(APITestCase):
                     steps, request_contents, local_id, 1)
         # print(chain_str)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 4, 'task1', [], {}, None, {}), "
+                                    "', 0, 1, 1, 4, 'task1', [], {}, '', {}), "
                                     "immutable=True, queue='localhost'), "
                                     "group(task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 2, 4, 'task2', [], {}, None, {}), "
+                                    "', 1, 2, 2, 4, 'task2', [], {}, '', {}), "
                                     "immutable=True, queue='localhost'), "
                                     "task_runner.subtask(('" + local_id +
-                                    "', 1, 2, 3, 4, 'task3', [], {}, None, {}), "
+                                    "', 1, 2, 3, 4, 'task3', [], {}, '', {}), "
                                     "immutable=True, queue='localhost')), "
                                     "chord_end.subtask(('" + local_id +
-                                    "', 2, 4), immutable=True, queue='localhost'))()")
+                                    "', 2, 4), immutable=True, "
+                                    "queue='localhost'),).apply_async()")

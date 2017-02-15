@@ -224,10 +224,13 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
     # set the valid exit statuses in case their is a defined value alternative
     valid_exit_status = [0, ]
+    custom_exit_statuses = []
     if t.custom_exit_status is not None:
+        custom_exit_statuses = list(map(int, t.custom_exit_status.split(",")))
         if t.custom_exit_behaviour == Task.CONTINUE or \
            t.custom_exit_behaviour == Task.TERMINATE:
-            valid_exit_status.append(t.custom_exit_status)
+            valid_exit_status += custom_exit_statuses
+
     try:
         logger.info("EXECUTABLE: "+run.command)
         logger.info("STD OUT: "+run.std_out_str)
@@ -254,7 +257,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     custom_exit_termination = False
     incomplete_outputs_termination = False
     if exit_status in valid_exit_status:
-        if exit_status == t.custom_exit_status and \
+        if exit_status in custom_exit_statuses and \
                        t.custom_exit_behaviour == Task.TERMINATE:
             custom_exit_termination = True
 
@@ -285,7 +288,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             if t.incomplete_outputs_behaviour == Task.CONTINUE:
                 # by default we insert whatever results we have and keep going
                 insert_data(run.output_data, s, t, current_step, previous_step)
-    elif exit_status == t.custom_exit_status and \
+    elif exit_status in custom_exit_statuses and \
             t.custom_exit_behaviour == Task.FAIL:
             # if we hit an exit status that we ought to fail on raise an error
         insert_data(run.output_data, s, t, current_step, previous_step)
@@ -346,7 +349,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            self.request.id, message)
 
     if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.TERMINATE and exit_status == t.custom_exit_status:
+        if t.custom_exit_behaviour == Task.TERMINATE and exit_status in custom_exit_statuses:
             if self.request.chain:
                 # print("hi there")
                 self.request.chain = None

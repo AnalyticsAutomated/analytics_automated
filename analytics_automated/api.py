@@ -66,13 +66,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __return_value(self, task, request_data):
         options = {}
         params = task.parameters.all().filter(bool_valued=False)
-        alias = None
         for param in params:
             if "VALUE" in param.flag:
                 if param.rest_alias in request_data:
                     return request_data[param.rest_alias]
                 else:
                     return param.default
+        return ''
 
     def __build_environment(self, task):
         environment = {}
@@ -142,7 +142,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         queue_name = 'celery'
         flags = {}
         options = {}
-        value = None
+        value = ''
 
         if total_steps > 1:
             if steps[total_steps-1].ordering == steps[total_steps-2].ordering:
@@ -159,6 +159,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for step in steps:
             flags = self.__build_flags(step.task, request_contents)
             options = self.__build_options(step.task, request_contents)
+            value = self.__return_value(step.task, request_contents)
             environment = self.__build_environment(step.task)
             if step.task.backend.server_type == Backend.LOCALHOST:
                 queue_name = 'localhost'
@@ -174,7 +175,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
-                          "%s, %s, %s, %s), " \
+                          "%s, %s, '%s', %s), " \
                           "immutable=True, queue='%s')" \
                           % (UUID,
                              step.ordering,
@@ -212,7 +213,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             tchain += ", chord_end.subtask(('%s', %i, %i), " \
                       "immutable=True, queue='%s')" \
                       % (UUID, current_step, total_steps, queue_name)
-        tchain += ')()'
+        tchain += ',).apply_async()'
 
         # print(tchain)
 
@@ -290,8 +291,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             # 4. Call delay on the Celery chain
 
             try:
+                logger.info('Sending this chain: '+tchain)
                 exec(tchain)
-                logger.info('Sending This chain: '+tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
                 return Response(tchain,
