@@ -182,6 +182,8 @@ class Parameter(models.Model):
     bool_valued = models.BooleanField(default=False, blank=False)
     rest_alias = models.CharField(max_length=64, unique=True, null=False,
                                   blank=False)
+    spacing = models.BooleanField(default=True, blank=False)
+    switchless = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return self.flag
