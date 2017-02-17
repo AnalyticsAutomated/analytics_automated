@@ -44,6 +44,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     lookup_field = 'UUID'
     parser_classes = (MultiPartParser, FormParser,)
 
+    def __build_params(self, task, request_data):
+        params = []
+        param_values = {}
+        params = task.parameters.all().order_by("id")
+        for param in params:
+            params.append(param.flag)
+
     def __build_flags(self, task, request_data):
         flags = []
         params = task.parameters.all().filter(bool_valued=True)
@@ -157,8 +164,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         # insert subtask or group in to chain()()
 
         for step in steps:
-            flags = self.__build_flags(step.task, request_contents)
-            options = self.__build_options(step.task, request_contents)
+            (flags, param_values) = self.__build_params(step.task, request_contents)
             value = self.__return_value(step.task, request_contents)
             environment = self.__build_environment(step.task)
             if step.task.backend.server_type == Backend.LOCALHOST:
@@ -183,8 +189,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              step_counter,
                              total_steps,
                              step.task.name,
-                             flags,
-                             options,
+                             params,
+                             param_values,
                              value,
                              environment,
                              queue_name)

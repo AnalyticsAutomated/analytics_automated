@@ -108,7 +108,7 @@ def insert_data(output_data, s, t, current_step, previous_step):
 #       chain() if the chain would otherwise end in a group()
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40, max_retries=5)
 def task_runner(self, uuid, step_id, current_step, step_counter,
-                total_steps, task_name, flags, options, value, environment):
+                total_steps, task_name, params, param_values, value, environment):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -157,54 +157,50 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             if value:
                 run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                               out_globs=out_globs,
+                              in_globs=in_globs,
                               command=t.executable,
                               input_data=data_dict,
-                              flags=flags,
-                              options=options,
+                              params=params,
+                              param_values=param_values
                               identifier=uuid,
                               std_out_str=uuid+stdoglob,
-                              input_string=uuid+"."+iglob,
-                              output_string=uuid+"."+oglob,
                               value_string=value,
                               env_vars=environment)
             else:
                 run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                               out_globs=out_globs,
+                              in_globs=in_globs,
                               command=t.executable,
                               input_data=data_dict,
-                              flags=flags,
-                              options=options,
+                              params=params,
+                              param_values=param_values
                               identifier=uuid,
                               std_out_str=uuid+stdoglob,
-                              input_string=uuid+"."+iglob,
-                              output_string=uuid+"."+oglob,
                               env_vars=environment)
         if t.backend.server_type == Backend.GRIDENGINE:
             logger.info("Running At GRIDENGINE")
             if value:
                 run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=out_globs,
+                           in_globs=in_globs,
                            command=t.executable,
                            input_data=data_dict,
-                           flags=flags,
-                           options=options,
+                           params=params,
+                           param_values=param_values
                            identifier=uuid,
                            std_out_str=uuid+stdoglob,
-                           input_string=uuid+"."+iglob,
-                           output_string=uuid+"."+oglob,
                            value_string=value,
                            env_vars=environment)
             else:
                 run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
                            out_globs=out_globs,
+                           in_globs=in_globs,
                            command=t.executable,
                            input_data=data_dict,
-                           flags=flags,
-                           options=options,
+                           params=params,
+                           param_values=param_values
                            identifier=uuid,
                            std_out_str=uuid+stdoglob,
-                           input_string=uuid+"."+iglob,
-                           output_string=uuid+"."+oglob,
                            env_vars=environment)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
