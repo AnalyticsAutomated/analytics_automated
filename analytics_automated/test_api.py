@@ -413,67 +413,6 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test__build_flags_returns_valid_array(self):
-        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t,
-                                                   {'task1_this': 'True'})
-        self.assertEqual(array, ["t"])
-
-    def test__build_flags_returns_nothing_flag_set_to_false(self):
-        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t,
-                                                   {'task1_this': 'False'})
-        self.assertEqual(array, [])
-
-    def test__build_flags_returns_nothing_with_mismatch(self):
-        p1 = ParameterFactory.create(task=self.t, flag="t", bool_valued=True,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        array = sd._SubmissionDetails__build_flags(self.t,
-                                                   {'task1_that': 'False'})
-        self.assertEqual(array, [])
-
-    def test__build_options_returns_valid_dict(self):
-        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t,
-                                                    {'task1_this': 123})
-        self.assertEqual(dict, {"-t": 123})
-
-    def test__build_options_returns_nothing_with_mismatch(self):
-        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t,
-                                                    {'task1_that': 123})
-        self.assertEqual(dict, {})
-
-    def test__build_options_does_not_return_value_flag(self):
-        p1 = ParameterFactory.create(task=self.t, flag="VALUE",
-                                     bool_valued=False,
-                                     rest_alias="this")
-        sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t,
-                                                    {'task1_this': 123})
-        self.assertEqual(dict, {})
-
-    def test__build_options_does_not_return_value_flag_but_returns_other(self):
-        p1 = ParameterFactory.create(task=self.t, flag="VALUE",
-                                     bool_valued=False,
-                                     rest_alias="this")
-        p2 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
-                                     rest_alias="that")
-        sd = SubmissionDetails()
-        dict = sd._SubmissionDetails__build_options(self.t,
-                                                    {'task1_that': 123,
-                                                     'task1_this': 456})
-        self.assertEqual(dict, {"-t": 123})
-
     def test__return_value_returns_value_flag(self):
         p1 = ParameterFactory.create(task=self.t, flag="VALUE",
                                      bool_valued=False,
@@ -572,7 +511,9 @@ class SubmissionDetailTests(APITestCase):
                                      rest_alias="this")
         p1 = ParameterFactory.create(task=self.t, flag="-th",
                                      bool_valued=False,
-                                     rest_alias="that")
+                                     rest_alias="that",
+                                     default=123,
+                                     spacing=True)
         p1 = ParameterFactory.create(task=self.t, flag="VALUE",
                                      bool_valued=False,
                                      rest_alias="other",
@@ -587,8 +528,10 @@ class SubmissionDetailTests(APITestCase):
         chain_str = sd._SubmissionDetails__construct_chain_string(
                     steps, request_contents, local_id, 1)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
-                                    "', 0, 1, 1, 1, 'task1', ['-t'], "
-                                    "{'-th': 123}, 'things', {}), immutable=True, "
+                                    "', 0, 1, 1, 1, 'task1', ['-t', '-th'], "
+                                    "{'-th': {'spacing': True, "
+                                    "'switchless': False, 'value': 123}}, "
+                                    "'things', {}), immutable=True, "
                                     "queue='localhost'),).apply_async()")
 
     def test__construct_chain_string_multitask(self):
