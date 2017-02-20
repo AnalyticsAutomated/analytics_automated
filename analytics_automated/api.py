@@ -2,6 +2,7 @@ import ast
 import uuid
 from ipware.ip import get_ip
 from collections import defaultdict
+import pprint
 import logging
 
 from celery import chain
@@ -47,28 +48,27 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __build_params(self, task, request_data):
         params = []
         param_values = {}
-        params = task.parameters.all().order_by("id")
-        for param in params:
-            params.append(param.flag)
-
-    def __build_flags(self, task, request_data):
-        flags = []
-        params = task.parameters.all().filter(bool_valued=True)
-        for param in params:
-            if param.rest_alias in request_data and \
-             request_data[param.rest_alias] == 'True':  # check what was passed
-                flags.append(param.flag)
-        return(flags)
-
-    def __build_options(self, task, request_data):
-        options = {}
-        params = task.parameters.all().filter(bool_valued=False)
-        for param in params:
-            if "VALUE" in param.flag: #skip the special param
+        parameters = task.parameters.all().order_by("id")
+        for param in parameters:
+            if "VALUE" in param.flag:
                 continue
-            if param.rest_alias in request_data:
-                options[param.flag] = request_data[param.rest_alias]
-        return(options)
+            if param.bool_valued is True:
+                # omit flag if user set false if not fail over to including it
+                if param.rest_alias in request_data and \
+                 request_data[param.rest_alias] == 'False':
+                    params.append('')
+                else:
+                    params.append(param.flag)
+            else:
+                params.append(param.flag)
+                if param.rest_alias in request_data:
+                    param_values = {param.flag:
+                                    {'value': request_data[param.rest_alias],
+                                     'switchless': param.switchless,
+                                     'spacing': param.spacing
+                                     }}
+
+        return(params, param_values)
 
     def __return_value(self, task, request_data):
         options = {}
@@ -164,7 +164,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         # insert subtask or group in to chain()()
 
         for step in steps:
-            (flags, param_values) = self.__build_params(step.task, request_contents)
+            (params, param_values) = self.__build_params(step.task, request_contents)
             value = self.__return_value(step.task, request_contents)
             environment = self.__build_environment(step.task)
             if step.task.backend.server_type == Backend.LOCALHOST:
@@ -190,7 +190,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              total_steps,
                              step.task.name,
                              params,
-                             param_values,
+                             pprint.pformat(param_values),
                              value,
                              environment,
                              queue_name)
