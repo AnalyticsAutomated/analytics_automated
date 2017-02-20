@@ -62,11 +62,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             else:
                 params.append(param.flag)
                 if param.rest_alias in request_data:
-                    param_values = {param.flag:
-                                    {'value': request_data[param.rest_alias],
-                                     'switchless': param.switchless,
-                                     'spacing': param.spacing
-                                     }}
+                    param_values[param.flag] = {}
+                    param_values[param.flag]['value'] = request_data[param.rest_alias]
+                    param_values[param.flag]['switchless'] = param.switchless
+                    param_values[param.flag]['spacing'] = param.spacing
+                else:
+                    param_values[param.flag] = {}
+                    param_values[param.flag]['value'] = param.default
+                    param_values[param.flag]['switchless'] = param.switchless
+                    param_values[param.flag]['spacing'] = param.spacing
 
         return(params, param_values)
 
@@ -190,7 +194,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              total_steps,
                              step.task.name,
                              params,
-                             pprint.pformat(param_values),
+                             pprint.pformat(param_values).replace('\n',''),
                              value,
                              environment,
                              queue_name)
@@ -295,7 +299,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             tchain = self.__construct_chain_string(steps, request_contents,
                                                    s.UUID, job_priority)
             # 4. Call delay on the Celery chain
-
             try:
                 logger.info('Sending this chain: '+tchain)
                 exec(tchain)

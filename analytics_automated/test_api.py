@@ -562,6 +562,58 @@ class SubmissionDetailTests(APITestCase):
                                     "'things', {}), immutable=True, "
                                     "queue='localhost'),).apply_async()")
 
+    def test__ensure_we_more_than_one_option(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
+                                     rest_alias="that",
+                                     default=123,
+                                     spacing=True)
+        p1 = ParameterFactory.create(task=self.t, flag="-ch",
+                                     bool_valued=False,
+                                     rest_alias="chain",
+                                     default="CU",
+                                     spacing=True)
+
+        request_contents = {'task1_chain': 'AS', 'task1_that': 123, }
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
+        #print(chain_str)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 1, 'task1', ['-th', '-ch'], "
+                                    "{'-ch': {'spacing': True, "
+                                    "'switchless': False, 'value': 'AS'}, "
+                                    "'-th': {'spacing': True, "
+                                    "'switchless': False, 'value': 123}}, "
+                                    "'', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
+
+    def test__option_uses_default_if_not_passed(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
+                                     rest_alias="that",
+                                     default=123,
+                                     spacing=True)
+
+        request_contents = {'task1_chain': 'AS', }
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
+        #print(chain_str)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 1, 'task1', ['-th'], "
+                                    "{'-th': {'spacing': True, "
+                                    "'switchless': False, 'value': '123'}}, "
+                                    "'', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
+
+
     def test__request_sets_option_value(self):
         p1 = ParameterFactory.create(task=self.t, flag="-th",
                                      bool_valued=False,

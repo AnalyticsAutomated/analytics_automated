@@ -14,6 +14,9 @@ data = {'job': 'metsite',
         'submission_name': 'test',
         'email': 'daniel.buchan@ucl.ac.uk',
         'metsite_checkchains_chain': 'A',
-        'extract_fasta_chain': 'A', }
+        'extract_fasta_chain': 'A',
+        'seedSiteFind_chain': 'A',
+        'seedSiteFind_metal': 'CU',
+        }
 r = requests.post(url, data=data, files=payload)
 print(r.text)
