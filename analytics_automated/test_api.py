@@ -534,6 +534,55 @@ class SubmissionDetailTests(APITestCase):
                                     "'things', {}), immutable=True, "
                                     "queue='localhost'),).apply_async()")
 
+    def test__ensure_option_order_preserved_with_value(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=True,
+                                     rest_alias="this")
+        p1 = ParameterFactory.create(task=self.t, flag="VALUE",
+                                     bool_valued=False,
+                                     rest_alias="other",
+                                     default="huh")
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
+                                     rest_alias="that",
+                                     default=123,
+                                     spacing=True)
+
+        request_contents = {'task1_this': 'True', 'task1_that': 123,
+                            'task1_other': 'things'}
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 1, 'task1', ['-t', '-th'], "
+                                    "{'-th': {'spacing': True, "
+                                    "'switchless': False, 'value': 123}}, "
+                                    "'things', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
+
+    def test__request_sets_option_value(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-th",
+                                     bool_valued=False,
+                                     rest_alias="that",
+                                     default=123,
+                                     spacing=True)
+
+        request_contents = {'task1_that': 456, }
+        steps = self.j1.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+        sd = SubmissionDetails()
+        local_id = str(uuid.uuid1())
+        chain_str = sd._SubmissionDetails__construct_chain_string(
+                    steps, request_contents, local_id, 1)
+        self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
+                                    "', 0, 1, 1, 1, 'task1', ['-th'], "
+                                    "{'-th': {'spacing': True, "
+                                    "'switchless': False, 'value': 456}}, "
+                                    "'', {}), immutable=True, "
+                                    "queue='localhost'),).apply_async()")
+
     def test__construct_chain_string_multitask(self):
         self.t2 = TaskFactory.create(backend=self.b, name="task2",
                                      executable="rm")
