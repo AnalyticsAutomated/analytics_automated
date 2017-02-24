@@ -48,6 +48,7 @@ def get_data(s, uuid, current_step, in_globs):
     # if this is not the first task get the input_data from the results
     if current_step == 1:
         s.input_data.open(mode='r')
+        #TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
         for line in s.input_data:
             data += line.decode(encoding='UTF-8')
         s.input_data.close()

@@ -38,19 +38,18 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     """
         API endpoint for Submission Viewing and Editing
     """
-    # sub clean_input_data
-    # TODO: function which grabs a regex from the db and ensures
-    # the input data string passes
-    # ValidationError(_('invalid_value'), code='invalid')
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
     parser_classes = (MultiPartParser, FormParser,)
 
     def __validate_input(self, validators, file_data):
         for validator in validators:
-            input_file_contents = file_data.open(mode='r').read()
-            print(validator.name+"(input_file_contents)")
-#           response = eval(validator.name)
+            print(file_data)
+            input_file_contents = file_data.open(mode='r')
+            print(input_file_contents)
+            print(str(validator)+"(input_file_contents)")
+            response = eval(validator.validation_type.name+"(input_file_contents)")
+            print(response)
 
     def __build_params(self, task, request_data):
         params = []

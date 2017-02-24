@@ -3,6 +3,7 @@ import io
 import uuid
 import datetime
 import pytz
+import glob
 from unipath import Path
 from unittest.mock import patch
 
@@ -51,6 +52,18 @@ class JobListTests(APITestCase):
         Result.objects.all().delete()
         SubmissionFactory.reset_sequence()
         JobFactory.reset_sequence()
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+                                "/file1*"):
+            os.remove(file_1)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/example*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/result1*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/huh*"):
+            os.remove(example)
 
 
 class JobTimeTests(APITestCase):
@@ -138,6 +151,18 @@ class JobTimeTests(APITestCase):
         Result.objects.all().delete()
         SubmissionFactory.reset_sequence()
         JobFactory.reset_sequence()
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+                                "/file1*"):
+            os.remove(file_1)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/example*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/result1*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/huh*"):
+            os.remove(example)
 
 
 class EndpointListTests(APITestCase):
@@ -173,6 +198,18 @@ class EndpointListTests(APITestCase):
         Result.objects.all().delete()
         SubmissionFactory.reset_sequence()
         JobFactory.reset_sequence()
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+                                "/file1*"):
+            os.remove(file_1)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/example*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/result1*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/huh*"):
+            os.remove(example)
 
 
 class SubmissionDetailTests(APITestCase):
@@ -208,6 +245,18 @@ class SubmissionDetailTests(APITestCase):
         Result.objects.all().delete()
         SubmissionFactory.reset_sequence()
         JobFactory.reset_sequence()
+        # for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+        #                         "/file1*"):
+        #     os.remove(file_1)
+        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
+        #                          "/example*"):
+        #     os.remove(example)
+        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
+        #                          "/result1*"):
+        #     os.remove(example)
+        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
+        #                          "/huh*"):
+        #     os.remove(example)
 
     def test_submission_detail_is_returned(self,):
         s1 = SubmissionFactory.create(input_data="test.txt")
@@ -694,9 +743,14 @@ class SubmissionDetailTests(APITestCase):
                                     "', 2, 4), immutable=True, "
                                     "queue='localhost'),).apply_async()")
 
-    def test__validate_input_rejects_gif(self):
+    def test__validate_input_accepts_png(self):
         vt = ValidatorTypesFactory.create(name='png')
         v = ValidatorFactory.create(job=self.j1, validation_type=vt)
         validators = self.j1.validators.all()
         sd = SubmissionDetails()
-        sd._SubmissionDetails__validate_input(validators, "huh")
+#        f = open("submissions/files/test.png", "rb")
+        f = open("submissions/files/test.png", "rb").read()
+        pngFile = SimpleUploadedFile('test.png', f)
+        s = SubmissionFactory.create(input_data=File(pngFile))
+        self.assertTrue(sd._SubmissionDetails__validate_input(validators,
+                        s.input_data))

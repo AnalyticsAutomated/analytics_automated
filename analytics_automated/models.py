@@ -106,10 +106,12 @@ class Validator(models.Model):
         if is_valid is False:
             raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
                                   value))
-    
+
     job = models.ForeignKey(Job, related_name="validators")
     validation_type = models.ForeignKey(ValidatorTypes, )
 
+    def __str__(self):
+        return self.validation_type.name
 
 class Task(models.Model):
     CONTINUE = 0   # The task should continue to the next step

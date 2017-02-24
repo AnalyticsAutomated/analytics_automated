@@ -9,6 +9,7 @@ def gif(file_data):
 
 
 def png(file_data):
+    print(file_data)
     if 'png' in imghdr.what('', file_data):
         return True
     else:
