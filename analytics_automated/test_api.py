@@ -693,3 +693,10 @@ class SubmissionDetailTests(APITestCase):
                                     "chord_end.subtask(('" + local_id +
                                     "', 2, 4), immutable=True, "
                                     "queue='localhost'),).apply_async()")
+
+    def test__validate_input_rejects_gif(self):
+        vt = ValidatorTypesFactory.create(name='png')
+        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
+        validators = self.j1.validators.all()
+        sd = SubmissionDetails()
+        sd._SubmissionDetails__validate_input(validators, "huh")

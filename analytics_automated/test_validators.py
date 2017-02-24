@@ -15,16 +15,16 @@ class TaskValidators(TestCase):
 
     def testAcceptGif(self):
         f = open("submissions/files/test.gif", "rb").read()
-        self.assertTrue(png(f))
+        self.assertTrue(gif(f))
 
     def testRejectNonGif(self):
         f = open("submissions/files/test.png", "rb").read()
-        self.assertFalse(png(f))
+        self.assertFalse(gif(f))
 
     def testAcceptJpeg(self):
         f = open("submissions/files/test.jpeg", "rb").read()
-        self.assertTrue(png(f))
+        self.assertTrue(jpeg(f))
 
     def testRejectNonJpeg(self):
         f = open("submissions/files/test.gif", "rb").read()
-        self.assertFalse(png(f))
+        self.assertFalse(jpeg(f))

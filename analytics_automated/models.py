@@ -106,18 +106,7 @@ class Validator(models.Model):
         if is_valid is False:
             raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
                                   value))
-    #
-    # REGEX = 0
-    # JPG = 1
-    # PNG = 2
-    # MP3 = 3
-    #
-    # VALIDATION_CHOICES = (
-    #     (REGEX, "Regular Expression"),
-    #     (PNG, ".png"),
-    #     (JPG, ".jpg"),
-    #     (MP3, ".mp3"),
-    # )
+    
     job = models.ForeignKey(Job, related_name="validators")
     validation_type = models.ForeignKey(ValidatorTypes, )
 

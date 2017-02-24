@@ -48,7 +48,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __validate_input(self, validators, file_data):
         for validator in validators:
-            pass
+            input_file_contents = file_data.open(mode='r').read()
+            print(validator.name+"(input_file_contents)")
+#           response = eval(validator.name)
 
     def __build_params(self, task, request_data):
         params = []
@@ -150,6 +152,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     #       second with the task.wait(1)
     def __construct_chain_string(self, steps, request_contents, UUID,
                                  job_priority):
+        """
+            Function takes all the step and task information for a given job
+            and returns a valid celery string
+        """
         total_steps = len(steps)
         chord_end = False
         current_step = 0
@@ -274,7 +280,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             job_priority = settings.LOGGED_IN_JOB_PRIORITY
 
         # In the future we'll set batch jobs to the lowest priority
-        # TODO: VALIDATE input_data IN SOME MANNER
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
