@@ -284,7 +284,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             job = Job.objects.get(name=s.job)
 
             validators = job.validators.all()
-            __validate_input(validators, s.input_data)
+            self.__validate_input(validators, s.input_data)
 
             steps = job.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])

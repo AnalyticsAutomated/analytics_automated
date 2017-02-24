@@ -157,18 +157,6 @@ class ValidatorTest(TestCase):
         Job.objects.all().delete()
         Validator.objects.all().delete
 
-    def test_valid_re_string(self):
-        j = JobFactory.create()
-        self.v = Validator(job=j, validation_type=0, re_string=".+")
-        self.v.full_clean()
-        self.v.save()
-        self.assertEqual(Validator.objects.count(), 1)
-
-    def test_invalid_re_string(self):
-        j = JobFactory.create()
-        self.v = Validator(job=j, validation_type=0, re_string="([")
-        self.assertRaises(ValidationError, self.v.full_clean)
-
     def tearDown(self):
         Backend.objects.all().delete()
         Job.objects.all().delete()

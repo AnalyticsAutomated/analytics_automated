@@ -390,29 +390,6 @@ class SubmissionDetailTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_validator_rejection_without_valid_input_data(self):
-        null_file = SimpleUploadedFile('file1.txt',
-                                       bytes('',
-                                             'utf-8'))
-        self.data['input_data'] = null_file
-        validator = ValidatorFactory(job=self.j1, validation_type=0,
-                                     re_string=".+")
-        request = self.factory.post(reverse('submission'), self.data,
-                                    format='multipart')
-        view = SubmissionDetails.as_view()
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    @patch('builtins.exec', return_value=True)
-    def test_validator_passes_with_valid_input_data(self, m):
-        validator = ValidatorFactory(job=self.j1, validation_type=0,
-                                     re_string=".+")
-        request = self.factory.post(reverse('submission'), self.data,
-                                    format='multipart')
-        view = SubmissionDetails.as_view()
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
     def test__return_value_returns_value_flag(self):
         p1 = ParameterFactory.create(task=self.t, flag="VALUE",
                                      bool_valued=False,

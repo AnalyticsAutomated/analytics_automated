@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from .models import Backend, Task, Job, Step, Submission
+from .models import Backend, Task, Job, Step, Submission, ValidatorTypes
 from .models import Parameter, Result, Validator, Environment
 
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
@@ -100,10 +100,16 @@ class EnvironmentFactory(factory.DjangoModelFactory):
         model = Environment
 
 
+class ValidatorTypesFactory(factory.DjangoModelFactory):
+    name = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = ValidatorTypes
+
+
 class ValidatorFactory(factory.DjangoModelFactory):
     job = factory.SubFactory(JobFactory)
-    validation_type = random.randint(0, 2)
-    re_string = ".+"
+    validation_type = factory.SubFactory(ValidatorTypesFactory)
 
     class Meta:
         model = Validator
