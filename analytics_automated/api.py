@@ -43,8 +43,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     parser_classes = (MultiPartParser, FormParser,)
 
     def __validate_input(self, validators, file_data):
+        input_file_contents = file_data.read()
         for validator in validators:
-            input_file_contents = file_data.read()
             if not eval(validator.validation_type.name+"(input_file_contents)"):
                 return(False)
         return(True)
@@ -239,6 +239,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return(tchain)
 
     def post(self, request, *args, **kwargs):
+
         """
             This is the Job Submission endpoint.
             Here we add things to our data object, validate using the
@@ -286,7 +287,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             job = Job.objects.get(name=s.job)
 
             validators = job.validators.all()
-            self.__validate_input(validators, s.input_data)
+            if not self.__validate_input(validators, s.input_data):
+                content = {'error': "The file you submitted was not the "
+                                    "formatted correctly"}
+                s.delete()
+                return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             steps = job.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])

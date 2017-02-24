@@ -294,6 +294,39 @@ class SubmissionDetailTests(APITestCase):
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.exec', return_value=True)
+    def test_submission_accepts_when_file_validates(self, m):
+        vt = ValidatorTypesFactory.create(name='png')
+        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
+        f = open("submissions/files/test.png", "rb").read()
+        pngFile = SimpleUploadedFile('test.png', f)
+        this_data = {'input_data': pngFile,
+             'job': 'job1',
+             'submission_name': 'test',
+             'email': 'a@b.com'}
+        request = self.factory.post(reverse('submission'), this_data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    @patch('builtins.exec', return_value=True)
+    def test_submission_rejects_when_file_does_not_validate(self, m):
+        vt = ValidatorTypesFactory.create(name='png')
+        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
+        f = open("submissions/files/test.gif", "rb").read()
+        pngFile = SimpleUploadedFile('test.gif', f)
+        this_data = {'input_data': pngFile,
+             'job': 'job1',
+             'submission_name': 'test',
+             'email': 'a@b.com'}
+        request = self.factory.post(reverse('submission'), this_data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+    @patch('builtins.exec', return_value=True)
     def test_submission_accepts_when_all_params_given(self, m):
         p1 = ParameterFactory.create(task=self.t, rest_alias="this")
         p2 = ParameterFactory.create(task=self.t, rest_alias="that")
