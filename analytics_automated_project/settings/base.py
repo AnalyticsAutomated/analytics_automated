@@ -114,7 +114,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'djcelery',
+    # 'djcelery',
     'analytics_automated',
     'rest_framework',
     'corsheaders',

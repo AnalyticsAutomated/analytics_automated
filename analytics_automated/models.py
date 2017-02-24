@@ -87,6 +87,13 @@ class Job(models.Model):
 # needed has been deleted
 
 
+class ValidatorTypes(models.Model):
+    name = models.CharField(max_length=512, null=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Validator(models.Model):
 
     def validate_re_string(value):
@@ -99,22 +106,20 @@ class Validator(models.Model):
         if is_valid is False:
             raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
                                   value))
-
-    REGEX = 0  # a job has been submitted but no worker has claimed it
-    IMAGE = 1    # job submitted and worker has claimed it
-    MP3 = 2   # All tasks complete and results available
-    #                the job has stopped
-    VALIDATION_CHOICES = (
-        (REGEX, "Regular Expression"),
-        # (IMAGE, "Image"),
-        # (MP3, "MP3"),
-    )
+    #
+    # REGEX = 0
+    # JPG = 1
+    # PNG = 2
+    # MP3 = 3
+    #
+    # VALIDATION_CHOICES = (
+    #     (REGEX, "Regular Expression"),
+    #     (PNG, ".png"),
+    #     (JPG, ".jpg"),
+    #     (MP3, ".mp3"),
+    # )
     job = models.ForeignKey(Job, related_name="validators")
-    validation_type = models.IntegerField(null=False, blank=False,
-                                          choices=VALIDATION_CHOICES,
-                                          default=REGEX)
-    re_string = models.CharField(max_length=512, null=True, blank=True,
-                                 validators=[validate_re_string])
+    validation_type = models.ForeignKey(ValidatorTypes, )
 
 
 class Task(models.Model):

@@ -26,6 +26,7 @@ from .serializers import JobSerializer
 from .models import Job, Submission, Backend
 from .forms import SubmissionForm
 from .tasks import *
+from .validators import *
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +45,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     queryset = Submission.objects.all()
     lookup_field = 'UUID'
     parser_classes = (MultiPartParser, FormParser,)
+
+    def __validate_input(self, validators, file_data):
+        for validator in validators:
+            pass
 
     def __build_params(self, task, request_data):
         params = []
@@ -277,6 +282,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             s.save()
             # Send to the Job Queue and set queued message if that is a success
             job = Job.objects.get(name=s.job)
+
+            validators = job.validators.all()
+            __validate_input(validators, s.input_data)
+
             steps = job.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])
             # 1. Look up tasks in a job

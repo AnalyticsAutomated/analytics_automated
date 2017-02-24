@@ -10,13 +10,14 @@ url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
 
 # payload = {'input_data': ('prot.txt', open('known_pdb.fasta', 'rb'))}
 payload = {'input_data': ('prot.txt', open('1iar.pdb', 'rb'))}
-data = {'job': 'metsite',
+data = {'job': 'memembed',
         'submission_name': 'test',
-        'email': 'daniel.buchan@ucl.ac.uk',
-        'metsite_checkchains_chain': 'A',
-        'extract_fasta_chain': 'A',
-        'seedSiteFind_chain': 'A',
-        'seedSiteFind_metal': 'CU',
-        }
+        'email': 'daniel.buchan@ucl.ac.uk',}
+        # 'hspred_checkchains_chains': 'AB',
+        # 'hs_pred_first_chain': 'A',
+        # 'hs_pred_second_chain': 'B',
+        # 'split_pdb_files_first_chain': 'A',
+        # 'split_pdb_files_second_chain': 'B',
+        # }
 r = requests.post(url, data=data, files=payload)
 print(r.text)
