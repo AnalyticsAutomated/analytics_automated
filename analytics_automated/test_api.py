@@ -754,3 +754,15 @@ class SubmissionDetailTests(APITestCase):
         s = SubmissionFactory.create(input_data=File(pngFile))
         self.assertTrue(sd._SubmissionDetails__validate_input(validators,
                         s.input_data))
+
+    def test__validate_input_rejects_gif(self):
+        vt = ValidatorTypesFactory.create(name='png')
+        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
+        validators = self.j1.validators.all()
+        sd = SubmissionDetails()
+#        f = open("submissions/files/test.png", "rb")
+        f = open("submissions/files/test.gif", "rb").read()
+        pngFile = SimpleUploadedFile('test.gif', f)
+        s = SubmissionFactory.create(input_data=File(pngFile))
+        self.assertFalse(sd._SubmissionDetails__validate_input(validators,
+                        s.input_data))

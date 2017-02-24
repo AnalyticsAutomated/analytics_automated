@@ -44,12 +44,10 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __validate_input(self, validators, file_data):
         for validator in validators:
-            print(file_data)
-            input_file_contents = file_data.open(mode='r')
-            print(input_file_contents)
-            print(str(validator)+"(input_file_contents)")
-            response = eval(validator.validation_type.name+"(input_file_contents)")
-            print(response)
+            input_file_contents = file_data.read()
+            if not eval(validator.validation_type.name+"(input_file_contents)"):
+                return(False)
+        return(True)
 
     def __build_params(self, task, request_data):
         params = []

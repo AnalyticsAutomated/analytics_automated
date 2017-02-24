@@ -6,7 +6,7 @@ import analytics_automated.validators
 
 class startup(AppConfig):
     name = "analytics_automated"
-    verbose_name = "Initialise Validator Table"
+    # verbose_name = "Initialise Validator Table"
     ready_run = False
 
     def ready(self):

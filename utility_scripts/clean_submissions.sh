@@ -1,5 +1,6 @@
 #!/bin/bash
 rm submissions/*.txt
+rm submissions/*.png
 rm submissions/*.chk
 rm submissions/*.cathbls
 rm submissions/*.pdbbls
