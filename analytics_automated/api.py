@@ -42,13 +42,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     lookup_field = 'UUID'
     parser_classes = (MultiPartParser, FormParser,)
 
-    def __validate_input(self, validators, file_data):
-        input_file_contents = file_data.read()
-        for validator in validators:
-            if not eval(validator.validation_type.name+"(input_file_contents)"):
-                return(False)
-        return(True)
-
     def __build_params(self, task, request_data):
         params = []
         param_values = {}
@@ -285,13 +278,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             s.save()
             # Send to the Job Queue and set queued message if that is a success
             job = Job.objects.get(name=s.job)
-
-            validators = job.validators.all()
-            if not self.__validate_input(validators, s.input_data):
-                content = {'error': "The file you submitted was not the "
-                                    "formatted correctly"}
-                s.delete()
-                return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
             steps = job.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])

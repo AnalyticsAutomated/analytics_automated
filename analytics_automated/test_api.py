@@ -245,18 +245,18 @@ class SubmissionDetailTests(APITestCase):
         Result.objects.all().delete()
         SubmissionFactory.reset_sequence()
         JobFactory.reset_sequence()
-        # for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
-        #                         "/file1*"):
-        #     os.remove(file_1)
-        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
-        #                          "/example*"):
-        #     os.remove(example)
-        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
-        #                          "/result1*"):
-        #     os.remove(example)
-        # for example in glob.glob(settings.BASE_DIR.child("submissions") +
-        #                          "/huh*"):
-        #     os.remove(example)
+        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
+                                "/file1*"):
+            os.remove(file_1)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/example*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/result1*"):
+            os.remove(example)
+        for example in glob.glob(settings.BASE_DIR.child("submissions") +
+                                 "/huh*"):
+            os.remove(example)
 
     def test_submission_detail_is_returned(self,):
         s1 = SubmissionFactory.create(input_data="test.txt")
@@ -300,9 +300,9 @@ class SubmissionDetailTests(APITestCase):
         f = open("submissions/files/test.png", "rb").read()
         pngFile = SimpleUploadedFile('test.png', f)
         this_data = {'input_data': pngFile,
-             'job': 'job1',
-             'submission_name': 'test',
-             'email': 'a@b.com'}
+                     'job': 'job1',
+                     'submission_name': 'test',
+                     'email': 'a@b.com'}
         request = self.factory.post(reverse('submission'), this_data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
@@ -316,9 +316,9 @@ class SubmissionDetailTests(APITestCase):
         f = open("submissions/files/test.gif", "rb").read()
         pngFile = SimpleUploadedFile('test.gif', f)
         this_data = {'input_data': pngFile,
-             'job': 'job1',
-             'submission_name': 'test',
-             'email': 'a@b.com'}
+                     'job': 'job1',
+                     'submission_name': 'test',
+                     'email': 'a@b.com'}
         request = self.factory.post(reverse('submission'), this_data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
@@ -398,7 +398,8 @@ class SubmissionDetailTests(APITestCase):
         # for 'reasons' reverse does not work in this class/test?????
         # request = self.factory.post(reverse('submission'), self.data,
         #                             format='multipart')
-        request = self.factory.post('/analytics_automated/submission/', self.data,
+        request = self.factory.post('/analytics_automated/submission/',
+                                    self.data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
         response = view(request)
@@ -640,7 +641,7 @@ class SubmissionDetailTests(APITestCase):
         local_id = str(uuid.uuid1())
         chain_str = sd._SubmissionDetails__construct_chain_string(
                     steps, request_contents, local_id, 1)
-        #print(chain_str)
+        # print(chain_str)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 1, 'task1', ['-th', '-ch'], "
                                     "{'-ch': {'spacing': True, "
@@ -664,14 +665,13 @@ class SubmissionDetailTests(APITestCase):
         local_id = str(uuid.uuid1())
         chain_str = sd._SubmissionDetails__construct_chain_string(
                     steps, request_contents, local_id, 1)
-        #print(chain_str)
+        # print(chain_str)
         self.assertEqual(chain_str, "chain(task_runner.subtask(('" + local_id +
                                     "', 0, 1, 1, 1, 'task1', ['-th'], "
                                     "{'-th': {'spacing': True, "
                                     "'switchless': False, 'value': '123'}}, "
                                     "'', {}), immutable=True, "
                                     "queue='localhost'),).apply_async()")
-
 
     def test__request_sets_option_value(self):
         p1 = ParameterFactory.create(task=self.t, flag="-th",
@@ -775,27 +775,3 @@ class SubmissionDetailTests(APITestCase):
                                     "chord_end.subtask(('" + local_id +
                                     "', 2, 4), immutable=True, "
                                     "queue='localhost'),).apply_async()")
-
-    def test__validate_input_accepts_png(self):
-        vt = ValidatorTypesFactory.create(name='png')
-        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
-        validators = self.j1.validators.all()
-        sd = SubmissionDetails()
-#        f = open("submissions/files/test.png", "rb")
-        f = open("submissions/files/test.png", "rb").read()
-        pngFile = SimpleUploadedFile('test.png', f)
-        s = SubmissionFactory.create(input_data=File(pngFile))
-        self.assertTrue(sd._SubmissionDetails__validate_input(validators,
-                        s.input_data))
-
-    def test__validate_input_rejects_gif(self):
-        vt = ValidatorTypesFactory.create(name='png')
-        v = ValidatorFactory.create(job=self.j1, validation_type=vt)
-        validators = self.j1.validators.all()
-        sd = SubmissionDetails()
-#        f = open("submissions/files/test.png", "rb")
-        f = open("submissions/files/test.gif", "rb").read()
-        pngFile = SimpleUploadedFile('test.gif', f)
-        s = SubmissionFactory.create(input_data=File(pngFile))
-        self.assertFalse(sd._SubmissionDetails__validate_input(validators,
-                        s.input_data))
