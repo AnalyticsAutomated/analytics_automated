@@ -21,20 +21,16 @@ class startup(AppConfig):
             validator_types = AppConfig.get_model(self, "ValidatorTypes")
             existing_entries = validator_types.objects.all().values_list('name')
 
-
             existing_types = [seq[0] for seq in existing_entries]
             for this_type in existing_types:
                 print("Existing validator: "+str(this_type))
-                if this_type in validatorList:
-                    continue
-                else:
+                if this_type not in validatorList:
                     print("Removing removed validator: "+this_type)
                     validator_types.objects.filter(name=this_type).delete()
 
             for validator in validatorList:
-                if validator in existing_types:
-                    continue
-                else:
+                if validator not in existing_types and \
+                  not validator.startswith("_"):
                     print("Registering New Validator Type: "+validator)
                     validator_types.objects.create(name=validator)
         except:
