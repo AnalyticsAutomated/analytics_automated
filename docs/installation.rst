@@ -17,7 +17,7 @@ Code Dependancies
 1. Get Python 3. You may also wish to sort out virtualenv and run the application
 within that, however that is beyond the scope of this installation guide::
 
-    https://www.python.org/download/releases/3.0/
+    https://www.python.org/downloads/
 
 2. Install postgreSQL.
 
@@ -33,16 +33,11 @@ or::
 
     apt-get install postgres
 
-3. Erlang (rabbitMQ requires thi), you may not have it installed and compiled.
-It's available via:
+3. Install Redis, try one of
 
-    http://www.erlang.org/download.html
-
-    http://www.erlang.org/doc/installation_guide/INSTALL.htm
-
-4. RabbitMQ, the message queue that both the app and celery use
-
-    https://www.rabbitmq.com/install-generic-unix.html
+    brew install redis
+    yum install redis
+    apt-get install redis
 
 5. Get the A_A code from github::
 
@@ -120,19 +115,18 @@ A production system will need a production_secrets.json
 
 3. Starting A_A in development localhost mode
 
-  * Start rabbitMQ, if you want to start this in daemon mode consult the rabbitMQ docs::
+  * Start Redis::
 
-      > rabbitmq-server
+      > redis-server
 
   * Start the celery workers, from the root dir of A_A. Note that we have to specify
-    the rabbit queues the workers read from (-Q), for the basic settings we'll have
+    the queues the workers read from (-Q), for the basic settings we'll have
     these workers just watch the celery and localhost queues, note that the
     workers are watching the low priority, normal priority and high priority
     localhost queues::
 
       > cd analytics_automated/
       > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,celery
-
 
   * Run the Django migrations to configure the database::
 
@@ -153,7 +147,7 @@ A production system will need a production_secrets.json
 4. You should now be running all the components of A_A on a single machine with
    a set of workers watching the localhost queue. This means we can now configure
    data analysis pipelines which run code on the machine which the workers are running on.
-   This is the most basic setup we can run rabbitMQ, the web app, the database and the workers
+   This is the most basic setup we can run Redis, the web app, the database and the workers
    on completely separate machines and even run multiple instances of the workers watching
    the same queue. We'll deal with this set in the :ref:`advanced_uses` tutorial.
 

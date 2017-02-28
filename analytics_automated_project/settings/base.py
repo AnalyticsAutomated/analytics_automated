@@ -70,7 +70,7 @@ CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERYD_MAX_TASKS_PER_CHILD = 30
 # CELERYD_PREFETCH_MULTIPLIER = 1
 CELERY_RESULT_BACKEND = 'redis'
-#BACKEND SHOULD BE SENT TO STAGING SETTINGS
+# BACKEND SHOULD BE SENT TO STAGING SETTINGS
 timezone = 'Europe/London'
 accept_content = ['json']
 task_serializer = 'json'

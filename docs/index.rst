@@ -7,7 +7,10 @@ principally at running statistical and mathematical models for the purposes of
 Data Science. You can however use it to convert any code in to a web service.
 
 Another way to look at it is that it turns your data analysis pipelines in to
-RESTful web services for the purposes making your models part of your SOA
+RESTful web services for the purposes making your models part of your SOA.
+
+And yet another way to look at this is a method for converting Python-Celery
+jobs in to web services
 
 .. toctree::
     :maxdepth: 2
@@ -16,6 +19,7 @@ RESTful web services for the purposes making your models part of your SOA
     how_it_works
     the_UI
     configuring_a_basic_task
+    job_admin
     recipes
     advanced
     dev_installation

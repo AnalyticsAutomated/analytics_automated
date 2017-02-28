@@ -10,7 +10,7 @@ SOA systems. A_A is made up of 2 main components;
 
 2. A system of Celery workers which can receive the data and run those workflows.
 
-A design goal for A_A is to make it agnostic to the technology which executes the
+A design goal for A_A is to make it agnostic to the code which executes the
 data analysis steps. This will free up analysts and scientists to use the technology
 or tool which is most appropriate for any given data transformation or analysis
 task.
@@ -28,7 +28,6 @@ and understands where (on which **Backend**) it is going to run. A task
 also understands how it is going to execute. Tasks are run by
 `Celery <https://celery.readthedocs.org/en/latest/>`_ workers and the default
 execution location (LOCALHOST) is on the machine the worker is running on.
-
 
 * **Tasks** have **Backends** (a many-to-one relationship)
 * **Jobs** have **Steps** (a one-to-many relationship)
@@ -54,7 +53,7 @@ Data Submission Overview
 ------------------------
 
 When a user submits data for a **Job** the system receives the data. Runs the
-validation and if the validation passes it is all the tasks needed to
+validation and if the validation passes all the tasks needed to
 calculate the **Job** are pushed to the queue. A celery worker will then pick up
 each **Task** in turn interrogate the database for the configuration and then
 execute the required code. Once a **Task** is complete any results requested
@@ -62,7 +61,6 @@ are pushed in to the results table in the database and the next **Task** (if
 there is one) can be executed by a worker
 
 .. image:: job_flow.png
-
 
 In the job diagram data enters in on the left hand side at the validators.
 Data which passes validation then gets passed through each step. Each step has

@@ -17,9 +17,10 @@ Define a Backend
 ----------------
 
 The first thing to do is to define the details for each **Backend** your
-tasks will use. In the basic configuration we started only one set of workers
-watching only the task queues for the LOCALHOST backend so we'll only configure
-one LOCALHOST backend.
+tasks will use. A backend is the location where a computational task is
+executed. In the basic configuration we started only one set of workers
+watching only the task queues for the LOCALHOST backend so for this example
+we'll only configure one LOCALHOST backend.
 
 In the admin interface click on the Backends option and then click on the
 "Add Backend" button. Fill out the form as per the screenshot below
@@ -28,14 +29,16 @@ In the admin interface click on the Backends option and then click on the
 
 **Name**: Gives your backend a useful memorable name
 
-**Server Type**: Tells A_A what kind of execution location this is
+**Server Type**: Tells A_A what kind of execution location this is.
+  'localhost': executes the computation on the machine that the celery worker
+   is running on
+   'GridEngine': uses python DRMAA to submit jobs to a Grid Engine head node
+   running on the same machine the celery work is running on
+  'Rserver': This option is not currently supported
 
-**IP & Port**: When a backend is remote to the worker these details allow the worker
-to find the backend on the network. These are not used for the LOCALHOST backend,
-**NOTE: THESE ARE CURRENTLY NOT USED IN THIS RELEASE OF A_A**
-
-**Path**: This is a location on a disk (or network drive) which the backend has access to
-it will be used to store temporary files which the task needs on execution
+**Path**: This is a location on a disk (or network drive) which the backend
+celery workers can write to and will be used to store temporary files which the
+tasks needs on execution
 
 **Backend Users**: You can define a user (user name and passowrd) which the worker
 will use to execute the task on backend which support this functionality
@@ -56,54 +59,99 @@ the grep will be available to the users.
 
 .. image:: task1.png
 
-**Task 2**
 
-.. image:: task2.png
+**Name**: A useful memorable name for this task. It is convenient if you avoid
+using spaces
 
-**Name**: A useful memorable name for this task
-
-**Backend**: The backend where this task will run, as defined above
+**Backend**: The backend where this task will run, you'll select from one of
+             the choices you created previously
 
 **Description**: This allows you to enter a short description of the task.
 
 **In Glob**: A comma separated list of file endings (i.e. .txt, .pdf, etc..)
-If this task is the 1st in a job and needs to consume a user input file then
-the file will be given a suffix using the first glob in the list. Note that the
-1st file ending in this list will be used to created an internal file string of the format
-JOB_UUID.[ENDING] this will be used interpolation in to the $INPUT control (see
-below). If the task is not the first one in a job the remaining globs will
-be used to retrieve all matching files from the previous task's results.
+for files the task will consume. If this task needs to consume data sent
+by the user then you must include .input. Internally the system gives each task
+a UUID. Each entry in the in glob field causes the system to construct a name
+with the following pattern UUID.[ENDING]. Each of these internal names
+can be refered to in the Executable field (see below), the first one is called
+$I1, the second $I2 and so forth.
 
 **Out Glob**: A comma separated list of file endings (i.e. .txt, .pdf, etc..)
 This defines the file endings for all files that will be gathered up and
-returned to the database when the task completes. Note that the 1st file ending in this
-list will be used to created a file string of the format JOB_UUID.[ENDING] for
-interpolation in to the $OUTPUT flag (see below)
+returned to the database when the task completes. As per the 'In Glob' field
+each of these output files creates a name as per UUID.[ENDING] and
+these are made available to the Executable fields as $O1, $O2 etc...
 
-**stdout glob**: If you wish to record the tasks stdout then you can provide a
+**stdout glob**: If you wish to record the task's stdout then you can provide a
 file suffix. The task will now perform as though you had used a standard unix
 file redirect.
 
 **Executable**: This is the program the worker will execute with any default
-flags and options. Using $INPUT and $OUTPUT allows you to insert
-strings JOB_UUID.[1stInGlob] and JOB_UUID.[1stOutGlob] **NOTE THAT TO JUDGE A TASK SUCCESSFUL IT MUST RETURN A 0
-EXIT STATUS (THIS WILL BE CHANGED IN THE FUTURE)**
+flags and options. Using $Ix and $Ox allows you to insert
+strings JOB_UUID.[1stInGlob] and JOB_UUID.[1stOutGlob]. You can also refer to
+parameters that the user provides (see below) as $Px.
+
+Job termination behaviour
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If a task fails the default behaviour is to raise an exception, stop the
+whole job running and push a message to the user. These options provide
+some limited control for other type of behaviour
+
+**Incomplete Outputs Behaviour**: By default the system expect to find at least
+one output file with each of the file endings provided in "Out glob". If this
+isn't the case then the system will stop future tasks and raise an error.
+Alternatively you can, stop running task and not raise an error, or silently
+continue on to the next task in the job.
+
+**Custom exit status**: Some tasks will output non zero exits statuses that
+are not failure states. You can provided a comma separated list of these
+"acceptable" exit status.
+
+**Custom exit behaviour**: If you provide a custom exit status, you must provide
+a behaviour. Either when the task detects these values is halts the job throwing an
+error, it halts job and doesn't throw and error or it silently continues to the
+next task. Note the default behaviour of exit status 0 is to move on to the next
+task, if you add 0 to the "Custom exit status" field you can change this default
+behaviour
 
 Parameters
 ^^^^^^^^^^
 
-The task params take one of two forms. Boolean valued (known as flags), or
-non-boolean valued (known as options).
+The task params take one of two forms. Switches which are either present or
+absent in the command or valued parameters which may of may not have switches
 
-**Flag**: These are options which will be interpolated to the executable command
+**Flag**: This string is the value that will be inserted in command if required
+each parameter is made available to the executable string as $P[INTEGER],
+numbered in order from top to bottom (i.e. $P1, $P2 etc..). Any flag named
+'VALUE' is a special case and  a user provided value will be made available in
+the executable string as $VALUE
 
-**Default**: This value is required if the flag in non-boolean
+**Default**: This is a default value for the parameter if the Bool Valued is
+set to false.
 
 **Bool Valued**: Sets whether this is a boolean flag and therefore whether it
 needs a default value
 
-**REST Alias**: A short string which will identify the user's control of this option when they
-call the REST api, i.e one of the POST params the user will need to pass
+**REST Alias**: This is a short string which identifies this parameter in the
+REST call the user makes. The string will have the name of the task prepended to
+it in the REST call.
+
+**Spacing**: If the param takes a value (or default) this controls whether
+there should be a space between the flat and the value (i.e flat is -t and
+value is 12, if true this will be rendered as '-t 12', if false as '-t12')
+
+**Switchless**: Controls whether the flag should be included or just the value
+(i.e if true "12", if false '-t 12')
+
+Environments
+^^^^^^^^^^^^
+
+Users can set shell environment variables using this form.
+
+**Env**: A string for the name of the environment variable
+
+**Value**: A string for the contents of that environment variable
 
 Executable Syntax
 ^^^^^^^^^^^^^^^^^
@@ -112,41 +160,50 @@ It is worth noting that tasks use the Python package commandRunner to execute
 docs for the API.
 
 The executable line can be any arbitrarily long command line statement even
-including ';' but it must not contain any redirection statements for stdout or
-stderr. This commands, flags and options can contain one of the two control statements which will
-be interpolated, neither of which are required.
+including ';' and pipes. It must not contain any redirection controls for stdout or
+stderr. The system makes available a number of control sequences which can be
+inserted in to the executable string.
 
-**$INPUT**: The location of an input file using the first entry **In Glob**
+**IN GLOBS**: These are available in the sequenctial order they appear in
+the 'in glob' field as $I1, $I2, $I3 etc...
 
-**$OUTPUT**: The location of an input file using the first entry **Out Glob**
+**OUT GLOBS**: These are available in the sequenctial order they appear in
+the 'out glob' field as $O1, $O2, $O3 etc...
 
-Command construction proceeds by first tokenising the Executable string. Any
-parameters which are set are tokenised and inserted after the executable. Lastly
-any instance of $INPUT, $OUTPUT are interpolated to the string and anything in
-stdout is captured by default. The following example should explain::
+**PARAMETERS**: These are available in the sequenctial order they appear in
+the 'Parameters' table field as $P1, $P2, $P3 etc...
+
+**TEMPORARY WORKING DIRECTORY**: This path is available as a string using $TMP
+
+**JOB ID**: $ID represents the UUID that the files are named with
+
+**VALUE**: A special parameters called VALUE is made available as $VALUE
+
+Command construction proceeds by first tokenising the Executable string.
+Control strings are then interpolated. The following example should explain::
 
     Job ID: f7a314fe
-    Executable: "/usr/bin/testy -u 123 -la"
-    Parameter1: "-z"
-    Parameter2: "--in": "$INPUT"
-    Parameter3: "--out": "$OUTPUT"
-    Parameter4: "--score": 123
-    in_glob: ".in"
+    Executable: "/usr/bin/example_binary $P1 -u 123 -la $P2 -input $I1 -out $O1"
+    Parameter1: "-z"; bool valued False; default 12; spacing True, switchless False
+    Parameter2: "-lm" bool valued True
+    in_glob: ".input"
     out_glob: ".out, .stdout"
+    stdout_glob: ".stdout"
 
 Given these settings the following internal strings will be constructed
-input_string: f7a314fe.in
-output_string: f7a314fe.out
-stdout_string: f7a314fe.stdout
+$I1: f7a314fe.input
+$O1: f7a314fe.out
+$O2: f7a314fe.stdout
+$P1: "-z 12"
+$P2: "-lm"
 
-The final command string will be constructed as::
+The final command which will be executed will be equivalent to the following
+command line call::
 
-    /usr/bin/testy -z --in f7a314fe.in --out f7a314fe.out -u 123 -la > f7a314fe.stdout
+    /usr/bin/example_binary -z 12 -u 123 -la -lm -input f7a314fe.input -out f7a314fe.out > f7a314fe.stdout
 
-Note that flags come before options and any params set in the initial executable
-string move to the end of the command. By default stdout is redirected to a file
-ending with .stdout. In this example when the task when the task completes all
-files ending with .out and .stdout will be returned to the database as results
+Note that if this is the first task in a job the data sent by the user is
+made available as a file called [ID].input
 
 Define a Job
 ------------
@@ -156,25 +213,20 @@ http://127.0.0.1:8000/admin/ and click on Jobs then select "Add Job"
 
 .. image:: job.png
 
-
 **Name**: A useful name for the job. Users will use this when submitting data
 to the API
 
-**Runnable**: Whether the user can call this job (**NOT YET IMPLEMENTED**)
+**Runnable**: Whether the user can POST data and run this job
 
 Validators
 ^^^^^^^^^^
 
-You can set one or more data validators for the jobs. Regular expressions will
-examine the contents of the incoming file of data to ensure that you they match.
+You can set one or more data validators for the jobs. Validators are blocks
+of code that parse the incoming datafile and verify it is the kind of
+data the validator checks for. You are free to write your own
+validators.
 
-**Validation Type**: This is the type of validation the incoming data must pass
-in the :ref:`advanced_uses` tutorial we'll show you how to add custom validators
-to this dropdown. **NOTE THAT BY DEFAULT ONLY REGULAR EXPRESSION VALIDATION IS
-SUPPORTED**
-
-**Re String**: If you selected 'Regular Expression' validation then you need to provide
-a valid python regular expression.
+**Validation Type**: Every public function in validators.py is available as an option
 
 Steps
 ^^^^^
@@ -185,7 +237,9 @@ Now you select which tasks will run in which order.
 
 **Ordering**: A numeric value which defines the order the tasks will run in
 starting with the lowest value. These need not start from 0 and need not be
-strictly consecutive numbers
+strictly consecutive numbers. The system supports limited paralellisation of
+tasks. Any task with the same ordering value will run concurrently. It is
+up to you to understand task dependency and order your task appropriately.
 
 Using Your Job
 --------------
@@ -202,15 +256,8 @@ Users *must* at a minimum pass the following information in
 
 **email**: An email address (currently required even if A_A is not set to return emails)
 
-For the job we defined each task had two params users must pass in values for these.
-In this instance these had the REST alias of 'all' and 'number' and are identified
-in the HTTP submission by having their task name and an underscore added
-
-**task1_all**: When we defined with Parameter for task1 bool_valued was selected
-the calling user must pass in True or False
-
-**task2_number**: When we defined with Parameter for task2 bool_valued was *not*
-selected. The user must pass in a string value, typically a number.
+The job described above has 2 parameters and values for these must be provided
+by the user.
 
 Checking what jobs are available
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -224,7 +271,8 @@ http://127.0.0.1/endpoints/
 Submitting Data
 ^^^^^^^^^^^^^^^
 
-And example of using the api can be found in the `send_file.py` script.
+An example of using the api can be found in the `send_file.py` and
+`send_fasta.py` scripts in the example directory.
 
 When a submission is succesful the system returns a blob of json with a UUID.
 Calling http://127.0.0.1:8000/analytics_automated/submission/[UUID] with a GET

@@ -2,17 +2,13 @@ TODO
 ====
 
 1. Raw RServe support
-2. Image validator
-3. mp3 validator
-4. Message Model. Codes to go with plain text
-5. Job DAG visualisations
-6. Authenticate users for priority running, setting to toggle sending logged
+2. Job DAG visualisations
+3. Authenticate users for priority running, setting to toggle sending logged
    in jobs or not.
-7. Add scheduled tasks, just use celery???
-8. Non-linear jobs (i.e tasks with multiple parents)
-
-9. HADOOP/Spark?
-10. Raw Python support
+4. Add scheduled tasks, just use celery???
+5. Non-linear jobs (i.e tasks with multiple parents)
+6. HADOOP/Spark?
+7. Raw Python support
 
 Production things
 -----------------

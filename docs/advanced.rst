@@ -6,3 +6,7 @@ Advanced Uses
 Adding to A_A
 
 Adding new custom data validators
+
+Programmatic Admin
+
+yaml dump and upload
