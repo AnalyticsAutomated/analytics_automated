@@ -172,10 +172,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             (params, param_values) = self.__build_params(step.task, request_contents)
             value = self.__return_value(step.task, request_contents)
             environment = self.__build_environment(step.task)
-            if step.task.backend.server_type == Backend.LOCALHOST:
-                queue_name = 'localhost'
-            if step.task.backend.server_type == Backend.GRIDENGINE:
-                queue_name = 'gridengine'
+
+            queue_name = str(step.task.backend.queue_type)
             if job_priority is Submission.LOW:
                 queue_name = "low_"+queue_name
             if job_priority is Submission.HIGH:
@@ -186,7 +184,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
             task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
-                          "%s, %s, '%s', %s), " \
+                          "%s, %s, '%s', %i, %s), " \
                           "immutable=True, queue='%s')" \
                           % (UUID,
                              step.ordering,
@@ -197,6 +195,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                              params,
                              pprint.pformat(param_values).replace('\n',''),
                              value,
+                             step.task.backend.queue_type.execution_behaviour,
                              environment,
                              queue_name)
 

@@ -13,7 +13,7 @@ from django.conf import settings
 from django.db import transaction
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
-from .models import BackendUser
+from .models import QueueType, BackendUser
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ try:
 except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
+
 
 @shared_task
 def wait(t):
@@ -48,7 +49,7 @@ def get_data(s, uuid, current_step, in_globs):
     # if this is not the first task get the input_data from the results
     if current_step == 1:
         s.input_data.open(mode='r')
-        #TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
+        # TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
         for line in s.input_data:
             data += line.decode(encoding='UTF-8')
         s.input_data.close()
@@ -69,6 +70,7 @@ def get_data(s, uuid, current_step, in_globs):
                     result.result_data.close()
 
     return(data_dict, previous_step)
+
 
 def insert_data(output_data, s, t, current_step, previous_step):
     if output_data is not None:
@@ -107,9 +109,11 @@ def insert_data(output_data, s, t, current_step, previous_step):
 #       of reduce step is 'required' this needs fix.
 #       One way to handle this would be to add a dummy "end" task to the
 #       chain() if the chain would otherwise end in a group()
-@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40, max_retries=5)
+@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
+             max_retries=5)
 def task_runner(self, uuid, step_id, current_step, step_counter,
-                total_steps, task_name, params, param_values, value, environment):
+                total_steps, task_name, params, param_values, value,
+                execution_behaviour, environment):
     """
         Here is the action. Takes and task name and a job UUID. Gets the task
         config from the db and the job data and runs the job.
@@ -153,56 +157,56 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # finding out what is happening on the backend. Perhaps API call in
     # which returns the number of running processes and maybe the load average
     try:
-        if t.backend.server_type == Backend.LOCALHOST:
+        if execution_behaviour == QueueType.LOCALHOST:
             logger.info("Running At LOCALHOST")
             if value:
                 run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                              out_globs=out_globs,
-                              in_globs=in_globs,
-                              command=t.executable,
-                              input_data=data_dict,
-                              params=params,
-                              param_values=param_values,
-                              identifier=uuid,
-                              std_out_str=uuid+stdoglob,
-                              value_string=value,
-                              env_vars=environment)
+                                  out_globs=out_globs,
+                                  in_globs=in_globs,
+                                  command=t.executable,
+                                  input_data=data_dict,
+                                  params=params,
+                                  param_values=param_values,
+                                  identifier=uuid,
+                                  std_out_str=uuid+stdoglob,
+                                  value_string=value,
+                                  env_vars=environment)
             else:
                 run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                              out_globs=out_globs,
-                              in_globs=in_globs,
-                              command=t.executable,
-                              input_data=data_dict,
-                              params=params,
-                              param_values=param_values,
-                              identifier=uuid,
-                              std_out_str=uuid+stdoglob,
-                              env_vars=environment)
-        if t.backend.server_type == Backend.GRIDENGINE:
+                                  out_globs=out_globs,
+                                  in_globs=in_globs,
+                                  command=t.executable,
+                                  input_data=data_dict,
+                                  params=params,
+                                  param_values=param_values,
+                                  identifier=uuid,
+                                  std_out_str=uuid+stdoglob,
+                                  env_vars=environment)
+        if execution_behaviour == QueueType.GRIDENGINE:
             logger.info("Running At GRIDENGINE")
             if value:
                 run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                           out_globs=out_globs,
-                           in_globs=in_globs,
-                           command=t.executable,
-                           input_data=data_dict,
-                           params=params,
-                           param_values=param_values,
-                           identifier=uuid,
-                           std_out_str=uuid+stdoglob,
-                           value_string=value,
-                           env_vars=environment)
+                               out_globs=out_globs,
+                               in_globs=in_globs,
+                               command=t.executable,
+                               input_data=data_dict,
+                               params=params,
+                               param_values=param_values,
+                               identifier=uuid,
+                               std_out_str=uuid+stdoglob,
+                               value_string=value,
+                               env_vars=environment)
             else:
                 run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                           out_globs=out_globs,
-                           in_globs=in_globs,
-                           command=t.executable,
-                           input_data=data_dict,
-                           params=params,
-                           param_values=param_values,
-                           identifier=uuid,
-                           std_out_str=uuid+stdoglob,
-                           env_vars=environment)
+                               out_globs=out_globs,
+                               in_globs=in_globs,
+                               command=t.executable,
+                               input_data=data_dict,
+                               params=params,
+                               param_values=param_values,
+                               identifier=uuid,
+                               std_out_str=uuid+stdoglob,
+                               env_vars=environment)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)

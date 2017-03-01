@@ -17,8 +17,8 @@ jobs in to web services
 
     installation
     how_it_works
-    the_UI
-    configuring_a_basic_task
+    the_Job_UI
+    configuring_a_basic_job
     job_admin
     recipes
     advanced

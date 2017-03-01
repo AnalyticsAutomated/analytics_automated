@@ -19,8 +19,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-# Create your models here.
-class Backend(models.Model):
+class QueueType(models.Model):
     # Handling choices
     # http://www.b-list.org/weblog/2007/nov/02/handle-choices-right-way/
     LOCALHOST = 1
@@ -34,11 +33,22 @@ class Backend(models.Model):
         (RSERVE, "RServe"),
         # add more when more backends are complete
     )
+    name = models.CharField(max_length=512, null=True, blank=True, unique=True)
+    execution_behaviour = models.IntegerField(null=False, blank=False,
+                                              choices=SERVER_CHOICES,
+                                              default=LOCALHOST)
+
+    def __str__(self):
+        return self.name
+
+
+# Create your models here.
+class Backend(models.Model):
     name = models.CharField(max_length=64, unique=True, null=False,
                             blank=False, db_index=True)
-    server_type = models.IntegerField(null=False, blank=False,
-                                      choices=SERVER_CHOICES,
-                                      default=LOCALHOST)
+    queue_type = models.ForeignKey(QueueType, on_delete=models.SET_NULL,
+                                   null=True,
+                                   related_name='queues')
     # removing log in details as remote backend is NOT YET IMPLEMENTED
     # ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
     #                                   blank=False)
@@ -56,6 +66,8 @@ class Backend(models.Model):
 
 
 class BackendUser(models.Model):
+    # Handling choices
+    # http://www.b-list.org/weblog/2007/nov/02/handle-choices-right-way/
     LOW = 0
     MEDIUM = 1
     HIGH = 2

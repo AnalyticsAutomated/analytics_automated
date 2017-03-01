@@ -1,13 +1,16 @@
-Building Jobs
-=============
+.. _the_Job_UI:
+
+Building Jobs Overview
+======================
 
 Configuring jobs is most easily accomplished with the user interface. It is
 possible to do this programmatically and the A_A github account comes with a
-python script, `populate_analytics_automated.py` which automatically configures
-the job we'll walk through here.
+python script, `populate_analytics_automated.py` which has an example of a simple
+job configuration. Additionally it is possible to define jobs using yaml and
+upload those to the system
 
-First you need to define a **Backend** and a series of **Tasks** and then
-these **Tasks** can be plugged together as a **Job**.
+To define a job first you need to define a **Backend** and a series of
+**Tasks** and then these **Tasks** can be plugged together as a **Job**.
 
 Assuming you correctly followed the dev installation instructions, you'll need
 to log in by pointing your browser at http://127.0.0.1:8000/admin/ and log in
@@ -18,25 +21,23 @@ Define a Backend
 
 The first thing to do is to define the details for each **Backend** your
 tasks will use. A backend is the location where a computational task is
-executed. In the basic configuration we started only one set of workers
+executed. In the most basic configuration you would start only one set of workers
 watching only the task queues for the LOCALHOST backend so for this example
 we'll only configure one LOCALHOST backend.
 
-In the admin interface click on the Backends option and then click on the
-"Add Backend" button. Fill out the form as per the screenshot below
+In the admin interface click on the Backends option.
 
 .. image:: backend_config.png
 
 **Name**: Gives your backend a useful memorable name
 
 **Server Type**: Tells A_A what kind of execution location this is.
-  'localhost': executes the computation on the machine that the celery worker
-   is running on
-   'GridEngine': uses python DRMAA to submit jobs to a Grid Engine head node
-   running on the same machine the celery work is running on
+  'localhost': executes the computation on the machine that the celery worker is
+  running on
+  'GridEngine': uses python DRMAA to submit jobs to a Grid Engine head node running on the same machine the celery work is running on
   'Rserver': This option is not currently supported
 
-**Path**: This is a location on a disk (or network drive) which the backend
+**Root Path**: This is a location on a disk (or network drive) which the backend
 celery workers can write to and will be used to store temporary files which the
 tasks needs on execution
 
@@ -46,25 +47,21 @@ will use to execute the task on backend which support this functionality
 **NOTE: LOGGING IN AND USER JOB PRIORITY IS NOT CURRENTLY SUPPORTED IN
 THIS VERSION OF A_A**
 
-Define a Task
--------------
+Defining a Task
+---------------
 
-Now we define 2 tasks. Return to the admin interface at http://127.0.0.1:8000/admin/.
-Click on the Tasks link and then select "Add Task". Fill out the form as below.
-We're going to define one task which list the temporary directory and sends the information
-to a file. And a second task which will grep that file for certain lines. The output of
-the grep will be available to the users.
+Return to the admin interface at http://127.0.0.1:8000/admin/.
+Click on the Tasks link and then select "Add Task".
 
 **Task 1**
 
 .. image:: task1.png
 
-
 **Name**: A useful memorable name for this task. It is convenient if you avoid
 using spaces
 
 **Backend**: The backend where this task will run, you'll select from one of
-             the choices you created previously
+the choices you created previously
 
 **Description**: This allows you to enter a short description of the task.
 
@@ -208,7 +205,7 @@ made available as a file called [ID].input
 Define a Job
 ------------
 
-Now we have some tasks attached to a backend we can define a **Job**. Return to
+Once you have defined one or more tasks you can define a **Job**. Return to
 http://127.0.0.1:8000/admin/ and click on Jobs then select "Add Job"
 
 .. image:: job.png
@@ -244,7 +241,7 @@ up to you to understand task dependency and order your task appropriately.
 Using Your Job
 --------------
 
-You have now defined your first job. Users can use it by making a multi-part form
+When you have now defined your first job. Users can use it by making a multi-part form
 POST request to http://127.0.0.1:8000/analytics_automated/submission and
 passing all the correct values.
 

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
-from .models import Submission, BackendUser, Message, Environment
+from .models import Submission, BackendUser, Message, Environment, QueueType
 from .forms import *
 
 
@@ -43,15 +43,20 @@ class ResultInline(admin.TabularInline):
     extra = 0
 
 
+class QueueTypeAdmin(admin.ModelAdmin):
+    fieldsets = []
+    list_display = ('name', 'execution_behaviour')
+
+
 class BackendAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name']}),
         # ('Configuration', {'fields': ['server_type', 'ip', 'port']}),
-        ('Configuration', {'fields': ['server_type']}),
+        ('Configuration', {'fields': ['queue_type']}),
         ('Path', {'fields': ['root_path']}),
     ]
     # list_display = ('name', 'server_type', 'ip', 'port', 'root_path')
-    list_display = ('name', 'server_type', 'root_path')
+    list_display = ('name', 'queue_type', 'root_path')
     inlines = [BackendUserInline]
 
 
@@ -180,4 +185,5 @@ admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Result, ResultAdmin)
+admin.site.register(QueueType, QueueTypeAdmin)
 # gitadmin.site.register(Step

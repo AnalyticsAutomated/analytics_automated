@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.files import File
 
 from .models import Backend, Task, Job, Step, Submission, ValidatorTypes
-from .models import Parameter, Result, Validator, Environment
+from .models import Parameter, Result, Validator, Environment, QueueType
 
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")
@@ -23,9 +23,18 @@ def random_string(length=10):
     return u''.join(random.choice(string.ascii_letters) for x in range(length))
 
 
+class QueueTypeFactory(factory.DjangoModelFactory):
+    name = "localhost"
+    execution_behaviour = QueueType.LOCALHOST
+
+    class Meta:
+        model = QueueType
+        django_get_or_create = ('name',)
+
+
 class BackendFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'test_{}'.format(n))
-    server_type = Backend.LOCALHOST
+    queue_type = factory.SubFactory(QueueTypeFactory)
     # ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
     # port = random.randint(1, 65325)
     root_path = factory.LazyAttribute(lambda t: random_string())

@@ -3,11 +3,10 @@
 How The System Works
 ====================
 
-A_A turns data analysis code in to RESTful webservices for the purpose of building
+A_A turns data analysis pipelines in to RESTful webservices for the purpose of building
 SOA systems. A_A is made up of 2 main components;
 
-1. A system for configuring data analysis workflows.
-
+1. A system for configuring and monitoring data analysis workflows.
 2. A system of Celery workers which can receive the data and run those workflows.
 
 A design goal for A_A is to make it agnostic to the code which executes the
@@ -16,8 +15,8 @@ or tool which is most appropriate for any given data transformation or analysis
 task.
 
 The other principle design goal is to attempt to transform the problem of turning
-data analysis pipelines in to Web Services in to an issue of configuration rather
-than coding.
+data analysis pipelines in to Web Services in to an problem of configuration rather
+than development.
 
 Workflows
 ---------

@@ -82,7 +82,8 @@ class TaskTestCase(TestCase):
     )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSuccess(self, m):
-        task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, None, {})
+        task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, None,
+                          1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         # print(self.sub)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
@@ -95,7 +96,8 @@ class TaskTestCase(TestCase):
     )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerAllMessagesSent(self, m):
-        task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, None, {})
+        task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_task", [], {}, None,
+                          1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.messages = Message.objects.all().filter(submission=self.sub)
         # for m in self.messages:
@@ -105,7 +107,7 @@ class TaskTestCase(TestCase):
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=1)
     def testTaskRunnerExecuteNoneZeroExit(self, m):
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
-                          "test_task", [], {}, None, {})
+                          "test_task", [], {}, None, 1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Failed step, non 0 exit at "
                                                 "step: 0. Exit status:1")
@@ -118,7 +120,8 @@ class TaskTestCase(TestCase):
     )
     @patch('analytics_automated.tasks.localRunner.run_cmd', return_value=0)
     def testTaskRunnerSignalsRunningWhenNotAtLastStep(self, m):
-        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_task", [], {}, None, {})
+        task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_task", [], {}, None,
+                          1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed step: 1")
 
@@ -138,7 +141,8 @@ class TaskTestCase(TestCase):
                                    task=self.t,
                                    step=1,
                                    previous_step=None,)
-        task_runner.delay(self.uuid1, 0, 2, 2, 2, "test_task", [], {}, None, {})
+        task_runner.delay(self.uuid1, 0, 2, 2, 2, "test_task", [], {}, None,
+                          1, {})
         result = Result.objects.get(submission=self.sub, step=2)
         self.assertEqual(result.message, "Result")
 
@@ -160,7 +164,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123",
                                 custom_exit_behaviour=Task.CONTINUE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
-                          {}, None, {})
+                          {}, None, 1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed step: 1")
 
@@ -182,7 +186,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123,500",
                                 custom_exit_behaviour=Task.CONTINUE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
-                          {}, None, {})
+                          {}, None, 1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed step: 1")
 
@@ -204,7 +208,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123,500",
                                 custom_exit_behaviour=Task.CONTINUE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
-                          {}, None, {})
+                          {}, None, 1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed step: 1")
 
@@ -226,7 +230,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123",
                                 custom_exit_behaviour=Task.FAIL)
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
-                          "test_custom_continue", [], {}, None, {})
+                          "test_custom_continue", [], {}, None, 1, {})
 
     @override_settings(
         task_eager_propagates=True,
@@ -246,7 +250,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123,ARGHEL",
                                 custom_exit_behaviour=Task.FAIL)
         self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
-                          "test_custom_continue", [], {}, None, {})
+                          "test_custom_continue", [], {}, None, 1, {})
 
     @override_settings(
         task_eager_propagates=True,
@@ -266,7 +270,7 @@ class TaskTestCase(TestCase):
                                 custom_exit_status="123",
                                 custom_exit_behaviour=Task.TERMINATE)
         task_runner.delay(self.uuid1, 0, 1, 1, 2, "test_custom_continue", [],
-                          {}, None, {})
+                          {}, None, 1, {})
         self.sub = Submission.objects.get(UUID=self.uuid1)
         self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
@@ -290,7 +294,7 @@ class TaskTestCase(TestCase):
             lr().run_cmd.return_value = 0
             lr().output_data = {"huh.py": b"this"}
             task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue",
-                              [], {}, None, {})
+                              [], {}, None, 1, {})
             self.sub = Submission.objects.get(UUID=self.uuid1)
             self.assertEqual(self.sub.last_message, "Completed job at step #1")
             # this test ends up being the same as the Terminates one and
@@ -316,7 +320,7 @@ class TaskTestCase(TestCase):
             lr().output_data = {"huh.py": b"this"}
             with transaction.atomic():
                 self.assertRaises(OSError, task_runner, self.uuid1, 0, 1, 1, 1,
-                                  "test_custom_continue", [], {}, None, {})
+                                  "test_custom_continue", [], {}, None, 1, {})
 
     @override_settings(
         task_eager_propagates=True,
@@ -337,7 +341,7 @@ class TaskTestCase(TestCase):
             lr().run_cmd.return_value = 0
             lr().output_data = {"huh.py": b"this"}
             task_runner.delay(self.uuid1, 0, 1, 1, 1, "test_custom_continue",
-                              [], {}, None, {})
+                              [], {}, None, 1, {})
             self.sub = Submission.objects.get(UUID=self.uuid1)
             self.assertEqual(self.sub.last_message, "Completed job at step #1")
 
