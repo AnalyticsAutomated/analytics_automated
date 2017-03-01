@@ -19,6 +19,7 @@ jobs in to web services
     how_it_works
     the_Job_UI
     configuring_a_basic_job
+    using_a_basic_job
     job_admin
     recipes
     advanced
