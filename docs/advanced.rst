@@ -13,7 +13,7 @@ The following is an overview of the execution path for user data submissions.
 There are principally 2 important functions api.post() and tasks.taskrunner().
 
 Users make POST requests with files of data to the django webserver and these
-arrive at the `post()` method in the `apy.py`. The post() method is
+arrive at the `post()` method in the `api.py`. The post() method is
 responsible for validating data and dispatching jobs to the workers.
 
 post() runs through the following sequence of events.
