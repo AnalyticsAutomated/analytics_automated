@@ -10,10 +10,10 @@ System details
 ^^^^^^^^^^^^^^
 
 The following is an overview of the execution path for user data submissions.
-There are principaaly 2 important functions api.post() and tasks.taskrunner().
+There are principally 2 important functions api.post() and tasks.taskrunner().
 
 Users make POST requests with files of data to the django webserver and these
-arrive at the `post()`` method in the `apy.py`. The post() method is
+arrive at the `post()` method in the `apy.py`. The post() method is
 responsible for validating data and dispatching jobs to the workers.
 
 post() runs through the following sequence of events.
@@ -27,7 +27,7 @@ post() runs through the following sequence of events.
 
 Once a job is pushed to the queue it will be picked up by any workers listening to
 that queue. `tasks.py` defines celery functions which execute the job. The
-principal one is `task_runner()
+principal one is `task_runner()`
 
 task_runner() receives all the information required to query the database for
 all the details required to run a task. Having compiled this data it then uses
