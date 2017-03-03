@@ -17,7 +17,7 @@ Backends & Tasks & Jobs
   http://127.0.0.1:8000/admin/analytics_automated/job/
 
 These pages allow you to survey exiting backends, tasks and jobs you may have
-previously configured. You can also delete and add new entries to these see.
+previously configured. You can also delete and add new entries to these using their admin pages.
 
 See configuring_a_basic_job for how to configure these
 
@@ -39,3 +39,12 @@ job progress. There are 5 statuses
 5. CRASH: A more critical, uncaught error has happened with the job
 
 .. image:: submission_example.png
+
+For now deleting a submission does not halt the job.
+
+Worker Admin
+^^^^^^^^^^^^
+
+The submission Admin gives only an overview of the functioning of the celery workers.
+If you require a more fine grained view of their functioning and the ability to
+stop running jobs you should install Celery Flower on the machine running redis

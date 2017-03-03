@@ -4,7 +4,7 @@ Advanced Uses
 =============
 
 A_A is implemented in python and Django to make it easy for others to extend.
-This document covers the programmatic details of A_A to help this
+This document covers some programmatic details of A_A to help this
 
 System details
 ^^^^^^^^^^^^^^
@@ -57,8 +57,7 @@ The simplest possible validator would do nothing with the file
 
 A more realistic validator needs to interogate the contents of the file.
 the data passsed in is always a byte stream from a file. So typically the first
-thing you wish to do wouldd 'low_be to dec', 'localhost'
-and 'high_localhost'ode the byte stream. In the example below
+thing you wish to do would be to decode the byte stream. In the example below
 the validator would return False is every line does not start with a '#'
 
 ::
@@ -86,7 +85,14 @@ Yaml upload and download
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 If programmatic or web access is not suitable, it is also possible to dump the
-job configurations to yaml or upload new configuration if the
+job configurations to yaml or upload new configuration. You can write or edit
+valid yaml for the database to configure jobs and tasks. The following URIs
+provide this functionality
+
+::
+
+  http://127.0.0.1:8000/admin/dump
+  http://127.0.0.1:8000/admin/load
 
 Adding new celery queues
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -95,20 +101,20 @@ A_A uses Celery to execute tasks. By default we provide a number of queues
 that tasks can be assigned to. You can use the Queues admin pages to create
 new ones. By default you can find 'localhost' and 'gridengine' name queues.
 
-Internally these create 3 queues for each named, 'low_localhost', 'localhost'
-and 'high_localhost'. These allow you to have queues that run with tasks
+Internally these create 3 queues for each named, 'low\_localhost', 'localhost'
+and 'high\_localhost'. These allow you to have queues that run with tasks
 with different prioriies. By default jobs will be sent to the 'localhost' queue,
-users who exceed the QUEUE_HOG_SIZE will have their jobs sent to the 'low_' queue
-and users who are logged in can be assigned to the 'high_' queue.
+users who exceed the QUEUE_HOG_SIZE will have their jobs sent to the 'low\_' queue
+and users who are logged in can be assigned to the 'high\_' queue.
 
-Now if you deploy fewer workers listening to the 'low_' queue those users
+Now if you deploy fewer workers listening to the 'low\_' queue those users
 will be able to have jobs executed but will not be able to monopolise the system
 at the expense of other users. If you do not wish the queues to run with different
 access to resources then have your celery workers listen to all queues.
 
 You can create new queues for different worker pools using the Queue Type Admin
 http://127.0.0.1:8000/admin/analytics_automated/queuetype/. You set a new name
-which will name the celery queues (low_[name], [name] and high_[name]) and
+which will name the celery queues (low\_[name], [name] and high\_[name]) and
 you set an execution behaviour. Currently 2 execution behaviours are supported.
 With 'localhost' set the workers will run the configured task as though it is
 a unix commandlines instruction and execute it on the machine the worker is

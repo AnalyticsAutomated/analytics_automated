@@ -9,6 +9,7 @@ TODO
 5. Non-linear jobs (i.e tasks with multiple parents)
 6. HADOOP/Spark?
 7. Raw Python support
+8. Deleting a submission should stop the workers processing it
 
 Production things
 -----------------

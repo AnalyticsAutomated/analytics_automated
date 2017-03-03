@@ -33,6 +33,7 @@ which is sent to users. You can customise the email subject and default
 message with the following
 
 ::
+
   EMAIL_SUBJECT_STRING = 'A_A Job Completion'
   EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
                        'results from http://localhost/analytics_automated/' \
