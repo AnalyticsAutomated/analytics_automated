@@ -23,7 +23,7 @@ jobs in to web services
     job_admin
     recipes
     advanced
-    configuration
+    configuration_settings
     dev_installation
     roadmap
     todo

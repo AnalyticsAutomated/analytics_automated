@@ -48,6 +48,32 @@ dialogue. In Django development mode this process is automatic. For a production
 you will need to restart the Django server. Functions beginning with '_' will be regarded
 as private and will not be added to the validators
 
+The simplest possible validator would do nothing with the file
+
+::
+
+  def simple_validator(file_data):
+      return(True)
+
+A more realistic validator needs to interogate the contents of the file.
+the data passsed in is always a byte stream from a file. So typically the first
+thing you wish to do wouldd 'low_be to dec', 'localhost'
+and 'high_localhost'ode the byte stream. In the example below
+the validator would return False is every line does not start with a '#'
+
+::
+
+  def better_validator(file_data):
+      data_string = file_data.decode("utf-8")
+      for line in  string_data.splitlines():
+        if not line.startswith('#')
+          return False
+      return True
+
+When writing validators you can add tests to the test_validators.py file and
+use the typical Django test command to test them. If you remove a validator,
+don't forget to remove its associated tests
+
 Programmatic Admin
 ^^^^^^^^^^^^^^^^^^
 
@@ -64,3 +90,28 @@ job configurations to yaml or upload new configuration if the
 
 Adding new celery queues
 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+A_A uses Celery to execute tasks. By default we provide a number of queues
+that tasks can be assigned to. You can use the Queues admin pages to create
+new ones. By default you can find 'localhost' and 'gridengine' name queues.
+
+Internally these create 3 queues for each named, 'low_localhost', 'localhost'
+and 'high_localhost'. These allow you to have queues that run with tasks
+with different prioriies. By default jobs will be sent to the 'localhost' queue,
+users who exceed the QUEUE_HOG_SIZE will have their jobs sent to the 'low_' queue
+and users who are logged in can be assigned to the 'high_' queue.
+
+Now if you deploy fewer workers listening to the 'low_' queue those users
+will be able to have jobs executed but will not be able to monopolise the system
+at the expense of other users. If you do not wish the queues to run with different
+access to resources then have your celery workers listen to all queues.
+
+You can create new queues for different worker pools using the Queue Type Admin
+http://127.0.0.1:8000/admin/analytics_automated/queuetype/. You set a new name
+which will name the celery queues (low_[name], [name] and high_[name]) and
+you set an execution behaviour. Currently 2 execution behaviours are supported.
+With 'localhost' set the workers will run the configured task as though it is
+a unix commandlines instruction and execute it on the machine the worker is
+running on. With 'GridEngine' set the worker will send the task
+to a DRMAA compliant grid engine head node for execution. Not the RServe options
+is temporarily not supported

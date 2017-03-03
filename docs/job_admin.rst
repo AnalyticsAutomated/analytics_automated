@@ -39,10 +39,3 @@ job progress. There are 5 statuses
 5. CRASH: A more critical, uncaught error has happened with the job
 
 .. image:: submission_example.png
-
-Results & Messages
-^^^^^^^^^^^^^^^^^^
-
-Workers running tasks output messages as they progress and collect results data.
-Theses pages allow you to survey these messages and results filse independent of the
-submission they are attached to.
