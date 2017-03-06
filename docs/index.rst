@@ -19,9 +19,11 @@ jobs in to web services
     how_it_works
     the_Job_UI
     configuring_a_basic_job
+    using_a_basic_job
     job_admin
     recipes
     advanced
+    configuration_settings
     dev_installation
     roadmap
     todo

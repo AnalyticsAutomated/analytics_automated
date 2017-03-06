@@ -181,9 +181,9 @@ class ResultAdmin(admin.ModelAdmin):
 
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)
-admin.site.register(Message, MessageAdmin)
+#admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
-admin.site.register(Result, ResultAdmin)
+#admin.site.register(Result, ResultAdmin)
 admin.site.register(QueueType, QueueTypeAdmin)
 # gitadmin.site.register(Step
