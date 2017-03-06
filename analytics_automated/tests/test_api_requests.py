@@ -158,7 +158,7 @@ class EndpointListTests(APITestCase):
         clearDatabase()
 
 
-class SubmissionAcceptAndRejectTests(APITestCase):
+class SubmissionRequestTests(APITestCase):
 
     file = ''
     data = {}

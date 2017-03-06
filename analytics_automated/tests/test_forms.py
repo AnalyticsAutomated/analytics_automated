@@ -8,7 +8,7 @@ from rest_framework.test import APIRequestFactory
 
 from .model_factories import *
 from analytics_automated.forms import *
-
+from .helper_functions import clearDatabase
 
 class TaskForms(TestCase):
 
@@ -34,27 +34,7 @@ class TaskForms(TestCase):
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
-        SubmissionFactory.reset_sequence()
-        JobFactory.reset_sequence()
-        for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
-                                "/file1*"):
-            os.remove(file_1)
-        for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                                 "/example*"):
-            os.remove(example)
-        for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                                 "/result1*"):
-            os.remove(example)
-        for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                                 "/huh*"):
-            os.remove(example)
+        clearDatabase()
 
     def test__validate_input_accepts_png(self):
         vt = ValidatorTypesFactory.create(name='png')

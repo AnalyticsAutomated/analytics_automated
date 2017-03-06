@@ -230,6 +230,27 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         logger.debug("TASK COMMAND: "+tchain)
         return(tchain)
 
+    def __get_job(self, job_name):
+        if Job.objects.filter(name=job_name).exists():
+            return Job.objects.get(name=job_name).pk
+        else:
+            raise ValueError
+
+    def __get_job_priority(self, logged_in, ip_address):
+        subs = Submission.objects.filter(ip=ip_address, status__lte=1)
+
+        if logged_in:
+            if len(subs) >= settings.QUEUE_HOG_SIZE:
+                return Submission.LOW, len(subs)
+            return settings.LOGGED_IN_JOB_PRIORITY, len(subs)
+        if len(subs) >= settings.QUEUE_HOG_SIZE and \
+           len(subs) < settings.QUEUE_HARD_LIMIT:
+            return Submission.LOW, len(subs)
+        if len(subs) >= settings.QUEUE_HARD_LIMIT:
+            return None, len(subs)
+
+        return settings.DEFAULT_JOB_PRIORITY, len(subs)
+
     def post(self, request, *args, **kwargs):
 
         """
@@ -240,7 +261,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             write another serializer to handle this validation but that
             seems insane when the forms functionality is already in place
         """
-        # # data['input_data'] = request.data['input_data']
+        # data['input_data'] = request.data['input_data']
         try:
             data, request_contents = self.__prepare_data(request)
         except MultiValueDictKeyError:
@@ -251,24 +272,19 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         # work out which job this refers to
-        if Job.objects.filter(name=data['job']).exists():
-            data['job'] = Job.objects.get(name=data['job']).pk
-        else:
+        try:
+            data['job'] = self.__get_job(data['job'])
+        except Exception as e:
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
-        # Here we'll work out what priority this job will run at
-        job_priority = settings.DEFAULT_JOB_PRIORITY
-        subs = Submission.objects.filter(ip=data['ip'], status__lte=1)
-
-        if len(subs) >= settings.QUEUE_HOG_SIZE:
-            job_priority = Submission.LOW
-        if len(subs) >= settings.QUEUE_HARD_LIMIT:
-            content = {'error': "You have too many, "+str(len(subs)) +
+        # Find what priority queue the job should run on
+        (job_priority, submission_number) = self.__get_job_priority(request.user.is_authenticated,
+                                                                    data['ip'])
+        if job_priority is None:
+            content = {'error': "You have too many, "+str(submission_number) +
                                 ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
-        if request.user.is_authenticated():
-            job_priority = settings.LOGGED_IN_JOB_PRIORITY
 
         # In the future we'll set batch jobs to the lowest priority
         submission_form = SubmissionForm(data, request.FILES)

@@ -27,34 +27,11 @@ from analytics_automated.api import SubmissionDetails
 from analytics_automated.models import *
 from .model_factories import *
 from analytics_automated.tasks import *
+from .helper_functions import clearDatabase
 
 '''
     Unit tests for the private functions in the api.py files
 '''
-
-
-def clearDatabase():
-    Backend.objects.all().delete()
-    Job.objects.all().delete()
-    Task.objects.all().delete()
-    Step.objects.all().delete()
-    Submission.objects.all().delete()
-    Parameter.objects.all().delete()
-    Result.objects.all().delete()
-    SubmissionFactory.reset_sequence()
-    JobFactory.reset_sequence()
-    for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
-                            "/file1*"):
-        os.remove(file_1)
-    for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                             "/example*"):
-        os.remove(example)
-    for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                             "/result1*"):
-        os.remove(example)
-    for example in glob.glob(settings.BASE_DIR.child("submissions") +
-                             "/huh*"):
-        os.remove(example)
 
 
 class APIPrivateFunctionTests(APITestCase):
@@ -82,6 +59,52 @@ class APIPrivateFunctionTests(APITestCase):
 
     def tearDown(self):
         clearDatabase()
+
+    def test_get_job_priority_returns_default_priority(self):
+        sd = SubmissionDetails()
+        priority, value = sd._SubmissionDetails__get_job_priority(False,
+                                                                  "127.0.0.1")
+        self.assertEquals(priority, settings.DEFAULT_JOB_PRIORITY)
+        self.assertEquals(value, 0)
+
+    def test_get_job_priority_returns_low_priority(self):
+        for i in range(0, settings.QUEUE_HOG_SIZE):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        sd = SubmissionDetails()
+        priority, value = sd._SubmissionDetails__get_job_priority(False,
+                                                                  "127.0.0.1")
+        self.assertEquals(priority, Submission.LOW)
+        self.assertEquals(value, 10)
+
+    def test_get_job_priority_returns_none_priority(self):
+        for i in range(0, settings.QUEUE_HARD_LIMIT):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        sd = SubmissionDetails()
+        priority, value = sd._SubmissionDetails__get_job_priority(False,
+                                                                  "127.0.0.1")
+        self.assertEquals(priority, None)
+        self.assertEquals(value, 15)
+
+    def test_get_job_priority_returns_logged_priority(self):
+        sd = SubmissionDetails()
+        priority, value = sd._SubmissionDetails__get_job_priority(True,
+                                                                  "127.0.0.1")
+        pass
+
+    def test_get_job_priority_returns_logged_low_priority(self):
+        sd = SubmissionDetails()
+        priority, value = sd._SubmissionDetails__get_job_priority(True,
+                                                                  "127.0.0.1")
+        pass
+
+    def test_get_job_returns_job_id(self):
+        sd = SubmissionDetails()
+        value = sd._SubmissionDetails__get_job("job1")
+        self.assertEqual(value, self.j1.pk)
+
+    def test_get_job_raises_if_not_entry(self):
+        sd = SubmissionDetails()
+        self.assertRaises(Exception, sd._SubmissionDetails__get_job, "argl")
 
     def test__return_value_returns_value_flag(self):
         p1 = ParameterFactory.create(task=self.t, flag="VALUE",
