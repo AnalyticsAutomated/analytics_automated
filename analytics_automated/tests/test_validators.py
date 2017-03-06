@@ -1,4 +1,4 @@
-from .validators import *
+from analytics_automated.validators import *
 
 from django.test import TestCase
 

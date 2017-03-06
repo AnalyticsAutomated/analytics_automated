@@ -1,12 +1,15 @@
 import uuid
+import glob
 
 from django.test import TestCase
 from django.db import transaction
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
 
-from .models import Backend, Task, Job, Step, Submission, Validator
+from analytics_automated.models import Backend, Task, Job
+from analytics_automated.models import Step, Submission, Validator
 from .model_factories import *
+from .helper_functions import clearDatabase
 
 
 class BackendMethodTests(TestCase):
@@ -33,13 +36,7 @@ class BackendMethodTests(TestCase):
         self.assertTrue(error_ocurred)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class TaskMethodTest(TestCase):
@@ -53,13 +50,7 @@ class TaskMethodTest(TestCase):
         self.assertEqual(Task.objects.count(), 1)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class JobMethodTest(TestCase):
@@ -72,13 +63,7 @@ class JobMethodTest(TestCase):
         self.assertEqual(Job.objects.count(), 1)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class StepMethodTest(TestCase):
@@ -121,13 +106,7 @@ class StepMethodTest(TestCase):
         self.assertEqual(Step.objects.count(), 0)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class SubmissionTest(TestCase):
@@ -140,13 +119,7 @@ class SubmissionTest(TestCase):
         self.assertEqual(Submission.objects.count(), 1)
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class ValidatorTest(TestCase):
@@ -158,13 +131,7 @@ class ValidatorTest(TestCase):
         Validator.objects.all().delete
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()
 
 
 class ParameterTest(TestCase):
@@ -180,10 +147,4 @@ class ParameterTest(TestCase):
         self.assertEqual(p.rest_alias, t.name+"_alias")
 
     def tearDown(self):
-        Backend.objects.all().delete()
-        Job.objects.all().delete()
-        Task.objects.all().delete()
-        Step.objects.all().delete()
-        Submission.objects.all().delete()
-        Parameter.objects.all().delete()
-        Result.objects.all().delete()
+        clearDatabase()

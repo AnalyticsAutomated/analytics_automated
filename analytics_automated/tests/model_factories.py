@@ -9,8 +9,10 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from .models import Backend, Task, Job, Step, Submission, ValidatorTypes
-from .models import Parameter, Result, Validator, Environment, QueueType
+from analytics_automated.models import Backend, Task, Job, Step
+from analytics_automated.models import Submission, ValidatorTypes
+from analytics_automated.models import Parameter, Result
+from analytics_automated.models import Validator, Environment, QueueType
 
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")

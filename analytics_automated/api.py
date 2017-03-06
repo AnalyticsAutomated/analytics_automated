@@ -249,6 +249,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         except KeyError:
             content = {'error': "Input does not contain all required fields"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
         # work out which job this refers to
         if Job.objects.filter(name=data['job']).exists():
             data['job'] = Job.objects.get(name=data['job']).pk

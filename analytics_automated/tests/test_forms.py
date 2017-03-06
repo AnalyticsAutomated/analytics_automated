@@ -7,7 +7,7 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 
 from .model_factories import *
-from .forms import *
+from analytics_automated.forms import *
 
 
 class TaskForms(TestCase):
