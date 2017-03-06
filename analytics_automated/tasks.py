@@ -207,6 +207,11 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                identifier=uuid,
                                std_out_str=uuid+stdoglob,
                                env_vars=environment)
+        if execution_behaviour == QueueType.RSERVE:
+            rs_message = "RSERVE RUNNING NOT IMPLEMETED"
+            Submission.update_submission_state(s, True, state, step_id,
+                                               self.request.id, rs_message)
+            raise OSError(rs_message)
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
