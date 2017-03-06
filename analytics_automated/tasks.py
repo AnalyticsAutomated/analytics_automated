@@ -96,139 +96,65 @@ def insert_data(output_data, s, t, current_step, previous_step):
                                   result_data=None)
 
 
-# time limits?
-# step_id is the numerical value the user provides when they set the steps
-#         in the UI
-# current_step is a counter of where in the process we are, celery groups take
-#              the same step value, which allows a subsequent step to get all
-#              the results from the group
-# step_counter a counter which counts which step this is in sequence used in
-#              conjunction with total_steps to tell when a job has finished
-# total_step   a totall of all the units of work/tasks that a job has
-# TODO: Almost certainly a job can not end with a celery group(), some sort
-#       of reduce step is 'required' this needs fix.
-#       One way to handle this would be to add a dummy "end" task to the
-#       chain() if the chain would otherwise end in a group()
-@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
-             max_retries=5)
-def task_runner(self, uuid, step_id, current_step, step_counter,
-                total_steps, task_name, params, param_values, value,
-                execution_behaviour, environment):
-    """
-        Here is the action. Takes and task name and a job UUID. Gets the task
-        config from the db and the job data and runs the job.
-        Also needs to give control to whichever library supports the backend
-        in question.
-        Once the data is on the backend this task then just watches the
-        backend until the job is done.d
-        Results are pushed to the frontend db but because they are files
-        we just use the celery results for messaging and the results table
-        for the files
-    """
-    logger.info("TASK:" + task_name)
-    logger.info("CURRENT STEP:" + str(current_step))
-    logger.info("TOTAL STEPS:" + str(total_steps))
-    logger.info("STEP ID:" + str(step_id))
-    s = Submission.objects.get(UUID=uuid)
-    t = Task.objects.get(name=task_name)
-    state = Submission.ERROR
+def build_file_globs(t):
+    '''
+        Not yet covered with unit tests
+    '''
     in_globs = "".join(t.in_glob.split()).split(",")
     out_globs = "".join(t.out_glob.split()).split(",")
 
-    data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
     iglob = in_globs[0].lstrip(".")
     oglob = out_globs[0].lstrip(".")
-    # update submission tracking to note that this is running
-    with transaction.atomic():
-        if s.status != Submission.ERROR and s.status != Submission.CRASH:
-            Submission.update_submission_state(s, True, Submission.RUNNING,
-                                               step_id,
-                                               self.request.id,
-                                               'Running step: ' +
-                                               str(current_step))
-    stdoglob = ".stdout"
-    if t.stdout_glob is not None and len(t.stdout_glob) > 0:
-        stdoglob = "."+t.stdout_glob.lstrip(".")
-    # Now we run the task handing off the actual running to the commandRunner
-    # library
-    run = None
-    # Here we get the users list and decide which one to submit the job with
-    # TODO: Candidate to move to the command runner as it should handle the
-    # finding out what is happening on the backend. Perhaps API call in
-    # which returns the number of running processes and maybe the load average
-    try:
-        if execution_behaviour == QueueType.LOCALHOST:
-            logger.info("Running At LOCALHOST")
-            if value:
-                run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                                  out_globs=out_globs,
-                                  in_globs=in_globs,
-                                  command=t.executable,
-                                  input_data=data_dict,
-                                  params=params,
-                                  param_values=param_values,
-                                  identifier=uuid,
-                                  std_out_str=uuid+stdoglob,
-                                  value_string=value,
-                                  env_vars=environment)
-            else:
-                run = localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                                  out_globs=out_globs,
-                                  in_globs=in_globs,
-                                  command=t.executable,
-                                  input_data=data_dict,
-                                  params=params,
-                                  param_values=param_values,
-                                  identifier=uuid,
-                                  std_out_str=uuid+stdoglob,
-                                  env_vars=environment)
-        if execution_behaviour == QueueType.GRIDENGINE:
-            logger.info("Running At GRIDENGINE")
-            if value:
-                run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                               out_globs=out_globs,
-                               in_globs=in_globs,
-                               command=t.executable,
-                               input_data=data_dict,
-                               params=params,
-                               param_values=param_values,
-                               identifier=uuid,
-                               std_out_str=uuid+stdoglob,
-                               value_string=value,
-                               env_vars=environment)
-            else:
-                run = geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                               out_globs=out_globs,
-                               in_globs=in_globs,
-                               command=t.executable,
-                               input_data=data_dict,
-                               params=params,
-                               param_values=param_values,
-                               identifier=uuid,
-                               std_out_str=uuid+stdoglob,
-                               env_vars=environment)
-        if execution_behaviour == QueueType.RSERVE:
-            rs_message = "RSERVE RUNNING NOT IMPLEMETED"
-            Submission.update_submission_state(s, True, state, step_id,
-                                               self.request.id, rs_message)
-            raise OSError(rs_message)
-    except Exception as e:
-        cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
-                      str(current_step)
-        Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, cr_message)
-        raise OSError(cr_message)
+    return(in_globs, out_globs, iglob, oglob)
 
-    try:
-        run.prepare()
-    except Exception as e:
-        prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
-                       " : "+str(current_step)
-        Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, prep_message)
-        raise OSError(prep_message)
 
-    # set the valid exit statuses in case their is a defined value alternative
+def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
+                param_values, stdoglob, environment, state, step_id, self,
+                execution_behaviour):
+    '''
+        Not yet covered with unit tests
+    '''
+    extra_kwargs = {}
+    if value:
+            extra_kwargs = {'value_string': value}
+    if execution_behaviour == QueueType.LOCALHOST:
+        logger.info("Running At LOCALHOST")
+        return localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                           out_globs=out_globs,
+                           in_globs=in_globs,
+                           command=t.executable,
+                           input_data=data_dict,
+                           params=params,
+                           param_values=param_values,
+                           identifier=uuid,
+                           std_out_str=uuid+stdoglob,
+                           env_vars=environment,
+                           **extra_kwargs)
+    if execution_behaviour == QueueType.GRIDENGINE:
+        logger.info("Running At GRIDENGINE")
+        return geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
+                        out_globs=out_globs,
+                        in_globs=in_globs,
+                        command=t.executable,
+                        input_data=data_dict,
+                        params=params,
+                        param_values=param_values,
+                        identifier=uuid,
+                        std_out_str=uuid+stdoglob,
+                        env_vars=environment,
+                        **extra_kwargs)
+    if execution_behaviour == QueueType.RSERVE:
+        rs_message = "RSERVE RUNNING NOT IMPLEMETED"
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, rs_message)
+        raise OSError(rs_message)
+    return None
+
+
+def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
+    '''
+        Not yet covered with unit tests
+    '''
     valid_exit_status = [0, ]
     custom_exit_statuses = []
     if t.custom_exit_status is not None:
@@ -239,7 +165,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         except Exception as e:
             exit_status_message = "Exit statuses contains non-numerical and " \
                                   "other punctuation "+str(e) + \
-                                  " : "+str(current_step) + " : " + run.command
+                                  " : "+str(current_step) + " : " + command
             Submission.update_submission_state(s, True, state, step_id,
                                                self.request.id,
                                                exit_status_message)
@@ -248,33 +174,20 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
            t.custom_exit_behaviour == Task.TERMINATE:
             valid_exit_status += custom_exit_statuses
 
-    try:
-        logger.info("EXECUTABLE: "+run.command)
-        logger.info("STD OUT: "+run.std_out_str)
-        # run.prepare()
-        logger.info("EXIT STATUSES: "+str(valid_exit_status))
-        exit_status = run.run_cmd(valid_exit_status)
-    except Exception as e:
-        run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
-                      " : "+str(current_step) + " : " + run.command
-        Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, run_message)
-        # We don't raise and error here as we want to test the exit status
-        # and make a decision later
-        raise OSError(run_message)
+    return valid_exit_status, custom_exit_statuses
 
-    # if the command ran with success we'll send the file contents to the
-    # database.
-    # TODO: For now we write everything to the file as utf-8 but we'll need to
-    # handle binary data eventually
 
-    # if DEBUG settings are true we leave behind the temp working dir.
-    if settings.DEBUG is not True:
-        run.tidy()
-
+def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
+                     run, out_globs, t, s, current_step, previous_step, self,
+                     state, step_id):
+    '''
+        Not yet covered with unit tests
+    '''
     custom_exit_termination = False
     incomplete_outputs_termination = False
     if exit_status in valid_exit_status:
+        # Here we test the custom exit status. And do as it requires
+        # skipping the regular raise() if needed
         if exit_status in custom_exit_statuses and \
                        t.custom_exit_behaviour == Task.TERMINATE:
             custom_exit_termination = True
@@ -319,8 +232,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         raise OSError("Exit Status " + str(exit_status) +
                       ": Failed with custom exit status: "+str(run.command))
     else:
-        # Here we test the custom exit status. And do as it requires
-        # skipping the regular raise() if needed
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0' +
@@ -331,6 +242,136 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                      ": Command did not run: "+str(run.command))
         raise OSError("Exit Status " + str(exit_status) +
                       ": Command did not run: "+str(run.command))
+
+    return custom_exit_termination, incomplete_outputs_termination
+
+# time limits?
+# step_id is the numerical value the user provides when they set the steps
+#         in the UI
+# current_step is a counter of where in the process we are, celery groups take
+#              the same step value, which allows a subsequent step to get all
+#              the results from the group
+# step_counter a counter which counts which step this is in sequence used in
+#              conjunction with total_steps to tell when a job has finished
+# total_step   a totall of all the units of work/tasks that a job has
+# TODO: Almost certainly a job can not end with a celery group(), some sort
+#       of reduce step is 'required' this needs fix.
+#       One way to handle this would be to add a dummy "end" task to the
+#       chain() if the chain would otherwise end in a group()
+@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
+             max_retries=5)
+def task_runner(self, uuid, step_id, current_step, step_counter,
+                total_steps, task_name, params, param_values, value,
+                execution_behaviour, environment):
+    """
+        Here is the action. Takes and task name and a job UUID. Gets the task
+        config from the db and the job data and runs the job.
+        Also needs to give control to whichever library supports the backend
+        in question.
+        Once the data is on the backend this task then just watches the
+        backend until the job is done.d
+        Results are pushed to the frontend db but because they are files
+        we just use the celery results for messaging and the results table
+        for the files
+    """
+    logger.info("TASK:" + task_name)
+    logger.info("CURRENT STEP:" + str(current_step))
+    logger.info("TOTAL STEPS:" + str(total_steps))
+    logger.info("STEP ID:" + str(step_id))
+
+
+    # prepare all objects and parameters for commandRunner.
+    s = Submission.objects.get(UUID=uuid)
+    t = Task.objects.get(name=task_name)
+    state = Submission.ERROR
+    in_globs, out_globs, iglob, oglob = build_file_globs(t)
+    data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
+    stdoglob = ".stdout"
+    if t.stdout_glob is not None and len(t.stdout_glob) > 0:
+        stdoglob = "."+t.stdout_glob.lstrip(".")
+
+    # update submission tracking to note that this is running
+    with transaction.atomic():
+        if s.status != Submission.ERROR and s.status != Submission.CRASH:
+            Submission.update_submission_state(s, True, Submission.RUNNING,
+                                               step_id,
+                                               self.request.id,
+                                               'Running step: ' +
+                                               str(current_step))
+
+    # Now we run the task handing off the actual running to the commandRunner
+    # library
+    run = None
+    # Here we get the users list and decide which one to submit the job with
+    # TODO: Candidate to move to the command runner as it should handle the
+    # finding out what is happening on the backend. Perhaps API call in
+    # which returns the number of running processes and maybe the load average
+
+    # Initialise commandRunner here
+    try:
+        run = make_runner(value, uuid, t, out_globs, in_globs, data_dict,
+                          params, param_values, stdoglob, environment, state,
+                          step_id, self, execution_behaviour)
+    except Exception as e:
+        cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
+                      str(current_step)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, cr_message)
+        raise OSError(cr_message)
+
+    #prepare the temp working directory here
+    try:
+        run.prepare()
+    except Exception as e:
+        prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
+                       " : "+str(current_step)
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, prep_message)
+        raise OSError(prep_message)
+
+    # set the valid exit statuses in case their is a defined value alternative
+    valid_exit_status, custom_exit_statuses = prepare_exit_statuses(t, state,
+                                                                    step_id,
+                                                                    self,
+                                                                    current_step,
+                                                                    run.command,
+                                                                    s)
+
+    # execute the command
+    try:
+        logger.info("EXECUTABLE: "+run.command)
+        logger.info("STD OUT: "+run.std_out_str)
+        # run.prepare()
+        logger.info("EXIT STATUSES: "+str(valid_exit_status))
+        exit_status = run.run_cmd(valid_exit_status)
+    except Exception as e:
+        run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
+                      " : "+str(current_step) + " : " + run.command
+        Submission.update_submission_state(s, True, state, step_id,
+                                           self.request.id, run_message)
+        # We don't raise and error here as we want to test the exit status
+        # and make a decision later
+        raise OSError(run_message)
+
+    # if the command ran with success we'll send the file contents to the
+    # database.
+    # TODO: For now we write everything to the file as utf-8 but we'll need to
+    # handle binary data eventually
+
+    # if DEBUG settings are true we leave behind the temp working dir.
+    if settings.DEBUG is not True:
+        run.tidy()
+
+    # now the job has run handle getting results and what happens with differen
+    # exit statusesd or outputs
+    custom_exit_termination,\
+        incomplete_outputs_termination = handle_task_exit(exit_status,
+                                                          valid_exit_status,
+                                                          custom_exit_statuses,
+                                                          run, out_globs, t, s,
+                                                          current_step,
+                                                          previous_step, self,
+                                                          state, step_id)
 
     # decide if we should complete the job
     complete_job = False
@@ -361,11 +402,13 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             logger.info("Mail server not available:" + str(e))
 
     # s2 = Submission.objects.get(UUID=uuid)
+    # send message to frontend now the task is run and the results are handled
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
 
+    # if we need to terminate the chain send that signal here
     if t.custom_exit_status is not None:
         if t.custom_exit_behaviour == Task.TERMINATE and exit_status in custom_exit_statuses:
             if self.request.chain:
