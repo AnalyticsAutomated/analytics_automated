@@ -5,7 +5,7 @@ Babel==2.3.4
 billiard==3.5.0.2
 bugsnag==2.3.1
 celery==4.0.2
-commandRunner==0.8.0
+commandRunner==0.8.1
 coverage==3.7.1
 defusedxml==0.4.1
 Django==1.10.5
