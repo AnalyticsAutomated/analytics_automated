@@ -2,6 +2,8 @@ from __future__ import absolute_import
 import logging
 import time
 from commandRunner.localRunner import *
+from commandRunner.rRunner import *
+from commandRunner.pythonRunner import *
 
 from celery import Celery
 from celery import shared_task
@@ -17,8 +19,10 @@ from .models import QueueType, BackendUser
 
 logger = logging.getLogger(__name__)
 
+ge_available = False
 try:
     from commandRunner.geRunner import *
+    ge_available = True
 except Exception as e:
     logger.info("SGE_ROOT AND DRMAA_LIBRARY_PATH ARE NOT SET; " +
                 "GridEngine backend not available")
@@ -114,40 +118,38 @@ def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
     '''
         Not yet covered with unit tests
     '''
-    extra_kwargs = {}
+    kwargs = {'tmp_id': uuid,
+              'tmp_path': t.backend.root_path,
+              'out_globs': out_globs,
+              'in_globs': in_globs,
+              'input_data': data_dict,
+              'params': params,
+              'param_values': param_values,
+              'identifier': uuid,
+              'std_out_str': uuid+stdoglob,
+              'env_vars': environment,
+              }
     if value:
-            extra_kwargs = {'value_string': value}
+            kwargs['value_string'] = value
     if execution_behaviour == QueueType.LOCALHOST:
-        logger.info("Running At LOCALHOST")
-        return localRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                           out_globs=out_globs,
-                           in_globs=in_globs,
-                           command=t.executable,
-                           input_data=data_dict,
-                           params=params,
-                           param_values=param_values,
-                           identifier=uuid,
-                           std_out_str=uuid+stdoglob,
-                           env_vars=environment,
-                           **extra_kwargs)
+        logger.info("Running On LOCALHOST")
+        kwargs['command'] = t.executable
+        return localRunner(**kwargs)
     if execution_behaviour == QueueType.GRIDENGINE:
-        logger.info("Running At GRIDENGINE")
-        return geRunner(tmp_id=uuid, tmp_path=t.backend.root_path,
-                        out_globs=out_globs,
-                        in_globs=in_globs,
-                        command=t.executable,
-                        input_data=data_dict,
-                        params=params,
-                        param_values=param_values,
-                        identifier=uuid,
-                        std_out_str=uuid+stdoglob,
-                        env_vars=environment,
-                        **extra_kwargs)
-    if execution_behaviour == QueueType.RSERVE:
-        rs_message = "RSERVE RUNNING NOT IMPLEMETED"
-        Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, rs_message)
-        raise OSError(rs_message)
+        if ge_available:
+            logger.info("Running At GRIDENGINE")
+            kwargs['command'] = t.executable
+            return geRunner(**kwargs)
+        else:
+            raise OSError("Grid Engine Libraries not available")
+    if execution_behaviour == QueueType.R:
+        logger.info("Running R")
+        kwargs['script'] = t.executable
+        return rRunner(**kwargs)
+    if execution_behaviour == QueueType.PYTHON:
+        logger.info("Running Python")
+        kwargs['script'] = t.executable
+        return pythonRunner(**kwargs)
     return None
 
 

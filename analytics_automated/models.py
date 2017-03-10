@@ -24,18 +24,20 @@ class QueueType(models.Model):
     # http://www.b-list.org/weblog/2007/nov/02/handle-choices-right-way/
     LOCALHOST = 1
     GRIDENGINE = 2
-    RSERVE = 3
+    R = 3
+    PYTHON = 4
     # HADOOP = 4
     # NUMPY = 5
-    SERVER_CHOICES = (
+    EXECUTION_CHOICES = (
         (LOCALHOST, "localhost"),
         (GRIDENGINE, "GridEngine"),
-        (RSERVE, "RServe"),
+        (R, "R"),
+        (PYTHON, "Python")
         # add more when more backends are complete
     )
     name = models.CharField(max_length=512, null=True, blank=True, unique=True)
     execution_behaviour = models.IntegerField(null=False, blank=False,
-                                              choices=SERVER_CHOICES,
+                                              choices=EXECUTION_CHOICES,
                                               default=LOCALHOST)
 
     def __str__(self):
@@ -125,6 +127,7 @@ class Validator(models.Model):
     def __str__(self):
         return self.validation_type.name
 
+
 class Task(models.Model):
     CONTINUE = 0   # The task should continue to the next step
     TERMINATE = 1  # The task should terminate
@@ -143,11 +146,12 @@ class Task(models.Model):
     in_glob = models.CharField(max_length=256, null=False, blank=False)
     out_glob = models.CharField(max_length=256, null=False, blank=False)
     stdout_glob = models.CharField(max_length=256, null=True)
-    executable = models.CharField(max_length=2048, null=False, blank=False)
+    executable = models.CharField(max_length=8192, null=False, blank=False)
     incomplete_outputs_behaviour = models.IntegerField(null=False, blank=False,
-                                               choices=COMPLETION_CHOICES,
-                                               default=FAIL)
-    custom_exit_status = models.CharField(max_length=256, null=True, blank=True)
+                                                       choices=COMPLETION_CHOICES,
+                                                       default=FAIL)
+    custom_exit_status = models.CharField(max_length=256, null=True,
+                                          blank=True)
     custom_exit_behaviour = models.IntegerField(null=True, blank=True,
                                                 choices=COMPLETION_CHOICES,)
 
@@ -167,11 +171,6 @@ class Step(models.Model):
 
     class Meta:
         ordering = ['ordering']
-
-
-    # DB: removed this to enable chorded/concurrent celery jobs
-    # class Meta:
-    #     unique_together = ('job', 'ordering',)
 
 
 class Environment(models.Model):

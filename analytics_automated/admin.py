@@ -68,6 +68,15 @@ class TaskAdmin(admin.ModelAdmin):
             return '<a href="%s">%s</a>' % (url, obj.backend)
         else:
             return 'Backend Unavailable'
+
+    def executable_string(self, obj):
+        if obj.backend.queue_type.execution_behaviour == 3:
+            return("[R CODE BLOCK]")
+        if obj.backend.queue_type.execution_behaviour == 4:
+            return("[PYTHON CODE BLOCK]")
+        return(obj.executable)
+
+    form = TaskForm
     processing_backend.allow_tags = True
 
     fieldsets = [
@@ -80,7 +89,7 @@ class TaskAdmin(admin.ModelAdmin):
     ]
     inlines = [ParameterInline, EnvironmentInline]
     list_display = ('name', 'processing_backend', 'in_glob', 'out_glob',
-                    'executable')
+                    'executable_string')
 
     class Media:
         css = {'all': ('css/task.css', )}

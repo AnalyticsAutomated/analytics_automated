@@ -21,6 +21,7 @@ from unipath import Path
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
+
 def get_secret(setting, secrets):
     """Get the secret variable or return explicit exception."""
     try:
@@ -37,8 +38,8 @@ STATIC_PATH = BASE_DIR.child("static")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
-with open(os.path.join(BASE_SECRETS_PATH)) as \
-    f: base_secrets = json.loads(f.read())
+with open(os.path.join(BASE_SECRETS_PATH)) as f: \
+ base_secrets = json.loads(f.read())
 
 ##############################
 # Required A_A user settings #

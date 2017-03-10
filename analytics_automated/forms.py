@@ -3,7 +3,7 @@ from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.core.exceptions import ValidationError
 
-from .models import Submission, Job, Validator
+from .models import Submission, Job, Validator, Task
 from .validators import *
 
 
@@ -37,6 +37,16 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ('name',)
+
+
+class TaskForm(forms.ModelForm):
+    executable = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Task
+        fields = ('backend', 'name', 'description', 'in_glob', 'out_glob',
+                  'stdout_glob', 'executable', 'incomplete_outputs_behaviour',
+                  'custom_exit_status', 'custom_exit_behaviour', )
 
 
 class ValidatorForm(BaseInlineFormSet):

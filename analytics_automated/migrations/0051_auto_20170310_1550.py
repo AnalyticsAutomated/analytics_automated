@@ -8,16 +8,16 @@ import django.db.models.deletion
 
 def load_queues(apps, schema_editor):
     Queues = apps.get_model("analytics_automated", "QueueType")
-    local = Queues(name="localhost", execution_behaviour=1)
+    local = Queues(name="R", execution_behaviour=3)
     local.save()
-    local = Queues(name="GridEngine", execution_behaviour=2)
+    local = Queues(name="Python", execution_behaviour=4)
     local.save()
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('analytics_automated', '0048_auto_20170301_1533'),
+        ('analytics_automated', '0050_auto_20170301_1539'),
     ]
 
     operations = [
