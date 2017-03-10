@@ -26,8 +26,6 @@ class QueueType(models.Model):
     GRIDENGINE = 2
     R = 3
     PYTHON = 4
-    # HADOOP = 4
-    # NUMPY = 5
     EXECUTION_CHOICES = (
         (LOCALHOST, "localhost"),
         (GRIDENGINE, "GridEngine"),

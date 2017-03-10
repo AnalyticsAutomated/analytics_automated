@@ -40,7 +40,9 @@ class JobForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
-    executable = forms.CharField(widget=forms.Textarea)
+    executable = forms.CharField(widget=forms.Textarea(attrs={'cols': 3,
+                                                              'rows': 1,
+                                                              }))
 
     class Meta:
         model = Task
