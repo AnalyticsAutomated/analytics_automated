@@ -47,8 +47,8 @@ to any system you have or build the UI of your choice.
 
 ### Roadmap
 
-1. Allow jobs to run in R, and Hadoop - Next Up
-2. add further backends; Octave, matlab,
+1. Scheduler for regular jobs
+2. SVG graphs for job progress.
 
 # Requirements
 
@@ -64,12 +64,11 @@ NEXT UP TODO/REMINDERS
 ======================
 
 1. On Submission delete propagate message to workers to kill task
-2. RServe support
 
-3. Add scheduled tasks
-4. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
-5. Add CWL support to configure and dump tasks/jobs. Consider importing
+2. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
+3. Add CWL support to configure and dump tasks/jobs. Consider importing
    Toil library to handle parsing the yaml and pushing the results to the db
+4. Further backends, Octave, matlab, SAS
 
 Production things:
 
