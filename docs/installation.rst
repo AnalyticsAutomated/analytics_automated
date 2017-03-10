@@ -143,12 +143,14 @@ A production system will need a production_secrets.json
 
 * Start the celery workers, from the root dir of A_A. Note that we have to specify
   the queues the workers read from (-Q), for the basic settings we'll have
-  these workers just watch the celery and localhost queues, note that the
-  workers are watching the low priority, normal priority and high priority
+  these workers just watch all the default queueus, note that the
+  workers are watching the low priority, normal priority and high priority.
+  In a more complex set up you can have different worker pools on different
+  machines watch specific queues.
   localhost queues::
 
     cd analytics_automated/
-    celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,celery
+    celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_GridEngine,GridEngine,high_GridEngine,low_R,R,high_R,low_Python,Python,high_Python
 
 * Run the Django migrations to configure the database::
 
@@ -165,6 +167,7 @@ A production system will need a production_secrets.json
 
     cd analytics_automated/
     python manage.py runserver --settings=analytics_automated_project.settings.dev
+
 
 4. Config complete
 ^^^^^^^^^^^^^^^^^^
