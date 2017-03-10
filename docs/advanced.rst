@@ -121,3 +121,28 @@ a unix commandlines instruction and execute it on the machine the worker is
 running on. With 'GridEngine' set the worker will send the task
 to a DRMAA compliant grid engine head node for execution. Not the RServe options
 is temporarily not supported
+
+Code tasks
+^^^^^^^^^^
+
+If you have defined a queue with a R or Python execution behaviour then the
+functionality of the Tasks which use these backends changes. Instead of
+attempting to execute a commandline command these tasks will execute code.
+
+When configuring a task you can now add R or Python code (as appropriate) in to
+the Executable text area (you can resize this as appropriate).
+
+There are a couple of quirks to note:
+
+Things you can drop any arbitrarily large chunk of code in this box however
+as debugging is none obvious you may want to constrain yourself to scripts
+shorter than 100 lines.
+
+A_A comes with Numpy and Scipy preinstalled so you can import those with out
+having to call pip
+
+R code calls will only work if r-base-dev has been installed as it is a
+requirement of rpy2
+
+Code is a dialect of R and Python as the " character is not valid. You must use
+single quotes to delineate strings.

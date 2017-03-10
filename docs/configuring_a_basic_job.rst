@@ -19,6 +19,12 @@ Hitting save makes this backend configuration available to tasks
 
 .. image:: backend_example.png
 
+There are 4 queue types for different types of execution behaviour. Localhost
+will run a command as though you are running a binary from a *nix commandline.
+GridEngine will submit a command to a DRMAA compliant grid engine queue if
+you have installed and configured this on the machine the workers are running
+on. R and Python will run chunks of code in those languages directly.
+
 Task
 ^^^^
 
@@ -40,9 +46,13 @@ stream into a file ending with .contents. In this way the output of the command
 is sent to a file ending in .contents and we've told the task to gatther up
 such files to make them available to the user.
 
-The executable string is the commandline process that will be executed by the
+If the backend is a GridEngine or localhost queue types then the executable
+string is the commandline process that will be executed by the
 task and sent to stdout. In this case a simple `/bin/ls /tmp` unix command.
 Stdout and the captured file will contain the contents of the /tmp directory
+
+If your backend is a Python or R type you can expand the text area and write
+or paste R or Python code.
 
 We are leaving the Job Termination, parameter and environment options blank
 in this simple example.

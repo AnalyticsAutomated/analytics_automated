@@ -9,10 +9,10 @@ url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
 # payload = {'input_data': ('prot.txt', open('../submissions/files/5ptpA.fasta', 'rb'))}
 
 # payload = {'input_data': ('prot.txt', open('known_pdb.fasta', 'rb'))}
-payload = {'input_data': ('prot.txt', open('1iar.pdb', 'rb'))}
-data = {'job': 'memembed',
-        'submission_name': 'test',
-        'email': 'daniel.buchan@ucl.ac.uk',}
+payload = {'input_data': ('prot.txt', open('../submissions/files/prot.txt', 'rb'))}
+data = {'job': 'python_test_job',
+        'submission_name': 'testing',
+        'email': 'daniel.buchan@ucl.ac.uk', }
         # 'hspred_checkchains_chains': 'AB',
         # 'hs_pred_first_chain': 'A',
         # 'hs_pred_second_chain': 'B',

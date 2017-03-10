@@ -247,6 +247,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
 
     return custom_exit_termination, incomplete_outputs_termination
 
+
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
 #         in the UI
@@ -255,11 +256,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
 #              the results from the group
 # step_counter a counter which counts which step this is in sequence used in
 #              conjunction with total_steps to tell when a job has finished
-# total_step   a totall of all the units of work/tasks that a job has
-# TODO: Almost certainly a job can not end with a celery group(), some sort
-#       of reduce step is 'required' this needs fix.
-#       One way to handle this would be to add a dummy "end" task to the
-#       chain() if the chain would otherwise end in a group()
+# total_step   a total of all the units of work/tasks that a job has
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
              max_retries=5)
 def task_runner(self, uuid, step_id, current_step, step_counter,
@@ -280,7 +277,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     logger.info("CURRENT STEP:" + str(current_step))
     logger.info("TOTAL STEPS:" + str(total_steps))
     logger.info("STEP ID:" + str(step_id))
-
 
     # prepare all objects and parameters for commandRunner.
     s = Submission.objects.get(UUID=uuid)
@@ -314,6 +310,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         run = make_runner(value, uuid, t, out_globs, in_globs, data_dict,
                           params, param_values, stdoglob, environment, state,
                           step_id, self, execution_behaviour)
+        #print(vars(run))
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
@@ -321,7 +318,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            self.request.id, cr_message)
         raise OSError(cr_message)
 
-    #prepare the temp working directory here
+    # prepare the temp working directory here
     try:
         run.prepare()
     except Exception as e:
@@ -330,7 +327,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
-
+    #print(vars(run))
     # set the valid exit statuses in case their is a defined value alternative
     valid_exit_status, custom_exit_statuses = prepare_exit_statuses(t, state,
                                                                     step_id,
@@ -341,14 +338,21 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
 
     # execute the command
     try:
-        logger.info("EXECUTABLE: "+run.command)
         logger.info("STD OUT: "+run.std_out_str)
-        # run.prepare()
         logger.info("EXIT STATUSES: "+str(valid_exit_status))
-        exit_status = run.run_cmd(valid_exit_status)
+        if run.command:
+            logger.info("EXECUTABLE: "+run.command)
+            exit_status = run.run_cmd(valid_exit_status)
+        if run.script:
+            logger.info("SCRIPT: "+run.script)
+            exit_status = run.run_cmd()
     except Exception as e:
-        run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
-                      " : "+str(current_step) + " : " + run.command
+        if run.command:
+            run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
+                           " : "+str(current_step) + " : " + run.command
+        if run.script:
+            run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
+                           " : "+str(current_step) + " : WITH SCRIPT"
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         # We don't raise and error here as we want to test the exit status
