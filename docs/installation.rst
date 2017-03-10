@@ -168,6 +168,9 @@ A production system will need a production_secrets.json
     cd analytics_automated/
     python manage.py runserver --settings=analytics_automated_project.settings.dev
 
+* ALTERNATIVELY
+  We also provide some scripts for bash and OSX in the utilities/ directory
+  which will start all the components on one machine.
 
 4. Config complete
 ^^^^^^^^^^^^^^^^^^
