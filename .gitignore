@@ -9,6 +9,7 @@ submissions/*
 __pycache__/
 *.log
 logs/*
+.DS_Store
 dump.rdb
 analytics_automated_project/settings/staging.py
 analytics_automated_project/settings/production.py
