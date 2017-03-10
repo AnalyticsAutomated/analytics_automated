@@ -1,6 +1,6 @@
 # analytics_automated
 
-Current state: Release Candidate 1.0
+Current state: v1 Release Candidate 5
 
 ### Before You Go Much further
 
