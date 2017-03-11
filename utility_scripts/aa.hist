@@ -1,0 +1,3 @@
+python manage.py runserver --settings=analytics_automated_project.settings.dev
+celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_GridEngine,GridEngine,high_GridEngine,low_R,R,high_R,low_Python,Python,high_Python
+workon analytics_automated

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -13,10 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Backend',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('name', models.CharField(max_length=64, unique=True)),
-                ('server_type', models.CharField(max_length=64, default=1, choices=[(1, 'GridEngine'), (2, 'RServe')])),
-                ('ip', models.CharField(max_length=64, default='127.0.0.1')),
+                ('server_type', models.IntegerField(default=1, choices=[(1, 'localhost'), (2, 'GridEngine'), (3, 'RServe')])),
+                ('ip', models.GenericIPAddressField(default='127.0.0.1')),
                 ('port', models.IntegerField(default=80)),
                 ('root_path', models.CharField(max_length=256, default='/tmp/')),
             ],
@@ -24,58 +25,60 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Job',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('name', models.CharField(max_length=64, unique=True)),
                 ('runnable', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Parameters',
+            name='Parameter',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('flag', models.CharField(max_length=64)),
-                ('default', models.CharField(max_length=64)),
+                ('default', models.CharField(null=True, max_length=64)),
                 ('bool_valued', models.BooleanField(default=False)),
-                ('rest_alias', models.CharField(max_length=64)),
+                ('rest_alias', models.CharField(max_length=64, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Queue',
+            name='Result',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('UUID', models.CharField(max_length=64, unique=True)),
-                ('input_data', models.BinaryField(null=True)),
-                ('status', models.IntegerField()),
-                ('email', models.CharField(max_length=256)),
-                ('mobile', models.CharField(max_length=256)),
-                ('job', models.ForeignKey(to='analytics_automated.Job')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Results',
-            fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('result_data', models.BinaryField()),
-                ('UUID', models.ForeignKey(to='analytics_automated.Queue', to_field='UUID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('result_data', models.FileField(upload_to='')),
             ],
         ),
         migrations.CreateModel(
             name='Step',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('ordering', models.IntegerField(default=0)),
+                ('job', models.ForeignKey(related_name='steps', to='analytics_automated.Job')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Submission',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('submission_name', models.CharField(null=True, max_length=64)),
+                ('UUID', models.CharField(null=True, max_length=64, unique=True)),
+                ('email', models.CharField(null=True, max_length=256)),
+                ('ip', models.GenericIPAddressField(default='127.0.0.1')),
+                ('input_data', models.FileField(upload_to='')),
+                ('status', models.IntegerField(default=0, choices=[(0, 'Submitted'), (1, 'Running'), (2, 'Complete'), (3, 'Error')])),
+                ('claimed', models.BooleanField(default=False)),
+                ('worker_id', models.IntegerField(blank=True, null=True, default=None)),
                 ('job', models.ForeignKey(to='analytics_automated.Job')),
             ],
         ),
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('name', models.CharField(max_length=64, unique=True)),
                 ('in_glob', models.CharField(max_length=64)),
                 ('out_glob', models.CharField(max_length=64)),
                 ('executable', models.CharField(max_length=256)),
-                ('backend', models.ForeignKey(to='analytics_automated.Backend')),
+                ('backend', models.ForeignKey(null=True, to='analytics_automated.Backend', on_delete=django.db.models.deletion.SET_NULL)),
             ],
         ),
         migrations.AddField(
@@ -84,8 +87,22 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='analytics_automated.Task'),
         ),
         migrations.AddField(
-            model_name='parameters',
+            model_name='result',
+            name='submission',
+            field=models.ForeignKey(to='analytics_automated.Submission'),
+        ),
+        migrations.AddField(
+            model_name='result',
             name='task',
             field=models.ForeignKey(to='analytics_automated.Task'),
+        ),
+        migrations.AddField(
+            model_name='parameter',
+            name='task',
+            field=models.ForeignKey(to='analytics_automated.Task'),
+        ),
+        migrations.AlterUniqueTogether(
+            name='step',
+            unique_together=set([('job', 'ordering')]),
         ),
     ]
