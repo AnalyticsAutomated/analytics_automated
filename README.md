@@ -74,7 +74,7 @@ You will need
 
 * python3
 * postgres
-* rabbitmq
+* Redis
 * django
 * celery
 
@@ -107,8 +107,7 @@ Production things:
 
 Missing
 =======
-1. Robust to task failure. Some types of exception should probably be tried again,
-some failures should propagate to the user, likely need to some way to let the users configure this
+1. Robust to task failure. Some types of exception should probably be tried again and some failures should propagate to the user, likely need to some way to let the users configure this in a task
 http://agiliq.com/blog/2015/08/retrying-celery-failed-tasks/
 http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-something-fails
 2. Let jobs run jobs as nested structures; this will be part of adding CWL support
