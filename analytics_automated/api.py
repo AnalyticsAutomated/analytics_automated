@@ -4,6 +4,8 @@ from ipware.ip import get_ip
 from collections import defaultdict
 import pprint
 import logging
+import string
+import keyword
 
 from celery import chain
 
@@ -102,6 +104,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return(True)
 
     def __assess_param_value_sanity(self, steps, request_data):
+        invalid = set(string.punctuation+string.whitespace)
+        for field in request_data:
+            if any(char in invalid for char in str(request_data[field])):
+                return(False) # don't allow punctuation chars
+            for kw in keyword.kwlist:
+                if kw in str(request_data[field]):
+                    return(False) # don't allow python keywords
+
         return(True)
 
     def __assess_param_membership(self, steps, request_data):

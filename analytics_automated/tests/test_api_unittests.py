@@ -183,6 +183,29 @@ class APIPrivateFunctionTests(APITestCase):
         bool = sd._SubmissionDetails__test_params(steps, {})
         self.assertEqual(bool, True)
 
+    def test_params_rejected_with_punctuation(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this': 'asd|:'})
+        self.assertEqual(bool, False)
+
+    def test_params_reject_with_unix_commands(self):
+        pass
+
+    def test_params_rejected_with_python_reserved_words(self):
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this': 'thimporty'})
+        self.assertEqual(bool, False)
+
+    def test_params_rejected_with_r_reserved_words(self):
+        pass
+
+
     # THIS TEST BROKEN FOR DJANGO REST FRAMEWORK 3.5.x
     #
     # @patch('uuid.uuid1', return_value="f7a314fe-2bda-11e5-bda2-989096c13ee6")
