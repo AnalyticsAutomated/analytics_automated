@@ -82,7 +82,6 @@ worker_prefetch_multiplier = 1
 
 MEDIA_URL = '/submissions/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
-print(MEDIA_ROOT)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': '',

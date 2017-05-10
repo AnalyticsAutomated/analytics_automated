@@ -1,11 +1,12 @@
 # analytics_automated
 
-Current state: v1 Release Candidate 5
+Current state: Release Candidate 6
 
 ### Before You Go Much further
 
 We have yet to deploy this in anger ourselves. You are downloading and using
-this at your own risk
+this at your own risk. That said we have it running on more than 5 machines so
+it is likely good to go.
 
 ### Continue:
 
@@ -38,6 +39,23 @@ in terms of time, staffing and money.
 A_A is agnostic to the modeling software and technologies you choose to build
 your group around.
 
+### Philosophy
+
+A_A exists because one way or another I have implemented some version of this
+system in nearly every job I have held. In a large part this exists so I never
+have to implement this kind of system, from scratch, again. Hopefully some others
+folk can get some use out of it.
+
+Broadly A_A allows you to configure simple chains of python-Celery tasks. You
+certainly don't have to use the system for Data Science-y things but execution of
+number crunching tasks is our target. You find R, SciPy and NumPy support is
+rolled in to the system.
+
+A_A tries to be very unopinionated about the kinds of things that computational
+tasks consume and produce. The upside is that it is versatile, the
+downside is that you still need to be something of a programmer to get the most
+out of this tool.
+
 ### How it works
 
 Users send data as a REST POST request call to a pre-configured analysis or
@@ -56,7 +74,7 @@ You will need
 
 * python3
 * postgres
-* rabbitmq
+* Redis
 * django
 * celery
 
@@ -89,20 +107,14 @@ Production things:
 
 Missing
 =======
-1. Robust to worker failure, CELERY_ACKS_LATE = True
-
-2. Robust to task failure. Some types of exception should probably be tried again,
-some should propagate to the user
+1. Robust to task failure. Some types of exception should probably be tried again and some failures should propagate to the user, likely need to some way to let the users configure this in a task
 http://agiliq.com/blog/2015/08/retrying-celery-failed-tasks/
 http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-something-fails
-
-3. Worker monitoring (flower)
-
-4. Let jobs run jobs as nested structures
+2. Let jobs run jobs as nested structures; this will be part of adding CWL support
 
 THINGS FOR ANSIBLE update
 =========================
 
-pip install -U "celery[redis]"
-sudo yum install redis
-redis-server (now runs on port 6379, not much point in adding authentication)
+    pip install -U "celery[redis]"
+    sudo yum install redis
+    redis-server (now runs on port 6379, not much point in adding authentication)

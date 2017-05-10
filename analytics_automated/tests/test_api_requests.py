@@ -397,3 +397,15 @@ class SubmissionRequestTests(APITestCase):
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_reject_param_values_with_punctuation(self):
+        pass
+
+    def test_reject_params_values_that_match_unix_commands(self):
+        pass
+
+    def test_reject_param_values_matching_python_reserved_words(self):
+        pass
+
+    def test_reject_param_values_matching_r_reserved_words(self):
+        pass

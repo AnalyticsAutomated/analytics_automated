@@ -94,6 +94,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             Check that the list of additional params the tasks take
             has been provided by the user
         """
+        if not self.__test_param_membership(steps, request_data):
+            return(False)
+
+        if not self.__test_param_value_sanity(steps, request_data):
+            return(False)
+        return(True)
+
+    def __test_param_value_sanity(self, steps, request_data):
+        return(True)
+
+    def __test_param_membership(self, steps, request_data):
         aliases = []
         for step in steps:
             params = Parameter.objects.filter(task=step.task)
