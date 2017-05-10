@@ -340,10 +340,10 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     try:
         logger.info("STD OUT: "+run.std_out_str)
         logger.info("EXIT STATUSES: "+str(valid_exit_status))
-        if run.command:
+        if hasattr(run, 'command'):
             logger.info("EXECUTABLE: "+run.command)
             exit_status = run.run_cmd(valid_exit_status)
-        if run.script:
+        if hasattr(run, 'script'):
             logger.info("SCRIPT: "+run.script)
             exit_status = run.run_cmd()
     except Exception as e:
