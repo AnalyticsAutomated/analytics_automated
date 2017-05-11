@@ -188,23 +188,36 @@ class APIPrivateFunctionTests(APITestCase):
                                      rest_alias="this")
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
-        bool = sd._SubmissionDetails__test_params(steps, {'task1_this': 'asd|:'})
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
+                                                          'asd|:'})
         self.assertEqual(bool, False)
 
     def test_params_reject_with_unix_commands(self):
-        pass
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
+                                                          'armb'})
+        self.assertEqual(bool, False)
 
     def test_params_rejected_with_python_reserved_words(self):
         p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
                                      rest_alias="this")
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
-        bool = sd._SubmissionDetails__test_params(steps, {'task1_this': 'thimporty'})
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
+                                                          'thimporty'})
         self.assertEqual(bool, False)
 
     def test_params_rejected_with_r_reserved_words(self):
-        pass
-
+        p1 = ParameterFactory.create(task=self.t, flag="-t", bool_valued=False,
+                                     rest_alias="this")
+        steps = self.j1.steps.all()
+        sd = SubmissionDetails()
+        bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
+                                                          'eras.null.default'})
+        self.assertEqual(bool, False)
 
     # THIS TEST BROKEN FOR DJANGO REST FRAMEWORK 3.5.x
     #

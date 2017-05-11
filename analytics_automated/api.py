@@ -29,6 +29,8 @@ from .models import Job, Submission, Backend
 from .forms import SubmissionForm
 from .tasks import *
 from .validators import *
+from .r_keywords import *
+from .cmdline import *
 
 logger = logging.getLogger(__name__)
 
@@ -107,10 +109,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         invalid = set(string.punctuation+string.whitespace)
         for field in request_data:
             if any(char in invalid for char in str(request_data[field])):
-                return(False) # don't allow punctuation chars
+                return(False)  # don't allow punctuation chars
             for kw in keyword.kwlist:
                 if kw in str(request_data[field]):
-                    return(False) # don't allow python keywords
+                    return(False)  # don't allow python keywords
+            for kw in rkwlist:
+                if kw in str(request_data[field]):
+                    return(False)  # don't allow R keywords
+            local_cmds = return_local_commands()
+            for kw in local_cmds:
+                if kw in str(request_data[field]):
+                    return(False)  # don't allow unix commd
 
         return(True)
 
