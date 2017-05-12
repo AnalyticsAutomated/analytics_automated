@@ -122,6 +122,29 @@ running on. With 'GridEngine' set the worker will send the task
 to a DRMAA compliant grid engine head node for execution. Not the RServe options
 is temporarily not supported
 
+
+Authentication and queue management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using the standard Django users authentication tools the Admin can add users
+and then distribute users names and passwords to thoses users. Using the
+authentication and queue settings the admin can control access to the system.
+
+* DEFAULT_JOB_PRIORITY : Priority submissions will run at (default 1)
+* LOGGED_IN_JOB_PRIORITY : Priority submissions will run at (default 2)
+* QUEUE_HOG_SIZE : Soft limit for concurrent user jobs
+* QUEUE_HARD_LIMIT : Hard limit for concurrent user jobs
+
+Jobs priority takes 4 values; None, 0, 1 and 2.  None will cause jobs to be
+rejected. 0 will send jobs to the low_* queue, 1 will send jobs to the regular
+queue and 2 will send jobs to the high_* queue. If users have more jobs
+running than the QUEUE_HOG_SIZE then their next submission will have the
+drecremented by one. If users have more jobs running than the QUEUE_HARD_LIMIT
+then all future submission will be rejected.
+
+If QUEUE_HOG_SIZE or QUEUE_HARD_LIMIT are set to None these values will
+be ignored.
+
 Code tasks
 ^^^^^^^^^^
 

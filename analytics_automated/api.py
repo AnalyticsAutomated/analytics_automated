@@ -267,15 +267,33 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __get_job_priority(self, logged_in, ip_address):
         subs = Submission.objects.filter(ip=ip_address, status__lte=1)
-        # anyone who excees the hardlimt gets bounced
-        if len(subs) >= settings.QUEUE_HARD_LIMIT:
-            return None, len(subs)
-
         # logged in users get the priority given i settings or bumped down
         # by one if they have exceeded the soft limit
         priority = settings.DEFAULT_JOB_PRIORITY
         if logged_in:
             priority = settings.LOGGED_IN_JOB_PRIORITY
+
+        if settings.QUEUE_HOG_SIZE is None and \
+           settings.QUEUE_HARD_LIMIT is None:
+            return priority, len(subs)
+
+        if settings.QUEUE_HOG_SIZE is None and \
+           settings.QUEUE_HARD_LIMIT >= 0:
+            if len(subs) >= settings.QUEUE_HARD_LIMIT:
+                return None, len(subs)
+            else:
+                return priority, len(subs)
+
+        if settings.QUEUE_HOG_SIZE >= 0 and \
+           settings.QUEUE_HARD_LIMIT is None:
+            if len(subs) >= settings.QUEUE_HOG_SIZE:
+                return priority-1, len(subs)
+            else:
+                return priority, len(subs)
+
+        # anyone who excees the hardlimt gets bounced
+        if len(subs) >= settings.QUEUE_HARD_LIMIT:
+            return None, len(subs)
 
         if len(subs) >= settings.QUEUE_HOG_SIZE and \
            len(subs) < settings.QUEUE_HARD_LIMIT:

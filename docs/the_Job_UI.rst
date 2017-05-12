@@ -127,6 +127,10 @@ the executable string as $VALUE
 **Default**: This is a default value for the parameter if the Bool Valued is
 set to false.
 
+Note: When users POST to jobs any parameter string values are checked to
+prevent code injection. Values which contain punctuation, Python reserved words,
+R base::package functions or valid unix commands are rejected.
+
 **Bool Valued**: Sets whether this is a boolean flag and therefore whether it
 needs a default value
 

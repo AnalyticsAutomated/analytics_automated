@@ -88,6 +88,38 @@ class APIPrivateFunctionTests(APITestCase):
         self.assertEquals(priority, None)
         self.assertEquals(value, 15)
 
+    # strictly these next 3 should be repeeated for logged in status
+    def test_get_job_priority_returns_default_priority_with_unset_limits(self):
+        for i in range(0, settings.QUEUE_HARD_LIMIT):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        with self.settings(QUEUE_HARD_LIMIT=None), \
+                self.settings(QUEUE_HOG_SIZE=None):
+            sd = SubmissionDetails()
+            priority, value = sd._SubmissionDetails__get_job_priority(
+                              False, "127.0.0.1")
+            self.assertEquals(priority, settings.DEFAULT_JOB_PRIORITY)
+            self.assertEquals(value, 15)
+
+    def test_get_job_priority_returns_low_priority_with_unset_hard_limit(self):
+        for i in range(0, settings.QUEUE_HARD_LIMIT):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        with self.settings(QUEUE_HARD_LIMIT=None):
+            sd = SubmissionDetails()
+            priority, value = sd._SubmissionDetails__get_job_priority(
+                              False, "127.0.0.1")
+            self.assertEquals(priority, settings.DEFAULT_JOB_PRIORITY-1)
+            self.assertEquals(value, 15)
+
+    def test_get_job_priority_returns_def_priority_with_unset_hog_size(self):
+        for i in range(0, settings.QUEUE_HOG_SIZE):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        with self.settings(QUEUE_HOG_SIZE=None):
+            sd = SubmissionDetails()
+            priority, value = sd._SubmissionDetails__get_job_priority(
+                              False, "127.0.0.1")
+            self.assertEquals(priority, settings.DEFAULT_JOB_PRIORITY)
+            self.assertEquals(value, 10)
+
     def test_get_job_priority_returns_logged_priority(self):
         self.client.login(username='temporary', password='temporary')
         sd = SubmissionDetails()

@@ -36,6 +36,10 @@ Submissions will receive json data response indicating success or failure. In a
 success state the message will contain a UUID which users can use to check the
 state of their submission and retrieve data
 
+Note: When users POST to jobs any parameter string values are checked to 
+prevent code injection. Values which contain punctuation, Python reserved words,
+R base::package functions or valid unix commands are rejected.
+
 GET
 ^^^
 
