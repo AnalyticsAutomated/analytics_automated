@@ -18,8 +18,15 @@ def clearDatabase():
     Submission.objects.all().delete()
     Parameter.objects.all().delete()
     Result.objects.all().delete()
-    SubmissionFactory.reset_sequence()
-    JobFactory.reset_sequence()
+
+    BackendFactory.reset_sequence(0)
+    JobFactory.reset_sequence(0)
+    TaskFactory.reset_sequence(0)
+    StepFactory.reset_sequence(0)
+    SubmissionFactory.reset_sequence(0)
+    ParameterFactory.reset_sequence(0)
+    ResultFactory.reset_sequence(0)
+
     for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
                             "/file1*"):
         os.remove(file_1)

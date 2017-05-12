@@ -120,7 +120,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             for kw in local_cmds:
                 if kw in str(request_data[field]):
                     return(False)  # don't allow unix commd
-
         return(True)
 
     def __assess_param_membership(self, steps, request_data):
@@ -268,18 +267,24 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __get_job_priority(self, logged_in, ip_address):
         subs = Submission.objects.filter(ip=ip_address, status__lte=1)
-
-        if logged_in:
-            if len(subs) >= settings.QUEUE_HOG_SIZE:
-                return Submission.LOW, len(subs)
-            return settings.LOGGED_IN_JOB_PRIORITY, len(subs)
-        if len(subs) >= settings.QUEUE_HOG_SIZE and \
-           len(subs) < settings.QUEUE_HARD_LIMIT:
-            return Submission.LOW, len(subs)
+        # anyone who excees the hardlimt gets bounced
         if len(subs) >= settings.QUEUE_HARD_LIMIT:
             return None, len(subs)
 
-        return settings.DEFAULT_JOB_PRIORITY, len(subs)
+        # logged in users get the priority given i settings or bumped down
+        # by one if they have exceeded the soft limit
+        priority = settings.DEFAULT_JOB_PRIORITY
+        if logged_in:
+            priority = settings.LOGGED_IN_JOB_PRIORITY
+
+        if len(subs) >= settings.QUEUE_HOG_SIZE and \
+           len(subs) < settings.QUEUE_HARD_LIMIT:
+            if priority > 0:
+                return priority-1, len(subs)
+            else:
+                return None, len(subs)
+
+        return priority, len(subs)
 
     def post(self, request, *args, **kwargs):
 
@@ -312,7 +317,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         (job_priority, submission_number) = self.__get_job_priority(request.user.is_authenticated,
                                                                     data['ip'])
         if job_priority is None:
-            content = {'error': "You have too many, "+str(submission_number) +
+            content = {'error': "You have no authority to post jobs."
+                                "Either you are not logged in too many, " +
+                                str(submission_number) +
                                 ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
 

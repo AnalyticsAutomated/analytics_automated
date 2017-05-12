@@ -19,7 +19,7 @@ from .helper_functions import clearDatabase
 
 
 '''
-    Tests cover task's response to differen exit behaviours set by the user
+    Tests cover task's response to different exit behaviours set by the user
 '''
 
 class TaskCustomExitBehaviours(TestCase):

@@ -14,6 +14,7 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.models import User
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -56,6 +57,8 @@ class APIPrivateFunctionTests(APITestCase):
         self.t = TaskFactory.create(backend=self.b, name="task1",
                                     executable="ls")
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
+        user = User.objects.create_user('temporary', 'temporary@gmail.com',
+                                        'temporary')
 
     def tearDown(self):
         clearDatabase()
@@ -86,16 +89,22 @@ class APIPrivateFunctionTests(APITestCase):
         self.assertEquals(value, 15)
 
     def test_get_job_priority_returns_logged_priority(self):
+        self.client.login(username='temporary', password='temporary')
         sd = SubmissionDetails()
         priority, value = sd._SubmissionDetails__get_job_priority(True,
                                                                   "127.0.0.1")
-        pass
+        self.assertEquals(priority, settings.LOGGED_IN_JOB_PRIORITY)
+        self.assertEquals(value, 0)
 
-    def test_get_job_priority_returns_logged_low_priority(self):
+    def test_get_job_priority_returns_logged_lower_priority(self):
+        for i in range(0, settings.QUEUE_HOG_SIZE):
+            s = SubmissionFactory.create(ip="127.0.0.1")
+        self.client.login(username='temporary', password='temporary')
         sd = SubmissionDetails()
         priority, value = sd._SubmissionDetails__get_job_priority(True,
                                                                   "127.0.0.1")
-        pass
+        self.assertEquals(priority, settings.LOGGED_IN_JOB_PRIORITY-1)
+        self.assertEquals(value, 10)
 
     def test_get_job_returns_job_id(self):
         sd = SubmissionDetails()

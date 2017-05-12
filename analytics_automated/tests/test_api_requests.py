@@ -44,7 +44,7 @@ class JobListTests(APITestCase):
         response.render()
         self.assertEqual(response.status_code, 200)
         test_data = '{"count":2,"next":null,"previous":null,' \
-                    '"results":[{"pk":10,"name":"job1"},{"pk":11'\
+                    '"results":[{"pk":2,"name":"job1"},{"pk":3'\
                     ',"name":"job2"}]}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
@@ -397,15 +397,3 @@ class SubmissionRequestTests(APITestCase):
         view = SubmissionDetails.as_view()
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    def test_reject_param_values_with_punctuation(self):
-        pass
-
-    def test_reject_params_values_that_match_unix_commands(self):
-        pass
-
-    def test_reject_param_values_matching_python_reserved_words(self):
-        pass
-
-    def test_reject_param_values_matching_r_reserved_words(self):
-        pass
