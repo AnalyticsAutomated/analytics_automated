@@ -62,7 +62,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
                        'submission/'
 
 # Celery Settings
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+# CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERY_RESULT_BACKEND = 'amqp'
 # CELERY_TIMEZONE = 'Europe/London'
 # CELERY_ACCEPT_CONTENT = ['json']
@@ -71,15 +71,15 @@ CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERY_ENABLE_UTC = True
 # CELERYD_MAX_TASKS_PER_CHILD = 30
 # CELERYD_PREFETCH_MULTIPLIER = 1
-CELERY_RESULT_BACKEND = 'redis'
+# CELERY_RESULT_BACKEND = 'redis'
 # BACKEND SHOULD BE SENT TO STAGING SETTINGS
-timezone = 'Europe/London'
-accept_content = ['json']
-task_serializer = 'json'
-result_serializer = 'json'
-enable_utc = True
-worker_max_tasks_per_child = 30
-worker_prefetch_multiplier = 1
+# timezone = 'Europe/London'
+# accept_content = ['json']
+# task_serializer = 'json'
+# result_serializer = 'json'
+# enable_utc = True
+# worker_max_tasks_per_child = 30
+# worker_prefetch_multiplier = 1
 
 MEDIA_URL = '/submissions/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
