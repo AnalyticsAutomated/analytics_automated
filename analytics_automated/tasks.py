@@ -347,10 +347,10 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
             logger.info("SCRIPT: "+run.script)
             exit_status = run.run_cmd()
     except Exception as e:
-        if run.command:
+        if hasattr(run, 'command'):
             run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                            " : "+str(current_step) + " : " + run.command
-        if run.script:
+        if hasattr(run, 'script'):
             run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                            " : "+str(current_step) + " : WITH SCRIPT"
         Submission.update_submission_state(s, True, state, step_id,
