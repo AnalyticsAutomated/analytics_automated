@@ -82,8 +82,7 @@ NEXT UP TODO/REMINDERS
 ======================
 
 1. On Submission delete propagate message to workers to kill task
-
-2. Non-linear jobs (i.e tasks with multiple parents, full DAG support)
+2. Non-linear jobs (i.e tasks with multiple parents, full DAG support), see CWL support
 3. Add CWL support to configure and dump tasks/jobs. Consider importing
    Toil library to handle parsing the yaml and pushing the results to the db
 4. Further backends, Octave, matlab, SAS
@@ -97,13 +96,8 @@ Production things:
     don't run in DEBUG mode
 
 6. Solution for file storage in staging/production???
-7. Consider Flower for celery monitoring
-8. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-9. Investigate cached_property
-10. CELERY_RESULT_BACKEND = 'amqp', amqp now deprecated should be changed to
-    database for staging and production (maybe also dev)
-    result_backend = 'db+postgresql://scott:tiger@localhost/mydatabase'
-    dialect+driver://username:password@host:port/database
+7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+8. Investigate cached_property
 
 Missing
 =======

@@ -128,9 +128,12 @@ def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
               'identifier': uuid,
               'std_out_str': uuid+stdoglob,
               'env_vars': environment,
+              'debug': False,
               }
+    if settings.DEBUG:
+        kwargs['debug'] = True
     if value:
-            kwargs['value_string'] = value
+        kwargs['value_string'] = value
     if execution_behaviour == QueueType.LOCALHOST:
         logger.info("Running On LOCALHOST")
         kwargs['command'] = t.executable
