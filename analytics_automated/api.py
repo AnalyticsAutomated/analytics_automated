@@ -146,15 +146,16 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return self.retrieve(request, *args, **kwargs)
 
     def __prepare_data(self, request):
-        request_contents = request.data
+        request_contents = request.data.dict()
+        # print(request_contents)
         if 'input_data' in request_contents:
             request_contents.pop('input_data')
         # # data['input_data'] = request.data['input_data']
         data = {}
         try:
-            data['submission_name'] = request_contents.pop('submission_name')[0]
-            data['email'] = request_contents.pop('email')[0]
-            data['job'] = request_contents.pop('job')[0]
+            data['submission_name'] = request_contents.pop('submission_name')
+            data['email'] = request_contents.pop('email')
+            data['job'] = request_contents.pop('job')
             data['ip'] = get_ip(request)
             data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError:
@@ -163,12 +164,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             raise KeyError
         return(data, request_contents)
 
-    # TODO: Almost certainly a job can not end with a celery group(), some sort
-    #       of reduce step is 'required' this needs fix.
-    #       One way to handle this would be to add a dummy "end" task to the
-    #       chain()
-    #       if the chain would otherwise end in a group(), for instance wait 1
-    #       second with the task.wait(1)
     def __construct_chain_string(self, steps, request_contents, UUID,
                                  job_priority):
         """

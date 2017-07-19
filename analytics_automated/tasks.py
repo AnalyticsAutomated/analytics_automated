@@ -55,7 +55,13 @@ def get_data(s, uuid, current_step, in_globs):
         s.input_data.open(mode='r')
         # TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
         for line in s.input_data:
-            data += line.decode(encoding='UTF-8')
+            try:  # depending on the version of django data might reach here
+                    # as either a byte str or a regular str. if we were being
+                    # super defensive we should check line is a str
+
+                data += line.decode(encoding='UTF-8')
+            except AttributeError:
+                data += line
         s.input_data.close()
         local_glob = in_globs[0].lstrip(".")
         data_dict[uuid+"."+local_glob] = data
@@ -69,7 +75,11 @@ def get_data(s, uuid, current_step, in_globs):
                     result.result_data.open(mode='r')
                     data = ""
                     for line in result.result_data:
-                        data += line.decode(encoding='UTF-8')
+                        try:  # depending on the version of django data might
+                                # reach here as either a byte str or a str
+                            data += line.decode(encoding='UTF-8')
+                        except AttributeError:
+                            data += line
                         data_dict[result.result_data.name] = data
                     result.result_data.close()
 
