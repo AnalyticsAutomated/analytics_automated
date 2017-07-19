@@ -95,6 +95,9 @@ class Job(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ('pk', )
 # TODO: set runnable true if all it's tasks exists, set false if a task
 # needed has been deleted
 
