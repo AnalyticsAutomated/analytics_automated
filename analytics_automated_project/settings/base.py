@@ -104,7 +104,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 ALLOWED_HOSTS = []
-
+APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = (
