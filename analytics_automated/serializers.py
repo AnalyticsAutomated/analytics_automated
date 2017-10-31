@@ -10,7 +10,7 @@ class ResultSerializer (serializers.ModelSerializer):
         model = Result
         fields = ('task', 'name', 'message', 'step', 'data_path')
 
-    def get_data_url(self, obj):
+    def get_data_path(self, obj):
         return(obj.result_data.url)
 
 
