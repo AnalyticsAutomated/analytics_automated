@@ -11,7 +11,7 @@ class ResultSerializer (serializers.ModelSerializer):
         fields = ('task', 'name', 'message', 'step', 'data_path')
 
     def get_data_path(self, obj):
-        return(obj.result_data.url)
+        return(obj.result_data.url.split("analytics_automated", 1)[1])
 
 
 class SubmissionInputSerializer (serializers.ModelSerializer):
