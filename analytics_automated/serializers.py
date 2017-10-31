@@ -4,14 +4,14 @@ from .models import *
 
 
 class ResultSerializer (serializers.ModelSerializer):
-    data_url = serializers.SerializerMethodField()
+    data_path = serializers.SerializerMethodField()
 
     class Meta:
         model = Result
-        fields = ('task', 'name', 'message', 'step', 'data_url')
+        fields = ('task', 'name', 'message', 'step', 'data_path')
 
     def get_data_url(self, obj):
-        return(obj.result_data.name)
+        return(obj.result_data.url)
 
 
 class SubmissionInputSerializer (serializers.ModelSerializer):
