@@ -4,9 +4,14 @@ from .models import *
 
 
 class ResultSerializer (serializers.ModelSerializer):
+    data_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Result
-        fields = ('task', 'name', 'message', 'step', 'result_data')
+        fields = ('task', 'name', 'message', 'step', 'data_url')
+
+    def get_data_url(self, obj):
+        return(obj.result_data.split("analytics_automated", 1)[1])
 
 
 class SubmissionInputSerializer (serializers.ModelSerializer):
