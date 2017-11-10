@@ -191,7 +191,8 @@ class SubmissionRequestTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
-                    '"input_data":"http://testserver/submissions/test.txt",' \
+                    '"email":null,' \
+                    '"input_file":"/submissions/test.txt",' \
                     '"results":[]}}'.format(s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
@@ -209,14 +210,14 @@ class SubmissionRequestTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         test_data = '{{"submission_name":"{0}","UUID":"{1}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
-                    '"input_data":"http://testserver/submissions/test.txt",' \
+                    '"email":null,' \
+                    '"input_file":"/submissions/test.txt",' \
                     '"results":[{{"task":{2},' \
                     '"name":"{3}","message":"{4}","step":{5},' \
-                    '"result_data":"{6}"}}]}}'.format(s1.submission_name,
-                                                      s1.UUID, t1.pk, 'test',
-                                                      r1.message, r1.step,
-                                                      "http://testserver" +
-                                                      r1.result_data.url)
+                    '"data_path":"{6}"}}]}}'.format(s1.submission_name,
+                                                    s1.UUID, t1.pk, 'test',
+                                                    r1.message, r1.step,
+                                                    r1.result_data.url)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.exec', return_value=True)
