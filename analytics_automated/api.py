@@ -255,10 +255,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return(tchain)
 
     def __get_job(self, job_name):
-        if Job.objects.filter(name=job_name).exists():
-            return Job.objects.get(name=job_name).pk
-        else:
-            raise ValueError
+        job_ids = []
+        for name in job_name.split(","):
+            if Job.objects.filter(name=job_name).exists():
+                job_ids.append(Job.objects.get(name=job_name).pk)
+            else:
+                raise ValueError
+        return job_ids
 
     def __get_job_priority(self, logged_in, ip_address):
         subs = Submission.objects.filter(ip=ip_address, status__lte=1)
@@ -299,6 +302,54 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
         return priority, len(subs)
 
+    def __submit_job(self, data, request_contents, job_priority, request):
+        submission_form = SubmissionForm(data, request.FILES)
+        if submission_form.is_valid():
+            s = submission_form.save()
+            s.priority = job_priority
+            s.save()
+            # Send to the Job Queue and set queued message if that is a success
+            job = Job.objects.get(name=s.job)
+
+            steps = job.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+            # 1. Look up tasks in a job
+            # 2. Order tasks by their step id
+
+            # Check we have the params we want and then build the list of
+            # params we'll pass to the task runner.
+            if not self.__test_params(steps, request_contents):
+                content = {'error': "Required Parameter Missing. GET "
+                                    "/analytics_automated/endpoints to "
+                                    "discover all required options"}
+                s.delete()
+                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
+
+            if len(steps) == 0:
+                content = {'error': "Job Requested appears to have no Steps"}
+                s.delete()
+                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
+            # 3. Build Celery chain
+            tchain = self.__construct_chain_string(steps, request_contents,
+                                                   s.UUID, job_priority)
+            # 4. Call delay on the Celery chain
+            try:
+                logger.info('Sending this chain: '+tchain)
+                exec(tchain)
+            except SyntaxError:
+                logger.error('SyntaxError: Invalid string exec on: ' + tchain)
+                return {'content': content, 'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
+            except Exception as e:
+                logger.error('500 Error: Invalid string exec on: ' + tchain)
+                logger.error('500 Error' + str(e))
+                return {'content': content, 'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
+            content = {'UUID': s.UUID, 'submission_name': s.submission_name}
+            return {'content': content, 'httpCode': status.HTTP_201_CREATED}
+        else:
+            content = {'error': submission_form.errors}
+            return {'content': content, 'httpCode': tatus.HTTP_400_BAD_REQUEST}
+
+
     def post(self, request, *args, **kwargs):
 
         """
@@ -320,8 +371,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         # work out which job this refers to
+        jobs = []
         try:
-            data['job'] = self.__get_job(data['job'])
+            jobs = self.__get_job(data['job'])
         except Exception as e:
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
@@ -336,55 +388,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                 ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
 
-        # In the future we'll set batch jobs to the lowest priority
-        submission_form = SubmissionForm(data, request.FILES)
-        if submission_form.is_valid():
-            s = submission_form.save()
-            s.priority = job_priority
-            s.save()
-            # Send to the Job Queue and set queued message if that is a success
-            job = Job.objects.get(name=s.job)
-
-            steps = job.steps.all().select_related('task') \
-                       .extra(order_by=['ordering'])
-            # 1. Look up tasks in a job
-            # 2. Order tasks by their step id
-
-            # Check we have the params we want and then build the list of
-            # params we'll pass to the task runner.
-            if not self.__test_params(steps, request_contents):
-                content = {'error': "Required Parameter Missing. GET "
-                                    "/analytics_automated/endpoints to "
-                                    "discover all required options"}
-                s.delete()
-                return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-            if len(steps) == 0:
-                content = {'error': "Job Requested appears to have no Steps"}
-                s.delete()
-                return Response(content, status=status.HTTP_400_BAD_REQUEST)
-            # 3. Build Celery chain
-            tchain = self.__construct_chain_string(steps, request_contents,
-                                                   s.UUID, job_priority)
-            # 4. Call delay on the Celery chain
-            try:
-                logger.info('Sending this chain: '+tchain)
-                exec(tchain)
-            except SyntaxError:
-                logger.error('SyntaxError: Invalid string exec on: ' + tchain)
-                return Response(tchain,
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            except Exception as e:
-                logger.error('500 Error: Invalid string exec on: ' + tchain)
-                logger.error('500 Error' + str(e))
-                return Response(tchain+"  "+str(e),
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-            content = {'UUID': s.UUID, 'submission_name': s.submission_name}
-            return Response(content, status=status.HTTP_201_CREATED)
-        else:
-            content = {'error': submission_form.errors}
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        for job in jobs:
+            data['job'] = job
+            # In the future we'll set batch jobs to the lowest priority
+            responseContent = self.__submit_job(data, request_contents,
+                                                job_priority, request)
+            return Response(responseContent['content'], responseContent['httpCode'])
 
 
 class Endpoints(generics.GenericAPIView):

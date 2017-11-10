@@ -141,7 +141,7 @@ class APIPrivateFunctionTests(APITestCase):
     def test_get_job_returns_job_id(self):
         sd = SubmissionDetails()
         value = sd._SubmissionDetails__get_job("job1")
-        self.assertEqual(value, self.j1.pk)
+        self.assertEqual(value, [self.j1.pk])
 
     def test_get_job_raises_if_not_entry(self):
         sd = SubmissionDetails()
@@ -259,6 +259,11 @@ class APIPrivateFunctionTests(APITestCase):
         bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
                                                           'eras.null.default'})
         self.assertEqual(bool, False)
+
+    #
+    # TEST FOR __submit_job needed here
+    #
+
 
     # THIS TEST BROKEN FOR DJANGO REST FRAMEWORK 3.5.x
     #
