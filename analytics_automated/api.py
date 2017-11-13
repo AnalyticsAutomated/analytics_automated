@@ -157,7 +157,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['email'] = request_contents.pop('email')
             data['job'] = request_contents.pop('job')
             data['ip'] = get_ip(request)
-            data['UUID'] = str(uuid.uuid1())
+            # data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError:
             raise MultiValueDictKeyError
         except KeyError:
@@ -257,8 +257,8 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __get_job(self, job_name):
         job_ids = []
         for name in job_name.split(","):
-            if Job.objects.filter(name=job_name).exists():
-                job_ids.append(Job.objects.get(name=job_name).pk)
+            if Job.objects.filter(name=name).exists():
+                job_ids.append(Job.objects.get(name=name).pk)
             else:
                 raise ValueError
         return job_ids
@@ -327,16 +327,20 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 exec(tchain)
             except SyntaxError:
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
+                content = {'error': 'SyntaxError. Invalid string exec on ' +
+                           tchain}
                 return {'content': content,
                         'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)
                 logger.error('500 Error' + str(e))
+                content = {'error': 'Invalid string exec on ' + tchain}
                 return {'content': content,
                         'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
-            content = {'UUID': s.UUID, 'submission_name': s.submission_name}
             Batch.objects.create(UUID=masterUUID, submission=s)
-            return {'content': content, 'httpCode': status.HTTP_201_CREATED}
+            return {'content': {'UUID': s.UUID,
+                                'submission_name': s.submission_name},
+                    'httpCode': status.HTTP_201_CREATED}
         else:
             content = {'error': submission_form.errors}
             return {'content': content,
@@ -385,19 +389,24 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                        .extra(order_by=['ordering'])
             if len(steps) == 0:
                 content = {'error': "Job Requested: "+str(job)+" appears to have no Steps"}
-                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
+                return Response(content, status.HTTP_400_BAD_REQUEST)
             if not self.__test_params(steps, request_contents):
                 content = {'error': "Required Parameter for "+str(job)+" Missing."
                                     "GET /analytics_automated/endpoints to "
                                     "discover all required options"}
                 return Response(content, status.HTTP_400_BAD_REQUEST)
         masterUUID = str(uuid.uuid1())
+        content = {'UUID': masterUUID, 'submission_name': data['submission_name']}
         for job in jobs:
+            data['UUID'] = str(uuid.uuid1())
             data['job'] = job
             # In the future we'll set batch jobs to the lowest priority
             responseContent = self.__submit_job(data, request_contents,
                                                 job_priority, request, masterUUID)
-            return Response(responseContent['content'], responseContent['httpCode'])
+            # print(responseContent)
+            if 'error' in responseContent['content']:
+                return Response(responseContent['content'], status=responseContent['httpCode'])
+        return Response(content, status=status.HTTP_201_CREATED)
 
 
 class Endpoints(generics.GenericAPIView):

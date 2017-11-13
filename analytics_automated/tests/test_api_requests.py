@@ -87,7 +87,7 @@ class JobTimeTests(APITestCase):
         # a return order in the API
         try:
             self.assertEqual(response.content.decode("utf-8"), test_data)
-        except:
+        except Exception as e:
             self.assertEqual(response.content.decode("utf-8"), test_data_alt)
 
     def test_return_nothing_where_no_jobs_run(self):
@@ -164,7 +164,9 @@ class SubmissionRequestTests(APITestCase):
     data = {}
     factory = APIRequestFactory()
     j1 = None
+    j2 = None
     t = None
+    t2 = None
     b = None
 
     def setUp(self):
@@ -176,10 +178,14 @@ class SubmissionRequestTests(APITestCase):
                      'submission_name': 'test',
                      'email': 'a@b.com'}
         self.j1 = JobFactory.create(name="job1")
+        self.j2 = JobFactory.create(name="job2")
         self.b = BackendFactory.create(root_path="/tmp/")
         self.t = TaskFactory.create(backend=self.b, name="task1",
                                     executable="ls")
+        self.t2 = TaskFactory.create(backend=self.b, name="task2",
+                                     executable="wc")
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
+        s2 = StepFactory(job=self.j2, task=self.t2, ordering=0)
 
     def tearDown(self):
         clearDatabase()
@@ -393,6 +399,85 @@ class SubmissionRequestTests(APITestCase):
 
     def test_rejection_without_input_data(self):
         del(self.data['input_data'])
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # Batch processing tests
+    @patch('builtins.exec', return_value=True)
+    def test_submission_makes_single_batch_entry(self, m):
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(Batch.objects.all()), 1)
+
+    @patch('builtins.exec', return_value=True)
+    def test_dual_submission_makes_common_batch_entries(self, m):
+        self.data['job'] = 'job1,job2'
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        batch_entries = Batch.objects.all()
+        self.assertEqual(len(batch_entries), 2)
+        self.assertEqual(batch_entries[0].UUID, batch_entries[1].UUID)
+
+    @patch('builtins.exec', return_value=True)
+    def test_multiple_submission_makes_seperate_batch_entries(self, m):
+        self.data['job'] = 'job1'
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.data['job'] = 'job2'
+        self.data['input_data'] = SimpleUploadedFile('file1.txt',
+                                                     bytes('these are the '
+                                                           'file contents!',
+                                                           'utf-8'))
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        batch_entries = Batch.objects.all()
+        self.assertEqual(len(batch_entries), 2)
+        self.assertNotEqual(batch_entries[0].UUID, batch_entries[1].UUID)
+
+    @patch('builtins.exec', return_value=True)
+    def test_reject_where_one_job_does_not_exist(self, m):
+        self.data['job'] = 'job1,job34'
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        batch_entries = Batch.objects.all()
+        self.assertEqual(len(batch_entries), 0)
+        self.assertEqual(len(Submission.objects.all()), 0)
+
+    @patch('builtins.exec', return_value=True)
+    def test_accept_batch_with_params(self, m):
+        self.data['job'] = 'job1,job2'
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        p2 = ParameterFactory.create(task=self.t2, rest_alias="that")
+        self.data['task1_this'] = "Value1"
+        self.data['task2_that'] = "Value2"
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    @patch('builtins.exec', return_value=True)
+    def test_reject_batch_with_missin_params(self, m):
+        self.data['job'] = 'job1,job2'
+        p1 = ParameterFactory.create(task=self.t, rest_alias="this")
+        p2 = ParameterFactory.create(task=self.t2, rest_alias="that")
+        self.data['task1_this'] = "Value1"
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
