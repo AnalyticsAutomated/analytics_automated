@@ -318,17 +318,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
             # Check we have the params we want and then build the list of
             # params we'll pass to the task runner.
-            if not self.__test_params(steps, request_contents):
-                content = {'error': "Required Parameter Missing. GET "
-                                    "/analytics_automated/endpoints to "
-                                    "discover all required options"}
-                s.delete()
-                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
-
-            if len(steps) == 0:
-                content = {'error': "Job Requested appears to have no Steps"}
-                s.delete()
-                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
             # 3. Build Celery chain
             tchain = self.__construct_chain_string(steps, request_contents,
                                                    s.UUID, job_priority)
@@ -347,7 +336,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             return {'content': content, 'httpCode': status.HTTP_201_CREATED}
         else:
             content = {'error': submission_form.errors}
-            return {'content': content, 'httpCode': tatus.HTTP_400_BAD_REQUEST}
+            return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
 
 
     def post(self, request, *args, **kwargs):
@@ -387,6 +376,18 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                 str(submission_number) +
                                 ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
+        for job in jobs:
+            job = Job.objects.get(pk=job)
+            steps = job.steps.all().select_related('task') \
+                       .extra(order_by=['ordering'])
+            if len(steps) == 0:
+                content = {'error': "Job Requested: "+str(job)+" appears to have no Steps"}
+                return {'content': content, 'httpCode': status.HTTP_400_BAD_REQUEST}
+            if not self.__test_params(steps, request_contents):
+                content = {'error': "Required Parameter for "+str(job)+" Missing."
+                                    "GET /analytics_automated/endpoints to "
+                                    "discover all required options"}
+                return Response(content, status.HTTP_400_BAD_REQUEST)
 
         for job in jobs:
             data['job'] = job
