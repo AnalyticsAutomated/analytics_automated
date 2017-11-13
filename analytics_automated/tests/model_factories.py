@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.conf import settings
 from django.core.files import File
 
-from analytics_automated.models import Backend, Task, Job, Step
+from analytics_automated.models import Backend, Task, Job, Step, Batch
 from analytics_automated.models import Submission, ValidatorTypes
 from analytics_automated.models import Parameter, Result
 from analytics_automated.models import Validator, Environment, QueueType
@@ -89,6 +89,14 @@ class SubmissionFactory(factory.DjangoModelFactory):
     class Meta:
         model = Submission
         django_get_or_create = ('submission_name',)
+
+
+class BatchFactory(factory.DjangoModelFactory):
+    UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
+    submission = factory.SubFactory(SubmissionFactory)
+
+    class Meta:
+        model = Batch
 
 
 class ParameterFactory(factory.DjangoModelFactory):

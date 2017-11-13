@@ -1,7 +1,7 @@
 import glob
 import os
 
-from analytics_automated.models import Backend, Task, Job, Parameter
+from analytics_automated.models import Backend, Task, Job, Parameter, Batch
 from analytics_automated.models import Step, Submission, Validator, Result
 from .model_factories import *
 
@@ -18,6 +18,7 @@ def clearDatabase():
     Submission.objects.all().delete()
     Parameter.objects.all().delete()
     Result.objects.all().delete()
+    Batch.objects.all().delete()
 
     BackendFactory.reset_sequence(0)
     JobFactory.reset_sequence(0)
@@ -26,6 +27,7 @@ def clearDatabase():
     SubmissionFactory.reset_sequence(0)
     ParameterFactory.reset_sequence(0)
     ResultFactory.reset_sequence(0)
+    BatchFactory.reset_sequence(0)
 
     for file_1 in glob.glob(settings.BASE_DIR.child("submissions") +
                             "/file1*"):

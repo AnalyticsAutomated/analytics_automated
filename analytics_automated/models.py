@@ -268,13 +268,13 @@ class Submission(TimeStampedModel):
         m.save()
 
 
-# class Batch(models.Model):
-#     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
-#                             db_index=True)
-#     submission = models.ForeignKey(Submission, related_name='batch')
-#
-#     def __str__(self):
-#         return self.UUID
+class Batch(models.Model):
+    UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
+                            db_index=True)
+    submission = models.ForeignKey(Submission, related_name='batch')
+
+    def __str__(self):
+        return self.UUID
 
 
 # Store results data
