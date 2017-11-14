@@ -166,7 +166,7 @@ def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
     return None
 
 
-def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
+def prepare_exit_statuses(t, state, step_id, self, current_step, command, s, b):
     '''
         Not yet covered with unit tests
     '''
@@ -184,6 +184,7 @@ def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
             Submission.update_submission_state(s, True, state, step_id,
                                                self.request.id,
                                                exit_status_message)
+            Batch.update_batch_state(b, state)
             raise OSError(exit_status_message)
         if t.custom_exit_behaviour == Task.CONTINUE or \
            t.custom_exit_behaviour == Task.TERMINATE:
@@ -194,7 +195,7 @@ def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
 
 def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                      run, out_globs, t, s, current_step, previous_step, self,
-                     state, step_id):
+                     state, step_id, b):
     '''
         Not yet covered with unit tests
     '''
@@ -223,6 +224,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                                    "Failed with missing"
                                                    " outputs: " +
                                                    str(run.command))
+                Batch.update_batch_state(b, state)
                 logger.error("Failed with missing outputs: "+str(run.command))
                 raise OSError("Failed with missing outputs: "+str(run.command))
             if t.incomplete_outputs_behaviour == Task.TERMINATE:
@@ -242,6 +244,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
                                            str(step_id))
+        Batch.update_batch_state(b, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Failed with custom exit status: "+str(run.command))
         raise OSError("Exit Status " + str(exit_status) +
@@ -253,6 +256,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                            ' exit at step: ' +
                                            str(step_id) + ". Exit status:" +
                                            str(exit_status))
+        Batch.update_batch_state(b, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Command did not run: "+str(run.command))
         raise OSError("Exit Status " + str(exit_status) +
@@ -261,9 +265,8 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
     return custom_exit_termination, incomplete_outputs_termination
 
 
-def __handle_batch_email(s):
-    batch_entry = Batch.objects.get(submission=s)
-    entries = Batch.objects.filter(UUID=batch_entry.UUID)
+def __handle_batch_email(s, b):
+    entries = Batch.objects.filter(UUID=b.UUID)
     batch_complete_count = 0
     for entry in entries:
         if entry.submission.status == 2:
@@ -274,8 +277,8 @@ def __handle_batch_email(s):
             if s.email is not None and \
                     len(s.email) > 5 and \
                     settings.DEFAULT_FROM_EMAIL is not None:
-                send_mail(settings.EMAIL_SUBJECT_STRING+": "+batch_entry.UUID,
-                          settings.EMAIL_MESSAGE_STRING+batch_entry.UUID,
+                send_mail(settings.EMAIL_SUBJECT_STRING+": "+b.UUID,
+                          settings.EMAIL_MESSAGE_STRING+b.UUID,
                           from_email=None,
                           recipient_list=[s.email],
                           fail_silently=False)
@@ -319,6 +322,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     # prepare all objects and parameters for commandRunner.
     s = Submission.objects.get(UUID=uuid)
     t = Task.objects.get(name=task_name)
+    b = Batch.objects.get(submission=s)
     state = Submission.ERROR
     in_globs, out_globs, iglob, oglob = build_file_globs(t)
     data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
@@ -334,6 +338,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                                self.request.id,
                                                'Running step: ' +
                                                str(current_step))
+            Batch.update_batch_state(b, Batch.RUNNING)
 
     # Now we run the task handing off the actual running to the commandRunner
     # library
@@ -354,6 +359,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                       str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, cr_message)
+        Batch.update_batch_state(b, state)
         raise OSError(cr_message)
 
     # prepare the temp working directory here
@@ -364,6 +370,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                        " : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
+        Batch.update_batch_state(b, state)
         raise OSError(prep_message)
     # print(vars(run))
     # set the valid exit statuses in case their is a defined value alternative
@@ -372,7 +379,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                                                     self,
                                                                     current_step,
                                                                     run.command,
-                                                                    s)
+                                                                    s, b)
 
     # execute the command
     try:
@@ -393,6 +400,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                            " : "+str(current_step) + " : WITH SCRIPT"
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
+        Batch.update_batch_state(b, state)
         # We don't raise and error here as we want to test the exit status
         # and make a decision later
         raise OSError(run_message)
@@ -415,7 +423,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                                           run, out_globs, t, s,
                                                           current_step,
                                                           previous_step, self,
-                                                          state, step_id)
+                                                          state, step_id, b)
 
     # decide if we should complete the job
     complete_job = False
@@ -440,8 +448,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
-
-    __handle_batch_email(s)
+    Batch.update_batch_state(b, state)
+    __handle_batch_email(s, b)
     # if we need to terminate the chain send that signal here
     if t.custom_exit_status is not None:
         if t.custom_exit_behaviour == Task.TERMINATE and \
@@ -462,4 +470,5 @@ def chord_end(self, uuid, step_id, current_step):
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
-    __handle_batch_email(s)
+    Batch.update_batch_state(b, state)
+    __handle_batch_email(s, b)

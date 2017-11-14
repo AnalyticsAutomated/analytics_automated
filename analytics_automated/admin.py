@@ -188,7 +188,7 @@ class ResultAdmin(admin.ModelAdmin):
 
 
 class BatchAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'UUID', 'submission_uuid')
+    list_display = ('pk', 'UUID', 'submission_uuid', 'status')
 
     def submission_uuid(self, obj):
         url = reverse('admin:analytics_automated_submission_change',

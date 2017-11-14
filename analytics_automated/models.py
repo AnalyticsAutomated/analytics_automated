@@ -252,12 +252,12 @@ class Submission(TimeStampedModel):
         return(d[self.status])
 
     @transaction.atomic
-    def update_submission_state(s, claim, status, step, id, message):
+    def update_submission_state(s, claim, new_status, step, id, message):
         """
             Updates the Submission object with some book keeping
         """
         s.claimed = claim
-        s.status = status
+        s.status = new_status
         s.last_message = message
         s.worker_id = id
         s.step_id = step
@@ -269,12 +269,33 @@ class Submission(TimeStampedModel):
 
 
 class Batch(models.Model):
+    SUBMITTED = 0  # a job has been submitted but no worker has claimed it
+    RUNNING = 1    # job submitted and worker has claimed it
+    COMPLETE = 2   # All tasks complete and results available
+    ERROR = 3      # A task has failed, the job has stopped
+    CRASH = 4      # Something crashed, went away of segfaulted in some way
+    #                the job has stopped
+    STATUS_CHOICES = (
+        (SUBMITTED, "Submitted"),
+        (RUNNING, "Running"),
+        (COMPLETE, "Complete"),
+        (ERROR, "Error"),
+        (CRASH, "Crash"),
+    )
     UUID = models.CharField(max_length=64, unique=False, null=True,
                             blank=False, db_index=True)
     submission = models.OneToOneField(Submission, related_name='batch')
+    status = models.IntegerField(null=False, blank=False,
+                                 choices=STATUS_CHOICES, default=SUBMITTED)
 
     def __str__(self):
         return self.UUID
+
+    @transaction.atomic
+    def update_batch_state(b, new_status):
+        if new_status != Batch.ERROR and new_status != Batch.CRASH:
+            b.status = new_status
+            b.save()
 
 
 # Store results data
