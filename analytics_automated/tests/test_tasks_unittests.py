@@ -21,6 +21,7 @@ from .helper_functions import clearDatabase
     Unit tests for private functions in the task.py class
 '''
 
+
 class TaskPrivateFunctionUnitTests(TestCase):
     uuid1 = ""
     b = None

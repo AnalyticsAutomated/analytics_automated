@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission, BackendUser, Message, Environment, QueueType
+from .models import Batch
 from .forms import *
 
 
@@ -186,13 +187,23 @@ class ResultAdmin(admin.ModelAdmin):
     link_to_Task.allow_tags = True
 
 
-# Register your models here.
+class BatchAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'UUID', 'submission_uuid')
 
+    def submission_uuid(self, obj):
+        url = reverse('admin:analytics_automated_submission_change',
+                      args=(obj.submission.pk,))
+        return u'<a href="%s">%s</a>' % (url, obj.submission.UUID)
+
+    submission_uuid.allow_tags = True
+
+# Register your models here.
+admin.site.register(Batch, BatchAdmin)
 admin.site.register(Backend, BackendAdmin)
 admin.site.register(Task, TaskAdmin)
-#admin.site.register(Message, MessageAdmin)
+# admin.site.register(Message, MessageAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Submission, SubmissionAdmin)
-#admin.site.register(Result, ResultAdmin)
+# admin.site.register(Result, ResultAdmin)
 admin.site.register(QueueType, QueueTypeAdmin)
 # gitadmin.site.register(Step

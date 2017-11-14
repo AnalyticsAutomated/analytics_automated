@@ -15,7 +15,7 @@ from django.conf import settings
 from django.db import transaction
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
-from .models import QueueType, BackendUser
+from .models import QueueType, BackendUser, Batch
 
 logger = logging.getLogger(__name__)
 
@@ -261,6 +261,31 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
     return custom_exit_termination, incomplete_outputs_termination
 
 
+def __handle_batch_email(s):
+    batch_entry = Batch.objects.get(submission=s)
+    entries = Batch.objects.filter(UUID=batch_entry.UUID)
+    batch_complete_count = 0
+    for entry in entries:
+        if entry.submission.status == 2:
+            batch_complete_count += 1
+    if batch_complete_count == len(entries):
+        print("we should send an email")
+        try:
+            if s.email is not None and \
+                    len(s.email) > 5 and \
+                    settings.DEFAULT_FROM_EMAIL is not None:
+                send_mail(settings.EMAIL_SUBJECT_STRING+": "+batch_entry.UUID,
+                          settings.EMAIL_MESSAGE_STRING+batch_entry.UUID,
+                          from_email=None,
+                          recipient_list=[s.email],
+                          fail_silently=False)
+            logger.info("SENDING MAIL TO: "+s.email)
+        except Exception as e:
+            logger.info("Mail server not available:" + str(e))
+    else:
+        print('batch not complete yet')
+
+
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
 #         in the UI
@@ -323,7 +348,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         run = make_runner(value, uuid, t, out_globs, in_globs, data_dict,
                           params, param_values, stdoglob, environment, state,
                           step_id, self, execution_behaviour)
-        #print(vars(run))
+    # print(vars(run))
     except Exception as e:
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
@@ -340,7 +365,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         raise OSError(prep_message)
-    #print(vars(run))
+    # print(vars(run))
     # set the valid exit statuses in case their is a defined value alternative
     valid_exit_status, custom_exit_statuses = prepare_exit_statuses(t, state,
                                                                     step_id,
@@ -408,17 +433,6 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         state = Submission.COMPLETE
         message = 'Completed job at step #' + str(current_step)
         # TODO: This needs a try-catch
-        try:
-            if s.email is not None and \
-                    len(s.email) > 5 and \
-                    settings.DEFAULT_FROM_EMAIL is not None:
-                send_mail(settings.EMAIL_SUBJECT_STRING+": "+uuid,
-                          settings.EMAIL_MESSAGE_STRING+uuid, from_email=None,
-                          recipient_list=[s.email],
-                          fail_silently=False)
-            logger.info("SENDING MAIL TO: "+s.email)
-        except Exception as e:
-            logger.info("Mail server not available:" + str(e))
 
     # s2 = Submission.objects.get(UUID=uuid)
     # send message to frontend now the task is run and the results are handled
@@ -427,9 +441,11 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
 
+    __handle_batch_email(s)
     # if we need to terminate the chain send that signal here
     if t.custom_exit_status is not None:
-        if t.custom_exit_behaviour == Task.TERMINATE and exit_status in custom_exit_statuses:
+        if t.custom_exit_behaviour == Task.TERMINATE and \
+                         exit_status in custom_exit_statuses:
             if self.request.chain:
                 # print("hi there")
                 self.request.chain = None
@@ -442,19 +458,8 @@ def chord_end(self, uuid, step_id, current_step):
     state = Submission.COMPLETE
     message = 'Completed job at step #' + str(current_step)
     # TODO: This needs a try-catch
-    try:
-        if s.email is not None and \
-                len(s.email) > 5 and \
-                settings.DEFAULT_FROM_EMAIL is not None:
-            send_mail(settings.EMAIL_SUBJECT_STRING+": "+uuid,
-                      settings.EMAIL_MESSAGE_STRING+uuid, from_email=None,
-                      recipient_list=[s.email],
-                      fail_silently=False)
-        logger.info("SENDING MAIL TO: "+s.email)
-    except Exception as e:
-        logger.info("Mail server not available:" + str(e))
-
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, message)
+    __handle_batch_email(s)
