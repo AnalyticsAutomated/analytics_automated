@@ -134,9 +134,17 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     inlines = [ResultInline, MessageInline]
-    list_display = ('pk', 'link_to_Job', 'batch', 'submission_name',
+    list_display = ('pk', 'link_to_Job', 'link_to_Batch', 'submission_name',
                     'priority', 'email', 'UUID', 'ip', 'status', 'claimed',
                     'last_message', 'step_id', 'created', 'modified', )
+
+    def link_to_Batch(self, obj):
+        if obj.batch:
+            link = reverse("admin:analytics_automated_batch_change",
+                           args=[obj.batch.id])
+            return u'<a href="%s">%s</a>' % (link, obj.batch.UUID)
+        else:
+            return("No batch?")
 
     def link_to_Job(self, obj):
         if obj.job:
@@ -147,6 +155,8 @@ class SubmissionAdmin(admin.ModelAdmin):
             return 'Job does not exist'
 
     link_to_Job.allow_tags = True
+    link_to_Batch.allow_tags = True
+
 
 
 class MessageAdmin(admin.ModelAdmin):
