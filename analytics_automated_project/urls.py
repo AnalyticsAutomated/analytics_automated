@@ -30,12 +30,19 @@ urlpatterns = [
      url(r'^analytics_automated/submission/$',
          api.SubmissionDetails.as_view(),
          name="submission"),
-     url(r'^analytics_automated/submission/(?P<UUID>.{8}-.{4}-.{4}-.{4}-.{12})$',
+     url(r'^analytics_automated/submission/single/'
+         '(?P<UUID>.{8}-.{4}-.{4}-.{4}-.{12})$',
          api.SubmissionDetails.as_view(),
          name="submissionDetail"),
+     url(r'^analytics_automated/submission/'
+         '(?P<UUID>.{8}-.{4}-.{4}-.{4}-.{12})$',
+         api.BatchDetails.as_view(),
+         name="batchDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
-     url(r'^analytics_automated/endpoints/$', api.Endpoints.as_view(), name="endpoints"),
-     url(r'^analytics_automated/jobtimes/$', api.JobTimes.as_view(), name="jobtimes"),
+     url(r'^analytics_automated/endpoints/$',
+         api.Endpoints.as_view(), name="endpoints"),
+     url(r'^analytics_automated/jobtimes/$',
+         api.JobTimes.as_view(), name="jobtimes"),
      url(r'^login/$', auth_views.login),
      url(r'^logout/$', auth_views.logout),
 

@@ -79,24 +79,26 @@ class StepFactory(factory.DjangoModelFactory):
         model = Step
 
 
+class BatchFactory(factory.DjangoModelFactory):
+    UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
+    status = random.randint(0, 4)
+
+    class Meta:
+        model = Batch
+
+
 class SubmissionFactory(factory.DjangoModelFactory):
     job = factory.SubFactory(JobFactory)
     submission_name = factory.Sequence(lambda n: 'submission_{}'.format(n))
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
     input_data = factory.django.FileField(from_path=TEST_DATA)
+    #status = random.randint(0, 4)
+    batch = factory.SubFactory(BatchFactory)
 
     class Meta:
         model = Submission
         django_get_or_create = ('submission_name',)
-
-
-class BatchFactory(factory.DjangoModelFactory):
-    UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
-    submission = factory.SubFactory(SubmissionFactory)
-
-    class Meta:
-        model = Batch
 
 
 class ParameterFactory(factory.DjangoModelFactory):

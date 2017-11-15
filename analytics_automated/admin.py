@@ -134,9 +134,9 @@ class JobAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     inlines = [ResultInline, MessageInline]
-    list_display = ('pk', 'link_to_Job', 'submission_name', 'priority',
-                    'email', 'UUID', 'ip', 'status', 'claimed',
-                    'last_message', 'step_id', 'created', 'modified')
+    list_display = ('pk', 'link_to_Job', 'batch', 'submission_name',
+                    'priority', 'email', 'UUID', 'ip', 'status', 'claimed',
+                    'last_message', 'step_id', 'created', 'modified', )
 
     def link_to_Job(self, obj):
         if obj.job:
@@ -188,14 +188,7 @@ class ResultAdmin(admin.ModelAdmin):
 
 
 class BatchAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'UUID', 'submission_uuid', 'status')
-
-    def submission_uuid(self, obj):
-        url = reverse('admin:analytics_automated_submission_change',
-                      args=(obj.submission.pk,))
-        return u'<a href="%s">%s</a>' % (url, obj.submission.UUID)
-
-    submission_uuid.allow_tags = True
+    list_display = ('pk', 'UUID', 'status')
 
 # Register your models here.
 admin.site.register(Batch, BatchAdmin)

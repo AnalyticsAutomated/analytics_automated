@@ -24,7 +24,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.parsers import FormParser
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
-from .serializers import JobSerializer
+from .serializers import JobSerializer, BatchSerializer
 from .models import Job, Submission, Backend, Batch
 from .forms import SubmissionForm
 from .tasks import *
@@ -33,6 +33,22 @@ from .r_keywords import *
 from .cmdline import *
 
 logger = logging.getLogger(__name__)
+
+
+class BatchDetails(mixins.RetrieveModelMixin,
+                   generics.GenericAPIView):
+    queryset = Batch.objects.all()
+    lookup_field = 'UUID'
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return BatchSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Returns the current status of a job
+        """
+        return self.retrieve(request, *args, **kwargs)
 
 
 class SubmissionDetails(mixins.RetrieveModelMixin,
@@ -303,11 +319,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return priority, len(subs)
 
     def __submit_job(self, data, request_contents, job_priority, request,
-                     masterUUID):
+                     masterUUID, batch):
         submission_form = SubmissionForm(data, request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
             s.priority = job_priority
+            s.batch = batch
             s.save()
             # Send to the Job Queue and set queued message if that is a success
             job = Job.objects.get(name=s.job)
@@ -337,7 +354,6 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 content = {'error': 'Invalid string exec on ' + tchain}
                 return {'content': content,
                         'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
-            Batch.objects.create(UUID=masterUUID, submission=s)
             return {'content': {'UUID': s.UUID,
                                 'submission_name': s.submission_name},
                     'httpCode': status.HTTP_201_CREATED}
@@ -396,13 +412,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                     "discover all required options"}
                 return Response(content, status.HTTP_400_BAD_REQUEST)
         masterUUID = str(uuid.uuid1())
+        b = Batch.objects.create(UUID=masterUUID)
         content = {'UUID': masterUUID, 'submission_name': data['submission_name']}
         for job in jobs:
             data['UUID'] = str(uuid.uuid1())
             data['job'] = job
             # In the future we'll set batch jobs to the lowest priority
             responseContent = self.__submit_job(data, request_contents,
-                                                job_priority, request, masterUUID)
+                                                job_priority, request,
+                                                masterUUID, b)
             # print(responseContent)
             if 'error' in responseContent['content']:
                 return Response(responseContent['content'], status=responseContent['httpCode'])

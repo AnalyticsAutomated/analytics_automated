@@ -28,6 +28,7 @@ class TaskPrivateFunctionUnitTests(TestCase):
     t = None
     j = None
     s = None
+    batch = None
     sub = None
     messages = None
 
@@ -54,7 +55,9 @@ class TaskPrivateFunctionUnitTests(TestCase):
                                     in_glob="txt", out_glob="out")
         self.j = JobFactory.create()
         self.s = StepFactory(job=self.j, task=self.t, ordering=0)
-        self.sub = SubmissionFactory.create(UUID=self.uuid1, job=self.j)
+        self.batch = BatchFactory.create()
+        self.sub = SubmissionFactory.create(UUID=self.uuid1, job=self.j,
+                                            batch=self.batch)
 
     def tearDown(self):
         clearDatabase()

@@ -191,7 +191,7 @@ class SubmissionRequestTests(APITestCase):
         clearDatabase()
 
     def test_submission_detail_is_returned(self,):
-        s1 = SubmissionFactory.create(input_data="test.txt")
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0)
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
@@ -203,7 +203,7 @@ class SubmissionRequestTests(APITestCase):
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_submission_with_results_is_returned(self,):
-        s1 = SubmissionFactory.create(input_data="test.txt")
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0)
         t1 = TaskFactory.create(name='task1')
         r1 = ResultFactory.create(submission=s1,
                                   task=t1,
@@ -224,6 +224,86 @@ class SubmissionRequestTests(APITestCase):
                                                     s1.UUID, t1.pk, 'test',
                                                     r1.message, r1.step,
                                                     r1.result_data.url)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    def test_batch_with_results_is_returned(self,):
+        b1 = BatchFactory.create(status=0)
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0,
+                                      batch=b1)
+        t1 = TaskFactory.create(name='task1')
+        r1 = ResultFactory.create(submission=s1,
+                                  task=t1,
+                                  name='test',
+                                  message='a result',
+                                  step=1,
+                                  result_data=self.file,)
+        response = self.client.get(reverse('batchDetail',
+                                           args=[b1.UUID, ]) + ".json")
+        self.assertEqual(response.status_code, 200)
+        test_data = '{{"UUID":"{0}",' \
+                    '"state":"Submitted",' \
+                    '"submissions":[{{"submission_name":"{1}",' \
+                    '"UUID":"{2}",' \
+                    '"state":"Submitted","last_message":"Submitted",' \
+                    '"email":null,"input_file":"/submissions/test.txt",' \
+                    '"results":[{{"task":{3},"name":"{4}",' \
+                    '"message":"{5}","step":{6},' \
+                    '"data_path":"{7}"}}]}}]}}'.format(b1.UUID,
+                                                       s1.submission_name,
+                                                       s1.UUID, t1.pk, 'test',
+                                                       r1.message, r1.step,
+                                                       r1.result_data.url)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    def test_batch_with_multiple_submissions_results_is_returned(self,):
+        b1 = BatchFactory.create(status=0)
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0,
+                                      batch=b1)
+        t1 = TaskFactory.create(name='task1')
+        r1 = ResultFactory.create(submission=s1,
+                                  task=t1,
+                                  name='test',
+                                  message='a result',
+                                  step=1,
+                                  result_data=self.file,)
+        s2 = SubmissionFactory.create(input_data="test.txt", status=0,
+                                      batch=b1)
+        t2 = TaskFactory.create(name='task2')
+        r2 = ResultFactory.create(submission=s2,
+                                  task=t2,
+                                  name='test',
+                                  message='a result',
+                                  step=1,
+                                  result_data=self.file,)
+        response = self.client.get(reverse('batchDetail',
+                                           args=[b1.UUID, ]) + ".json")
+        self.assertEqual(response.status_code, 200)
+        test_data = '{{"UUID":"{0}",' \
+                    '"state":"Submitted",' \
+                    '"submissions":[{{"submission_name":"{1}",' \
+                    '"UUID":"{2}",' \
+                    '"state":"Submitted","last_message":"Submitted",' \
+                    '"email":null,"input_file":"/submissions/test.txt",' \
+                    '"results":[{{"task":{3},"name":"{4}",' \
+                    '"message":"{5}","step":{6},' \
+                    '"data_path":"{7}"}}]}},' \
+                    '{{"submission_name":"{8}",' \
+                    '"UUID":"{9}",' \
+                    '"state":"Submitted","last_message":"Submitted",' \
+                    '"email":null,"input_file":"/submissions/test.txt",' \
+                    '"results":[{{"task":{10},"name":"{11}",' \
+                    '"message":"{12}","step":{13},' \
+                    '"data_path":"{14}"}}]}}]}}'.format(
+                     b1.UUID,
+                     s2.submission_name,
+                     s2.UUID, t2.pk, 'test',
+                     r2.message, r2.step,
+                     r2.result_data.url,
+                     s1.submission_name,
+                     s1.UUID, t1.pk, 'test',
+                     r1.message, r1.step,
+                     r1.result_data.url,
+                     )
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.exec', return_value=True)
@@ -326,7 +406,7 @@ class SubmissionRequestTests(APITestCase):
     @patch('builtins.exec', return_value=True)
     def test_submissions_after_threshold_get_low_priority(self, m):
         for i in range(0, settings.QUEUE_HOG_SIZE):
-            s = SubmissionFactory.create(ip="127.0.0.1")
+            s = SubmissionFactory.create(ip="127.0.0.1", status=0)
         # for 'reasons' reverse does not work in this class/test?????
         # request = self.factory.post(reverse('submission'), self.data,
         #                             format='multipart')
@@ -341,7 +421,7 @@ class SubmissionRequestTests(APITestCase):
     @patch('builtins.exec', return_value=True)
     def test_submissions_after_hard_limit_get_rejection(self, m):
         for i in range(0, settings.QUEUE_HARD_LIMIT):
-            s = SubmissionFactory.create(ip="127.0.0.1")
+            s = SubmissionFactory.create(ip="127.0.0.1", status=0)
         request = self.factory.post(reverse('submission'), self.data,
                                     format='multipart')
         view = SubmissionDetails.as_view()
@@ -424,8 +504,12 @@ class SubmissionRequestTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         batch_entries = Batch.objects.all()
-        self.assertEqual(len(batch_entries), 2)
-        self.assertEqual(batch_entries[0].UUID, batch_entries[1].UUID)
+        submission_entries = Submission.objects.all()
+        self.assertEqual(len(batch_entries), 1)
+        self.assertEqual(len(submission_entries), 2)
+        self.assertEqual(submission_entries[0].batch, batch_entries[0])
+        self.assertEqual(submission_entries[1].batch, batch_entries[0])
+
 
     @patch('builtins.exec', return_value=True)
     def test_multiple_submission_makes_seperate_batch_entries(self, m):

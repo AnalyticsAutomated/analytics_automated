@@ -26,6 +26,7 @@ from .helper_functions import clearDatabase
 class TaskIncompleteFilesBehaviours(TestCase):
     uuid1 = ""
     b = None
+    batch = None
     t = None
     j = None
     s = None
@@ -55,7 +56,9 @@ class TaskIncompleteFilesBehaviours(TestCase):
                                     in_glob="txt", out_glob="out")
         self.j = JobFactory.create()
         self.s = StepFactory(job=self.j, task=self.t, ordering=0)
-        self.sub = SubmissionFactory.create(UUID=self.uuid1, job=self.j)
+        self.batch = BatchFactory.create()
+        self.sub = SubmissionFactory.create(UUID=self.uuid1, job=self.j,
+                                            batch=self.batch)
 
     def tearDown(self):
         clearDatabase()

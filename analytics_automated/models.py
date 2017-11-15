@@ -201,6 +201,39 @@ class Parameter(models.Model):
         super(Parameter, self).save(*args, **kwargs)
 
 
+class Batch(models.Model):
+    SUBMITTED = 0  # a job has been submitted but no worker has claimed it
+    RUNNING = 1    # job submitted and worker has claimed it
+    COMPLETE = 2   # All tasks complete and results available
+    ERROR = 3      # A task has failed, the job has stopped
+    CRASH = 4      # Something crashed, went away of segfaulted in some way
+    #                the job has stopped
+    STATUS_CHOICES = (
+        (SUBMITTED, "Submitted"),
+        (RUNNING, "Running"),
+        (COMPLETE, "Complete"),
+        (ERROR, "Error"),
+        (CRASH, "Crash"),
+    )
+    UUID = models.CharField(max_length=64, unique=False, null=True,
+                            blank=False, db_index=True)
+    status = models.IntegerField(null=False, blank=False,
+                                 choices=STATUS_CHOICES, default=SUBMITTED)
+
+    def __str__(self):
+        return self.UUID
+
+    @transaction.atomic
+    def update_batch_state(b, new_status):
+        if new_status != Batch.ERROR and new_status != Batch.CRASH:
+            b.status = new_status
+            b.save()
+
+    def returnStatus(self):
+        d = dict(Submission.STATUS_CHOICES)
+        return(d[self.status])
+
+
 class Submission(TimeStampedModel):
     SUBMITTED = 0  # a job has been submitted but no worker has claimed it
     RUNNING = 1    # job submitted and worker has claimed it
@@ -243,6 +276,7 @@ class Submission(TimeStampedModel):
     worker_id = models.CharField(max_length=64, blank=True, null=True,
                                  default=None)
     step_id = models.IntegerField(null=True, blank=False)
+    batch = models.ForeignKey(Batch, null=True, related_name='submissions')
 
     def __str__(self):
         return str(self.pk)
@@ -266,36 +300,6 @@ class Submission(TimeStampedModel):
                                    step_id=step,
                                    message=message)
         m.save()
-
-
-class Batch(models.Model):
-    SUBMITTED = 0  # a job has been submitted but no worker has claimed it
-    RUNNING = 1    # job submitted and worker has claimed it
-    COMPLETE = 2   # All tasks complete and results available
-    ERROR = 3      # A task has failed, the job has stopped
-    CRASH = 4      # Something crashed, went away of segfaulted in some way
-    #                the job has stopped
-    STATUS_CHOICES = (
-        (SUBMITTED, "Submitted"),
-        (RUNNING, "Running"),
-        (COMPLETE, "Complete"),
-        (ERROR, "Error"),
-        (CRASH, "Crash"),
-    )
-    UUID = models.CharField(max_length=64, unique=False, null=True,
-                            blank=False, db_index=True)
-    submission = models.OneToOneField(Submission, related_name='batch')
-    status = models.IntegerField(null=False, blank=False,
-                                 choices=STATUS_CHOICES, default=SUBMITTED)
-
-    def __str__(self):
-        return self.UUID
-
-    @transaction.atomic
-    def update_batch_state(b, new_status):
-        if new_status != Batch.ERROR and new_status != Batch.CRASH:
-            b.status = new_status
-            b.save()
 
 
 # Store results data
