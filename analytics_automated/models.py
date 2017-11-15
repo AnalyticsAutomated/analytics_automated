@@ -225,12 +225,12 @@ class Batch(models.Model):
 
     @transaction.atomic
     def update_batch_state(b, new_status):
-        if new_status != Batch.ERROR and new_status != Batch.CRASH:
+        if b.status != Batch.ERROR and b.status != Batch.CRASH:
             b.status = new_status
             b.save()
 
     def returnStatus(self):
-        d = dict(Submission.STATUS_CHOICES)
+        d = dict(Batch.STATUS_CHOICES)
         return(d[self.status])
 
 
