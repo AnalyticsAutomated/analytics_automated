@@ -93,7 +93,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
     input_data = factory.django.FileField(from_path=TEST_DATA)
-    #status = random.randint(0, 4)
+    # status = random.randint(0, 4)
     batch = factory.SubFactory(BatchFactory)
 
     class Meta:

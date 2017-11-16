@@ -432,14 +432,14 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if custom_exit_termination:
         complete_job = True
         logger.debug(uuid+": completing job due to custom exit: " +
-                     custom_exit_statuses)
+                     str(custom_exit_statuses))
     if incomplete_outputs_termination:
         complete_job = True
         logger.debug(uuid+": completing job due to incomplete outputs")
     if step_counter == total_steps:
         complete_job = True
         logger.debug(uuid+": completing job due to final step: " +
-                     step_counter+"=="+total_steps)
+                     str(step_counter)+"=="+str(total_steps))
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING

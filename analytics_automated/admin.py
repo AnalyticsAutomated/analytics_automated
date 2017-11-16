@@ -158,7 +158,6 @@ class SubmissionAdmin(admin.ModelAdmin):
     link_to_Batch.allow_tags = True
 
 
-
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('pk', 'submission_uuid', 'step_id', 'message')
 

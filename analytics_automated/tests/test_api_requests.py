@@ -191,19 +191,24 @@ class SubmissionRequestTests(APITestCase):
         clearDatabase()
 
     def test_submission_detail_is_returned(self,):
-        s1 = SubmissionFactory.create(input_data="test.txt", status=0)
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0,
+                                      job=self.j1)
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{{"submission_name":"submission_0","UUID":"{0}"' \
+        test_data = '{{"submission_name":"{0}","job_name":"{1}",' \
+                    '"UUID":"{2}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
                     '"email":null,' \
                     '"input_file":"/submissions/test.txt",' \
-                    '"results":[]}}'.format(s1.UUID)
+                    '"results":[]}}'.format(s1.submission_name,
+                                            self.j1.name,
+                                            s1.UUID)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_submission_with_results_is_returned(self,):
-        s1 = SubmissionFactory.create(input_data="test.txt", status=0)
+        s1 = SubmissionFactory.create(input_data="test.txt", status=0,
+                                      job=self.j1)
         t1 = TaskFactory.create(name='task1')
         r1 = ResultFactory.create(submission=s1,
                                   task=t1,
@@ -214,13 +219,15 @@ class SubmissionRequestTests(APITestCase):
         response = self.client.get(reverse('submissionDetail',
                                            args=[s1.UUID, ]) + ".json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{{"submission_name":"{0}","UUID":"{1}"' \
+        test_data = '{{"submission_name":"{0}","job_name":"{1}",' \
+                    '"UUID":"{2}"' \
                     ',"state":"Submitted","last_message":"Submitted",' \
                     '"email":null,' \
                     '"input_file":"/submissions/test.txt",' \
-                    '"results":[{{"task":{2},' \
-                    '"name":"{3}","message":"{4}","step":{5},' \
-                    '"data_path":"{6}"}}]}}'.format(s1.submission_name,
+                    '"results":[{{"task":{3},' \
+                    '"name":"{4}","message":"{5}","step":{6},' \
+                    '"data_path":"{7}"}}]}}'.format(s1.submission_name,
+                                                    self.j1.name,
                                                     s1.UUID, t1.pk, 'test',
                                                     r1.message, r1.step,
                                                     r1.result_data.url)
@@ -229,7 +236,7 @@ class SubmissionRequestTests(APITestCase):
     def test_batch_with_results_is_returned(self,):
         b1 = BatchFactory.create(status=0)
         s1 = SubmissionFactory.create(input_data="test.txt", status=0,
-                                      batch=b1)
+                                      batch=b1, job=self.j1)
         t1 = TaskFactory.create(name='task1')
         r1 = ResultFactory.create(submission=s1,
                                   task=t1,
@@ -243,22 +250,24 @@ class SubmissionRequestTests(APITestCase):
         test_data = '{{"UUID":"{0}",' \
                     '"state":"Submitted",' \
                     '"submissions":[{{"submission_name":"{1}",' \
-                    '"UUID":"{2}",' \
+                    '"job_name":"{2}",' \
+                    '"UUID":"{3}",' \
                     '"state":"Submitted","last_message":"Submitted",' \
                     '"email":null,"input_file":"/submissions/test.txt",' \
-                    '"results":[{{"task":{3},"name":"{4}",' \
-                    '"message":"{5}","step":{6},' \
-                    '"data_path":"{7}"}}]}}]}}'.format(b1.UUID,
+                    '"results":[{{"task":{4},"name":"{5}",' \
+                    '"message":"{6}","step":{7},' \
+                    '"data_path":"{8}"}}]}}]}}'.format(b1.UUID,
                                                        s1.submission_name,
+                                                       self.j1,
                                                        s1.UUID, t1.pk, 'test',
                                                        r1.message, r1.step,
                                                        r1.result_data.url)
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
-    def test_batch_with_multiple_submissions_results_is_returned(self,):
+    def test_batch_with_multiple_submissions_results_are_returned(self,):
         b1 = BatchFactory.create(status=0)
         s1 = SubmissionFactory.create(input_data="test.txt", status=0,
-                                      batch=b1)
+                                      batch=b1, job=self.j1)
         t1 = TaskFactory.create(name='task1')
         r1 = ResultFactory.create(submission=s1,
                                   task=t1,
@@ -267,7 +276,7 @@ class SubmissionRequestTests(APITestCase):
                                   step=1,
                                   result_data=self.file,)
         s2 = SubmissionFactory.create(input_data="test.txt", status=0,
-                                      batch=b1)
+                                      batch=b1, job=self.j2)
         t2 = TaskFactory.create(name='task2')
         r2 = ResultFactory.create(submission=s2,
                                   task=t2,
@@ -281,25 +290,29 @@ class SubmissionRequestTests(APITestCase):
         test_data = '{{"UUID":"{0}",' \
                     '"state":"Submitted",' \
                     '"submissions":[{{"submission_name":"{1}",' \
-                    '"UUID":"{2}",' \
+                    '"job_name":"{2}",' \
+                    '"UUID":"{3}",' \
                     '"state":"Submitted","last_message":"Submitted",' \
                     '"email":null,"input_file":"/submissions/test.txt",' \
-                    '"results":[{{"task":{3},"name":"{4}",' \
-                    '"message":"{5}","step":{6},' \
-                    '"data_path":"{7}"}}]}},' \
-                    '{{"submission_name":"{8}",' \
-                    '"UUID":"{9}",' \
+                    '"results":[{{"task":{4},"name":"{5}",' \
+                    '"message":"{6}","step":{7},' \
+                    '"data_path":"{8}"}}]}},' \
+                    '{{"submission_name":"{9}",' \
+                    '"job_name":"{10}",' \
+                    '"UUID":"{11}",' \
                     '"state":"Submitted","last_message":"Submitted",' \
                     '"email":null,"input_file":"/submissions/test.txt",' \
-                    '"results":[{{"task":{10},"name":"{11}",' \
-                    '"message":"{12}","step":{13},' \
-                    '"data_path":"{14}"}}]}}]}}'.format(
+                    '"results":[{{"task":{12},"name":"{13}",' \
+                    '"message":"{14}","step":{15},' \
+                    '"data_path":"{16}"}}]}}]}}'.format(
                      b1.UUID,
                      s2.submission_name,
+                     self.j2,
                      s2.UUID, t2.pk, 'test',
                      r2.message, r2.step,
                      r2.result_data.url,
                      s1.submission_name,
+                     self.j1,
                      s1.UUID, t1.pk, 'test',
                      r1.message, r1.step,
                      r1.result_data.url,
