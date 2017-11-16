@@ -166,7 +166,7 @@ def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
     return None
 
 
-def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
+def prepare_exit_statuses(uuid, t, state, step_id, self, current_step, command, s):
     '''
         Not yet covered with unit tests
     '''
@@ -185,6 +185,7 @@ def prepare_exit_statuses(t, state, step_id, self, current_step, command, s):
                                                self.request.id,
                                                exit_status_message)
             Batch.update_batch_state(s.batch, state)
+            logger.debug(uuid+": prepare_exit_statuses():"+exit_status_message)
             raise OSError(exit_status_message)
         if t.custom_exit_behaviour == Task.CONTINUE or \
            t.custom_exit_behaviour == Task.TERMINATE:
@@ -357,6 +358,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, cr_message)
         Batch.update_batch_state(s.batch, state)
+        logger.debug(uuid+": make_runner(): "+cr_message)
         raise OSError(cr_message)
 
     # prepare the temp working directory here
@@ -368,10 +370,12 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, prep_message)
         Batch.update_batch_state(s.batch, state)
+        logger.debug(uuid+": run.prepare(): "+prep_message)
         raise OSError(prep_message)
     # print(vars(run))
     # set the valid exit statuses in case their is a defined value alternative
-    valid_exit_status, custom_exit_statuses = prepare_exit_statuses(t, state,
+    valid_exit_status, custom_exit_statuses = prepare_exit_statuses(uuid, t,
+                                                                    state,
                                                                     step_id,
                                                                     self,
                                                                     current_step,
@@ -398,6 +402,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         Batch.update_batch_state(s.batch, state)
+        logger.debug(uuid+": run.run_cmd(): "+run_message)
         # We don't raise and error here as we want to test the exit status
         # and make a decision later
         raise OSError(run_message)
@@ -426,10 +431,15 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     complete_job = False
     if custom_exit_termination:
         complete_job = True
+        logger.debug(uuid+": completing job due to custom exit: " +
+                     custom_exit_statuses)
     if incomplete_outputs_termination:
         complete_job = True
+        logger.debug(uuid+": completing job due to incomplete outputs")
     if step_counter == total_steps:
         complete_job = True
+        logger.debug(uuid+": completing job due to final step: " +
+                     step_counter+"=="+total_steps)
 
     # Update where we are in the steps to the submission table
     state = Submission.RUNNING
