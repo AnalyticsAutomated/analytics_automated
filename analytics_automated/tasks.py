@@ -166,7 +166,8 @@ def make_runner(value, uuid, t, out_globs, in_globs, data_dict, params,
     return None
 
 
-def prepare_exit_statuses(uuid, t, state, step_id, self, current_step, command, s):
+def prepare_exit_statuses(uuid, t, state, step_id, self,
+                          current_step, command, s):
     '''
         Not yet covered with unit tests
     '''
@@ -268,22 +269,24 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
 
 def __handle_batch_email(s):
     entries = Batch.objects.filter(UUID=s.batch.UUID)
-    if entries[0].status == Batch.COMPLETE:
-        # print("we should send an email")
+    message_str = settings.EMAIL_MESSAGE_STRING+s.batch.UUID
+    if entries[0].status == Batch.ERROR or entries[0].status == Batch.CRASH:
+        message_str = "Job "+s.bacth.UUID+" has failed"
+
+    if entries[0].status == Batch.COMPLETE or entries[0].status == Batch.ERROR\
+       or entries[0].status == Batch.CRASH:
         try:
             if s.email is not None and \
                     len(s.email) > 5 and \
                     settings.DEFAULT_FROM_EMAIL is not None:
                 send_mail(settings.EMAIL_SUBJECT_STRING+": "+s.batch.UUID,
-                          settings.EMAIL_MESSAGE_STRING+s.batch.UUID,
+                          message_str,
                           from_email=None,
                           recipient_list=[s.email],
                           fail_silently=False)
             logger.info("SENDING MAIL TO: "+s.email)
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
-    else:
-        pass
         # print('batch not complete yet')
 
 
