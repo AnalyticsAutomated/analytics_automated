@@ -321,6 +321,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __submit_job(self, data, request_contents, job_priority, request,
                      masterUUID, batch):
         submission_form = SubmissionForm(data, request.FILES)
+        print(request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
             s.priority = job_priority

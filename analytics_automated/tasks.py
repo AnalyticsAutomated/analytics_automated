@@ -44,7 +44,8 @@ def add(x, y):
     """
     return x + y
 
-
+# When starting a previous job we get the previous data out of the
+# db
 def get_data(s, uuid, current_step, in_globs):
     data_dict = {}
     data = ''
@@ -86,6 +87,7 @@ def get_data(s, uuid, current_step, in_globs):
     return(data_dict, previous_step)
 
 
+# we get a llist of the files and insert them in to the db
 def insert_data(output_data, s, t, current_step, previous_step):
     if output_data is not None:
         # If not we trigger the No Outputs behaviour instead of pushing
