@@ -364,6 +364,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            self.request.id, cr_message)
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": make_runner(): "+cr_message)
+        __handle_batch_email(s)
         raise OSError(cr_message)
 
     # prepare the temp working directory here
@@ -376,6 +377,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                            self.request.id, prep_message)
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": run.prepare(): "+prep_message)
+        __handle_batch_email(s)
         raise OSError(prep_message)
     # print(vars(run))
     # set the valid exit statuses in case their is a defined value alternative
@@ -410,6 +412,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         logger.debug(uuid+": run.run_cmd(): "+run_message)
         # We don't raise and error here as we want to test the exit status
         # and make a decision later
+        __handle_batch_email(s)
         raise OSError(run_message)
 
     # if the command ran with success we'll send the file contents to the
