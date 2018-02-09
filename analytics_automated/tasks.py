@@ -188,6 +188,7 @@ def prepare_exit_statuses(uuid, t, state, step_id, self,
                                                self.request.id,
                                                exit_status_message)
             Batch.update_batch_state(s.batch, state)
+            __handle_batch_email(s)
             logger.debug(uuid+": prepare_exit_statuses():"+exit_status_message)
             raise OSError(exit_status_message)
         if t.custom_exit_behaviour == Task.CONTINUE or \
@@ -273,7 +274,9 @@ def __handle_batch_email(s):
     entries = Batch.objects.filter(UUID=s.batch.UUID)
     message_str = settings.EMAIL_MESSAGE_STRING+s.batch.UUID
     if entries[0].status == Batch.ERROR or entries[0].status == Batch.CRASH:
-        message_str = "Job "+s.bacth.UUID+" has failed"
+        message_str = "Job "+s.batch.UUID+" has failed\n\n" + \
+                      "Please contact the server administrator with the job " \
+                      "ID and the following error message\n\n"+s.last_message
 
     if entries[0].status == Batch.COMPLETE or entries[0].status == Batch.ERROR\
        or entries[0].status == Batch.CRASH:
@@ -403,9 +406,11 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         if hasattr(run, 'command'):
             run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                            " : "+str(current_step) + " : " + run.command
+            __handle_batch_email(s)
         if hasattr(run, 'script'):
             run_message = "Unable to call commandRunner.run_cmd(): "+str(e) + \
                            " : "+str(current_step) + " : WITH SCRIPT"
+            __handle_batch_email(s)
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id, run_message)
         Batch.update_batch_state(s.batch, state)
