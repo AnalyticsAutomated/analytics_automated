@@ -127,14 +127,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if any(char in invalid for char in str(request_data[field])):
                 return(False)  # don't allow punctuation chars
             for kw in keyword.kwlist:
-                if kw in str(request_data[field]):
+                if kw == str(request_data[field]):
                     return(False)  # don't allow python keywords
             for kw in rkwlist:
-                if kw in str(request_data[field]):
+                if kw == str(request_data[field]):
                     return(False)  # don't allow R keywords
             local_cmds = return_local_commands()
             for kw in local_cmds:
-                if kw in str(request_data[field]):
+                if kw == str(request_data[field]):
                     return(False)  # don't allow unix commd
         return(True)
 
@@ -321,7 +321,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
     def __submit_job(self, data, request_contents, job_priority, request,
                      masterUUID, batch):
         submission_form = SubmissionForm(data, request.FILES)
-        print(request.FILES)
+        # print(request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
             s.priority = job_priority
@@ -390,13 +390,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         except Exception as e:
             content = {'error': 'Job name supplied does not exist'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
         # Find what priority queue the job should run on
         (job_priority, submission_number) = self.__get_job_priority(request.user.is_authenticated,
                                                                     data['ip'])
         if job_priority is None:
             content = {'error': "You have no authority to post jobs."
-                                "Either you are not logged in too many, " +
+                                "Either you are not logged in you have too many, " +
                                 str(submission_number) +
                                 ", concurrent jobs running"}
             return Response(content, status=status.HTTP_429_TOO_MANY_REQUESTS)
@@ -404,11 +403,17 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             job = Job.objects.get(pk=job)
             steps = job.steps.all().select_related('task') \
                        .extra(order_by=['ordering'])
+            if job.runnable is False:
+                content = {'error': str(job)+" is present but currently "
+                                             "disabled."}
+                return Response(content, status=status.HTTP_403_FORBIDDEN)
             if len(steps) == 0:
-                content = {'error': "Job Requested: "+str(job)+" appears to have no Steps"}
+                content = {'error': "Job Requested: "+str(job)+" appears to "
+                                    "have no Steps"}
                 return Response(content, status.HTTP_400_BAD_REQUEST)
             if not self.__test_params(steps, request_contents):
-                content = {'error': "Required Parameter for "+str(job)+" Missing."
+                content = {'error': "Required Parameter for "+str(job) +
+                                    " Missing."
                                     "GET /analytics_automated/endpoints to "
                                     "discover all required options"}
                 return Response(content, status.HTTP_400_BAD_REQUEST)

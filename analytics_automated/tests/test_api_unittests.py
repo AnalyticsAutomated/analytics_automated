@@ -239,7 +239,7 @@ class APIPrivateFunctionTests(APITestCase):
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
         bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
-                                                          'armb'})
+                                                          'rm'})
         self.assertEqual(bool, False)
 
     def test_params_rejected_with_python_reserved_words(self):
@@ -248,7 +248,7 @@ class APIPrivateFunctionTests(APITestCase):
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
         bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
-                                                          'thimporty'})
+                                                          'import'})
         self.assertEqual(bool, False)
 
     def test_params_rejected_with_r_reserved_words(self):

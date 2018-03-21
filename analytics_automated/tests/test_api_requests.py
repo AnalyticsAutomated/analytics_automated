@@ -30,7 +30,7 @@ from analytics_automated.tasks import *
 from .helper_functions import clearDatabase
 
 '''
-    Assorted tests to test the API request responses in the apy.py post()
+    Assorted tests to test the API request responses in the api.py post()
     function
 '''
 
@@ -498,6 +498,19 @@ class SubmissionRequestTests(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_rejection_with_disabled_job(self):
+        j3 = JobFactory.create(name="job303", runnable=False)
+        b3 = BackendFactory.create(root_path="/tmp/")
+        t3 = TaskFactory.create(backend=b3, name="task1",
+                                executable="ls")
+        s3 = StepFactory(job=j3, task=t3, ordering=0)
+        self.data['job'] = 'job303'
+        request = self.factory.post(reverse('submission'), self.data,
+                                    format='multipart')
+        view = SubmissionDetails.as_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     # Batch processing tests
     @patch('builtins.exec', return_value=True)
     def test_submission_makes_single_batch_entry(self, m):
@@ -522,7 +535,6 @@ class SubmissionRequestTests(APITestCase):
         self.assertEqual(len(submission_entries), 2)
         self.assertEqual(submission_entries[0].batch, batch_entries[0])
         self.assertEqual(submission_entries[1].batch, batch_entries[0])
-
 
     @patch('builtins.exec', return_value=True)
     def test_multiple_submission_makes_seperate_batch_entries(self, m):
