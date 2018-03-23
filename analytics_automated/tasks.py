@@ -44,6 +44,7 @@ def add(x, y):
     """
     return x + y
 
+
 # When starting a previous job we get the previous data out of the
 # db
 def get_data(s, uuid, current_step, in_globs):
@@ -449,6 +450,7 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     if incomplete_outputs_termination:
         complete_job = True
         logger.debug(uuid+": completing job due to incomplete outputs")
+
     if step_counter == total_steps:
         complete_job = True
         logger.debug(uuid+": completing job due to final step: " +
