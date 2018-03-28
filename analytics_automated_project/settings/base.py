@@ -63,7 +63,7 @@ EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
 
 # Celery Settings
 CELERY_BROKER_URL = "redis://localhost:6379/0"
-# CELERY_RESULT_BACKEND = 'amqp'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # CELERY_TIMEZONE = 'Europe/London'
 # CELERY_ACCEPT_CONTENT = ['json']
 # CELERY_TASK_SERIALIZER = 'json'
