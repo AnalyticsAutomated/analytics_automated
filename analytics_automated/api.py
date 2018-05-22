@@ -123,6 +123,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __assess_param_value_sanity(self, steps, request_data):
         invalid = set(string.punctuation+string.whitespace)
+        invalid.remove('.')
         for field in request_data:
             if any(char in invalid for char in str(request_data[field])):
                 return(False)  # don't allow punctuation chars
