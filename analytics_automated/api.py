@@ -72,7 +72,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if param.bool_valued is True:
                 # omit flag if user set false if not fail over to including it
                 if param.rest_alias in request_data and \
-                 request_data[param.rest_alias] == 'False':
+                 (request_data[param.rest_alias] == 'FALSE' or
+                  request_data[param.rest_alias] == 'False' or
+                  request_data[param.rest_alias] == 'False'):
                     params.append('')
                 else:
                     params.append(param.flag)
