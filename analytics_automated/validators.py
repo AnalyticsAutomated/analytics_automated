@@ -26,7 +26,7 @@ def jpeg(file_data):
 
 def pdb_file(file_data):
     string_data = file_data.decode("utf-8")
-    pdb_pattern = re.compile("HEADER|ATOM\s+\d+", re.IGNORECASE)
+    pdb_pattern = re.compile("ATOM\s+\d+", re.IGNORECASE)
     if re.match(pdb_pattern, string_data):
         return True
     else:

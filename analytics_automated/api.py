@@ -124,12 +124,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return(True)
 
     def __assess_param_value_sanity(self, steps, request_data):
+        pythkw = list(keyword.kwlist)
+        pythkw.remove('in')
         invalid = set(string.punctuation+string.whitespace)
         invalid.remove('.')
         for field in request_data:
+            print(field)
             if any(char in invalid for char in str(request_data[field])):
                 return(False)  # don't allow punctuation chars
-            for kw in keyword.kwlist:
+            for kw in pythkw:
                 if kw == str(request_data[field]):
                     return(False)  # don't allow python keywords
             for kw in rkwlist:
