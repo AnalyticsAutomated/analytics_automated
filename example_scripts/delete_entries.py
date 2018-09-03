@@ -10,7 +10,7 @@ import pytz
 import django
 sys.path.append('./')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'analytics_automated_project.settings.dev')
+                      'analytics_automated_project.settings.staging')
 django.setup()
 from analytics_automated.models import Backend, Job, Task, Step
 from analytics_automated.models import Parameter, Submission, Result
