@@ -20,8 +20,11 @@ from analytics_automated.models import Validator, BackendUser, Message
 def delete_old_entries():
     all_objects = Submission.objects.all()
     old_objects = Submission.objects.filter(
-                          modified__lte=timezone.now()-timedelta(days=10)).delete()
+                          modified__lte=timezone.now() -
+#                          timedelta(days=10)).delete()
+                          timedelta(days=10))
 
+    print(len(old_objects))
 # Start execution here!
 if __name__ == '__main__':
     print("Starting A_A deletion script")
