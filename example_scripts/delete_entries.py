@@ -26,3 +26,8 @@ def delete_old_entries():
 if __name__ == '__main__':
     print("Starting A_A deletion script")
     delete_old_entries()
+
+
+# source /home/django_aa/aa_env/bin/activate
+# cd /home/django_aa/analytics_automated/
+# python example_scripts/delete_entries.py
