@@ -60,6 +60,7 @@ EMAIL_SUBJECT_STRING = 'A_A Job Completion'
 EMAIL_MESSAGE_STRING = 'Your analysis is complete.\nYou can retrieve the ' \
                        'results from http://127.0.0.1:4000/interface/' \
                        '&uuid='
+EMAIL_DELETE_AFTER_USE = True
 
 # Celery Settings
 CELERY_BROKER_URL = "redis://localhost:6379/0"
