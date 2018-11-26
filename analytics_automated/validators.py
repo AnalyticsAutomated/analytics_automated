@@ -28,10 +28,10 @@ def pdb_file(file_data):
     string_data = file_data.decode("utf-8")
     pdb_pattern = re.compile("ATOM\s+\d+", re.IGNORECASE)
     if re.search(pdb_pattern, string_data):
-        print("yay")
+        # print("yay")
         return True
     else:
-        print("boo")
+        # print("boo")
         return False
 
 

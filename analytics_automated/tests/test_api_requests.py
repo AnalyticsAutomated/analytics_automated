@@ -58,21 +58,21 @@ class JobTimeTests(APITestCase):
         j1 = JobFactory.create(name="job1")
         j2 = JobFactory.create(name="job2")
 
-        this_s1 = SubmissionFactory.create(job=j1)
+        this_s1 = SubmissionFactory.create(job=j1, status=Submission.COMPLETE)
         start1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=15, second=0, tzinfo=pytz.UTC)
         stop1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                   minute=45, second=0, tzinfo=pytz.UTC)
         Submission.objects.filter(pk=this_s1.pk).update(created=start1,
                                                         modified=stop1)
-        this_s2 = SubmissionFactory.create(job=j1)
+        this_s2 = SubmissionFactory.create(job=j1, status=Submission.COMPLETE)
         start2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=40, second=0, tzinfo=pytz.UTC)
         stop2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                   minute=45, second=0, tzinfo=pytz.UTC)
         Submission.objects.filter(pk=this_s2.pk).update(created=start2,
                                                         modified=stop2)
-        this_s3 = SubmissionFactory.create(job=j2)
+        this_s3 = SubmissionFactory.create(job=j2, status=Submission.COMPLETE)
         start3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=5, second=0, tzinfo=pytz.UTC)
         stop3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
@@ -81,8 +81,8 @@ class JobTimeTests(APITestCase):
                                                         modified=stop3)
         response = self.client.get(reverse('jobtimes',)+"?format=json")
         self.assertEqual(response.status_code, 200)
-        test_data = '{"job2":2700,"job1":1050}'
-        test_data_alt = '{"job1":1050,"job2":2700}'
+        test_data = '{"job2":2700,"job1":1049}'
+        test_data_alt = '{"job1":1049,"job2":2700}'
         # either of these return strings is valid. Should possibly force
         # a return order in the API
         try:
@@ -100,21 +100,21 @@ class JobTimeTests(APITestCase):
         j1 = JobFactory.create(name="job1")
         j2 = JobFactory.create(name="job2")
 
-        this_s1 = SubmissionFactory.create(job=j1)
+        this_s1 = SubmissionFactory.create(job=j1, status=Submission.COMPLETE)
         start1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=15, second=0, tzinfo=pytz.UTC)
         stop1 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                   minute=45, second=0, tzinfo=pytz.UTC)
         Submission.objects.filter(pk=this_s1.pk).update(created=start1,
                                                         modified=stop1)
-        this_s2 = SubmissionFactory.create(job=j1)
+        this_s2 = SubmissionFactory.create(job=j1, status=Submission.COMPLETE)
         start2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=40, second=0, tzinfo=pytz.UTC)
         stop2 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                   minute=45, second=0, tzinfo=pytz.UTC)
         Submission.objects.filter(pk=this_s2.pk).update(created=start2,
                                                         modified=stop2)
-        this_s3 = SubmissionFactory.create(job=j2)
+        this_s3 = SubmissionFactory.create(job=j2, status=Submission.COMPLETE)
         start3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
                                    minute=5, second=0, tzinfo=pytz.UTC)
         stop3 = datetime.datetime(year=2016, month=3, day=21, hour=12,
