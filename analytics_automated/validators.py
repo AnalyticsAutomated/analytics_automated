@@ -37,6 +37,12 @@ def pdb_file(file_data):
 
 def __test_seq(seq):
     # dealing with single sequences here
+    if len(seq) < 30:
+        return False
+
+    if len(seq) > 1500:
+        return False
+
     counters = Counter(seq)
     nucleotideSum = counters['A']+counters['T']+counters['C'] + \
         counters['G']+counters['U']+counters['N'] + \
