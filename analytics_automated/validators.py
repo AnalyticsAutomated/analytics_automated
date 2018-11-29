@@ -26,15 +26,23 @@ def jpeg(file_data):
 
 def pdb_file(file_data):
     string_data = file_data.decode("utf-8")
-    pdb_pattern = re.compile("HEADER|ATOM\s+\d+", re.IGNORECASE)
-    if re.match(pdb_pattern, string_data):
+    pdb_pattern = re.compile("ATOM\s+\d+", re.IGNORECASE)
+    if re.search(pdb_pattern, string_data):
+        # print("yay")
         return True
     else:
+        # print("boo")
         return False
 
 
 def __test_seq(seq):
     # dealing with single sequences here
+    if len(seq) < 30:
+        return False
+
+    if len(seq) > 1500:
+        return False
+
     counters = Counter(seq)
     nucleotideSum = counters['A']+counters['T']+counters['C'] + \
         counters['G']+counters['U']+counters['N'] + \

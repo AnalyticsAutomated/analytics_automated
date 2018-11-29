@@ -6,6 +6,9 @@ import pprint
 import logging
 import string
 import keyword
+import numpy as np
+import math
+import scipy.stats as stats
 
 from celery import chain
 
@@ -72,7 +75,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if param.bool_valued is True:
                 # omit flag if user set false if not fail over to including it
                 if param.rest_alias in request_data and \
-                 request_data[param.rest_alias] == 'False':
+                 (request_data[param.rest_alias] == 'FALSE' or
+                  request_data[param.rest_alias] == 'False' or
+                  request_data[param.rest_alias] == 'False'):
                     params.append('')
                 else:
                     params.append(param.flag)
@@ -122,12 +127,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         return(True)
 
     def __assess_param_value_sanity(self, steps, request_data):
+        pythkw = list(keyword.kwlist)
+        pythkw.remove('in')
         invalid = set(string.punctuation+string.whitespace)
         invalid.remove('.')
         for field in request_data:
+            # print(field)
             if any(char in invalid for char in str(request_data[field])):
                 return(False)  # don't allow punctuation chars
-            for kw in keyword.kwlist:
+            for kw in pythkw:
                 if kw == str(request_data[field]):
                     return(False)  # don't allow python keywords
             for kw in rkwlist:
@@ -321,8 +329,12 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
 
     def __submit_job(self, data, request_contents, job_priority, request,
                      masterUUID, batch):
+        try:
+            request.FILES.get("input_data").seek(0)
+        except Exception as E:
+            pass
+
         submission_form = SubmissionForm(data, request.FILES)
-        # print(request.FILES)
         if submission_form.is_valid():
             s = submission_form.save()
             s.priority = job_priority
@@ -465,12 +477,66 @@ class JobTimes(generics.GenericAPIView):
         call allows and we return the average time in seconds that such a job
         takes
     """
+
+    class Peak:
+        def __init__(self, startidx):
+            self.born = self.left = self.right = startidx
+            self.died = None
+
+        def get_persistence(self, seq):
+            return float("inf") if self.died is None else seq[self.born] - seq[self.died]
+
+    def get_persistent_homology(seq):
+        peaks = []
+        # Maps indices to peaks
+        idxtopeak = [None for s in seq]
+        # Sequence indices sorted by values
+        indices = range(len(seq))
+        indices = sorted(indices, key=lambda i: seq[i], reverse=True)
+
+        # Process each sample in descending order
+        for idx in indices:
+            lftdone = (idx > 0 and idxtopeak[idx-1] is not None)
+            rgtdone = (idx < len(seq)-1 and idxtopeak[idx+1] is not None)
+            il = idxtopeak[idx-1] if lftdone else None
+            ir = idxtopeak[idx+1] if rgtdone else None
+
+            # New peak born
+            if not lftdone and not rgtdone:
+                peaks.append(Peak(idx))
+                idxtopeak[idx] = len(peaks)-1
+
+            # Directly merge to next peak left
+            if lftdone and not rgtdone:
+                peaks[il].right += 1
+                idxtopeak[idx] = il
+
+            # Directly merge to next peak right
+            if not lftdone and rgtdone:
+                peaks[ir].left -= 1
+                idxtopeak[idx] = ir
+
+            # Merge left and right peaks
+            if lftdone and rgtdone:
+                # Left was born earlier: merge right to left
+                if seq[peaks[il].born] > seq[peaks[ir].born]:
+                    peaks[ir].died = idx
+                    peaks[il].right = peaks[ir].right
+                    idxtopeak[peaks[il].right] = idxtopeak[idx] = il
+                else:
+                    peaks[il].died = idx
+                    peaks[ir].left = peaks[il].left
+                    idxtopeak[peaks[ir].left] = idxtopeak[idx] = ir
+        # This is optional convenience
+        return sorted(peaks, key=lambda p: p.get_persistence(seq), reverse=True)
+
     def get(self, request, *args, **kwargs):
         # Ok here we get the last 5000 results what we'd really like is
         # 500 results for each job types but I don't really want to
         # query the db once for each job type
         # Note there is a query for each job now so maybe this is rubbish
-        times = Submission.objects.values('job').annotate(
+        times = Submission.objects.values('job'). \
+                filter(status=Submission.COMPLETE).annotate(
                 time=Func(F('modified'), F('created'), function='age'))[:5000]
         times_dict = defaultdict(lambda: [])
         for row in times:
@@ -482,10 +548,17 @@ class JobTimes(generics.GenericAPIView):
                 obj = Job.objects.get(pk=job_id)
                 job_name = obj.name
                 try:
-                    obj = Job.objects.get(pk=job_id)
-                    results[job_name] = int(sum(times_dict[job_id])/len(
-                                        times_dict[job_id]))
+                    if len(times_dict[job_id]) == 1:
+                        results[job_name] = times_dict[job_id][0]
+                    else:
+                        obj = Job.objects.get(pk=job_id)
+                        # print(times_dict[job_id])
+                        nparam_density = stats.kde.gaussian_kde(times_dict[job_id])
+                        x = np.linspace(0, max(times_dict[job_id]), 200)
+                        nparam_density = nparam_density(x)
+                        results[job_name] = math.floor(x[np.argsort(nparam_density)[-1]])
                 except Exception as e:
+                    print(e)
                     results[job_name] = None
             except Exception as e:
                 logger.info('Attempting to get times for deleted job')

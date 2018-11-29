@@ -257,7 +257,7 @@ class APIPrivateFunctionTests(APITestCase):
         steps = self.j1.steps.all()
         sd = SubmissionDetails()
         bool = sd._SubmissionDetails__test_params(steps, {'task1_this':
-                                                          'eras.null.default'})
+                                                          'format.packageInfo'})
         self.assertEqual(bool, False)
 
     #

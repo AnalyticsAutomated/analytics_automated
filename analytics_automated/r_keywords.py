@@ -1,6 +1,8 @@
 rkwlist = [
  'if', 'else', 'repeat', 'while', 'function', 'for', 'next',
- 'break', 'TRUE', 'FALSE', 'NULL', 'Inf', 'NaN', 'NA_integer_',
+ 'break',
+ # 'TRUE', 'FALSE',
+ 'NULL', 'Inf', 'NaN', 'NA_integer_',
  'NA_real_', 'NA_complex_', 'NA_character_',
  "-.Date", "-.POSIXt", "!.hexmode", "!.octmode",
  "[.AsIs", "[.data.frame", "[.Date", "[.difftime", "[.Dlist",

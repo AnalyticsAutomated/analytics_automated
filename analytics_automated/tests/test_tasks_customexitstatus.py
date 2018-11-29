@@ -22,6 +22,7 @@ from .helper_functions import clearDatabase
     Tests cover task's response to different exit behaviours set by the user
 '''
 
+
 class TaskCustomExitBehaviours(TestCase):
     uuid1 = ""
     b = None

@@ -293,8 +293,21 @@ def __handle_batch_email(s):
             logger.info("SENDING MAIL TO: "+s.email)
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
+        s.email = None
+        if settings.EMAIL_DELETE_AFTER_USE:
+            s.email = None
+            s.save()
         # print('batch not complete yet')
 
+
+@shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
+             max_retries=5)
+def task_submitter(self, job_name):
+    pass
+    # stub for future djagon_celery_beat addition for sheduled tasks
+    # make jobs internal/external. Internal can only be submitted from_email
+    # localhosts. Use this task to submit jobs using requests to localhost
+    # Then this job can be configured from the celery_beat django_admin config
 
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
