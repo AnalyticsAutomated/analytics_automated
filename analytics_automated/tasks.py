@@ -294,9 +294,9 @@ def __handle_batch_email(s):
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
         s.email = None
-        if settings.EMAIL_DELETE_AFTER_USE:
-            s.email = None
-            s.save()
+        # if settings.EMAIL_DELETE_AFTER_USE:
+        #     s.email = None
+        #     s.save()
         # print('batch not complete yet')
 
 
