@@ -1,6 +1,7 @@
 import uuid
 import glob
 import os
+import factory
 
 from unittest.mock import patch
 
@@ -114,6 +115,26 @@ class TaskPrivateFunctionUnitTests(TestCase):
                                                 "results!\n"
                           })
 
+    def test_correctly_gets_2_different_results_from_multiple_prior_steps(self):
+        res = ResultFactory.create(submission=self.sub,
+                                   task=self.t,
+                                   step=1,
+                                   previous_step=None,)
+        RESULT_DATA = settings.BASE_DIR.child("submissions").child("files"). \
+                                                             child("result1.txt2")
+        res2 = ResultFactory.create(submission=self.sub,
+                                    task=self.t,
+                                    step=2,
+                                    previous_step=None,
+                                    result_data = factory.django.FileField(from_path=RESULT_DATA),)
+        data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 3,
+                                             [".txt", ".txt2"])
+        self.assertEqual(data,
+                         {res2.result_data.name: "Here is some previous "
+                                                 "results!\n",
+                          res.result_data.name: "Here is some previous "
+                                                "results!\n"
+                          })
 
 
     def test_only_gets_previous_data_when_there_is_an_inglobs_match(self):
