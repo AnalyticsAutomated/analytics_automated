@@ -96,6 +96,26 @@ class TaskPrivateFunctionUnitTests(TestCase):
                                                 "results!\n"
                           })
 
+    def test_correctly_gets_multiple_results_from_multiple_prior_steps(self):
+        res = ResultFactory.create(submission=self.sub,
+                                   task=self.t,
+                                   step=1,
+                                   previous_step=None,)
+        res2 = ResultFactory.create(submission=self.sub,
+                                    task=self.t,
+                                    step=2,
+                                    previous_step=None,)
+        data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 3,
+                                             [".txt"])
+        self.assertEqual(data,
+                         {res2.result_data.name: "Here is some previous "
+                                                 "results!\n",
+                          res.result_data.name: "Here is some previous "
+                                                "results!\n"
+                          })
+
+
+
     def test_only_gets_previous_data_when_there_is_an_inglobs_match(self):
         res = ResultFactory.create(submission=self.sub,
                                    task=self.t,

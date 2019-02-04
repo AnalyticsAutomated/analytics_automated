@@ -70,7 +70,7 @@ def get_data(s, uuid, current_step, in_globs):
     else:
         previous_step = current_step-1
         # print("STEP"+str(previous_step))
-        r = Result.objects.filter(submission=s, step=previous_step).all()
+        r = Result.objects.filter(submission=s, step__lte=previous_step).all()
         for result in r:
             for glob in in_globs:
                 if glob in result.result_data.name:
