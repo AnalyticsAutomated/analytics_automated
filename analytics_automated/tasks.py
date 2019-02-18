@@ -51,6 +51,7 @@ def get_data(s, uuid, current_step, in_globs):
     data_dict = {}
     data = ''
     previous_step = None
+    # found_set = set()
     # if this is the first task in a chain get the input_data from submission
     # if this is not the first task get the input_data from the results
     if current_step == 1:
@@ -74,6 +75,7 @@ def get_data(s, uuid, current_step, in_globs):
         for result in r:
             for glob in in_globs:
                 if glob in result.result_data.name:
+                    # found_set.add(glob)
                     result.result_data.open(mode='r')
                     data = ""
                     for line in result.result_data:
@@ -84,6 +86,11 @@ def get_data(s, uuid, current_step, in_globs):
                             data += line
                         data_dict[result.result_data.name] = data
                     result.result_data.close()
+    # if current_step != 1:
+    #     if len(in_globs) != len(found_set):
+    #         raise Exception("Found set of globs not the same size as",
+    #                         "requested:", str(len(in_globs)), "vs",
+    #                         str(len(found_set)))
 
     return(data_dict, previous_step)
 

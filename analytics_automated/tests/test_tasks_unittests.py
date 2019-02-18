@@ -136,6 +136,23 @@ class TaskPrivateFunctionUnitTests(TestCase):
                                                 "results!\n"
                           })
 
+    # def test_throws_error_if_it_cant_find_all_prior_resutls(self):
+    #     res = ResultFactory.create(submission=self.sub,
+    #                                task=self.t,
+    #                                step=1,
+    #                                previous_step=None,)
+    #     RESULT_DATA = settings.BASE_DIR.child("submissions").child("files"). \
+    #                                                          child("result1.txt2")
+    #     res2 = ResultFactory.create(submission=self.sub,
+    #                                 task=self.t,
+    #                                 step=2,
+    #                                 previous_step=None,
+    #                                 result_data = factory.django.FileField(from_path=RESULT_DATA),)
+    #     # data, previous_step = tasks.get_data(self.sub, res.submission.UUID, 3,
+    #     #                                      [".txt", ".gif"])
+    #     self.assertRaises(Exception, tasks.get_data, self.sub,
+    #                       res.submission.UUID, 3,
+    #                       [".txt", ".gif"])
 
     def test_only_gets_previous_data_when_there_is_an_inglobs_match(self):
         res = ResultFactory.create(submission=self.sub,
