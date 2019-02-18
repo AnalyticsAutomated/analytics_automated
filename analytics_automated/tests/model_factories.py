@@ -95,6 +95,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
     input_data = factory.django.FileField(from_path=TEST_DATA)
     # status = random.randint(0, 4)
     batch = factory.SubFactory(BatchFactory)
+    hostname = "localhost"
 
     class Meta:
         model = Submission

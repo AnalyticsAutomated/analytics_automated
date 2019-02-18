@@ -275,6 +275,8 @@ class Submission(TimeStampedModel):
     claimed = models.BooleanField(null=False, default=False)
     worker_id = models.CharField(max_length=64, blank=True, null=True,
                                  default=None)
+    hostname = models.CharField(max_length=256, blank=True, null=True,
+                                default=None)
     step_id = models.IntegerField(null=True, blank=False)
     batch = models.ForeignKey(Batch, null=True, related_name='submissions')
 
@@ -286,7 +288,7 @@ class Submission(TimeStampedModel):
         return(d[self.status])
 
     @transaction.atomic
-    def update_submission_state(s, claim, new_status, step, id, message):
+    def update_submission_state(s, claim, new_status, step, id, message, host):
         """
             Updates the Submission object with some book keeping
         """
@@ -295,6 +297,7 @@ class Submission(TimeStampedModel):
         s.last_message = message
         s.worker_id = id
         s.step_id = step
+        s.hostname = host
         s.save()
         m = Message.objects.create(submission=s,
                                    step_id=step,

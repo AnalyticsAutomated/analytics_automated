@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 import logging
 import time
+import socket
 from commandRunner.localRunner import *
 from commandRunner.rRunner import *
 from commandRunner.pythonRunner import *
@@ -194,7 +195,8 @@ def prepare_exit_statuses(uuid, t, state, step_id, self,
                                   " : "+str(current_step) + " : " + command
             Submission.update_submission_state(s, True, state, step_id,
                                                self.request.id,
-                                               exit_status_message)
+                                               exit_status_message,
+                                               socket.gethostname())
             Batch.update_batch_state(s.batch, state)
             __handle_batch_email(s)
             logger.debug(uuid+": prepare_exit_statuses():"+exit_status_message)
@@ -236,7 +238,8 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                                    self.request.id,
                                                    "Failed with missing"
                                                    " outputs: " +
-                                                   str(run.command))
+                                                   str(run.command),
+                                                   socket.gethostname())
                 Batch.update_batch_state(s.batch, state)
                 logger.error("Failed with missing outputs: "+str(run.command))
                 raise OSError("Failed with missing outputs: "+str(run.command))
@@ -256,7 +259,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
-                                           str(step_id))
+                                           str(step_id),socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Failed with custom exit status: "+str(run.command))
@@ -268,7 +271,8 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                            'Failed step, non 0' +
                                            ' exit at step: ' +
                                            str(step_id) + ". Exit status:" +
-                                           str(exit_status))
+                                           str(exit_status),
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Command did not run: "+str(run.command))
@@ -364,7 +368,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                                                step_id,
                                                self.request.id,
                                                'Running step: ' +
-                                               str(current_step))
+                                               str(current_step),
+                                               socket.gethostname())
             Batch.update_batch_state(s.batch, Batch.RUNNING)
 
     # Now we run the task handing off the actual running to the commandRunner
@@ -385,7 +390,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, cr_message)
+                                           self.request.id, cr_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": make_runner(): "+cr_message)
         __handle_batch_email(s)
@@ -398,7 +404,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
                        " : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, prep_message)
+                                           self.request.id, prep_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": run.prepare(): "+prep_message)
         __handle_batch_email(s)
@@ -433,7 +440,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                            " : "+str(current_step) + " : WITH SCRIPT"
             __handle_batch_email(s)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, run_message)
+                                           self.request.id, run_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": run.run_cmd(): "+run_message)
         # We don't raise and error here as we want to test the exit status
@@ -489,7 +497,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, message)
+                                           self.request.id, message,
+                                           socket.gethostname())
 
     batch_subs = Submission.objects.filter(batch=s.batch)
     complete_count = 0
@@ -519,6 +528,7 @@ def chord_end(self, uuid, step_id, current_step):
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, message)
+                                           self.request.id, message,
+                                           socket.gethostname())
     Batch.update_batch_state(s.batch, state)
     __handle_batch_email(s)

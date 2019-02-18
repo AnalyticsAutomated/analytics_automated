@@ -136,7 +136,8 @@ class SubmissionAdmin(admin.ModelAdmin):
     inlines = [ResultInline, MessageInline]
     list_display = ('pk', 'link_to_Job', 'link_to_Batch', 'submission_name',
                     'priority', 'email', 'UUID', 'ip', 'status', 'claimed',
-                    'last_message', 'step_id', 'created', 'modified', )
+                    'hostname',
+                    'last_message', 'step_id', 'created', 'modified')
 
     def link_to_Batch(self, obj):
         if obj.batch:
