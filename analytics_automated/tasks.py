@@ -2,6 +2,8 @@ from __future__ import absolute_import
 import logging
 import time
 import socket
+import uuid
+import pprint
 from commandRunner.localRunner import *
 from commandRunner.rRunner import *
 from commandRunner.pythonRunner import *
@@ -9,11 +11,13 @@ from commandRunner.pythonRunner import *
 from celery import Celery
 from celery import shared_task
 from celery import group
+from celery import chain
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db import transaction
+from django.core.files.base import ContentFile
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import QueueType, BackendUser, Batch
@@ -311,14 +315,134 @@ def __handle_batch_email(s):
         # print('batch not complete yet')
 
 
+def __build_environment(task):
+    environment = {}
+    envs = task.environment.all()
+    for env in envs:
+        environment[env.env] = env.value
+    return(environment)
+
+
+def __construct_chain_string(steps, UUID, job_priority):
+    """
+        Function takes all the step and task information for a given job
+        and returns a valid celery string
+    """
+    total_steps = len(steps)
+    chord_end = False
+    current_step = 0
+    step_counter = 1
+    prev_step = None
+    queue_name = 'celery'
+    flags = {}
+    options = {}
+    value = ''
+
+    if total_steps > 1:
+        if steps[total_steps-1].ordering == steps[total_steps-2].ordering:
+            total_steps += 1
+            chord_end = True
+
+    task_strings = {}
+    # loop over steps and build the subtask string for each
+    # track which have the same step priority
+    # build group() for any which have equivalent priority
+    # where priority list > 1
+    # insert subtask or group in to chain()()
+
+    for step in steps:
+        params = []
+        param_values = {}
+        value = ''
+        environment = __build_environment(step.task)
+        queue_name = str(step.task.backend.queue_type)
+        if step.ordering != prev_step:
+            current_step += 1
+
+        # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
+        task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
+                      "%s, %s, '%s', %i, %s), " \
+                      "immutable=True, queue='%s')" \
+                      % (UUID,
+                         step.ordering,
+                         current_step,
+                         step_counter,
+                         total_steps,
+                         step.task.name,
+                         params,
+                         pprint.pformat(param_values).replace('\n',''),
+                         value,
+                         step.task.backend.queue_type.execution_behaviour,
+                         environment,
+                         queue_name)
+
+        if step.ordering in task_strings:
+            task_strings[step.ordering].append(task_string)
+        else:
+            task_strings[step.ordering] = [task_string]
+        prev_step = step.ordering
+        step_counter += 1
+
+    tchain = "chain("
+    for key in sorted(task_strings):
+        if len(task_strings[key]) > 1:
+            tchain += "group("
+        for task_string in task_strings[key]:
+            tchain += task_string+", "
+        if len(task_strings[key]) > 1:
+            tchain = tchain[:-2]
+            tchain += "), "
+    tchain = tchain[:-2]
+
+    # This hack means that a job which ends in a chord won't complete
+    # during the chord
+    if chord_end is True:
+        tchain += ", chord_end.subtask(('%s', %i, %i), " \
+                  "immutable=True, queue='%s')" \
+                  % (UUID, current_step, total_steps, queue_name)
+    tchain += ',).apply_async()'
+
+    logger.debug("TASK COMMAND: "+tchain)
+    return(tchain)
+
+
+
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
              max_retries=5)
-def task_submitter(self, job_name):
-    pass
-    # stub for future djagon_celery_beat addition for sheduled tasks
-    # make jobs internal/external. Internal can only be submitted from_email
-    # localhosts. Use this task to submit jobs using requests to localhost
-    # Then this job can be configured from the celery_beat django_admin config
+def task_job_runner(self, *args, **kwargs):
+    masterUUID = str(uuid.uuid1())
+    b = Batch.objects.create(UUID=masterUUID)
+
+    print("Getting Job", args[0])
+    try:
+        job = Job.objects.get(name=args[0])
+        if job:
+            steps = job.steps.all().select_related('task') \
+                    .extra(order_by=['ordering'])
+            s = Submission()
+            s.priority = settings.DEFAULT_JOB_PRIORITY
+            s.UUID = str(uuid.uuid1())
+            s.email = settings.ADMIN_EMAIL
+            s.batch = b
+            s.input_data.save("dummy.txt", ContentFile("empty"))
+            s.job = job
+            s.save()
+
+            tchain = __construct_chain_string(steps, s.UUID,
+                                              settings.DEFAULT_JOB_PRIORITY)
+            #print(tchain)
+            try:
+                logger.info('Sending this chain: '+tchain)
+                exec(tchain)
+            except SyntaxError:
+                logger.error('SyntaxError: Invalid string exec on: ' + tchain)
+            except Exception as e:
+                logger.error('500 Error: Invalid string exec on: ' + tchain)
+                logger.error('500 Error' + str(e))
+    except Job.DoesNotExist:
+        pass
+
+
 
 # time limits?
 # step_id is the numerical value the user provides when they set the steps

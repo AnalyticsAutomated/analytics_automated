@@ -42,6 +42,7 @@ STATIC_URL = '/static/'
 # Change the test runner
 #TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
+ADMIN_EMAIL = "daniel.buchan@ucl.ac.uk"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
 EMAIL_PORT = '25'

@@ -24,6 +24,10 @@ def jpeg(file_data):
         return False
 
 
+def none(data):
+    return True
+
+
 def pdb_file(file_data):
     string_data = file_data.decode("utf-8")
     pdb_pattern = re.compile("ATOM\s+\d+", re.IGNORECASE)
