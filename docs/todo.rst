@@ -1,15 +1,11 @@
 TODO
 ====
 
-1. Raw RServe support
-2. Job DAG visualisations
-3. Authenticate users for priority running, setting to toggle sending logged
+1. Job DAG visualisations
+2. Authenticate users for priority running, setting to toggle sending logged
    in jobs or not.
-4. Add scheduled tasks, just use celery???
-5. Non-linear jobs (i.e tasks with multiple parents)
-6. HADOOP/Spark?
-7. Raw Python support
-8. Deleting a submission should stop the workers processing it
+3. Non-linear jobs (i.e tasks with multiple parents)
+4. Deleting a submission should stop the workers processing it
 
 Production things
 -----------------

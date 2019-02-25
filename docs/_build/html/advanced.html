@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
-    <link rel="next" title="Development Installation" href="dev_installation.html" />
+    <link rel="next" title="Configurations Settings" href="configuration_settings.html" />
     <link rel="prev" title="Recipes for more advanced use-cases" href="recipes.html" />
    
   
@@ -40,9 +40,144 @@
             
   <div class="section" id="advanced-uses">
 <span id="id1"></span><h1>Advanced Uses<a class="headerlink" href="#advanced-uses" title="Permalink to this headline">¶</a></h1>
-<p>Adding to A_A</p>
-<p>Adding new custom data validators</p>
-<p>Adding new backends types</p>
+<p>A_A is implemented in python and Django to make it easy for others to extend.
+This document covers some programmatic details of A_A to help this</p>
+<div class="section" id="system-details">
+<h2>System details<a class="headerlink" href="#system-details" title="Permalink to this headline">¶</a></h2>
+<p>The following is an overview of the execution path for user data submissions.
+There are principally 2 important functions api.post() and tasks.taskrunner().</p>
+<p>Users make POST requests with files of data to the django webserver and these
+arrive at the <cite>post()</cite> method in the <cite>api.py</cite>. The post() method is
+responsible for validating data and dispatching jobs to the workers.</p>
+<p>post() runs through the following sequence of events.</p>
+<ul class="simple">
+<li>The incoming POST data is checked to ensure that all the required elements are present</li>
+<li>We doublecheck how many jobs a user has submitted and assigns there submission to a queue</li>
+<li>Data is then run through the standard Django form validation process</li>
+<li>And... during form validation and custom data validation the job requires is executed</li>
+<li>If validation passes the function identifies the job that was requested and constructs a celery chain including all the job&#8217;s tasks</li>
+<li>finally the chain is submitted to the celery queue.</li>
+</ul>
+<p>Once a job is pushed to the queue it will be picked up by any workers listening to
+that queue. <cite>tasks.py</cite> defines celery functions which execute the job. The
+principal one is <cite>task_runner()</cite></p>
+<p>task_runner() receives all the information required to query the database for
+all the details required to run a task. Having compiled this data it then uses
+the python module commandRunner to execute the task. It will catch any problems,
+handle different exit statuses and push the results back to the database. If
+enabled and configured correctly it will email the user when the job completes.</p>
+</div>
+<div class="section" id="new-validators">
+<h2>New validators<a class="headerlink" href="#new-validators" title="Permalink to this headline">¶</a></h2>
+<p>By default we provide a number of pre-written validation functions that can sanity
+check incoming data submissions. A validator is a function that reads a file
+and returns True of False if the data is acceptable.</p>
+<p>A validator is a regular python function that returns True or False. Once
+written the system will pick up new functions and make them available in the &#8216;+ Add Job&#8217;
+dialogue. In Django development mode this process is automatic. For a production system
+you will need to restart the Django server. Functions beginning with &#8216;_&#8217; will be regarded
+as private and will not be added to the validators</p>
+<p>The simplest possible validator would do nothing with the file</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">simple_validator</span><span class="p">(</span><span class="n">file_data</span><span class="p">):</span>
+    <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A more realistic validator needs to interogate the contents of the file.
+the data passsed in is always a byte stream from a file. So typically the first
+thing you wish to do would be to decode the byte stream. In the example below
+the validator would return False is every line does not start with a &#8216;#&#8217;</p>
+<div class="highlight-python"><div class="highlight"><pre>def better_validator(file_data):
+    data_string = file_data.decode(&quot;utf-8&quot;)
+    for line in  string_data.splitlines():
+      if not line.startswith(&#39;#&#39;)
+        return False
+    return True
+</pre></div>
+</div>
+<p>When writing validators you can add tests to the test_validators.py file and
+use the typical Django test command to test them. If you remove a validator,
+don&#8217;t forget to remove its associated tests</p>
+</div>
+<div class="section" id="programmatic-admin">
+<h2>Programmatic Admin<a class="headerlink" href="#programmatic-admin" title="Permalink to this headline">¶</a></h2>
+<p>As A_A is a regular Django application it is possible to configure tasks, jobs, backends, queues programmatically</p>
+<p>We provide examples of this in the example_scripts/ directory, populate_analytics_automated.py gives and example of performing this.
+models.py explains the database schema and the the fields that users can set.</p>
+</div>
+<div class="section" id="yaml-upload-and-download">
+<h2>Yaml upload and download<a class="headerlink" href="#yaml-upload-and-download" title="Permalink to this headline">¶</a></h2>
+<p>If programmatic or web access is not suitable, it is also possible to dump the
+job configurations to yaml or upload new configuration. You can write or edit
+valid yaml for the database to configure jobs and tasks. The following URIs
+provide this functionality</p>
+<div class="highlight-python"><div class="highlight"><pre>http://127.0.0.1:8000/admin/dump
+http://127.0.0.1:8000/admin/load
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-new-celery-queues">
+<h2>Adding new celery queues<a class="headerlink" href="#adding-new-celery-queues" title="Permalink to this headline">¶</a></h2>
+<p>A_A uses Celery to execute tasks. By default we provide a number of queues
+that tasks can be assigned to. You can use the Queues admin pages to create
+new ones. By default you can find &#8216;localhost&#8217; and &#8216;gridengine&#8217; name queues.</p>
+<p>Internally these create 3 queues for each named, &#8216;low_localhost&#8217;, &#8216;localhost&#8217;
+and &#8216;high_localhost&#8217;. These allow you to have queues that run with tasks
+with different prioriies. By default jobs will be sent to the &#8216;localhost&#8217; queue,
+users who exceed the QUEUE_HOG_SIZE will have their jobs sent to the &#8216;low_&#8217; queue
+and users who are logged in can be assigned to the &#8216;high_&#8217; queue.</p>
+<p>Now if you deploy fewer workers listening to the &#8216;low_&#8217; queue those users
+will be able to have jobs executed but will not be able to monopolise the system
+at the expense of other users. If you do not wish the queues to run with different
+access to resources then have your celery workers listen to all queues.</p>
+<p>You can create new queues for different worker pools using the Queue Type Admin
+<a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/queuetype/">http://127.0.0.1:8000/admin/analytics_automated/queuetype/</a>. You set a new name
+which will name the celery queues (low_[name], [name] and high_[name]) and
+you set an execution behaviour. Currently 2 execution behaviours are supported.
+With &#8216;localhost&#8217; set the workers will run the configured task as though it is
+a unix commandlines instruction and execute it on the machine the worker is
+running on. With &#8216;GridEngine&#8217; set the worker will send the task
+to a DRMAA compliant grid engine head node for execution. Not the RServe options
+is temporarily not supported</p>
+</div>
+<div class="section" id="authentication-and-queue-management">
+<h2>Authentication and queue management<a class="headerlink" href="#authentication-and-queue-management" title="Permalink to this headline">¶</a></h2>
+<p>Using the standard Django users authentication tools the Admin can add users
+and then distribute users names and passwords to thoses users. Using the
+authentication and queue settings the admin can control access to the system.</p>
+<ul class="simple">
+<li>DEFAULT_JOB_PRIORITY : Priority submissions will run at (default 1)</li>
+<li>LOGGED_IN_JOB_PRIORITY : Priority submissions will run at (default 2)</li>
+<li>QUEUE_HOG_SIZE : Soft limit for concurrent user jobs</li>
+<li>QUEUE_HARD_LIMIT : Hard limit for concurrent user jobs</li>
+</ul>
+<p>Jobs priority takes 4 values; None, 0, 1 and 2.  None will cause jobs to be
+rejected. 0 will send jobs to the low_* queue, 1 will send jobs to the regular
+queue and 2 will send jobs to the high_* queue. If users have more jobs
+running than the QUEUE_HOG_SIZE then their next submission will have the
+drecremented by one. If users have more jobs running than the QUEUE_HARD_LIMIT
+then all future submission will be rejected.</p>
+<p>If QUEUE_HOG_SIZE or QUEUE_HARD_LIMIT are set to None these values will
+be ignored.</p>
+</div>
+<div class="section" id="code-tasks">
+<h2>Code tasks<a class="headerlink" href="#code-tasks" title="Permalink to this headline">¶</a></h2>
+<p>If you have defined a queue with a R or Python execution behaviour then the
+functionality of the Tasks which use these backends changes. Instead of
+attempting to execute a commandline command these tasks will execute code.</p>
+<p>When configuring a task you can now add R or Python code (as appropriate) in to
+the Executable text area (you can resize this as appropriate).</p>
+<p>There are a couple of quirks to note:</p>
+<p>Things you can drop any arbitrarily large chunk of code in this box however
+as debugging is none obvious you may want to constrain yourself to scripts
+shorter than 100 lines.</p>
+<p>A_A comes with Numpy and Scipy preinstalled so you can import those with out
+having to call pip</p>
+<p>R code calls will only work if r-base-dev has been installed as it is a
+requirement of rpy2</p>
+<p>Code is a dialect of R and Python as the &#8221; character is not valid. You must use
+single quotes to delineate strings. Further details are covered in they
+python library commandRunner <a class="reference external" href="https://pypi.org/project/commandRunner/">https://pypi.org/project/commandRunner/</a></p>
+</div>
 </div>
 
 
@@ -50,12 +185,26 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Advanced Uses</a><ul>
+<li><a class="reference internal" href="#system-details">System details</a></li>
+<li><a class="reference internal" href="#new-validators">New validators</a></li>
+<li><a class="reference internal" href="#programmatic-admin">Programmatic Admin</a></li>
+<li><a class="reference internal" href="#yaml-upload-and-download">Yaml upload and download</a></li>
+<li><a class="reference internal" href="#adding-new-celery-queues">Adding new celery queues</a></li>
+<li><a class="reference internal" href="#authentication-and-queue-management">Authentication and queue management</a></li>
+<li><a class="reference internal" href="#code-tasks">Code tasks</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="recipes.html" title="previous chapter">Recipes for more advanced use-cases</a></li>
-      <li>Next: <a href="dev_installation.html" title="next chapter">Development Installation</a></li>
+      <li>Next: <a href="configuration_settings.html" title="next chapter">Configurations Settings</a></li>
   </ul></li>
 </ul>
 </div>

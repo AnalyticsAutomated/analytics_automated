@@ -76,7 +76,7 @@ don't forget to remove its associated tests
 Programmatic Admin
 ^^^^^^^^^^^^^^^^^^
 
-As A_A is a regualr Django application it is possible to configure tasks, jobs, backends, queues programmatically
+As A_A is a regular Django application it is possible to configure tasks, jobs, backends, queues programmatically
 
 We provide examples of this in the example_scripts/ directory, populate_analytics_automated.py gives and example of performing this.
 models.py explains the database schema and the the fields that users can set.
@@ -168,4 +168,5 @@ R code calls will only work if r-base-dev has been installed as it is a
 requirement of rpy2
 
 Code is a dialect of R and Python as the " character is not valid. You must use
-single quotes to delineate strings.
+single quotes to delineate strings. Further details are covered in they
+python library commandRunner https://pypi.org/project/commandRunner/

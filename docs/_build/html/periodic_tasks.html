@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>TODO &mdash; analytics_automated 1.0 documentation</title>
+    <title>Periodic Tasks &mdash; analytics_automated 1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
-    <link rel="prev" title="Roadmap" href="roadmap.html" />
+    <link rel="next" title="Configurations Settings" href="configuration_settings.html" />
+    <link rel="prev" title="Advanced Uses" href="advanced.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -37,38 +38,25 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="todo">
-<h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
-<ol class="arabic simple">
-<li>Job DAG visualisations</li>
-<li>Authenticate users for priority running, setting to toggle sending logged
-in jobs or not.</li>
-<li>Non-linear jobs (i.e tasks with multiple parents)</li>
-<li>Deleting a submission should stop the workers processing it</li>
-</ol>
-<div class="section" id="production-things">
-<h2>Production things<a class="headerlink" href="#production-things" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic">
-<li><p class="first">Celery for workers <a class="reference external" href="https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html">https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html</a></p>
-<blockquote>
-<div><p>enable app.Task.track_started
-Autoscaling</p>
-</div></blockquote>
-</li>
-<li><p class="first">Consider Flower for celery monitoring</p>
-</li>
-<li><p class="first">Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)</p>
-</li>
-<li><p class="first">Investigate cached_property</p>
-</li>
-<li><p class="first">Config GridEngine users with different priorities</p>
-</li>
-<li><p class="first">Config GridEngine with multiple submit hosts.</p>
-</li>
-<li><p class="first">CI? Jenkins/Travis</p>
-</li>
-</ol>
-</div>
+  <div class="section" id="periodic-tasks">
+<span id="id1"></span><h1>Periodic Tasks<a class="headerlink" href="#periodic-tasks" title="Permalink to this headline">¶</a></h1>
+<p>Periodic Tasks are handled by Celery Beat. Starting thw workers with the
+&#8211;beat option will allow you to start the periodic task service. Remember
+to start the separate beat daemon if running in production/staging modes.</p>
+<p>Most details can be found at</p>
+<p><a class="reference external" href="http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html">http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html</a></p>
+<p>Analytics automated installs the django-celery-beat package so you can
+use the A_A interface to configure periodic tasks rather than using the
+settings files.</p>
+<p><a class="reference external" href="https://pypi.org/project/django_celery_beat/">https://pypi.org/project/django_celery_beat/</a></p>
+<p>To build a periodic job you should create a job as normal as described elsewhere
+in these docs. Then, when setting a periodic task you must register the task as the
+&#8216;analytics_automated.tasks.task_job_runner&#8217;. Further down the page set the
+Interval or Crontab as per a celery beat instructions. In the arguments list
+you must add the name of the job your wish to run. And lastly the
+queue on which the job should run must be set. If you can create a new
+&#8216;Queue Type&#8217; for periodic tasks but you must ensure you have started some
+workers which as listening to that queue</p>
 </div>
 
 
@@ -76,26 +64,19 @@ Autoscaling</p>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">TODO</a><ul>
-<li><a class="reference internal" href="#production-things">Production things</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
+        <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="roadmap.html" title="previous chapter">Roadmap</a></li>
+      <li>Previous: <a href="advanced.html" title="previous chapter">Advanced Uses</a></li>
+      <li>Next: <a href="configuration_settings.html" title="next chapter">Configurations Settings</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/todo.txt"
+      <li><a href="_sources/periodic_tasks.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -124,7 +105,7 @@ Autoscaling</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="_sources/todo.txt"
+      <a href="_sources/periodic_tasks.txt"
           rel="nofollow">Page source</a>
     </div>
 

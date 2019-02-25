@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using A Basic Job &mdash; analytics_automated 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
+    <link rel="next" title="Administration Overview" href="job_admin.html" />
+    <link rel="prev" title="Configuring A Basic Job" href="configuring_a_basic_job.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-a-basic-job">
+<span id="id1"></span><h1>Using A Basic Job<a class="headerlink" href="#using-a-basic-job" title="Permalink to this headline">¶</a></h1>
+<p>Once a job is configured users will want to use it to get data. The
+first thing a user should do is check the endpoints.</p>
+<div class="section" id="endpoints">
+<h2>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this headline">¶</a></h2>
+<p>If a user checks the endpoints URI,
+<a class="reference external" href="http://127.0.0.1:8000/analytics_automated/endpoints/">http://127.0.0.1:8000/analytics_automated/endpoints/</a>, a list of all live
+and runnable jobs will be returned with their REQUIRED parameters</p>
+<img alt="_images/endpoints_example.png" src="_images/endpoints_example.png" />
+<p>Users can use this information to send jobs and poll the status of their
+jobs. Given that <a class="reference external" href="http://127.0.0.1:8000/analytics_automated/">http://127.0.0.1:8000/analytics_automated/</a> is the root
+URL for the service users then take the submission/ lines and
+add this to the root URL to POST requests</p>
+</div>
+<div class="section" id="post">
+<h2>POST<a class="headerlink" href="#post" title="Permalink to this headline">¶</a></h2>
+<p>Users can send data to jobs using a multipart form POST request given
+the URIs listed by the endpoints service. All jobs require an email address
+and submission_name. The submission_name is just a short identifier the user
+provides to uniquely name their data submission.</p>
+<p>Users must also provide input data as a file for every job. This file can be
+empty for jobs which do not require input data.</p>
+<p>In the example/ dir you can find two scripts which demonstrate submissions,
+send_fasta.py and send_file.py</p>
+<p>Submissions will receive json data response indicating success or failure. In a
+success state the message will contain a UUID which users can use to check the
+state of their submission and retrieve data</p>
+<p>Note: When users POST to jobs any parameter string values are checked to
+prevent code injection. Values which contain punctuation, Python reserved words,
+R base::package functions or valid unix commands are rejected.</p>
+</div>
+<div class="section" id="get">
+<h2>GET<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h2>
+<p>If a submission was successful users can poll the server to check the status
+of their requested job. Using the UUID returned on successful submission they can
+send a GET request to</p>
+<p><a class="reference external" href="http://127.0.0.1:8000/analytics_automated/submission/UUID">http://127.0.0.1:8000/analytics_automated/submission/UUID</a></p>
+<p>Responses to this will indicate if the job is running or has ended in success or
+failure. Files and data the job produces will also be made available in these
+messages as additional URIs which can be looped over to retrieve the data.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using A Basic Job</a><ul>
+<li><a class="reference internal" href="#endpoints">Endpoints</a></li>
+<li><a class="reference internal" href="#post">POST</a></li>
+<li><a class="reference internal" href="#get">GET</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="configuring_a_basic_job.html" title="previous chapter">Configuring A Basic Job</a></li>
+      <li>Next: <a href="job_admin.html" title="next chapter">Administration Overview</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/using_a_basic_job.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Daniel Buchan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/using_a_basic_job.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

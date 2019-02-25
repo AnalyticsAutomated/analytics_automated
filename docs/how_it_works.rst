@@ -29,10 +29,12 @@ also understands how it is going to execute. Tasks are run by
 execution location (LOCALHOST) is on the machine the worker is running on.
 
 * **Tasks** have **Backends** (a many-to-one relationship)
+* **Backends** have **Queue Types** (one to one relationship)
+* **Tasks** have **Parameters** (a one-to-many relationship)
+* **Tasks** have **Environments** (a one-to-many relationship)
 * **Jobs** have **Steps** (a one-to-many relationship)
 * **Jobs** have **Validators** (a one-to-many relationshio)
 * **Steps** have **Tasks** (a one-to-one relationship)
-* **Tasks** have **Parameters** (a one-to-many relationship)
 
 .. image:: entity_erd.png
 

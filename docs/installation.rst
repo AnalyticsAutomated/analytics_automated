@@ -143,7 +143,7 @@ A production system will need a production_secrets.json
 
 * Start the celery workers, from the root dir of A_A. Note that we have to specify
   the queues the workers read from (-Q), for the basic settings we'll have
-  these workers just watch all the default queueus, note that the
+  these workers just watch all the default queues, note that the
   workers are watching the low priority, normal priority and high priority.
   In a more complex set up you can have different worker pools on different
   machines watch specific queues.
@@ -171,6 +171,9 @@ A production system will need a production_secrets.json
 * ALTERNATIVELY
   We also provide some scripts for bash and OSX in the utilities/ directory
   which will start all the components on one machine.
+
+* Scheduled tasks. If you are going to user celery-beat then you may want to add a
+  queue name for scheduled tasks to the workers and starting the beat service.
 
 4. Config complete
 ^^^^^^^^^^^^^^^^^^

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configurations Settings &mdash; analytics_automated 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
+    <link rel="next" title="Development Installation" href="dev_installation.html" />
+    <link rel="prev" title="Advanced Uses" href="advanced.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configurations-settings">
+<span id="id1"></span><h1>Configurations Settings<a class="headerlink" href="#configurations-settings" title="Permalink to this headline">¶</a></h1>
+<p>As A_A is a Django application it can be configured as per the usual Django
+settings files. As it makes extensive use of Celery the celery settings
+can also be further configured, see <a class="reference external" href="http://docs.celeryproject.org/en/latest/userguide/configuration.html">http://docs.celeryproject.org/en/latest/userguide/configuration.html</a></p>
+<p>The following are important settings for A_A, these are marked by the comment
+&#8220;# Required A_A user settings #&#8221; in the base.py settings files</p>
+<div class="highlight-python"><div class="highlight"><pre>LOGGED_IN_JOB_PRIORITY: If a user is logged in choose which queue to send the job to (see above settings)
+QUEUE_HOG_SIZE: This is the number of concurrent jobs a user can submit before all following jobs are sent to the &#39;low_&#39; priority queue
+QUEUE_HARD_LIMIT: This is the maximum number of concurrent jobs a user may submit. If set to 0 this means users can have unlimited jobs in the queue
+</pre></div>
+</div>
+<p>A_A will email users if the Django email settings are configured, this is
+as per the normal Django emailing but the following setings are required.
+You can also set whether a user&#8217;s email should be stored or deleted. An
+administrator&#8217;s email address for alerting when periodic tasks are done
+and a default sending email address must be provide</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s">&#39;django.core.mail.backends.smtp.EmailBackend&#39;</span>
+<span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s">&#39;smtp.xx.xx.xx&#39;</span>
+<span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">EMAIL_HOST_USER</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">EMAIL_HOST_PASSWORD</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">DEFAULT_FROM_EMAIL</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">EMAIL_DELETE_AFTER_USE</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">ADMIN_EMAIL</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">DEFAULT_FROM_EMAIL</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+</pre></div>
+</div>
+<p>A_A has 2 important email settings that configure the contents of the email
+which is sent to users. You can customise the email subject and default
+message with the following</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">EMAIL_SUBJECT_STRING</span> <span class="o">=</span> <span class="s">&#39;A_A Job Completion&#39;</span>
+<span class="n">EMAIL_MESSAGE_STRING</span> <span class="o">=</span> <span class="s">&#39;Your analysis is complete.</span><span class="se">\n</span><span class="s">You can retrieve the &#39;</span> \
+                     <span class="s">&#39;results from http://localhost/analytics_automated/&#39;</span> \
+                     <span class="s">&#39;submission/&#39;</span>
+</pre></div>
+</div>
+<p>Job running priority is handled with the following settings. Default priority
+is 1. 2 is high priority and usually reserved for logged in users. Submission
+limits are handled by the queue size. QUEUE_HOG_SIZE is the number of running
+jobs a user can have before further jobs are sent to workers that handle
+the LOW priority queue. HARD_LIMIT sets the total number of jobs a user can
+submit. Setting either to 0 sets ignores these settings.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEFAULT_JOB_PRIORITY</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">LOGGED_IN_JOB_PRIORITY</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">QUEUE_HOG_SIZE</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">QUEUE_HARD_LIMIT</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<p>As the system use celery the workers and queue can be configured very finely.
+The minimum set of celery settings needed are below and further details can
+be found in the celery docs (<a class="reference external" href="http://www.celeryproject.org/">http://www.celeryproject.org/</a>)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CELERY_BROKER_URL</span> <span class="o">=</span> <span class="s">&quot;redis://localhost:6379/0&quot;</span>
+<span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="s">&#39;redis://localhost:6379/0&#39;</span>
+<span class="n">CELERY_TIMEZONE</span> <span class="o">=</span> <span class="s">&#39;Europe/London&#39;</span>
+</pre></div>
+</div>
+<p>When running in production or in a distribured fashion you should ensure the
+CORS whitelist is correct set.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CORS_ORIGIN_WHITELIST</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s">&#39;127.0.0.1:4000&#39;</span><span class="p">,</span>
+        <span class="s">&#39;127.0.0.1:8000&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>If running in dev mode ensure the development settings are correctly set</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="n">INSTALLED_APPS</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;debug_toolbar&#39;</span><span class="p">,)</span>
+<span class="n">DEBUG_TOOLBAR_CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;JQUERY_URL&#39;</span><span class="p">:</span> <span class="s">&quot;/static/js/jquery.min.js&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">MIDDLEWARE_CLASSES</span> <span class="o">+=</span> <span class="p">[</span><span class="s">&#39;debug_toolbar.middleware.DebugToolbarMiddleware&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="advanced.html" title="previous chapter">Advanced Uses</a></li>
+      <li>Next: <a href="dev_installation.html" title="next chapter">Development Installation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/configuration_settings.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Daniel Buchan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/configuration_settings.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

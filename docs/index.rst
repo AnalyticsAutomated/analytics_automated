@@ -23,6 +23,7 @@ jobs in to web services
     job_admin
     recipes
     advanced
+    periodic_tasks
     configuration_settings
     dev_installation
     roadmap
