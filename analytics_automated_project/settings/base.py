@@ -82,8 +82,8 @@ CELERY_TIMEZONE = 'Europe/London'
 # worker_max_tasks_per_child = 30
 # worker_prefetch_multiplier = 1
 
-MEDIA_URL = '/submissions/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
+# MEDIA_URL = '/submissions/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 # DATABASES = {
 #     'default': {
 #         'ENGINE': '',
@@ -96,34 +96,32 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 # }
 #
 # SECRET_KEY = ''
-DEBUG = True
-
-CORS_ORIGIN_WHITELIST = (
-        '127.0.0.1:4000',
-        '127.0.0.1:8000',
-    )
-
-INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'JQUERY_URL': "/static/js/jquery.min.js",
-}
-MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
-
-# TODO: Change this for staging and production
-MEDIA_URL = '/submissions/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions/')
-STATIC_URL = '/static/'
+# DEBUG = True
+#
+# CORS_ORIGIN_WHITELIST = (
+#         '127.0.0.1:4000',
+#         '127.0.0.1:8000',
+#     )
+#
+# DEBUG_TOOLBAR_CONFIG = {
+#     'JQUERY_URL': "/static/js/jquery.min.js",
+# }
+# MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+#
+# # TODO: Change this for staging and production
+# MEDIA_URL = '/submissions/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions/')
+# STATIC_URL = '/static/'
 # Change the test runner
 #TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
-ADMIN_EMAIL = "daniel.buchan@ucl.ac.uk"
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
-EMAIL_PORT = '25'
-# EMAIL_HOST_USER = 'psipred@cs.ucl.ac.uk'
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = 'psipred@cs.ucl.ac.uk'
+# ADMIN_EMAIL = "daniel.buchan@ucl.ac.uk"
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
+# EMAIL_PORT = '25'
+# # EMAIL_HOST_USER = 'psipred@cs.ucl.ac.uk'
+# EMAIL_HOST_PASSWORD = ''
+# DEFAULT_FROM_EMAIL = 'psipred@cs.ucl.ac.uk'
 
 
 ########################
