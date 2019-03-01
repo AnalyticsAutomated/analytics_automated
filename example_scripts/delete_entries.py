@@ -18,7 +18,9 @@ from analytics_automated.models import Validator, BackendUser, Message
 
 
 def delete_old_entries():
-    # all_objects = Submission.objects.all()
+    submission_objects = Submission.objects.filter(
+                         modified__lte=timezone.now() -
+                         timedelta(days=10)).update(email="ERASED")
     old_objects = Message.objects.filter(
                           modified__lte=timezone.now() -
                           timedelta(days=10)).delete()
