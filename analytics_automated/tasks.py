@@ -80,9 +80,9 @@ def get_data(s, uuid, current_step, in_globs):
         for result in r:
             print("RESULT ID"+str(result))
             for glob in in_globs:
-                print("GLOB TO MATCH"+str(result))
+                print("GLOB TO MATCH"+str(glob))
                 if glob in result.result_data.name:
-                    print("FOUND A MATCH"+str(result)+str(glob))
+                    print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
                     # found_set.add(glob)
                     result.result_data.open(mode='r')
                     data = ""
