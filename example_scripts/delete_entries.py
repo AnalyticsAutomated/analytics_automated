@@ -23,8 +23,9 @@ def delete_old_entries():
                          timedelta(days=10)).update(email="ERASED")
     submission_objects = Submission.objects.filter(
                          modified__lte=timezone.now() -
-                         timedelta(days=2), status=Submission.running
-                         ).update(status=Submission.ERROR)
+                         timedelta(days=2), status=Submission.RUNNING
+                         ).update(status=Submission.ERROR,
+                                  last_message="JOB TIMED OUT")
     old_objects = Message.objects.filter(
                           modified__lte=timezone.now() -
                           timedelta(days=10)).delete()

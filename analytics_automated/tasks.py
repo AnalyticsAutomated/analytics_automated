@@ -75,11 +75,14 @@ def get_data(s, uuid, current_step, in_globs):
         data_dict[uuid+"."+local_glob] = data
     else:
         previous_step = current_step-1
-        # print("STEP"+str(previous_step))
+        print("DATA GETTING STEP ID"+str(previous_step))
         r = Result.objects.filter(submission=s, step__lte=previous_step).all()
         for result in r:
+            print("RESULT ID"+str(result))
             for glob in in_globs:
+                print("GLOB TO MATCH"+str(result))
                 if glob in result.result_data.name:
+                    print("FOUND A MATCH"+str(result)+str(glob))
                     # found_set.add(glob)
                     result.result_data.open(mode='r')
                     data = ""
@@ -479,13 +482,17 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     t = Task.objects.get(name=task_name)
     # b = Batch.objects.get()
     state = Submission.ERROR
+    logger.info("BUILDING GLOBS:" + str(step_id))
     in_globs, out_globs, iglob, oglob = build_file_globs(t)
+    logger.info("GETTING PREVIOUS DATA:" + str(step_id))
     data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
+    logger.info("SETTING STDOUT GLOB:" + str(step_id))
     stdoglob = ".stdout"
     if t.stdout_glob is not None and len(t.stdout_glob) > 0:
         stdoglob = "."+t.stdout_glob.lstrip(".")
 
     # update submission tracking to note that this is running
+    logger.info("SETTING RUN FLAG:" + str(step_id))
     with transaction.atomic():
         if s.status != Submission.ERROR and s.status != Submission.CRASH:
             Submission.update_submission_state(s, True, Submission.RUNNING,

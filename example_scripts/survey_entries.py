@@ -20,10 +20,11 @@ from analytics_automated.models import Validator, BackendUser, Message
 def survey_old_entries():
     submission_objects = Submission.objects.filter(
                          modified__lte=timezone.now() -
-                         timedelta(days=2), status=Submission.running
-                         )
-    for submission in submission_objects:
-        print(submission.pk, submmission.status, submission.last_message)
+                         timedelta(days=2), status=Submission.RUNNING
+                         ).update(status=Submission.ERROR,
+                                  last_message="JOB TIMED OUT")
+    # for submission in submission_objects:
+    #     print(submission.pk, submission.status, submission.last_message)
 
 
 # Start execution here!
