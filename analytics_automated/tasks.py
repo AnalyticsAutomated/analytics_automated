@@ -75,17 +75,17 @@ def get_data(s, uuid, current_step, in_globs):
         data_dict[uuid+"."+local_glob] = data
     else:
         previous_step = current_step-1
-        print("DATA GETTING STEP ID"+str(previous_step))
+        # print("DATA GETTING STEP ID"+str(previous_step))
         r = Result.objects.filter(submission=s, step__lte=previous_step).all()
         for result in r:
-            print("RESULT ID"+str(result))
+            # print("RESULT ID"+str(result))
             for glob in in_globs:
-                print("GLOB TO MATCH"+str(glob))
+                # print("GLOB TO MATCH"+str(glob))
                 if glob in result.result_data.name:
-                    print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
+                    # print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
                     # found_set.add(glob)
                     result.result_data.open(mode='r')
-                    print("OPENED DATA FILE")
+                    # print("OPENED DATA FILE")
                     data = ""
                     for line in result.result_data:
                         print(line)
