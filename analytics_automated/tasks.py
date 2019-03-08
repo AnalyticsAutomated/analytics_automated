@@ -85,15 +85,18 @@ def get_data(s, uuid, current_step, in_globs):
                     print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
                     # found_set.add(glob)
                     result.result_data.open(mode='r')
+                    print("OPENED DATA FILE")
                     data = ""
                     for line in result.result_data:
+                        print(line)
                         try:  # depending on the version of django data might
                                 # reach here as either a byte str or a str
                             data += line.decode(encoding='UTF-8')
                         except AttributeError:
                             data += line
-                        data_dict[result.result_data.name] = data
+                    data_dict[result.result_data.name] = data
                     result.result_data.close()
+                    print("GOT FILE DATA")
     # if current_step != 1:
     #     if len(in_globs) != len(found_set):
     #         raise Exception("Found set of globs not the same size as",
