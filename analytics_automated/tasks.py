@@ -306,7 +306,7 @@ def __handle_batch_email(s):
             if s.email is not None and \
                     len(s.email) > 5 and \
                     settings.DEFAULT_FROM_EMAIL is not None:
-                send_mail(s.job+" : "+settings.EMAIL_SUBJECT_STRING+": "+s.batch.UUID,
+                send_mail(str(s.job)+" : "+settings.EMAIL_SUBJECT_STRING+": "+s.batch.UUID,
                           message_str,
                           from_email=None,
                           recipient_list=[s.email],
