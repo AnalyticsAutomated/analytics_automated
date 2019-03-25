@@ -49,3 +49,5 @@ EMAIL_PORT = '25'
 # EMAIL_HOST_USER = 'psipred@cs.ucl.ac.uk'
 EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = 'psipred@cs.ucl.ac.uk'
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240

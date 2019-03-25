@@ -44,8 +44,58 @@ class JobListTests(APITestCase):
         response.render()
         self.assertEqual(response.status_code, 200)
         test_data = '{"count":2,"next":null,"previous":null,' \
-                    '"results":[{"pk":2,"name":"job1"},{"pk":3'\
+                    '"results":[{"pk":4,"name":"job1"},{"pk":5'\
                     ',"name":"job2"}]}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    def tearDown(self):
+        clearDatabase()
+
+
+class JobDetailTests(APITestCase):
+
+    def test_can_get_multi_step_job_config(self):
+        j1 = JobFactory.create(name="job1")
+        b = BackendFactory.create(root_path="/tmp/")
+        t1 = TaskFactory.create(backend=b, name="task1", executable="ls")
+        t2 = TaskFactory.create(backend=b, name="task2", executable="grep")
+        s1 = StepFactory(job=j1, task=t1, ordering=0)
+        s2 = StepFactory(job=j1, task=t2, ordering=1)
+        c1 = ConfigurationFactory(task=t1, name="ls", type=0, parameters='',
+                                  version="1")
+        c2 = ConfigurationFactory(task=t1, name="dataset", type=1,
+                                  parameters='', version="2")
+        c3 = ConfigurationFactory(task=t2, name="grep", type=0, parameters='',
+                                  version="")
+        response = self.client.get(reverse('job',)+"job1?format=json")
+        response.render()
+        self.assertEqual(response.status_code, 200)
+        test_data = '{"name":"job1","steps":[{"task":{"configuration":' \
+                    '[{"type":"Dataset","name":"dataset","parameters":' \
+                    '"","version":"2"},{"type":"Software","name":' \
+                    '"ls","parameters":"","version":"1"}]},"ordering"' \
+                    ':0},{"task":{"configuration":[{"type"' \
+                    ':"Software","name":"grep","parameters"' \
+                    ':"","version":""}]},"ordering":1}]}'
+        self.assertEqual(response.content.decode("utf-8"), test_data)
+
+    def test_can_not_get_congif_with_non_existent_job_name(self):
+        j1 = JobFactory.create(name="job1")
+        b = BackendFactory.create(root_path="/tmp/")
+        t1 = TaskFactory.create(backend=b, name="task1", executable="ls")
+        t2 = TaskFactory.create(backend=b, name="task2", executable="grep")
+        s1 = StepFactory(job=j1, task=t1, ordering=0)
+        s2 = StepFactory(job=j1, task=t2, ordering=1)
+        c1 = ConfigurationFactory(task=t1, name="ls", type=1, parameters='',
+                                  version="1")
+        c2 = ConfigurationFactory(task=t1, name="dataset", type=2,
+                                  parameters='', version="2")
+        c3 = ConfigurationFactory(task=t2, name="grep", type=2, parameters='',
+                                  version="")
+        response = self.client.get(reverse('job',)+"job2?format=json")
+        response.render()
+        self.assertEqual(response.status_code, 404)
+        test_data = '{"detail":"Not found."}'
         self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def tearDown(self):

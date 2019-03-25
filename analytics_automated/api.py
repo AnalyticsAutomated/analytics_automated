@@ -27,7 +27,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.parsers import FormParser
 
 from .serializers import SubmissionInputSerializer, SubmissionOutputSerializer
-from .serializers import JobSerializer, BatchSerializer
+from .serializers import JobSerializer, BatchSerializer, JobDetailSerializer
 from .models import Job, Submission, Backend, Batch
 from .forms import SubmissionForm
 from .tasks import *
@@ -574,3 +574,22 @@ class JobList(mixins.ListModelMixin, generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+class JobDetail(mixins.RetrieveModelMixin,
+                generics.GenericAPIView):
+    """
+        API endpoint to return the steps and configuration for the jobs
+    """
+    queryset = Job.objects.all()
+    lookup_field = 'name'
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return JobDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        """
+            Returns the details of a job
+        """
+        return self.retrieve(request, *args, **kwargs)

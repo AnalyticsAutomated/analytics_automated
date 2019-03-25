@@ -39,6 +39,8 @@ urlpatterns = [
          api.BatchDetails.as_view(),
          name="batchDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
+     url(r'^analytics_automated/job/(?P<name>.+)',
+         api.JobDetail.as_view(), name="jobDetail"),
      url(r'^analytics_automated/endpoints/$',
          api.Endpoints.as_view(), name="endpoints"),
      url(r'^analytics_automated/jobtimes/$',

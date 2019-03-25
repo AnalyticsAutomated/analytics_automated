@@ -162,6 +162,29 @@ class Task(models.Model):
 # missing
 
 
+#Attach to a task some config information if the user wants to add this
+class Configuration(models.Model):
+    SOFTWARE = 0
+    DATASET = 1
+    MISC = 2
+    CONFIGURATION_CHOICES = {
+        (SOFTWARE, "Software"),
+        (DATASET, "Dataset"),
+        (MISC, "Misc."),
+    }
+    task = models.ForeignKey(Task, null=False, related_name="configuration")
+    type = models.IntegerField(null=True, blank=True,
+                               choices=CONFIGURATION_CHOICES,
+                               default=SOFTWARE)
+    name = models.CharField(max_length=256, null=True, blank=True)
+    parameters = models.CharField(max_length=256, null=True, blank=True)
+    version = models.CharField(max_length=256, null=True, blank=True)
+
+    def returnType(self):
+        d = dict(Configuration.CONFIGURATION_CHOICES)
+        return(d[self.type])
+
+
 class Step(models.Model):
     job = models.ForeignKey(Job, related_name='steps')
     task = models.ForeignKey(Task, null=True)

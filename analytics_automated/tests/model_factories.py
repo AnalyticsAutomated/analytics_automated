@@ -13,6 +13,8 @@ from analytics_automated.models import Backend, Task, Job, Step, Batch
 from analytics_automated.models import Submission, ValidatorTypes
 from analytics_automated.models import Parameter, Result
 from analytics_automated.models import Validator, Environment, QueueType
+from analytics_automated.models import Configuration
+
 
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")
@@ -59,6 +61,17 @@ class TaskFactory(factory.DjangoModelFactory):
     class Meta:
         model = Task
         django_get_or_create = ('name',)
+
+
+class ConfigurationFactory(factory.DjangoModelFactory):
+    task = factory.SubFactory(TaskFactory)
+    type = random.randint(0, 2)
+    name = factory.LazyAttribute(lambda t: random_string())
+    parameters = factory.LazyAttribute(lambda t: random_string())
+    version = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = Configuration
 
 
 class JobFactory(factory.DjangoModelFactory):

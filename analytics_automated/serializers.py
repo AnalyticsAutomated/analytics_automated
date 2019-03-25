@@ -3,6 +3,38 @@ from rest_framework import serializers
 from .models import *
 
 
+class ConfigurationSerializer(serializers.ModelSerializer):
+    type = serializers.CharField(source='returnType')
+
+    class Meta:
+        model = Configuration
+        fields = ('type', 'name', 'parameters', 'version')
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    configuration = ConfigurationSerializer(many=True, allow_null=True)
+
+    class Meta:
+        model = Task
+        fields = ('configuration', )
+
+
+class StepSerializer(serializers.ModelSerializer):
+    task = TaskSerializer()
+
+    class Meta:
+        model = Step
+        fields = ('task', 'ordering')
+
+
+class JobDetailSerializer(serializers.ModelSerializer):
+    steps = StepSerializer(many=True, allow_null=True)
+
+    class Meta:
+        model = Job
+        fields = ('name', 'steps')
+
+
 class ResultSerializer (serializers.ModelSerializer):
     data_path = serializers.SerializerMethodField()
 

@@ -4,8 +4,13 @@ from django.core.urlresolvers import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission, BackendUser, Message, Environment, QueueType
-from .models import Batch
+from .models import Batch, Configuration
 from .forms import *
+
+
+class ConfigurationInline(admin.TabularInline):
+    model = Configuration
+    extra = 2
 
 
 class ParameterInline(admin.TabularInline):
@@ -88,7 +93,7 @@ class TaskAdmin(admin.ModelAdmin):
                                                   'custom_exit_status',
                                                   'custom_exit_behaviour', ]}),
     ]
-    inlines = [ParameterInline, EnvironmentInline]
+    inlines = [ParameterInline, EnvironmentInline, ConfigurationInline]
     list_display = ('name', 'processing_backend', 'in_glob', 'out_glob',
                     'executable_string')
 
