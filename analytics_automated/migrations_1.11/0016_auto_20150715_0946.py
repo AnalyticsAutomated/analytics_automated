@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='validator',
             name='job',
-            field=models.ForeignKey(related_name='validators', to='analytics_automated.Job'),
+            field=models.ForeignKey(related_name='validators', on_delete=models.CASCADE, to='analytics_automated.Job'),
         ),
         migrations.AlterField(
             model_name='validator',

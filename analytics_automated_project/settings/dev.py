@@ -33,7 +33,7 @@ INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 DEBUG_TOOLBAR_CONFIG = {
     'JQUERY_URL': "/static/js/jquery.min.js",
 }
-MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 # TODO: Change this for staging and production
 MEDIA_URL = '/submissions/'

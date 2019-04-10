@@ -32,6 +32,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='message',
             name='submission',
-            field=models.ForeignKey(to='analytics_automated.Submission'),
+            field=models.ForeignKey(to='analytics_automated.Submission', on_delete=models.CASCADE),
         ),
     ]

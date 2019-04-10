@@ -17,12 +17,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('validation_type', models.IntegerField(choices=[(0, 'Regular Expression'), (1, 'Image'), (2, 'MP3')], default=0)),
                 ('re_string', models.CharField(max_length=512, blank=True, null=True)),
-                ('job', models.ForeignKey(to='analytics_automated.Job')),
+                ('job', models.ForeignKey(to='analytics_automated.Job', on_delete=models.CASCADE)),
             ],
         ),
         migrations.AlterField(
             model_name='parameter',
             name='task',
-            field=models.ForeignKey(to='analytics_automated.Task', related_name='parameters'),
+            field=models.ForeignKey(to='analytics_automated.Task', related_name='parameters', on_delete=models.CASCADE),
         ),
     ]

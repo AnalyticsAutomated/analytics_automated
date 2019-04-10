@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='step',
             name='task',
-            field=models.ForeignKey(to='analytics_automated.Task'),
+            field=models.ForeignKey(to='analytics_automated.Task',
+                                    on_delete=models.CASCADE),
         ),
     ]

@@ -1,6 +1,6 @@
 import re
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission, BackendUser, Message, Environment, QueueType

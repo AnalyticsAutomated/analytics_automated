@@ -122,8 +122,10 @@ class Validator(models.Model):
             raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
                                   value))
 
-    job = models.ForeignKey(Job, related_name="validators")
-    validation_type = models.ForeignKey(ValidatorTypes, )
+    job = models.ForeignKey(Job, related_name="validators",
+                            on_delete=models.CASCADE)
+    validation_type = models.ForeignKey(ValidatorTypes,
+                                        on_delete=models.CASCADE)
 
     def __str__(self):
         return self.validation_type.name
@@ -172,7 +174,8 @@ class Configuration(models.Model):
         (DATASET, "Dataset"),
         (MISC, "Misc."),
     }
-    task = models.ForeignKey(Task, null=False, related_name="configuration")
+    task = models.ForeignKey(Task, null=False, related_name="configuration",
+                             on_delete=models.CASCADE)
     type = models.IntegerField(null=True, blank=True,
                                choices=CONFIGURATION_CHOICES,
                                default=SOFTWARE)
@@ -186,8 +189,10 @@ class Configuration(models.Model):
 
 
 class Step(models.Model):
-    job = models.ForeignKey(Job, related_name='steps')
-    task = models.ForeignKey(Task, null=True)
+    job = models.ForeignKey(Job, related_name='steps',
+                            on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, null=True,
+                             on_delete=models.CASCADE)
     ordering = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
@@ -198,7 +203,8 @@ class Step(models.Model):
 
 
 class Environment(models.Model):
-    task = models.ForeignKey(Task, related_name='environment')
+    task = models.ForeignKey(Task, related_name='environment',
+                             on_delete=models.CASCADE)
     env = models.CharField(max_length=129, null=True, blank=False)
     value = models.CharField(max_length=2048, null=True, blank=False)
 
@@ -207,7 +213,8 @@ class Environment(models.Model):
 
 
 class Parameter(models.Model):
-    task = models.ForeignKey(Task, related_name='parameters')
+    task = models.ForeignKey(Task, related_name='parameters',
+                             on_delete=models.CASCADE)
     flag = models.CharField(max_length=64, null=False, blank=False)
     default = models.CharField(max_length=64, null=True, blank=False)
     bool_valued = models.BooleanField(default=False, blank=False)
@@ -281,7 +288,7 @@ class Submission(TimeStampedModel):
         (HIGH, "High"),
     )
 
-    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True,)
     submission_name = models.CharField(max_length=64, null=False, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
                             db_index=True)
@@ -301,7 +308,8 @@ class Submission(TimeStampedModel):
     hostname = models.CharField(max_length=256, blank=True, null=True,
                                 default=None)
     step_id = models.IntegerField(null=True, blank=False)
-    batch = models.ForeignKey(Batch, null=True, related_name='submissions')
+    batch = models.ForeignKey(Batch, null=True, related_name='submissions',
+                              on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
@@ -330,7 +338,8 @@ class Submission(TimeStampedModel):
 
 # Store results data
 class Result(TimeStampedModel):
-    submission = models.ForeignKey(Submission, related_name='results')
+    submission = models.ForeignKey(Submission, related_name='results',
+                                   on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
     step = models.IntegerField(null=False, blank=False)
     previous_step = models.IntegerField(null=True, blank=False)
@@ -345,7 +354,8 @@ class Result(TimeStampedModel):
 
 # keep a timestamped history of all the messages sent for this jobs
 class Message(TimeStampedModel):
-    submission = models.ForeignKey(Submission, related_name='messages')
+    submission = models.ForeignKey(Submission, related_name='messages',
+                                   on_delete=models.CASCADE)
     step_id = models.IntegerField(null=True, blank=False)
     message = models.CharField(max_length=2046, null=True, blank=True,
                                default="Submitted")
