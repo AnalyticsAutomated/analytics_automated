@@ -1,6 +1,7 @@
 import re
 from django.contrib import admin
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from .models import Backend, Job, Task, Step, Parameter, Result, Validator
 from .models import Submission, BackendUser, Message, Environment, QueueType
@@ -67,6 +68,7 @@ class BackendAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
+    @mark_safe
     def processing_backend(self, obj):
         if obj.backend:
             url = reverse('admin:analytics_automated_backend_change',
@@ -83,7 +85,6 @@ class TaskAdmin(admin.ModelAdmin):
         return(obj.executable)
 
     form = TaskForm
-    processing_backend.allow_tags = True
 
     fieldsets = [
         (None,               {'fields': ['name']}),
@@ -112,6 +113,7 @@ class JobAdmin(admin.ModelAdmin):
         j = Job.objects.get(pk=obj.pk)
         return '%d' % j.steps.count()
 
+    @mark_safe
     def task_list(self, obj):
         j = Job.objects.get(pk=obj.pk)
         task_list = "No Tasks for job"
@@ -131,10 +133,7 @@ class JobAdmin(admin.ModelAdmin):
 
         task_list = task_list.rstrip(' ->')
         task_list = task_list.rstrip(' +')
-
         return task_list
-
-    task_list.allow_tags = True
 
 
 class SubmissionAdmin(admin.ModelAdmin):
@@ -148,6 +147,7 @@ class SubmissionAdmin(admin.ModelAdmin):
                     'hostname',
                     'last_message', 'step_id', 'created', 'modified')
 
+    @mark_safe
     def link_to_Batch(self, obj):
         if obj.batch:
             link = reverse("admin:analytics_automated_batch_change",
@@ -156,6 +156,7 @@ class SubmissionAdmin(admin.ModelAdmin):
         else:
             return("No batch?")
 
+    @mark_safe
     def link_to_Job(self, obj):
         if obj.job:
             link = reverse("admin:analytics_automated_job_change",
@@ -164,25 +165,22 @@ class SubmissionAdmin(admin.ModelAdmin):
         else:
             return 'Job does not exist'
 
-    link_to_Job.allow_tags = True
-    link_to_Batch.allow_tags = True
-
 
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('pk', 'submission_uuid', 'step_id', 'message')
 
+    @mark_safe
     def submission_uuid(self, obj):
         url = reverse('admin:analytics_automated_submission_change',
                       args=(obj.submission.pk,))
         return '<a href="%s">%s</a>' % (url, obj.submission.UUID)
-
-    submission_uuid.allow_tags = True
 
 
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('pk', 'link_to_Task', 'step', 'message', 'submission_name',
                     'submission_uuid', 'created')
 
+    @mark_safe
     def link_to_Task(self, obj):
         if obj.task:
             link = reverse("admin:analytics_automated_task_change",
@@ -191,23 +189,22 @@ class ResultAdmin(admin.ModelAdmin):
         else:
             return u'Task no longer exists'
 
+    @mark_safe
     def submission_name(self, obj):
         url = reverse('admin:analytics_automated_submission_change',
                       args=(obj.submission.pk,))
         return '<a href="%s">%s</a>' % (url, obj.submission.submission_name)
 
+    @mark_safe
     def submission_uuid(self, obj):
         url = reverse('admin:analytics_automated_submission_change',
                       args=(obj.submission.pk,))
         return '<a href="%s">%s</a>' % (url, obj.submission.UUID)
 
-    submission_name.allow_tags = True
-    submission_uuid.allow_tags = True
-    link_to_Task.allow_tags = True
-
 
 class BatchAdmin(admin.ModelAdmin):
     list_display = ('pk', 'UUID', 'status')
+
 
 # Register your models here.
 admin.site.register(Batch, BatchAdmin)
