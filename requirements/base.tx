@@ -7,7 +7,7 @@ bugsnag==2.3.1
 celery==4.2.1
 certifi==2019.3.9
 chardet==3.0.4
-commandRunner==0.8.6
+commandRunner==0.8.12
 coverage==3.7.1
 defusedxml==0.4.1
 Django==2.2

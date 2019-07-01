@@ -54,22 +54,24 @@ def add(x, y):
 # db
 def get_data(s, uuid, current_step, in_globs):
     data_dict = {}
-    data = ''
+    data = None
     previous_step = None
     # found_set = set()
     # if this is the first task in a chain get the input_data from submission
     # if this is not the first task get the input_data from the results
     if current_step == 1:
-        s.input_data.open(mode='r')
-        # TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
-        for line in s.input_data:
-            try:  # depending on the version of django data might reach here
-                    # as either a byte str or a regular str. if we were being
-                    # super defensive we should check line is a str
-
-                data += line.decode(encoding='UTF-8')
-            except AttributeError:
-                data += line
+        s.input_data.open(mode='rb')
+        content = s.input_data.read()
+        try:  # depending on the version of django data might reach here
+                # as either a byte str or a regular str. if we were being
+                # super defensive we should check line is a str
+            data = content.decode(encoding='UTF-8')
+        except AttributeError:
+            data = content
+        except UnicodeDecodeError:
+            data = content
+        except TypeError:
+            data = content
         s.input_data.close()
         local_glob = in_globs[0].lstrip(".")
         data_dict[uuid+"."+local_glob] = data
@@ -84,16 +86,20 @@ def get_data(s, uuid, current_step, in_globs):
                 if glob in result.result_data.name:
                     # print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
                     # found_set.add(glob)
-                    result.result_data.open(mode='r')
+                    result.result_data.open(mode='rb')
+                    content = result.result_data.read()
                     # print("OPENED DATA FILE")
-                    data = ""
-                    for line in result.result_data:
-                        # print(line)
-                        try:  # depending on the version of django data might
-                                # reach here as either a byte str or a str
-                            data += line.decode(encoding='UTF-8')
-                        except AttributeError:
-                            data += line
+                    data = None
+                    # print(line)
+                    try:  # depending on the version of django data might
+                            # reach here as either a byte str or a str
+                        data = content.decode(encoding='UTF-8')
+                    except AttributeError:
+                        data = content
+                    except UnicodeDecodeError:
+                        data = content
+                    except TypeError:
+                        data = content
                     data_dict[result.result_data.name] = data
                     result.result_data.close()
                     # print("GOT FILE DATA")
