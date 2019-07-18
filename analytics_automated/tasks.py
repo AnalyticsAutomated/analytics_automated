@@ -94,7 +94,7 @@ def get_data(s, uuid, current_step, in_globs):
                     try:  # depending on the version of django data might
                             # reach here as either a byte str or a str
                         data = content.decode(encoding='UTF-8')
-                        data = data.rstrip("\n")
+                        # data = data.rstrip("\n")
                     except AttributeError:
                         data = content
                     except UnicodeDecodeError:
