@@ -12,6 +12,9 @@ logs/*
 .DS_Store
 dump.rdb
 *.rdb
+celery.pid
+celerybeat.pid
+celerybeat-schedule
 analytics_automated_project/settings/staging.py
 analytics_automated_project/settings/production.py
 analytics_automated_project/settings/staging_secrets.json
