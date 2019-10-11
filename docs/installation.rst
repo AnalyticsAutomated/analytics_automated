@@ -10,14 +10,22 @@ automated is a Django application and has a couple of required dependencies
 * postgreSQL
 * Redis
 * Celery 4.x
-* Django >1.10
+* Django >2.x
+
+Before you start We would advise you are at least a little comfortable with
+ postgres, Celery and Django to at least an introductory level
+
+* https://docs.djangoproject.com/en/2.2/intro/tutorial01/
+* https://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html
+* https://www.postgresql.org/docs/9.6/tutorial.html
 
 Code Dependancies
 -----------------
 
 1. Get Python 3
 ^^^^^^^^^^^^^^^
-You may also wish to sort out virtualenv and run the application within that, however that is beyond the scope of this installation guide
+You may also wish to sort out virtualenv and run the application within that,
+however that is beyond the scope of this installation guide
 
 ::
 
@@ -31,7 +39,7 @@ If you're on a mac we advise using brew
 
   brew install postgres
 
-If you're in a linux env some manner of
+If you're in a linux environment some description of:
 
 ::
 
@@ -42,6 +50,8 @@ or
 ::
 
   apt-get install postgres
+
+NOTE: You need at least POSTGRES 9.6 for th
 
 3. Install Redis
 ^^^^^^^^^^^^^^^^
@@ -84,7 +94,7 @@ You need to setup some bits and pieces in postgres before we start
 
 * Start the postgres daemon::
 
-    pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D scratch0/NOT_BACKED_UP/dbuchan/postgres/
+    pg_ctl start -l [SOME_PATH]/logfile -D [SOME_PATH]
 
 * Then login::
 
@@ -101,22 +111,17 @@ You need to setup some bits and pieces in postgres before we start
 
 2. Now configure Django
 ^^^^^^^^^^^^^^^^^^^^^^^
-We maintain the idea of separate secrets files which only you have control of. You need to create these and populate them.
-base_secrets.json are site wide settings which dev and production will use.
-dev_secrets.json are settings which only the dev installation will will access.
-A production system will need a production_secrets.json
+We maintain the idea of separate secrets files which only you have control of.
+You need to create these and populate them. base_secrets.json are site wide
+settings which dev and production will use. dev_secrets.json are settings
+which only the dev installation will will access. A production system will
+need a production_secrets.json
 
 * Create the files we need::
 
     cd analytics_automated_project/settings
-    touch base_secrets.json`
-    touch dev_secrets.json`
-
-* If you're using bugsnag add your bugsnag key to base_secrets.json::
-
-    {
-      "BUGSNAG": "YOUR KEY HERE"
-    }
+    touch base_secrets.json
+    touch dev_secrets.json
 
 * Add the dev_secrets.json settings needed to start in developments mode. The postgres login credentials and the secret key::
 
@@ -129,11 +134,11 @@ A production system will need a production_secrets.json
 * Next open the base settings files in `analytics_automated_project/settings/base.py`
   In here you'll find a section at the top labelled "Required A_A user settings".
   These are all the things you need set for the app to run. We prefer to keep
-  theses settings in dev.py and production.py files. Then we can start the server
-  in different configs for different purposes.
-  Either uncomment all these in base.py or move them to dev.py or production.py and
-  set them there. You can leave the smtp settings commented if you do not wish to
-  send alerts via email to your users.
+  these settings in dev.py and production.py files. Then we can start the server
+  in different configs for different purposes  Either uncomment all these in
+  base.py or move them to dev.py or production.py and set them there. You can
+  leave the smtp settings commented if you do not wish to send alerts via
+  email to your users.
 
 3. Starting A_A in development localhost mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -146,13 +151,12 @@ A production system will need a production_secrets.json
   these workers just watch all the default queues, note that the
   workers are watching the low priority, normal priority and high priority.
   In a more complex set up you can have different worker pools on different
-  machines watch specific queues.
-  localhost queues::
+  machines watch specific queues and priority queues::
 
     cd analytics_automated/
-    celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_GridEngine,GridEngine,high_GridEngine,low_R,R,high_R,low_Python,Python,high_Python
+    celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python
 
-* Run the Django migrations to configure the database::
+* Run the Django migrations to configure the database, We use the dev.py::
 
     cd analytics_automated/
     python manage.py migrate --settings=analytics_automated_project.settings.dev
@@ -172,8 +176,10 @@ A production system will need a production_secrets.json
   We also provide some scripts for bash and OSX in the utilities/ directory
   which will start all the components on one machine.
 
-* Scheduled tasks. If you are going to user celery-beat then you may want to add a
-  queue name for scheduled tasks to the workers and starting the beat service.
+* Scheduled tasks. If you are going to user celery-beat then you should add a
+  listening queue name to the celery worker queue list above for scheduled
+  tasks to the workers and starting the beat service. This is covered in advanced
+  portion of the docs.
 
 4. Config complete
 ^^^^^^^^^^^^^^^^^^
