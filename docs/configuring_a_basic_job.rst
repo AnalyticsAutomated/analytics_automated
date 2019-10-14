@@ -28,7 +28,11 @@ on. R and Python will run chunks of code in those languages directly.
 You can define new queue types and set their execution behaviour. If you
 do this you must restart the Celery workers with that queue type. You may also
 need to set the LOW and HIGH version of these queue types if you're managing
-user load.
+user load. See section 3 of the Installation instructions for the command for
+starting the celery queue.
+
+.. image:: queue_type_example.png
+
 
 Task
 ^^^^
@@ -64,7 +68,14 @@ If your backend is a Python or R type you can expand the text area and write
 or paste R or Python code.
 
 We are leaving the Job Termination, parameter and environment options blank
-in this simple example.
+in this simple example. These can be adjusted to add commandline parameters or
+environment variables a task needs to be set to execute. Parameter settings are not used
+by tasks which run R or Python code. Job Termination option allow you to
+control whether a failed task should end the job and whether or not the
+user should be sent a 'failure email'. At the bottom of the page you can also
+record any executable version or database version information for each task.
+This information will also be be made available to the user in their job
+results. See the 'Advanced' section of the docs for further details.
 
 Click save to make this task available
 

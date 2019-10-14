@@ -3,7 +3,7 @@ Development Installation
 
 **WARNING THIS DOC GOES OUT OF DATE QUICKLY INFO MAY NOT BE CURRENT**
 j
-Analytics Automated (A_A) is a lightweight framework for automating long running
+Analytics Automated (A_A) is a framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
 
 Today it is trivially easy for Scientists, Researchers, Data Scientists and
@@ -59,6 +59,8 @@ development environments.
 
 Setup for a Mac which you control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that installation now requires postgres 9.6+ for Django 2+
 
 1. Install latest python3.x
 2. Install git
@@ -162,8 +164,11 @@ Setup for a Mac which you control
 
     > python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated
 
-Setup for a linux machine on our network
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Setup for a linux machine Centos
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is Centos centric but should be easy to reconfigure for other linux distros. Note that installation
+now requires postgres 9.6+ for Django 2+
 
 1. Set yourself up so you're using bash rather than csh, this will make virtualenv much easier to deal with
 2. Get your own python3, somewhere local rather than on the network::

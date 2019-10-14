@@ -4,7 +4,9 @@ Basic Installation
 ==================
 
 This guide will take you through setting up A_A in development mode. Analytics
-automated is a Django application and has a couple of required dependencies
+automated is a Django application and has a couple of required dependencies.
+You may wish to check the Development Installation instructions which may
+provide more clarifying details if needed.
 
 * Python3
 * postgreSQL
