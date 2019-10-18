@@ -1,7 +1,7 @@
 .. _complex_job:
 
-Configuring And Using A Basic Job
-=================================
+Configuring A More Complex Job
+==============================
 
 Below we include screenshots of a more complex job configuration. There are
 some notes we hope will help you understand a more complex configuration
