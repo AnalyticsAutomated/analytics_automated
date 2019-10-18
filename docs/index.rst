@@ -21,6 +21,7 @@ jobs in to web services
     the_Job_UI
     configuring_a_basic_job
     using_a_basic_job
+    complex_job
     job_admin
     recipes
     advanced
