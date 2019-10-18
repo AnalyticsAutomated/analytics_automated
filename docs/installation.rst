@@ -195,23 +195,24 @@ need a production_secrets.json
   machines watch specific queues and priority queues::
 
     cd analytics_automated/
+    mkdir logs
     celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python
 
 * Run the Django migrations to configure the database, We use the dev.py::
 
     cd analytics_automated/
-    python manage.py migrate --settings=analytics_automated_project.settings.dev
+    python manage.py migrate --settings=analytics_automated_project.settings.base
 
 * Add an admin user to the Django application::
 
     cd analytics_automated/
-    python manage.py createsuperuser
+    python manage.py createsuperuser --settings=analytics_automated_project.settings.base
 
 * Now start A_A, again from the root dir of the app. Note we'll start it assuming
   you put the users settings in settings/dev.py::
 
     cd analytics_automated/
-    python manage.py runserver --settings=analytics_automated_project.settings.dev
+    python manage.py runserver --settings=analytics_automated_project.settings.base
 
 * ALTERNATIVELY
   We also provide some scripts for bash and OSX in the utilities/ directory
@@ -224,12 +225,34 @@ need a production_secrets.json
 
 4. Config complete
 ^^^^^^^^^^^^^^^^^^
-   You should now be running all the components of A_A on a single machine with
-   a set of workers watching the localhost queue. This means we can now configure
-   data analysis pipelines which run code on the machine which the workers are running on.
-   This is the most basic setup we can run Redis, the web app, the database and the workers
-   on completely separate machines and even run multiple instances of the workers watching
-   the same queue. We'll deal with this set in the :ref:`advanced_uses` tutorial.
+You should now be running all the components of A_A on a single machine with
+a set of workers watching the localhost queue. This means we can now configure
+data analysis pipelines which run code on the machine which the workers are running on.
+This is the most basic setup we can run Redis, the web app, the database and the workers
+on completely separate machines and even run multiple instances of the workers watching
+the same queue. We'll deal with this set in the :ref:`advanced_uses` tutorial.
 
-5. Now move on to :ref:`how_it_works`
+5. Production install notes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Deploying this system in production is somewhat out of scope for these documents.
+
+Django can be installed to be server with either nginx or less commonly Apache.
+And there are clear guides available on the internet
+
+    https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
+    https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/modwsgi/
+
+Celery workers can be daemonised with the --detach option. And Celery as a whole
+can be finely tuned for the workloads you have and balanced across many machines.
+Again Celery admin is a large topic which is somewhat out of scope for these docs.
+
+    https://docs.celeryproject.org/en/latest/reference/celery.bin.worker.html
+
+We would encourage interested users to become more familiar with good practice
+in Django admin and development before using this system in production. We
+recommned the book Two Scoops of Django.
+
+
+6. Now move on to :ref:`how_it_works`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
