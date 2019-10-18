@@ -133,6 +133,10 @@ need a production_secrets.json
       "SECRET_KEY": "VERY LONG KEY HERE"
     }
 
+* To the base_secrets.json add the following
+
+    {}
+
 * Next open the base settings files in `analytics_automated_project/settings/base.py`
   In here you'll find a section at the top labelled "Required A_A user settings".
   These are all the things you need set for the app to run. We prefer to keep
@@ -140,7 +144,42 @@ need a production_secrets.json
   in different configs for different purposes  Either uncomment all these in
   base.py or move them to dev.py or production.py and set them there. You can
   leave the smtp settings commented if you do not wish to send alerts via
-  email to your users.
+  email to your users. At a minimum you must uncomment the following sections:
+
+    DATABASES = {}
+    SECRET_KEY
+    DEBUG
+    CORS_ORIGIN_WHITELIST = {}
+    MEDIA_URL
+    MEDIA_ROOT
+    STATIC_ROOT
+    STATIC_URL
+
+* The DATABASE = {} contents should read
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'analytics_automated_db',
+            'USER': get_secret("USER", secrets),
+            'PASSWORD': get_secret("PASSWORD", secrets),
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
+
+* If you wish to use Django debug toolbar, move these lines to the main MIDDLEWARE_CLASSES={} declaration
+
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'JQUERY_URL': "/static/js/jquery.min.js",
+    }
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
+
+
 
 3. Starting A_A in development localhost mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
