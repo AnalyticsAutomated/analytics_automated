@@ -30,7 +30,7 @@ dr-dump==0.2.5
 drmaa==0.7.6
 factory-boy==2.8.1
 Faker==0.7.7
-flower==0.9.1
+flower==0.9.2
 idna==2.8
 Jinja2==2.7.3
 kombu==4.3.0
