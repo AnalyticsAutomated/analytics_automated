@@ -208,7 +208,7 @@ now requires postgres 9.6+ for Django 2+
 
   or::
 
-    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D /scratch0/NOT_BACKED_UP/dbuchan/postgres/
+    > pg_ctl start -l /scratch/postgres_databases/logfile -D /scratch/postgres_databases
 
   You can now log in with::
 
@@ -265,6 +265,8 @@ now requires postgres 9.6+ for Django 2+
 
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project::
 
+    > mkdir logs
+    > touch logs/debug.log
     > python manage.py migrate --settings=analytics_automated_project.settings.dev
 
 19. Start the server by defining the settings you are using::

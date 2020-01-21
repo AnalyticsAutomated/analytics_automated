@@ -148,9 +148,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_celery_beat',
     'analytics_automated',
-    'rest_framework',
     'corsheaders',
     'smuggler',
+    'rest_framework',
 )
 
 REST_FRAMEWORK = {
