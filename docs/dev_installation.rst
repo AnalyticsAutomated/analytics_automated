@@ -267,7 +267,7 @@ now requires postgres 9.6+ for Django 2+
 
     > mkdir logs
     > touch logs/debug.log
-    > python manage.py createsuperuser
+    > python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
     > python manage.py migrate --settings=analytics_automated_project.settings.dev
 
 19. Start the server by defining the settings you are using::
