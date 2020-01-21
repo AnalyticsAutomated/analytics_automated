@@ -242,8 +242,8 @@ now requires postgres 9.6+ for Django 2+
 15. add some configuration bits which are omitted from github::
 
     > cd analytics_automated_project/settings/
-    > touch base_secrets.json`
-    > touch dev_secrets.json`
+    > touch base_secrets.json
+    > touch dev_secrets.json
 
 16. Add the BUGSNAG key to base_secrets.json as per
 
