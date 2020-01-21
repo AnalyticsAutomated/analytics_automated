@@ -1,0 +1,3 @@
+history | grep psql
+psql 
+psql postgres
