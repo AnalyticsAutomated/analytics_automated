@@ -46,6 +46,9 @@ with open(os.path.join(BASE_SECRETS_PATH)) as f: \
 # Required A_A user settings #
 ##############################
 
+# YOU CAN SET THESE HERE OR SEND THEM TO A DEV, STAGING OR PRODUCTION SETTINGS
+# FILE. EXAMPLES IN THIS DIRECTORY
+
 DEFAULT_JOB_PRIORITY = 1
 LOGGED_IN_JOB_PRIORITY = 2
 QUEUE_HOG_SIZE = 10
@@ -65,7 +68,7 @@ EMAIL_DELETE_AFTER_USE = True
 # Celery Settings
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_TIMEZONE = 'Europe/London'
+CELERY_TIMEZONE = 'Europe/London'
 # CELERY_ACCEPT_CONTENT = ['json']
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
@@ -82,8 +85,8 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # worker_max_tasks_per_child = 30
 # worker_prefetch_multiplier = 1
 
-MEDIA_URL = '/submissions/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
+# MEDIA_URL = '/submissions/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 # DATABASES = {
 #     'default': {
 #         'ENGINE': '',
@@ -96,6 +99,33 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions')
 # }
 #
 # SECRET_KEY = ''
+# DEBUG = True
+#
+# CORS_ORIGIN_WHITELIST = (
+#         '127.0.0.1:4000',
+#         '127.0.0.1:8000',
+#     )
+#
+# DEBUG_TOOLBAR_CONFIG = {
+#     'JQUERY_URL': "/static/js/jquery.min.js",
+# }
+# MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+#
+# # TODO: Change this for staging and production
+# MEDIA_URL = '/submissions/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions/')
+# STATIC_URL = '/static/'
+# Change the test runner
+# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+# ADMIN_EMAIL = "daniel.buchan@ucl.ac.uk"
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.cs.ucl.ac.uk'
+# EMAIL_PORT = '25'
+# # EMAIL_HOST_USER = 'psipred@cs.ucl.ac.uk'
+# EMAIL_HOST_PASSWORD = ''
+# DEFAULT_FROM_EMAIL = 'psipred@cs.ucl.ac.uk'
+
 
 ########################
 # End of User settings #
@@ -116,35 +146,35 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_celery_beat',
-    # 'djcelery',
+    'django_celery_beat',
     'analytics_automated',
-    'rest_framework',
     'corsheaders',
     'smuggler',
+    'rest_framework',
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.BrowsableAPIRenderer',
                                  'rest_framework.renderers.JSONRenderer',
-                                 'rest_framework_xml.renderers.XMLRenderer',
+                                 # 'rest_framework_xml.renderers.XMLRenderer',
                                  ),
     'DEFAULT_PARSER_CLASSES': ('rest_framework.parsers.FormParser',
                                'rest_framework.parsers.MultiPartParser',
                                'rest_framework.parsers.JSONParser',
-                               'rest_framework_xml.parsers.XMLParser',
+                               # 'rest_framework_xml.parsers.XMLParser',
                                ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

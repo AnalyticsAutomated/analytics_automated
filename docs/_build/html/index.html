@@ -44,7 +44,9 @@ of data processing tasks which users can call as webservices. It is targeted
 principally at running statistical and mathematical models for the purposes of
 Data Science. You can however use it to convert any code in to a web service.</p>
 <p>Another way to look at it is that it turns your data analysis pipelines in to
-RESTful web services for the purposes making your models part of your SOA</p>
+RESTful web services for the purposes making your models part of your SOA.</p>
+<p>And yet another way to look at this is a method for converting Python-Celery
+jobs in to web services</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Basic Installation</a><ul>
@@ -58,16 +60,45 @@ RESTful web services for the purposes making your models part of your SOA</p>
 <li class="toctree-l2"><a class="reference internal" href="how_it_works.html#data-submission-overview">Data Submission Overview</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="the_UI.html">Building Jobs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="the_UI.html#define-backend">Define Backend</a></li>
-<li class="toctree-l2"><a class="reference internal" href="the_UI.html#define-a-task">Define a Task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="the_UI.html#define-a-job">Define a Job</a></li>
-<li class="toctree-l2"><a class="reference internal" href="the_UI.html#using-your-job">Using Your Job</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_Job_UI.html">Building Jobs Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_Job_UI.html#define-a-backend">Define a Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_Job_UI.html#defining-a-task">Defining a Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_Job_UI.html#define-a-job">Define a Job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_Job_UI.html#using-your-job">Using Your Job</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="configuring_a_basic_task.html">Recipes for Configuring Basic Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring_a_basic_job.html">Configuring A Basic Job</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuring_a_basic_job.html#backend">Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuring_a_basic_job.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuring_a_basic_job.html#job">Job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuring_a_basic_job.html#endpoints">Endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using_a_basic_job.html">Using A Basic Job</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using_a_basic_job.html#endpoints">Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_a_basic_job.html#post">POST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_a_basic_job.html#get">GET</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="job_admin.html">Administration Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="job_admin.html#backends-tasks-jobs">Backends &amp; Tasks &amp; Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="job_admin.html#submissions">Submissions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="job_admin.html#worker-admin">Worker Admin</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="recipes.html">Recipes for more advanced use-cases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Uses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Uses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#system-details">System details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#new-validators">New validators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#programmatic-admin">Programmatic Admin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#yaml-upload-and-download">Yaml upload and download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#adding-new-celery-queues">Adding new celery queues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#authentication-and-queue-management">Authentication and queue management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#code-tasks">Code tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="periodic_tasks.html">Periodic Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_settings.html">Configurations Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_installation.html">Development Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dev_installation.html#how-it-works">How it works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev_installation.html#requirements">Requirements</a></li>

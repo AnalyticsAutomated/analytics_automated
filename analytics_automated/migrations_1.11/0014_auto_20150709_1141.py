@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='result',
             name='submission',
-            field=models.ForeignKey(related_name='results', to='analytics_automated.Submission'),
+            field=models.ForeignKey(related_name='results', to='analytics_automated.Submission', on_delete=models.CASCADE),
         ),
     ]

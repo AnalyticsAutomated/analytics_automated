@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Administration Overview &mdash; analytics_automated 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
+    <link rel="next" title="Recipes for more advanced use-cases" href="recipes.html" />
+    <link rel="prev" title="Using A Basic Job" href="using_a_basic_job.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="administration-overview">
+<span id="job-admin"></span><h1>Administration Overview<a class="headerlink" href="#administration-overview" title="Permalink to this headline">¶</a></h1>
+<p>As users submit jobs the system keeps track of their progress, any files &amp;
+data produced and the current runtime state of the job. There are a number of
+pages where you can keep track of this data.</p>
+<div class="section" id="backends-tasks-jobs">
+<h2>Backends &amp; Tasks &amp; Jobs<a class="headerlink" href="#backends-tasks-jobs" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>http://127.0.0.1:8000/admin/analytics_automated/backend/
+http://127.0.0.1:8000/admin/analytics_automated/task/
+http://127.0.0.1:8000/admin/analytics_automated/job/
+</pre></div>
+</div>
+<p>These pages allow you to survey exiting backends, tasks and jobs you may have
+previously configured. You can also delete and add new entries to these using their admin pages.</p>
+<p>See configuring_a_basic_job for how to configure these</p>
+</div>
+<div class="section" id="submissions">
+<h2>Submissions<a class="headerlink" href="#submissions" title="Permalink to this headline">¶</a></h2>
+<p>Probably the most important admin page is the submissions page, <a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/submission/">http://127.0.0.1:8000/admin/analytics_automated/submission/</a>.
+This page keeps a track of all the job requests sent by users, from here you can
+also delete submissions and monitor their progress. You can click &#8216;Pk&#8217; to see
+a full summary of the jobs including all data files produced and all the messages
+sent by the workers about the job progress. On the Summary page the most important fields are &#8216;last message&#8217; and &#8216;Status&#8217; theses indicate how the job is progressing. Workers output messages and statuses as the complete or fail tasks
+and the &#8216;Last message&#8217; shows you the most recent Human readable message about the
+job progress. There are 5 statuses</p>
+<ol class="arabic simple">
+<li>SUBMITTED: a job has been submitted by a user but a worker has yet to claimed it</li>
+<li>RUNNING: job submitted and worker has claimed it</li>
+<li>COMPLETE: All tasks in the job have been completed and results available</li>
+<li>ERROR: A task has caught an exception, failed, the job has stopped</li>
+<li>CRASH: A more critical, uncaught error has happened with the job</li>
+</ol>
+<img alt="_images/submission_example.png" src="_images/submission_example.png" />
+<p>For now deleting a submission does not halt the job.</p>
+</div>
+<div class="section" id="worker-admin">
+<h2>Worker Admin<a class="headerlink" href="#worker-admin" title="Permalink to this headline">¶</a></h2>
+<p>The submission Admin gives only an overview of the functioning of the celery workers.
+If you require a more fine grained view of their functioning and the ability to
+stop running jobs you should install Celery Flower on the machine running redis</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Administration Overview</a><ul>
+<li><a class="reference internal" href="#backends-tasks-jobs">Backends &amp; Tasks &amp; Jobs</a></li>
+<li><a class="reference internal" href="#submissions">Submissions</a></li>
+<li><a class="reference internal" href="#worker-admin">Worker Admin</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="using_a_basic_job.html" title="previous chapter">Using A Basic Job</a></li>
+      <li>Next: <a href="recipes.html" title="next chapter">Recipes for more advanced use-cases</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/job_admin.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Daniel Buchan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/job_admin.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

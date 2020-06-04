@@ -24,6 +24,10 @@ def jpeg(file_data):
         return False
 
 
+def none(data):
+    return True
+
+
 def pdb_file(file_data):
     string_data = file_data.decode("utf-8")
     pdb_pattern = re.compile("ATOM\s+\d+", re.IGNORECASE)
@@ -51,7 +55,7 @@ def __test_seq(seq):
     if nucleotideSum/len(seq) >= 0.95:
         return False  # false if it is probably nucleotide
 
-    char_check = re.compile(r'[^ACDEFGHIKLMNPQRSTVWYX_-]+', re.IGNORECASE)
+    char_check = re.compile(r'[^ACDEFGHIKLMNPQRSTVWYX-]+', re.IGNORECASE)
     if bool(re.search(char_check, seq)):
         return False  # false if non-amino acid characters are present
 

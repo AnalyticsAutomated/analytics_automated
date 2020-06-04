@@ -10,7 +10,7 @@ import pytz
 import django
 sys.path.append('./')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'analytics_automated_project.settings.staging')
+                      'analytics_automated_project.settings.production')
 django.setup()
 from analytics_automated.models import Backend, Job, Task, Step
 from analytics_automated.models import Parameter, Submission, Result
@@ -18,7 +18,14 @@ from analytics_automated.models import Validator, BackendUser, Message
 
 
 def delete_old_entries():
-    # all_objects = Submission.objects.all()
+    submission_objects = Submission.objects.filter(
+                         modified__lte=timezone.now() -
+                         timedelta(days=10)).update(email="ERASED")
+    submission_objects = Submission.objects.filter(
+                         modified__lte=timezone.now() -
+                         timedelta(days=2), status=Submission.RUNNING
+                         ).update(status=Submission.ERROR,
+                                  last_message="JOB TIMED OUT")
     old_objects = Message.objects.filter(
                           modified__lte=timezone.now() -
                           timedelta(days=10)).delete()

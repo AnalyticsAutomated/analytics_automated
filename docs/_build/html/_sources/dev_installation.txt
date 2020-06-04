@@ -1,8 +1,8 @@
 Development Installation
 ========================
 
-**WARNING THIS DOC GOES OUT OF DATA QUICKLY INFO MAY NOT BE CURRENT**
-
+**WARNING THIS DOC GOES OUT OF DATE QUICKLY INFO MAY NOT BE CURRENT**
+j
 Analytics Automated (A_A) is a lightweight framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
 
@@ -48,7 +48,6 @@ A_A has a number of requirements in order to run. You will need:
 
 * python3
 * postgres
-* rabbitmq
 * django
 * celery
 
@@ -63,9 +62,9 @@ Setup for a Mac which you control
 
 1. Install latest python3.x
 2. Install git
-3. Install RabbitMQ (configuring this may hose your postgres install on OSX, so install RabbitMQ before postgres)::
+3. Install Redis
 
-    http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#installing-rabbitmq-on-os-x
+   brew install redis
 
 4. Install postgres for your system, MacOSX version can be found at::
 
@@ -141,7 +140,7 @@ Setup for a Mac which you control
     "BUGSNAG": "YOUR KEY HERE"
   }
 
-16. Add the dev database and secret key to the dev_secrets.json as per
+15. Add the dev database and secret key to the dev_secrets.json as per
 
 .. code-block:: json
 
@@ -151,15 +150,15 @@ Setup for a Mac which you control
     "SECRET_KEY": "SOME ABSURDLY LONG RANDOM STRING"
   }
 
-17. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev) and create and admin user for the project.::
+16. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev) and create and admin user for the project.::
 
     > python manage.py migrate --settings=analytics_automated_project.settings.dev
 
-18. Start the server by defining the settings you are using::
+17. Start the server by defining the settings you are using::
 
     > python manage.py runserver --settings=analytics_automated_project.settings.dev
 
-19. Test the code also defining the settings you are using::
+18. Test the code also defining the settings you are using::
 
     > python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated
 
@@ -204,7 +203,7 @@ Setup for a linux machine on our network
 
   or::
 
-    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile
+    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D /scratch0/NOT_BACKED_UP/dbuchan/postgres/
 
   You can now log in with::
 
@@ -219,15 +218,9 @@ Setup for a linux machine on our network
     GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
     ALTER USER a_a_user CREATEDB;
 
-10. Install Erlang somewhere local (configure --prefix=[LOCAL DIR]). Don't forget to add this location to your PATH
+10. Install Redis
 
-    http://www.erlang.org/download.html
-
-    http://www.erlang.org/doc/installation_guide/INSTALL.htm
-
-11. Install RabbitMQ
-
-    https://www.rabbitmq.com/install-generic-unix.html
+    > yum install redis
 
 12. Check out analytics_automated from git::
 
@@ -273,15 +266,13 @@ Setup for a linux machine on our network
 
     > python manage.py runserver --settings=analytics_automated_project.settings.dev::
 
-20. Start RabbitMQ (making sure your path to erl is good)::
-
-    > rabbitmq-server start
-
-21. Get Celery going. You probably want to read something about celery and django http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/For dev purposes we can start the workers with::
+20. Get Celery going. You probably want to read something about celery and django http://michal.karzynski.pl/blog/2014/05/18/setting-up-an-asynchronous-task-queue-for-django-using-celery-redis/For dev purposes we can start the workers with::
 
     > export PYTHONPATH=~/Code/analytics_automated/analytics_automated:$PYTHONPATH
     > celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery
 
-21. Test the code also defining the settings you are using::
+21. Consider also pip installing flower whereever your redis install is
+
+22. Test the code also defining the settings you are using::
 
     > python manage.py test --settings=analytics_automated_project.settings.dev

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuring A Basic Job &mdash; analytics_automated 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="analytics_automated 1.0 documentation" href="index.html" />
+    <link rel="next" title="Using A Basic Job" href="using_a_basic_job.html" />
+    <link rel="prev" title="Building Jobs Overview" href="the_Job_UI.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuring-a-basic-job">
+<span id="id1"></span><h1>Configuring A Basic Job<a class="headerlink" href="#configuring-a-basic-job" title="Permalink to this headline">¶</a></h1>
+<p>Here we run through configuring a simple job assuming default queue and
+validator types. See the admin documentation to configure these.</p>
+<div class="section" id="backend">
+<h2>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h2>
+<p>First we use the Django Admin to navigate to the Backend admin page,
+<a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/backend/">http://127.0.0.1:8000/admin/analytics_automated/backend/</a>.
+Then selecting the &#8216;+ Add Backend&#8217; option we can configure a newtype of backend
+We&#8217;ll configure a new backend called &#8216;local1&#8217;, with a Queue Type
+of &#8216;localhost&#8217; and we leave the root path with the default called &#8216;/tmp/&#8217;.</p>
+<p>Hitting save makes this backend configuration available to tasks</p>
+<img alt="_images/backend_example.png" src="_images/backend_example.png" />
+<p>There are 4 queue types for different types of execution behaviour. Localhost
+will run a command as though you are running a binary from a <a href="#id2"><span class="problematic" id="id3">*</span></a>nix commandline.
+GridEngine will submit a command to a DRMAA compliant grid engine queue if
+you have installed and configured this on the machine the workers are running
+on. R and Python will run chunks of code in those languages directly.</p>
+<p>You can define new queue types and set their execution behaviour. If you
+do this you must restart the Celery workers with that queue type. You may also
+need to set the LOW and HIGH version of these queue types if you&#8217;re managing
+user load.</p>
+</div>
+<div class="section" id="task">
+<h2>Task<a class="headerlink" href="#task" title="Permalink to this headline">¶</a></h2>
+<p>With a backend configured we can configure some tasks. Navigate to the Task menu,
+<a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/task/">http://127.0.0.1:8000/admin/analytics_automated/task/</a>, and select the &#8216;+ Add Task&#8217; option.</p>
+<img alt="_images/task1_example.png" src="_images/task1_example.png" />
+<p>Our first task will run the unix command ls on the /tmp directory. We give it
+a name and a useful human readable description. With &#8216;In Glob&#8217;
+set to .input the data the user provided to the system will be available in a file
+ending with the suffix .input. &#8216;Out Glob&#8217; specifies the files of data that should
+be gathered up after the command runs and made available to the user. In this case
+the system will look for a file ending with .contents after the process runs.</p>
+<p>Setting the &#8216;Stdout glob&#8217; tells the system to redirect the command&#8217;s std out
+stream into a file ending with .contents. In this way the output of the command
+is sent to a file ending in .contents and we&#8217;ve told the task to gatther up
+such files to make them available to the user.</p>
+<p>If the backend is a GridEngine or localhost queue types then the executable
+string is the commandline process that will be executed by the
+task and sent to stdout. In this case a simple <cite>/bin/ls /tmp</cite> unix command.
+Stdout and the captured file will contain the contents of the /tmp directory</p>
+<p>If your backend is a Python or R type you can expand the text area and write
+or paste R or Python code.</p>
+<p>We are leaving the Job Termination, parameter and environment options blank
+in this simple example.</p>
+<p>Click save to make this task available</p>
+<img alt="_images/task2_example.png" src="_images/task2_example.png" />
+<p>The second task is a task that can consume the data generated by a previous task
+As before we give the task a simple name and a human readable descriptions.
+It defines it&#8217;s &#8216;In Glob&#8217; as a file ending with <cite>.contents</cite>. When this task
+runs it will search all previous tasks for output files which match this
+criteria and use those files as input. Once again &#8216;Out glob&#8217; defines the names
+of files to be captured so the user can access them and &#8216;Stdout glob&#8217; is the
+suffix to use to capture the stdout of our executable string.</p>
+<p>The executable string tells the task to run the unix wc command with the -l
+switch to count the lines in the files. The $I1 control sequence names a file,
+this refers to the 1st file in the &#8216;In glob&#8217; field. So in this instance
+we are asking the task to run wc -l on a file ending with .contents and then
+capture the output in a file ending .count. We would expect the .count file
+to now contain the number of lines in the .contents file.</p>
+<p>As before we are leaving the Job Termination, parameter and environment options blank
+in this simple example.</p>
+<p>If you return to the <a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/task/">http://127.0.0.1:8000/admin/analytics_automated/task/</a> you
+can now see a summary of the two tasks available in the system.</p>
+<img alt="_images/task_admin_example.png" src="_images/task_admin_example.png" />
+<p>One thing to note is that the &#8216;In Glob&#8217; setting will look for output files in
+all prior completed tasks, not just the immediate task</p>
+</div>
+<div class="section" id="job">
+<h2>Job<a class="headerlink" href="#job" title="Permalink to this headline">¶</a></h2>
+<p>Now navigate to the Job Admin page, <a class="reference external" href="http://127.0.0.1:8000/admin/analytics_automated/job/">http://127.0.0.1:8000/admin/analytics_automated/job/</a>,
+and select the &#8216;+ Add Job&#8217;. From here we can configure a job using the tasks that
+are available in the system.</p>
+<img alt="_images/job1_example.png" src="_images/job1_example.png" />
+<p>Here we&#8217;ve given the job the name tmp_count as we&#8217;re going to use the previous
+tasks to count the number of files present in the /tmp directory. We&#8217;ve selected
+the &#8216;Runnable&#8217; option. Jobs which are not Runnable will reject user submissions</p>
+<p>This job does not rely on user input data so the validator option is left blank.</p>
+<p>Under tasks we select the tasks we wish the job to run and use the ordering
+to give sequential integer values which define the ordering of the tasks.
+0 for our &#8216;ls /tmp &gt; .contents&#8217; task and 1 for the &#8216;wc -l .contents&#8217; task.</p>
+<p>Now you have configured you&#8217;re first simple job in the system. Clicking save
+will make this job live for users</p>
+</div>
+<div class="section" id="endpoints">
+<h2>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this headline">¶</a></h2>
+<p>You can now check <a class="reference external" href="http://127.0.0.1:8000/analytics_automated/endpoints/">http://127.0.0.1:8000/analytics_automated/endpoints/</a> to
+see what jobs and URLS and parameters are avaialble to users.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configuring A Basic Job</a><ul>
+<li><a class="reference internal" href="#backend">Backend</a></li>
+<li><a class="reference internal" href="#task">Task</a></li>
+<li><a class="reference internal" href="#job">Job</a></li>
+<li><a class="reference internal" href="#endpoints">Endpoints</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="the_Job_UI.html" title="previous chapter">Building Jobs Overview</a></li>
+      <li>Next: <a href="using_a_basic_job.html" title="next chapter">Using A Basic Job</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/configuring_a_basic_job.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Daniel Buchan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/configuring_a_basic_job.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -122,8 +122,10 @@ class Validator(models.Model):
             raise(ValidationError("REGULAR EXPRESSION IS NOT VALID: " +
                                   value))
 
-    job = models.ForeignKey(Job, related_name="validators")
-    validation_type = models.ForeignKey(ValidatorTypes, )
+    job = models.ForeignKey(Job, related_name="validators",
+                            on_delete=models.CASCADE)
+    validation_type = models.ForeignKey(ValidatorTypes,
+                                        on_delete=models.CASCADE)
 
     def __str__(self):
         return self.validation_type.name
@@ -162,9 +164,35 @@ class Task(models.Model):
 # missing
 
 
+#Attach to a task some config information if the user wants to add this
+class Configuration(models.Model):
+    SOFTWARE = 0
+    DATASET = 1
+    MISC = 2
+    CONFIGURATION_CHOICES = {
+        (SOFTWARE, "Software"),
+        (DATASET, "Dataset"),
+        (MISC, "Misc."),
+    }
+    task = models.ForeignKey(Task, null=False, related_name="configuration",
+                             on_delete=models.CASCADE)
+    type = models.IntegerField(null=True, blank=True,
+                               choices=CONFIGURATION_CHOICES,
+                               default=SOFTWARE)
+    name = models.CharField(max_length=256, null=True, blank=True)
+    parameters = models.CharField(max_length=256, null=True, blank=True)
+    version = models.CharField(max_length=256, null=True, blank=True)
+
+    def returnType(self):
+        d = dict(Configuration.CONFIGURATION_CHOICES)
+        return(d[self.type])
+
+
 class Step(models.Model):
-    job = models.ForeignKey(Job, related_name='steps')
-    task = models.ForeignKey(Task, null=True)
+    job = models.ForeignKey(Job, related_name='steps',
+                            on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, null=True,
+                             on_delete=models.CASCADE)
     ordering = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
@@ -175,7 +203,8 @@ class Step(models.Model):
 
 
 class Environment(models.Model):
-    task = models.ForeignKey(Task, related_name='environment')
+    task = models.ForeignKey(Task, related_name='environment',
+                             on_delete=models.CASCADE)
     env = models.CharField(max_length=129, null=True, blank=False)
     value = models.CharField(max_length=2048, null=True, blank=False)
 
@@ -184,7 +213,8 @@ class Environment(models.Model):
 
 
 class Parameter(models.Model):
-    task = models.ForeignKey(Task, related_name='parameters')
+    task = models.ForeignKey(Task, related_name='parameters',
+                             on_delete=models.CASCADE)
     flag = models.CharField(max_length=64, null=False, blank=False)
     default = models.CharField(max_length=64, null=True, blank=False)
     bool_valued = models.BooleanField(default=False, blank=False)
@@ -258,7 +288,7 @@ class Submission(TimeStampedModel):
         (HIGH, "High"),
     )
 
-    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True,)
     submission_name = models.CharField(max_length=64, null=False, blank=False)
     UUID = models.CharField(max_length=64, unique=True, null=True, blank=False,
                             db_index=True)
@@ -275,8 +305,11 @@ class Submission(TimeStampedModel):
     claimed = models.BooleanField(null=False, default=False)
     worker_id = models.CharField(max_length=64, blank=True, null=True,
                                  default=None)
+    hostname = models.CharField(max_length=256, blank=True, null=True,
+                                default=None)
     step_id = models.IntegerField(null=True, blank=False)
-    batch = models.ForeignKey(Batch, null=True, related_name='submissions')
+    batch = models.ForeignKey(Batch, null=True, related_name='submissions',
+                              on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.pk)
@@ -286,7 +319,7 @@ class Submission(TimeStampedModel):
         return(d[self.status])
 
     @transaction.atomic
-    def update_submission_state(s, claim, new_status, step, id, message):
+    def update_submission_state(s, claim, new_status, step, id, message, host):
         """
             Updates the Submission object with some book keeping
         """
@@ -295,6 +328,7 @@ class Submission(TimeStampedModel):
         s.last_message = message
         s.worker_id = id
         s.step_id = step
+        s.hostname = host
         s.save()
         m = Message.objects.create(submission=s,
                                    step_id=step,
@@ -304,7 +338,8 @@ class Submission(TimeStampedModel):
 
 # Store results data
 class Result(TimeStampedModel):
-    submission = models.ForeignKey(Submission, related_name='results')
+    submission = models.ForeignKey(Submission, related_name='results',
+                                   on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.SET_NULL, null=True)
     step = models.IntegerField(null=False, blank=False)
     previous_step = models.IntegerField(null=True, blank=False)
@@ -319,7 +354,8 @@ class Result(TimeStampedModel):
 
 # keep a timestamped history of all the messages sent for this jobs
 class Message(TimeStampedModel):
-    submission = models.ForeignKey(Submission, related_name='messages')
+    submission = models.ForeignKey(Submission, related_name='messages',
+                                   on_delete=models.CASCADE)
     step_id = models.IntegerField(null=True, blank=False)
     message = models.CharField(max_length=2046, null=True, blank=True,
                                default="Submitted")

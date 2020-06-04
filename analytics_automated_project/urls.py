@@ -25,7 +25,7 @@ from analytics_automated import api
 
 urlpatterns = [
      url(r'^admin/', include('smuggler.urls')),
-     url(r'^admin/', include(admin.site.urls)),
+     url(r'^admin/', admin.site.urls),
      url(r'^analytics_automated/', include('analytics_automated.urls')),
      url(r'^analytics_automated/submission/$',
          api.SubmissionDetails.as_view(),
@@ -39,12 +39,14 @@ urlpatterns = [
          api.BatchDetails.as_view(),
          name="batchDetail"),
      url(r'^analytics_automated/job/$', api.JobList.as_view(), name="job"),
+     url(r'^analytics_automated/job/(?P<name>.+)',
+         api.JobDetail.as_view(), name="jobDetail"),
      url(r'^analytics_automated/endpoints/$',
          api.Endpoints.as_view(), name="endpoints"),
      url(r'^analytics_automated/jobtimes/$',
          api.JobTimes.as_view(), name="jobtimes"),
-     url(r'^login/$', auth_views.login),
-     url(r'^logout/$', auth_views.logout),
+     url(r'^login/$', auth_views.LoginView),
+     url(r'^logout/$', auth_views.LogoutView),
 
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])

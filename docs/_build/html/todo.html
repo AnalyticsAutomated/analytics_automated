@@ -40,12 +40,11 @@
   <div class="section" id="todo">
 <h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
-<li>Add endpoint which returns all the public operations/jobs</li>
-<li>Grid Engine support</li>
-<li>RServe support</li>
-<li>Is it worth adding types to vars for clarity?</li>
-<li>Add scheduled tasks</li>
+<li>Job DAG visualisations</li>
+<li>Authenticate users for priority running, setting to toggle sending logged
+in jobs or not.</li>
 <li>Non-linear jobs (i.e tasks with multiple parents)</li>
+<li>Deleting a submission should stop the workers processing it</li>
 </ol>
 <div class="section" id="production-things">
 <h2>Production things<a class="headerlink" href="#production-things" title="Permalink to this headline">¶</a></h2>
@@ -56,13 +55,17 @@
 Autoscaling</p>
 </div></blockquote>
 </li>
-<li><p class="first">Solution for file storage in staging/production???</p>
-</li>
 <li><p class="first">Consider Flower for celery monitoring</p>
 </li>
 <li><p class="first">Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)</p>
 </li>
 <li><p class="first">Investigate cached_property</p>
+</li>
+<li><p class="first">Config GridEngine users with different priorities</p>
+</li>
+<li><p class="first">Config GridEngine with multiple submit hosts.</p>
+</li>
+<li><p class="first">CI? Jenkins/Travis</p>
 </li>
 </ol>
 </div>

@@ -13,8 +13,9 @@ url = 'http://127.0.0.1:8000/analytics_automated/submission/.json'
 # payload = {'job': 'job1', 'submission_name': 'test', 'email': 'a@b.com'}
 # r = requests.post(url, json=json.dumps(payload))
 
-payload = {'input_data': ('input.txt', open('../static/files/file1.txt', 'rb'))}
-data = {'job': 'job1', 'submission_name': 'test', 'email': 'daniel.buchan@ucl.ac.uk',
-        'task1_all': True, 'task2_number': 12}
+payload = {'input_data': ('input.txt', open('../static/files/file1.txt',
+                          'rb'))}
+data = {'job': 'tmp_count', 'submission_name': 'test',
+        'email': 'daniel.buchan@ucl.ac.uk'}
 r = requests.post(url, data=data, files=payload)
 print(r.text)

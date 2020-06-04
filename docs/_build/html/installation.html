@@ -39,110 +39,108 @@
           <div class="body" role="main">
             
   <div class="section" id="basic-installation">
-<h1>Basic Installation<a class="headerlink" href="#basic-installation" title="Permalink to this headline">¶</a></h1>
+<span id="installation"></span><h1>Basic Installation<a class="headerlink" href="#basic-installation" title="Permalink to this headline">¶</a></h1>
 <p>This guide will take you through setting up A_A in development mode. Analytics
 automated is a Django application and has a couple of required dependencies</p>
 <ul class="simple">
 <li>Python3</li>
 <li>postgreSQL</li>
-<li>Erlang</li>
-<li>rabbitMQ</li>
-<li>Celery</li>
-<li>django 1.8</li>
+<li>Redis</li>
+<li>Celery 4.x</li>
+<li>Django &gt;1.10</li>
 </ul>
 <div class="section" id="code-dependancies">
 <h2>Code Dependancies<a class="headerlink" href="#code-dependancies" title="Permalink to this headline">¶</a></h2>
-<p>1. Get Python 3. You may also wish to sort out virtualenv and run the application
-within that, however that is beyond the scope of this installation guide:</p>
-<div class="highlight-python"><div class="highlight"><pre>https://www.python.org/download/releases/3.0/
+<div class="section" id="get-python-3">
+<h3>1. Get Python 3<a class="headerlink" href="#get-python-3" title="Permalink to this headline">¶</a></h3>
+<p>You may also wish to sort out virtualenv and run the application within that, however that is beyond the scope of this installation guide</p>
+<div class="highlight-python"><div class="highlight"><pre>https://www.python.org/downloads/
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li>Install postgreSQL.</li>
-</ol>
-<p>If you&#8217;re on a mac we advise using brew:</p>
+</div>
+<div class="section" id="install-postgresql">
+<h3>2. Install postgreSQL<a class="headerlink" href="#install-postgresql" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;re on a mac we advise using brew</p>
 <div class="highlight-python"><div class="highlight"><pre>brew install postgres
 </pre></div>
 </div>
-<p>If you&#8217;re in a linux env some manner of:</p>
+<p>If you&#8217;re in a linux env some manner of</p>
 <div class="highlight-python"><div class="highlight"><pre>yum install postgres
 </pre></div>
 </div>
-<p>or:</p>
+<p>or</p>
 <div class="highlight-python"><div class="highlight"><pre>apt-get install postgres
 </pre></div>
 </div>
-<p>3. Erlang, rabbitMQ requires this, you may not have it installed and compiled. It&#8217;s
-available via</p>
-<blockquote>
-<div><p><a class="reference external" href="http://www.erlang.org/download.html">http://www.erlang.org/download.html</a></p>
-<p><a class="reference external" href="http://www.erlang.org/doc/installation_guide/INSTALL.htm">http://www.erlang.org/doc/installation_guide/INSTALL.htm</a></p>
-</div></blockquote>
-<ol class="arabic" start="4">
-<li><p class="first">RabbitMQ, the message queue that the app and celery use</p>
-<blockquote>
-<div><p><a class="reference external" href="https://www.rabbitmq.com/install-generic-unix.html">https://www.rabbitmq.com/install-generic-unix.html</a></p>
-</div></blockquote>
-</li>
-<li><p class="first">Get the A_A code from github:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; git clone https://github.com/AnalyticsAutomated/analytics_automated.git
+</div>
+<div class="section" id="install-redis">
+<h3>3. Install Redis<a class="headerlink" href="#install-redis" title="Permalink to this headline">¶</a></h3>
+<p>One of</p>
+<div class="highlight-python"><div class="highlight"><pre>brew install redis
+
+yum install redis
+
+apt-get install redis
 </pre></div>
 </div>
-</li>
-</ol>
+</div>
+<div class="section" id="get-the-analytics-automated">
+<h3>4. Get the Analytics Automated<a class="headerlink" href="#get-the-analytics-automated" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/AnalyticsAutomated/analytics_automated.git
+</pre></div>
+</div>
 <p>This will place the code in a dir called <cite>analytics_automated/</cite></p>
-<ol class="arabic" start="6">
-<li><p class="first">Install the python packages needed:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
-&gt; pip install -r requirements/dev.txt
+</div>
+<div class="section" id="install-the-python-packages-needed">
+<h3>5. Install the python packages needed<a class="headerlink" href="#install-the-python-packages-needed" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated/
+pip install -r requirements/dev.txt
 </pre></div>
 </div>
-</li>
-</ol>
+</div>
 </div>
 <div class="section" id="pre-launch-configuration">
 <h2>Pre-launch configuration<a class="headerlink" href="#pre-launch-configuration" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>You need to setup some bits and pieces in postgres before we start</li>
-</ol>
-<blockquote>
-<div><ul>
+<div class="section" id="set-up-postgres">
+<h3>1. Set Up Postgres<a class="headerlink" href="#set-up-postgres" title="Permalink to this headline">¶</a></h3>
+<p>You need to setup some bits and pieces in postgres before we start</p>
+<ul>
 <li><p class="first">You may need to initialise postgres:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; initdb -D [SOME_PATH
+<div class="highlight-python"><div class="highlight"><pre><span class="n">initdb</span> <span class="o">-</span><span class="n">D</span> <span class="p">[</span><span class="n">SOME_PATH</span><span class="p">]</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">Start the postgres daemon:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile
+<div class="highlight-python"><div class="highlight"><pre>pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D scratch0/NOT_BACKED_UP/dbuchan/postgres/
 </pre></div>
 </div>
 </li>
 <li><p class="first">Then login:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; psql -h localhost -d postgres
+<div class="highlight-python"><div class="highlight"><pre>psql -h localhost -d postgres
 </pre></div>
 </div>
 </li>
 <li><p class="first">Now create the django db user for A_A</p>
-</li>
-</ul>
-</div></blockquote>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">ROLE</span> <span class="n">a_a_user</span> <span class="k">WITH</span> <span class="n">LOGIN</span> <span class="n">PASSWORD</span> <span class="s1">&#39;thisisthedevelopmentpasswordguys&#39;</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">analytics_automated_db</span><span class="p">;</span>
 <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">analytics_automated_db</span> <span class="k">TO</span> <span class="n">a_a_user</span><span class="p">;</span>
 <span class="k">ALTER</span> <span class="k">USER</span> <span class="n">a_a_user</span> <span class="k">CREATEDB</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>2. Now configure Django. We maintain the idea of seperate secrets files
-which only you have control of. You need to create these and populate them.
-base_secrets.json at site wide settings which dev and production will use.
+</li>
+</ul>
+</div>
+<div class="section" id="now-configure-django">
+<h3>2. Now configure Django<a class="headerlink" href="#now-configure-django" title="Permalink to this headline">¶</a></h3>
+<p>We maintain the idea of separate secrets files which only you have control of. You need to create these and populate them.
+base_secrets.json are site wide settings which dev and production will use.
 dev_secrets.json are settings which only the dev installation will will access.
 A production system will need a production_secrets.json</p>
-<blockquote>
-<div><ul>
+<ul>
 <li><p class="first">Create the files we need:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated_project/settings
-&gt; touch base_secrets.json`
-&gt; touch dev_secrets.json`
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated_project/settings
+touch base_secrets.json`
+touch dev_secrets.json`
 </pre></div>
 </div>
 </li>
@@ -153,8 +151,7 @@ A production system will need a production_secrets.json</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Add the dev_secrets.json settings needed to start in developments mode. The
-postgres login credentials and the secret key:</p>
+<li><p class="first">Add the dev_secrets.json settings needed to start in developments mode. The postgres login credentials and the secret key:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
   <span class="s">&quot;USER&quot;</span><span class="p">:</span> <span class="s">&quot;a_a_user&quot;</span><span class="p">,</span>
   <span class="s">&quot;PASSWORD&quot;</span><span class="p">:</span> <span class="s">&quot;thisisthedevelopmentpasswordguys&quot;</span><span class="p">,</span>
@@ -167,61 +164,74 @@ postgres login credentials and the secret key:</p>
 In here you&#8217;ll find a section at the top labelled &#8220;Required A_A user settings&#8221;.
 These are all the things you need set for the app to run. We prefer to keep
 theses settings in dev.py and production.py files. Then we can start the server
-in different configs for different purposes.</p>
-<p>Either uncomment all these in base.py or move them to dev.py or production.py and
+in different configs for different purposes.
+Either uncomment all these in base.py or move them to dev.py or production.py and
 set them there. You can leave the smtp settings commented if you do not wish to
 send alerts via email to your users.</p>
 </li>
 </ul>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li>Starting A_A in development localhost mode</li>
-</ol>
-<blockquote>
-<div><ul>
-<li><p class="first">Start rabbitMQ, if you want to start this in daemon mode consult the rabbitMQ docs:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; rabbitmq-server
+</div>
+<div class="section" id="starting-a-a-in-development-localhost-mode">
+<h3>3. Starting A_A in development localhost mode<a class="headerlink" href="#starting-a-a-in-development-localhost-mode" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Start Redis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">redis</span><span class="o">-</span><span class="n">server</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">Start the celery workers, from the root dir of A_A. Note that we have to specify
-the rabbit queues the workers read from (-Q), for the basic settings we&#8217;ll have
-these workers just watch the celery and localhost queues:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
-&gt; celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q localhost,celery
+the queues the workers read from (-Q), for the basic settings we&#8217;ll have
+these workers just watch all the default queues, note that the
+workers are watching the low priority, normal priority and high priority.
+In a more complex set up you can have different worker pools on different
+machines watch specific queues.
+localhost queues:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated/
+celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_GridEngine,GridEngine,high_GridEngine,low_R,R,high_R,low_Python,Python,high_Python
 </pre></div>
 </div>
 </li>
 <li><p class="first">Run the Django migrations to configure the database:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
-&gt; python manage.py migrate --settings=analytics_automated_project.settings.dev
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated/
+python manage.py migrate --settings=analytics_automated_project.settings.dev
 </pre></div>
 </div>
 </li>
 <li><p class="first">Add an admin user to the Django application:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
-&gt; python manage.py createsuperuser
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated/
+python manage.py createsuperuser
 </pre></div>
 </div>
 </li>
 <li><p class="first">Now start A_A, again from the root dir of the app. Note we&#8217;ll start it assuming
 you put the users settings in settings/dev.py:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd analytics_automated/
-&gt; python manage.py runserver --settings=analytics_automated_project.settings.dev
+<div class="highlight-python"><div class="highlight"><pre>cd analytics_automated/
+python manage.py runserver --settings=analytics_automated_project.settings.dev
 </pre></div>
 </div>
 </li>
+<li><p class="first">ALTERNATIVELY
+We also provide some scripts for bash and OSX in the utilities/ directory
+which will start all the components on one machine.</p>
+</li>
+<li><p class="first">Scheduled tasks. If you are going to user celery-beat then you may want to add a
+queue name for scheduled tasks to the workers and starting the beat service.</p>
+</li>
 </ul>
-</div></blockquote>
-<ol class="arabic simple" start="4">
-<li>You should now be running all the components of A_A on a single machine with
+</div>
+<div class="section" id="config-complete">
+<h3>4. Config complete<a class="headerlink" href="#config-complete" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>You should now be running all the components of A_A on a single machine with
 a set of workers watching the localhost queue. This means we can now configure
 data analysis pipelines which run code on the machine which the workers are running on.
-This is the most basic setup we can run rabbitMQ, the web app, the database and the workers
+This is the most basic setup we can run Redis, the web app, the database and the workers
 on completely separate machines and even run multiple instances of the workers watching
-the same queue. We&#8217;ll deal with this set in the <a class="reference internal" href="advanced.html#advanced-uses"><span>Advanced Uses</span></a> tutorial.</li>
-<li>Now move on to <a class="reference internal" href="how_it_works.html#how-it-works"><span>How The System Works</span></a></li>
-</ol>
+the same queue. We&#8217;ll deal with this set in the <a class="reference internal" href="advanced.html#advanced-uses"><span>Advanced Uses</span></a> tutorial.</div></blockquote>
+</div>
+<div class="section" id="now-move-on-to-how-it-works">
+<h3>5. Now move on to <a class="reference internal" href="how_it_works.html#how-it-works"><span>How The System Works</span></a><a class="headerlink" href="#now-move-on-to-how-it-works" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 </div>
 
@@ -234,8 +244,22 @@ the same queue. We&#8217;ll deal with this set in the <a class="reference intern
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Basic Installation</a><ul>
-<li><a class="reference internal" href="#code-dependancies">Code Dependancies</a></li>
-<li><a class="reference internal" href="#pre-launch-configuration">Pre-launch configuration</a></li>
+<li><a class="reference internal" href="#code-dependancies">Code Dependancies</a><ul>
+<li><a class="reference internal" href="#get-python-3">1. Get Python 3</a></li>
+<li><a class="reference internal" href="#install-postgresql">2. Install postgreSQL</a></li>
+<li><a class="reference internal" href="#install-redis">3. Install Redis</a></li>
+<li><a class="reference internal" href="#get-the-analytics-automated">4. Get the Analytics Automated</a></li>
+<li><a class="reference internal" href="#install-the-python-packages-needed">5. Install the python packages needed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pre-launch-configuration">Pre-launch configuration</a><ul>
+<li><a class="reference internal" href="#set-up-postgres">1. Set Up Postgres</a></li>
+<li><a class="reference internal" href="#now-configure-django">2. Now configure Django</a></li>
+<li><a class="reference internal" href="#starting-a-a-in-development-localhost-mode">3. Starting A_A in development localhost mode</a></li>
+<li><a class="reference internal" href="#config-complete">4. Config complete</a></li>
+<li><a class="reference internal" href="#now-move-on-to-how-it-works">5. Now move on to <code class="docutils literal"><span class="pre">how_it_works</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

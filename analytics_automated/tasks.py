@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 import logging
 import time
+import socket
+import uuid
+import pprint
 from commandRunner.localRunner import *
 from commandRunner.rRunner import *
 from commandRunner.pythonRunner import *
@@ -8,11 +11,13 @@ from commandRunner.pythonRunner import *
 from celery import Celery
 from celery import shared_task
 from celery import group
+from celery import chain
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db import transaction
+from django.core.files.base import ContentFile
 
 from .models import Backend, Job, Submission, Task, Result, Parameter
 from .models import QueueType, BackendUser, Batch
@@ -49,41 +54,61 @@ def add(x, y):
 # db
 def get_data(s, uuid, current_step, in_globs):
     data_dict = {}
-    data = ''
+    data = None
     previous_step = None
+    # found_set = set()
     # if this is the first task in a chain get the input_data from submission
     # if this is not the first task get the input_data from the results
     if current_step == 1:
-        s.input_data.open(mode='r')
-        # TODO: DO SOMETHING SMARTER WITH THE DATA HERE, IT MIGHT BE BINARY
-        for line in s.input_data:
-            try:  # depending on the version of django data might reach here
-                    # as either a byte str or a regular str. if we were being
-                    # super defensive we should check line is a str
-
-                data += line.decode(encoding='UTF-8')
-            except AttributeError:
-                data += line
+        s.input_data.open(mode='rb')
+        content = s.input_data.read()
+        try:  # depending on the version of django data might reach here
+                # as either a byte str or a regular str. if we were being
+                # super defensive we should check line is a str
+            data = content.decode(encoding='UTF-8')
+        except AttributeError:
+            data = content
+        except UnicodeDecodeError:
+            data = content
+        except TypeError:
+            data = content
         s.input_data.close()
         local_glob = in_globs[0].lstrip(".")
         data_dict[uuid+"."+local_glob] = data
     else:
         previous_step = current_step-1
-        # print("STEP"+str(previous_step))
-        r = Result.objects.filter(submission=s, step=previous_step).all()
+        # print("DATA GETTING STEP ID"+str(previous_step))
+        r = Result.objects.filter(submission=s, step__lte=previous_step).all()
         for result in r:
+            # print("RESULT ID"+str(result))
             for glob in in_globs:
+                # print("GLOB TO MATCH"+str(glob))
                 if glob in result.result_data.name:
-                    result.result_data.open(mode='r')
-                    data = ""
-                    for line in result.result_data:
-                        try:  # depending on the version of django data might
-                                # reach here as either a byte str or a str
-                            data += line.decode(encoding='UTF-8')
-                        except AttributeError:
-                            data += line
-                        data_dict[result.result_data.name] = data
+                    # print("FOUND A MATCH"+str(result.result_data.name)+str(glob))
+                    # found_set.add(glob)
+                    result.result_data.open(mode='rb')
+                    content = result.result_data.read()
+                    # print("OPENED DATA FILE")
+                    data = None
+                    # print(line)
+                    try:  # depending on the version of django data might
+                            # reach here as either a byte str or a str
+                        data = content.decode(encoding='UTF-8')
+                        # data = data.rstrip("\n")
+                    except AttributeError:
+                        data = content
+                    except UnicodeDecodeError:
+                        data = content
+                    except TypeError:
+                        data = content
+                    data_dict[result.result_data.name] = data
                     result.result_data.close()
+                    # print("GOT FILE DATA")
+    # if current_step != 1:
+    #     if len(in_globs) != len(found_set):
+    #         raise Exception("Found set of globs not the same size as",
+    #                         "requested:", str(len(in_globs)), "vs",
+    #                         str(len(found_set)))
 
     return(data_dict, previous_step)
 
@@ -187,7 +212,8 @@ def prepare_exit_statuses(uuid, t, state, step_id, self,
                                   " : "+str(current_step) + " : " + command
             Submission.update_submission_state(s, True, state, step_id,
                                                self.request.id,
-                                               exit_status_message)
+                                               exit_status_message,
+                                               socket.gethostname())
             Batch.update_batch_state(s.batch, state)
             __handle_batch_email(s)
             logger.debug(uuid+": prepare_exit_statuses():"+exit_status_message)
@@ -229,7 +255,8 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                                    self.request.id,
                                                    "Failed with missing"
                                                    " outputs: " +
-                                                   str(run.command))
+                                                   str(run.command),
+                                                   socket.gethostname())
                 Batch.update_batch_state(s.batch, state)
                 logger.error("Failed with missing outputs: "+str(run.command))
                 raise OSError("Failed with missing outputs: "+str(run.command))
@@ -249,7 +276,7 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
         Submission.update_submission_state(s, True, state, step_id,
                                            self.request.id,
                                            'Failed step, non 0 exit at step:' +
-                                           str(step_id))
+                                           str(step_id),socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Failed with custom exit status: "+str(run.command))
@@ -261,7 +288,8 @@ def handle_task_exit(exit_status, valid_exit_status, custom_exit_statuses,
                                            'Failed step, non 0' +
                                            ' exit at step: ' +
                                            str(step_id) + ". Exit status:" +
-                                           str(exit_status))
+                                           str(exit_status),
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.error("Exit Status " + str(exit_status) +
                      ": Command did not run: "+str(run.command))
@@ -285,7 +313,7 @@ def __handle_batch_email(s):
             if s.email is not None and \
                     len(s.email) > 5 and \
                     settings.DEFAULT_FROM_EMAIL is not None:
-                send_mail(settings.EMAIL_SUBJECT_STRING+": "+s.batch.UUID,
+                send_mail(str(s.job)+" : "+settings.EMAIL_SUBJECT_STRING+": "+s.batch.UUID,
                           message_str,
                           from_email=None,
                           recipient_list=[s.email],
@@ -294,20 +322,140 @@ def __handle_batch_email(s):
         except Exception as e:
             logger.info("Mail server not available:" + str(e))
         s.email = None
-        if settings.EMAIL_DELETE_AFTER_USE:
-            s.email = None
-            s.save()
+        # if settings.EMAIL_DELETE_AFTER_USE:
+        #     s.email = None
+        #     s.save()
         # print('batch not complete yet')
+
+
+def __build_environment(task):
+    environment = {}
+    envs = task.environment.all()
+    for env in envs:
+        environment[env.env] = env.value
+    return(environment)
+
+
+def __construct_chain_string(steps, UUID, job_priority):
+    """
+        Function takes all the step and task information for a given job
+        and returns a valid celery string
+    """
+    total_steps = len(steps)
+    chord_end = False
+    current_step = 0
+    step_counter = 1
+    prev_step = None
+    queue_name = 'celery'
+    flags = {}
+    options = {}
+    value = ''
+
+    if total_steps > 1:
+        if steps[total_steps-1].ordering == steps[total_steps-2].ordering:
+            total_steps += 1
+            chord_end = True
+
+    task_strings = {}
+    # loop over steps and build the subtask string for each
+    # track which have the same step priority
+    # build group() for any which have equivalent priority
+    # where priority list > 1
+    # insert subtask or group in to chain()()
+
+    for step in steps:
+        params = []
+        param_values = {}
+        value = ''
+        environment = __build_environment(step.task)
+        queue_name = str(step.task.backend.queue_type)
+        if step.ordering != prev_step:
+            current_step += 1
+
+        # tchain += "task_runner.si('%s',%i,%i,%i,'%s') | " \
+        task_string = "task_runner.subtask(('%s', %i, %i, %i, %i, '%s', " \
+                      "%s, %s, '%s', %i, %s), " \
+                      "immutable=True, queue='%s')" \
+                      % (UUID,
+                         step.ordering,
+                         current_step,
+                         step_counter,
+                         total_steps,
+                         step.task.name,
+                         params,
+                         pprint.pformat(param_values).replace('\n',''),
+                         value,
+                         step.task.backend.queue_type.execution_behaviour,
+                         environment,
+                         queue_name)
+
+        if step.ordering in task_strings:
+            task_strings[step.ordering].append(task_string)
+        else:
+            task_strings[step.ordering] = [task_string]
+        prev_step = step.ordering
+        step_counter += 1
+
+    tchain = "chain("
+    for key in sorted(task_strings):
+        if len(task_strings[key]) > 1:
+            tchain += "group("
+        for task_string in task_strings[key]:
+            tchain += task_string+", "
+        if len(task_strings[key]) > 1:
+            tchain = tchain[:-2]
+            tchain += "), "
+    tchain = tchain[:-2]
+
+    # This hack means that a job which ends in a chord won't complete
+    # during the chord
+    if chord_end is True:
+        tchain += ", chord_end.subtask(('%s', %i, %i), " \
+                  "immutable=True, queue='%s')" \
+                  % (UUID, current_step, total_steps, queue_name)
+    tchain += ',).apply_async()'
+
+    logger.debug("TASK COMMAND: "+tchain)
+    return(tchain)
+
 
 
 @shared_task(bind=True, default_retry_delay=5 * 60, rate_limit=40,
              max_retries=5)
-def task_submitter(self, job_name):
-    pass
-    # stub for future djagon_celery_beat addition for sheduled tasks
-    # make jobs internal/external. Internal can only be submitted from_email
-    # localhosts. Use this task to submit jobs using requests to localhost
-    # Then this job can be configured from the celery_beat django_admin config
+def task_job_runner(self, *args, **kwargs):
+    masterUUID = str(uuid.uuid1())
+    b = Batch.objects.create(UUID=masterUUID)
+
+    print("Getting Job", args[0])
+    try:
+        job = Job.objects.get(name=args[0])
+        if job:
+            steps = job.steps.all().select_related('task') \
+                    .extra(order_by=['ordering'])
+            s = Submission()
+            s.priority = settings.DEFAULT_JOB_PRIORITY
+            s.UUID = str(uuid.uuid1())
+            s.email = settings.ADMIN_EMAIL
+            s.batch = b
+            s.input_data.save("dummy.txt", ContentFile("empty"))
+            s.job = job
+            s.save()
+
+            tchain = __construct_chain_string(steps, s.UUID,
+                                              settings.DEFAULT_JOB_PRIORITY)
+            #print(tchain)
+            try:
+                logger.info('Sending this chain: '+tchain)
+                exec(tchain)
+            except SyntaxError:
+                logger.error('SyntaxError: Invalid string exec on: ' + tchain)
+            except Exception as e:
+                logger.error('500 Error: Invalid string exec on: ' + tchain)
+                logger.error('500 Error' + str(e))
+    except Job.DoesNotExist:
+        pass
+
+
 
 # time limits?
 # step_id is the numerical value the user provides when they set the steps
@@ -344,20 +492,25 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     t = Task.objects.get(name=task_name)
     # b = Batch.objects.get()
     state = Submission.ERROR
+    logger.info("BUILDING GLOBS:" + str(step_id))
     in_globs, out_globs, iglob, oglob = build_file_globs(t)
+    logger.info("GETTING PREVIOUS DATA:" + str(step_id))
     data_dict, previous_step = get_data(s, uuid, current_step, in_globs)
+    logger.info("SETTING STDOUT GLOB:" + str(step_id))
     stdoglob = ".stdout"
     if t.stdout_glob is not None and len(t.stdout_glob) > 0:
         stdoglob = "."+t.stdout_glob.lstrip(".")
 
     # update submission tracking to note that this is running
+    logger.info("SETTING RUN FLAG:" + str(step_id))
     with transaction.atomic():
         if s.status != Submission.ERROR and s.status != Submission.CRASH:
             Submission.update_submission_state(s, True, Submission.RUNNING,
                                                step_id,
                                                self.request.id,
                                                'Running step: ' +
-                                               str(current_step))
+                                               str(current_step),
+                                               socket.gethostname())
             Batch.update_batch_state(s.batch, Batch.RUNNING)
 
     # Now we run the task handing off the actual running to the commandRunner
@@ -378,7 +531,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         cr_message = "Unable to initialise commandRunner: "+str(e)+" : " + \
                       str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, cr_message)
+                                           self.request.id, cr_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": make_runner(): "+cr_message)
         __handle_batch_email(s)
@@ -391,7 +545,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
         prep_message = "Unable to prepare files and tmp directory: "+str(e) + \
                        " : "+str(current_step)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, prep_message)
+                                           self.request.id, prep_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": run.prepare(): "+prep_message)
         __handle_batch_email(s)
@@ -426,7 +581,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
                            " : "+str(current_step) + " : WITH SCRIPT"
             __handle_batch_email(s)
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, run_message)
+                                           self.request.id, run_message,
+                                           socket.gethostname())
         Batch.update_batch_state(s.batch, state)
         logger.debug(uuid+": run.run_cmd(): "+run_message)
         # We don't raise and error here as we want to test the exit status
@@ -482,7 +638,8 @@ def task_runner(self, uuid, step_id, current_step, step_counter,
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, message)
+                                           self.request.id, message,
+                                           socket.gethostname())
 
     batch_subs = Submission.objects.filter(batch=s.batch)
     complete_count = 0
@@ -512,6 +669,7 @@ def chord_end(self, uuid, step_id, current_step):
     s.refresh_from_db()
     if s.status != Submission.ERROR and s.status != Submission.CRASH:
         Submission.update_submission_state(s, True, state, step_id,
-                                           self.request.id, message)
+                                           self.request.id, message,
+                                           socket.gethostname())
     Batch.update_batch_state(s.batch, state)
     __handle_batch_email(s)

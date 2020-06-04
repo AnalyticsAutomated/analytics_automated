@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='step',
             name='task',
-            field=models.ForeignKey(to='analytics_automated.Task', null=True),
+            field=models.ForeignKey(to='analytics_automated.Task', null=True, on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='submission',
             name='job',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='analytics_automated.Job'),
+            field=models.ForeignKey(on_delete=models.SET_NULL, to='analytics_automated.Job', null=True),
         ),
     ]

@@ -21,7 +21,6 @@ app = Celery('analytics_automated')
 app.config_from_object('django.conf:settings', namespace='CELERY_')
 app.autodiscover_tasks()
 
-
 CELERY_QUEUES = (
     Queue('localhost', routing_key='localhost.#'),
     Queue('rserve', routing_key='rserve.#'),

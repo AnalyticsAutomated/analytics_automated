@@ -12,8 +12,8 @@ from django.test import TestCase
 from django.conf import settings
 from django.http import HttpRequest
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 
 from rest_framework.test import APIClient
@@ -43,7 +43,7 @@ class CeleryChainConstructionTests(APITransactionTestCase):
     j1 = None
     t = None
     b = None
-    reset_sequences = True 
+    reset_sequences = True
 
     def setUp(self):
         self.file = SimpleUploadedFile('file1.txt',

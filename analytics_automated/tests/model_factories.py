@@ -13,6 +13,8 @@ from analytics_automated.models import Backend, Task, Job, Step, Batch
 from analytics_automated.models import Submission, ValidatorTypes
 from analytics_automated.models import Parameter, Result
 from analytics_automated.models import Validator, Environment, QueueType
+from analytics_automated.models import Configuration
+
 
 TEST_DATA = settings.BASE_DIR.child("submissions").child("files"). \
                                                    child("file1.txt")
@@ -61,6 +63,17 @@ class TaskFactory(factory.DjangoModelFactory):
         django_get_or_create = ('name',)
 
 
+class ConfigurationFactory(factory.DjangoModelFactory):
+    task = factory.SubFactory(TaskFactory)
+    type = random.randint(0, 2)
+    name = factory.LazyAttribute(lambda t: random_string())
+    parameters = factory.LazyAttribute(lambda t: random_string())
+    version = factory.LazyAttribute(lambda t: random_string())
+
+    class Meta:
+        model = Configuration
+
+
 class JobFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'job_{}'.format(n))
     runnable = True
@@ -95,6 +108,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
     input_data = factory.django.FileField(from_path=TEST_DATA)
     # status = random.randint(0, 4)
     batch = factory.SubFactory(BatchFactory)
+    hostname = "localhost"
 
     class Meta:
         model = Submission

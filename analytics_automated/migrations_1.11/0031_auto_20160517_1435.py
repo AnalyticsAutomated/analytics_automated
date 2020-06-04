@@ -26,6 +26,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='environment',
             name='task',
-            field=models.ForeignKey(related_name='environment', to='analytics_automated.Task'),
+            field=models.ForeignKey(related_name='environment',
+                                    to='analytics_automated.Task',
+                                    on_delete=models.CASCADE),
         ),
     ]
