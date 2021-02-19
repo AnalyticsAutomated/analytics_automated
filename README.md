@@ -1,16 +1,8 @@
 # analytics_automated
 
-Current state: Release Candidate 6
+### Introduction:
 
-### Before You Go Much further
-
-We have yet to deploy this in anger ourselves. You are downloading and using
-this at your own risk. That said we have it running on more than 5 machines so
-it is likely good to go.
-
-### Continue:
-
-Analytics Automated (A_A) is a lightweight framework for automating long running
+Analytics Automated (A_A) is a 'lightweight' framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
 
 Today it is trivially easy for Scientists, Researchers, Data Scientists and
@@ -18,7 +10,7 @@ Analysts to build statistical and predictive models. More often than not these
 don't get turned in to useful and usable services; frequently becoming reports
 on work which does not get actioned. In short, organisations often have trouble
 operationalising the models and insights which emerge from complex statistical
-research and data science.
+research and data science
 
 Analytics automated is targeted at streamlining the process for turning your
 predictive software into usable and maintainable services.
@@ -38,6 +30,10 @@ in terms of time, staffing and money.
 
 A_A is agnostic to the modeling software and technologies you choose to build
 your group around.
+
+### Documentation
+
+Full documentation can be found at https://analytics-automated.readthedocs.io/en/latest/
 
 ### Philosophy
 
@@ -63,11 +59,6 @@ prediction task and after some asynchronous processing they can come back and
 GET their results. It's as simple as that and you are free to build this in
 to any system you have or build the UI of your choice.
 
-### Roadmap
-
-1. Scheduler for regular jobs
-2. SVG graphs for job progress.
-
 # Requirements
 
 You will need
@@ -86,18 +77,7 @@ NEXT UP TODO/REMINDERS
 3. Add CWL support to configure and dump tasks/jobs. Consider importing
    Toil library to handle parsing the yaml and pushing the results to the db
 4. Further backends, Octave, matlab, SAS
-
-Production things:
-
-5. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
-
-    enable app.Task.track_started
-    Autoscaling
-    don't run in DEBUG mode
-
-6. Solution for file storage in staging/production???
-7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
-8. Investigate cached_property
+5. SVG graphs for job progress.
 
 Missing
 =======
@@ -105,10 +85,3 @@ Missing
 http://agiliq.com/blog/2015/08/retrying-celery-failed-tasks/
 http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-something-fails
 2. Let jobs run jobs as nested structures; this will be part of adding CWL support
-
-THINGS FOR ANSIBLE update
-=========================
-
-    pip install -U "celery[redis]"
-    sudo yum install redis
-    redis-server (now runs on port 6379, not much point in adding authentication)

@@ -5,9 +5,9 @@ Building Jobs Overview
 
 Configuring jobs is most easily accomplished with the user interface. It is
 possible to do this programmatically and the A_A github account comes with a
-python script, `populate_analytics_automated.py` which has an example of a simple
-job configuration. Additionally it is possible to define jobs using yaml and
-upload those to the system
+python script, `example_scripts/populate_analytics_automated.py` which has an
+example of a simple job configuration. Additionally it is possible to define
+jobs using yaml and upload those to the system
 
 To define a job first you need to define a **Backend** and a series of
 **Tasks** and then these **Tasks** can be plugged together as a **Job**.
@@ -16,14 +16,39 @@ Assuming you correctly followed the dev installation instructions, you'll need
 to log in by pointing your browser at http://127.0.0.1:8000/admin/ and log in
 using the superuser details you set during installation.
 
+Define a Queue Type
+-------------------
+
+The first thing to do is to define some Queue Type details. The QueueType
+takes a 'Name' and an execution behaviour. This tells the celery worker
+how to execute the task when it recieves it. There are three default Queues
+already available. In basic installation you can skip this step.
+
+* 'localhost': executes the computation on the machine as though it is a *nix command
+* 'R' : execute the command as though it is valid R code
+* 'Python' : execute the command as though it is valid Python code
+* 'GridEngine': uses python DRMAA to submit jobs to a Grid Engine head node running on the same machine the celery work is running on
+
+The R option requires the location the Celery workers are running to have a
+valid R installation available. The GridEngine requires that python DRMAA
+is installed and working
+
 Define a Backend
 ----------------
 
-The first thing to do is to define the details for each **Backend** your
-tasks will use. A backend is the location where a computational task is
-executed. In the most basic configuration you would start only one set of workers
-watching only the task queues for the LOCALHOST backend so for this example
-we'll only configure one LOCALHOST backend.
+Next we define **Backend** the tasks will use. A backend is the location where a computational task is
+executed. In the most basic configuration you would start with three queue types
+over three priorities
+
+* low_localhost
+* localhost
+* high_localhost
+* low_R
+* R
+* high_R
+* low_python
+* python
+* high_python
 
 In the admin interface click on the Backends option.
 
@@ -31,21 +56,18 @@ In the admin interface click on the Backends option.
 
 **Name**: Gives your backend a useful memorable name
 
-**Server Type**: Tells A_A what kind of execution location this is.
+**Queue Type**: Tells A_A what kind of execution location this is.
   'localhost': executes the computation on the machine that the celery worker is
   running on
   'GridEngine': uses python DRMAA to submit jobs to a Grid Engine head node running on the same machine the celery work is running on
-  'Rserver': This option is not currently supported
+  'Python': Run python code
+  'R' : Run
 
 **Root Path**: This is a location on a disk (or network drive) which the backend
 celery workers can write to and will be used to store temporary files which the
 tasks needs on execution
 
-**Backend Users**: You can define a user (user name and passowrd) which the worker
-will use to execute the task on backend which support this functionality
-(i.e. Hadoop, Grid Engine). This is ignored for other backend types.
-**NOTE: LOGGING IN AND USER JOB PRIORITY IS NOT CURRENTLY SUPPORTED IN
-THIS VERSION OF A_A**
+**Backend Users**: Unsupported at this time. For use with future GridEngine and SLURM support
 
 Defining a Task
 ---------------

@@ -28,7 +28,9 @@ Probably the most important admin page is the submissions page, http://127.0.0.1
 This page keeps a track of all the job requests sent by users, from here you can
 also delete submissions and monitor their progress. You can click 'Pk' to see
 a full summary of the jobs including all data files produced and all the messages
-sent by the workers about the job progress. On the Summary page the most important fields are 'last message' and 'Status' theses indicate how the job is progressing. Workers output messages and statuses as the complete or fail tasks
+sent by the workers about the job progress. On the Summary page the most important
+fields are 'last message' and 'Status' theses indicate how the job is
+progressing. Workers output messages and statuses as the complete or fail tasks
 and the 'Last message' shows you the most recent Human readable message about the
 job progress. There are 5 statuses
 
