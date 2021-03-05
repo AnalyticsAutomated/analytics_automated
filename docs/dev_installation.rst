@@ -95,7 +95,7 @@ Note that installation now requires postgres 9.6+ for Django 2+
     > mkvirtualenv analytics_automated
     > workon analytics_automated (FYI discontect with deactivate)
 
-8. Install these libraries to this env::
+8. Install these libraries to this env (may not longer be needed)::
 
     > pip install setuptools
     > pip install distribute
