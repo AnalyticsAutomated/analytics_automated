@@ -139,7 +139,7 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = (
-    'bootstrap_admin',
+    'bootstrap-admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
