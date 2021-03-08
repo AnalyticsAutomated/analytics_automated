@@ -47,7 +47,7 @@ pytz==2017.2
 PyYAML==3.12
 redis==2.10.5
 requests==2.21.0
-rpy2==2.8.5
+rpy2==3.4.2
 scipy
 six==1.10.0
 snowballstemmer==1.2.0
