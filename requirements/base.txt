@@ -46,7 +46,7 @@ pyRserve==0.8.1
 python-crontab==2.3.6
 python-dateutil==2.6.0
 pytz==2017.2
-PyYAML==3.12
+PyYAML==5.4
 redis==2.10.5
 requests==2.21.0
 rpy2==2.8.5
