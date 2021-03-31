@@ -51,7 +51,7 @@ with open(os.path.join(BASE_SECRETS_PATH)) as f: \
 
 DEFAULT_JOB_PRIORITY = 1
 LOGGED_IN_JOB_PRIORITY = 2
-QUEUE_HOG_SIZE = 10
+QUEUE_HOG_SIZE = 15
 QUEUE_HARD_LIMIT = 15
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.xx.xx.xx'
