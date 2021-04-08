@@ -10,7 +10,7 @@ chardet==3.0.4
 commandRunner==0.8.6
 coverage==3.7.1
 defusedxml==0.4.1
-Django==2.2.8
+Django==2.2.20
 django-admin-bootstrapped==2.5.7
 django-bootstrap3==11.0.0
 django-celery-beat==1.4.0
@@ -22,7 +22,7 @@ django-ipware==1.0.0
 django-registration-redux==1.2
 django-smuggler==0.7.0
 django-timezone-field==3.0
-djangorestframework==3.9.2
+djangorestframework==3.11.0
 djangorestframework-xml==1.4.0
 DjangoRestless==0.0.10
 docutils==0.12
@@ -38,8 +38,8 @@ MarkupSafe==0.23
 mod-wsgi==4.6.5
 mod-wsgi-httpd==2.4.35.1
 numpy==1.10.1
-Pillow==2.8.1
-psycopg2==2.6
+Pillow==7.0.0
+psycopg2==2.8.4
 pyaml==18.11.0
 Pygments==2.0.2
 pyRserve==0.8.1
