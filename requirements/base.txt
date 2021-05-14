@@ -30,7 +30,7 @@ django-registration-redux==1.2
 django-smuggler==0.7.0
 django-timezone-field==4.1.1
 django-utils-six==2.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-xml==1.4.0
 django-utils-six==2.0
 DjangoRestless==0.0.10
