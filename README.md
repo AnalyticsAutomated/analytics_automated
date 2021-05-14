@@ -69,6 +69,90 @@ You will need
 * django
 * celery
 
+
+The full details for starting analytics_automated are set out in the documentation
+at https://analytics-automated.readthedocs.io/en/latest/installation/
+
+
+## Install the python packages
+
+````pip install -r requirements/dev.txt````
+
+## Install the postgres database and then start postgres
+
+Export the path to wherever postgres has been installed.
+For mac using homebrew this will be in /usr/local/Cellar
+This should look something like:
+
+```export PATH="/usr/local/Cellar/postgresql@9.5/9.5.24/bin/:$PATH"```
+
+## start postgresql
+
+```pg_ctl -D /usr/local/var/postgresql@9.5 -l /usr/local/var/postgresql@9.5/server.log start```
+
+## login to the database and create a new database/user
+```psql -h localhost -d postgres```
+
+This will start the database server on your localhost. You can then go ahead and make a database with associated user.
+
+### create a django db user for AA
+```CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+
+CREATE DATABASE analytics_automated_db;
+
+GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
+
+ALTER USER a_a_user CREATEDB;
+```
+## Now open a new terminal window and start redis working
+
+```redis-server```
+
+If redis is not installed you can do that using brew,yum or apt-get
+You can check its operation using:
+
+```ps aux | grep redis-server```
+
+## Start celery
+You can now start the celery workers
+```celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python```
+
+## Configure Django
+
+```cd analytics_automated_project/settings
+touch base_secrets.json
+touch dev_secrets.json
+```
+add to analytics_automated_project/settings/dev_secrets.json
+
+{
+  "USER": "a_a_user",
+  "PASSWORD": "thisisthedevelopmentpasswordguys",
+  "SECRET_KEY": "VERY LONG KEY HERE"
+}
+
+add to base_secrets.json
+
+{}
+
+## Add an admin user to the Django application:
+  python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
+
+## Start the server
+from within analytics_automated you can now make the migrations and
+start the runserver
+
+```python manage.py makemigrations --settings=analytics_automated_project.settings.dev
+
+python manage.py migrate --settings=analytics_automated_project.settings.dev
+python manage.py runserver --settings=analytics_automated_project.settings.dev
+```
+
+
+
+
+
+
 NEXT UP TODO/REMINDERS
 ======================
 
