@@ -68,9 +68,11 @@ Note that installation now requires postgres 9.6+ for Django 2+
 
    brew install redis
 
-4. Install postgres for your system, MacOSX version can be found at::
+4. Install postgres for your system, MacOSX version can be found at (check versioning::
 
-    brew install postgres
+    brew install postgresql@9.6
+    
+    you may need to symlink psql and pg_ctl to /usr/local/bin/
 
 5. Install virtualenv and virtualenvwrapper::
 
@@ -95,7 +97,7 @@ Note that installation now requires postgres 9.6+ for Django 2+
     > mkvirtualenv analytics_automated
     > workon analytics_automated (FYI discontect with deactivate)
 
-8. Install these libraries to this env::
+8. Install these libraries to this env (may not longer be needed)::
 
     > pip install setuptools
     > pip install distribute
