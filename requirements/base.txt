@@ -17,7 +17,7 @@ click-repl==0.1.6
 commandRunner==0.8.6
 coverage==3.7.1
 defusedxml==0.4.1
-Django==3.0
+Django==3.0.14
 django-admin-bootstrapped==2.5.6
 django-bootstrap3==11.0.0
 django-celery-beat==2.2.0
