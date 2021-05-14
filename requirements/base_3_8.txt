@@ -36,7 +36,7 @@ factory-boy==2.8.1
 Faker==0.7.7
 flower==0.9.2
 idna==2.8
-Jinja2==2.7.3
+Jinja2==2.11.3
 kombu==5.0.2
 MarkupSafe==0.23
 mod-wsgi==4.7.1
