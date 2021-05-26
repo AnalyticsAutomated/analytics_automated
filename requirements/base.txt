@@ -1,7 +1,5 @@
 alabaster==0.7.6
 amqp==5.0.5
-ansible==3.0.0
-ansible-base==2.10.6
 anyjson==0.3.3
 appdirs==1.4.4
 appnope==0.1.2
