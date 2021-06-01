@@ -35,7 +35,7 @@ from .helper_functions import clearDatabase
 '''
 
 def modify_to_include_datestamp(a,b):
-    '''django includes datestamps. This modifies the testset to include
+    '''django includes datestamps. This modifies the testsets to include
     the datestamp
     '''
     resp= eval(a.replace('null','"null"'))
