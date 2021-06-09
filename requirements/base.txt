@@ -27,7 +27,7 @@ cryptography==3.4.6
 decorator==5.0.7
 defusedxml==0.4.1
 distlib==0.3.1
-Django==3.0.14
+Django==3.1.10
 django-admin-bootstrapped==2.5.6
 django-bootstrap3==11.0.0
 django-celery-beat==2.2.0
