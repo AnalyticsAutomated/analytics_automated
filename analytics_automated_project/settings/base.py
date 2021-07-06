@@ -101,9 +101,9 @@ CELERY_TIMEZONE = 'Europe/London'
 # SECRET_KEY = ''
 # DEBUG = True
 #
-# CORS_ORIGIN_WHITELIST = (
-#         '127.0.0.1:4000',
-#         '127.0.0.1:8000',
+#CORS_ORIGIN_WHITELIST = (
+#         'http://127.0.0.1:4000',
+#         'http://127.0.0.1:8000',
 #     )
 #
 # DEBUG_TOOLBAR_CONFIG = {
@@ -140,6 +140,7 @@ APPEND_SLASH = True
 
 INSTALLED_APPS = (
     'bootstrap_admin',
+    'bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',

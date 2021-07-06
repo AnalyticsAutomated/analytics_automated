@@ -63,8 +63,8 @@ to any system you have or build the UI of your choice.
 
 You will need
 
-* python3
-* postgres
+* python 3.6
+* postgres 9.6
 * Redis
 * django
 * celery
@@ -76,7 +76,12 @@ at https://analytics-automated.readthedocs.io/en/latest/installation/
 
 ## Install the python packages
 
-````pip install -r requirements/dev.txt````
+```pip install -r requirements/dev.txt
+```
+
+## create logs dir
+```mkdir logs
+```
 
 ## Install the postgres database and then start postgres
 
@@ -84,11 +89,11 @@ Export the path to wherever postgres has been installed.
 For mac using homebrew this will be in /usr/local/Cellar
 This should look something like:
 
-```export PATH="/usr/local/Cellar/postgresql@9.5/9.5.24/bin/:$PATH"```
+```export PATH="/usr/local/Cellar/postgresql@9.6/9.6.20/bin/:$PATH"```
 
 ## start postgresql
 
-```pg_ctl -D /usr/local/var/postgresql@9.5 -l /usr/local/var/postgresql@9.5/server.log start```
+```pg_ctl -D /usr/local/var/postgresql@9.6 -l /usr/local/var/postgresql@9.6/server.log start```
 
 ## login to the database and create a new database/user
 ```psql -h localhost -d postgres```
@@ -96,9 +101,11 @@ This should look something like:
 This will start the database server on your localhost. You can then go ahead and make a database with associated user.
 
 ### create a django db user for AA
-```CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+```
 
 CREATE DATABASE analytics_automated_db;
+
+CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
 
 GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
 
@@ -112,10 +119,6 @@ If redis is not installed you can do that using brew,yum or apt-get
 You can check its operation using:
 
 ```ps aux | grep redis-server```
-
-## Start celery
-You can now start the celery workers
-```celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python```
 
 ## Configure Django
 
@@ -135,16 +138,25 @@ add to base_secrets.json
 
 {}
 
-## Add an admin user to the Django application:
-  python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
+
+## Start celery
+  You can now start the celery workers
+  ```celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python
+  ```
 
 ## Start the server
-from within analytics_automated you can now make the migrations and
-start the runserver
+from within analytics_automated you can now make the migrations , add a superuser and start the runserver
 
-```python manage.py makemigrations --settings=analytics_automated_project.settings.dev
-
+```
+python manage.py makemigrations --settings=analytics_automated_project.settings.dev
 python manage.py migrate --settings=analytics_automated_project.settings.dev
+```
+```
+python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
+```
+You will be asked for a username and password - this will be the username/password you
+use to log into the server.
+
 python manage.py runserver --settings=analytics_automated_project.settings.dev
 ```
 
