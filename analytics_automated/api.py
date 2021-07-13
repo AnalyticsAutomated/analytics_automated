@@ -1,6 +1,5 @@
 import ast
 import uuid
-from ipware.ip import get_client_ip
 from collections import defaultdict
 import pprint
 import logging
@@ -34,6 +33,14 @@ from .tasks import *
 from .validators import *
 from .r_keywords import *
 from .cmdline import *
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 logger = logging.getLogger(__name__)
 
