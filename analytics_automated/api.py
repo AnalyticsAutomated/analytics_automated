@@ -15,6 +15,7 @@ from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
 from django.conf import settings
 from django.db.models import F, Func
+from django.ipware import get_client_ip
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -34,13 +35,6 @@ from .validators import *
 from .r_keywords import *
 from .cmdline import *
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 logger = logging.getLogger(__name__)
 
@@ -188,11 +182,16 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['submission_name'] = request_contents.pop('submission_name')
             data['email'] = request_contents.pop('email')
             data['job'] = request_contents.pop('job')
-            data['ip'] = get_client_ip(request)
+            client_ip = get_client_ip(request)
+            console.log(''.join([i for i in client_ip]))
+            data['ip'] = client_ip[0]
             # data['UUID'] = str(uuid.uuid1())
-        except MultiValueDictKeyError:
+        except MultiValueDictKeyError as e:
+            console.log(str(e))
             raise MultiValueDictKeyError
-        except KeyError:
+
+        except KeyError as k:
+            console.log(str(k))
             raise KeyError
         return(data, request_contents)
 
