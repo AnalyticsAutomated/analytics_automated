@@ -15,7 +15,7 @@ from django import forms
 from django.utils.datastructures import MultiValueDictKeyError
 from django.conf import settings
 from django.db.models import F, Func
-from django.ipware import get_client_ip
+from ipware import get_client_ip
 
 from rest_framework import viewsets
 from rest_framework import mixins
