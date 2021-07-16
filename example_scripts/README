@@ -1,4 +1,0 @@
-A couple of handy example scripts showing you to to access the AA/Django
-system and populate tables (populate_analytics_automated.py), delete
-entries from tables (delete_entries.py). Or post to the system as a REST user
-(send_fasta.py, send_file.py)

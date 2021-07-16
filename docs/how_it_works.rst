@@ -3,20 +3,20 @@
 How The System Works
 ====================
 
-A_A turns data analysis pipelines in to RESTful webservices for the purpose of
-building SOA systems. A_A is made up of 2 main components;
+A_A turns data analysis pipelines in to RESTful webservices for the purpose of building
+SOA systems. A_A is made up of 2 main components;
 
 1. A system for configuring and monitoring data analysis workflows.
 2. A system of Celery workers which can receive the data and run those workflows.
 
-A design goal for A_A is to make it agnostic to the code which executes each
-data analysis step. This will free up analysts and scientists to use the
-technology or tool which is most appropriate for any given data transformation
-or analysis task.
+A design goal for A_A is to make it agnostic to the code which executes the
+data analysis steps. This will free up analysts and scientists to use the technology
+or tool which is most appropriate for any given data transformation or analysis
+task.
 
 The other principle design goal is to attempt to transform the problem of turning
-data analysis pipelines in to Web Services in to an problem of configuration
-rather than development.
+data analysis pipelines in to Web Services in to an problem of configuration rather
+than development.
 
 Workflows
 ---------
@@ -37,15 +37,6 @@ execution location (LOCALHOST) is on the machine the worker is running on.
 * **Steps** have **Tasks** (a one-to-one relationship)
 
 .. image:: entity_erd.png
-
-Important Terminology
----------------------
-
-* Task - A discrete, executable unit of work. Typically consuming and emitting some data. Requires a Backend assignment which specifies which named celery named queue, and execution behaviour
-* Job - A sequential set of Steps
-* Step - A unit of a job that has a single task assigned to it.
-* Queue Type - The type of execution behaviour for a Queue: localhost/command line execution, R code, Python code, GridEngine submission
-* Backend - The name of a celery queue the workers can listen to, takes a temp file location and a Queue Type.
 
 Running Jobs
 ------------
@@ -76,9 +67,3 @@ In the job diagram data enters in on the left hand side at the validators.
 Data which passes validation then gets passed through each step. Each step has
 and attached task which in this example runs on one of 2 backends. Each task
 also has it's own stored parameters.
-
-Important Terminology
----------------------
-
-* Batch - A set of submissions from an external user
-* Submission - A data submission and Job to run, bundled together in a batches

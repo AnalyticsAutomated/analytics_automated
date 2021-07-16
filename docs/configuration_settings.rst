@@ -7,16 +7,14 @@ As A_A is a Django application it can be configured as per the usual Django
 settings files. As it makes extensive use of Celery the celery settings
 can also be further configured, see http://docs.celeryproject.org/en/latest/userguide/configuration.html
 
-We recommend people adminstering this system be familiar with both Django and
-Celery application deployment. The following are important settings for A_A,
-these are marked by the comment "# Required A_A user settings #" in the base.py
-settings files
+The following are important settings for A_A, these are marked by the comment
+"# Required A_A user settings #" in the base.py settings files
 
 ::
 
+  LOGGED_IN_JOB_PRIORITY: If a user is logged in choose which queue to send the job to (see above settings)
   QUEUE_HOG_SIZE: This is the number of concurrent jobs a user can submit before all following jobs are sent to the 'low_' priority queue
   QUEUE_HARD_LIMIT: This is the maximum number of concurrent jobs a user may submit. If set to 0 this means users can have unlimited jobs in the queue
-  LOGGED_IN_JOB_PRIORITY: If a user is logged in choose which queue to send the job to (see above settings), this setting is currently not supported
 
 A_A will email users if the Django email settings are configured, this is
 as per the normal Django emailing but the following setings are required.
@@ -72,8 +70,8 @@ be found in the celery docs (http://www.celeryproject.org/)
   CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
   CELERY_TIMEZONE = 'Europe/London'
 
-When running in production or in a distributed fashion you should ensure the
-CORS whitelist is correctly set.
+When running in production or in a distribured fashion you should ensure the
+CORS whitelist is correct set.
 
 ::
 

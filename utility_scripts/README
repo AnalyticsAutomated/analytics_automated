@@ -1,6 +1,0 @@
-Some utility scripts for launching the system in development models
-
-spawn_dev_processes.sh - run the development server in gnome
-spawn_dev_processes_max.sh - run the development server in OSC
-clean_submissions.sh - if you've been using the dev server a lot them the
-                       submission dir can get full. This tidies up for you

@@ -1,8 +1,16 @@
 # analytics_automated
 
-### Introduction:
+Current state: Release Candidate 6
 
-Analytics Automated (A_A) is a 'lightweight' framework for automating long running
+### Before You Go Much further
+
+We have yet to deploy this in anger ourselves. You are downloading and using
+this at your own risk. That said we have it running on more than 5 machines so
+it is likely good to go.
+
+### Continue:
+
+Analytics Automated (A_A) is a lightweight framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
 
 Today it is trivially easy for Scientists, Researchers, Data Scientists and
@@ -10,7 +18,7 @@ Analysts to build statistical and predictive models. More often than not these
 don't get turned in to useful and usable services; frequently becoming reports
 on work which does not get actioned. In short, organisations often have trouble
 operationalising the models and insights which emerge from complex statistical
-research and data science
+research and data science.
 
 Analytics automated is targeted at streamlining the process for turning your
 predictive software into usable and maintainable services.
@@ -30,10 +38,6 @@ in terms of time, staffing and money.
 
 A_A is agnostic to the modeling software and technologies you choose to build
 your group around.
-
-### Documentation
-
-Full documentation can be found at https://analytics-automated.readthedocs.io/en/latest/
 
 ### Philosophy
 
@@ -59,6 +63,11 @@ prediction task and after some asynchronous processing they can come back and
 GET their results. It's as simple as that and you are free to build this in
 to any system you have or build the UI of your choice.
 
+### Roadmap
+
+1. Scheduler for regular jobs
+2. SVG graphs for job progress.
+
 # Requirements
 
 You will need
@@ -69,90 +78,6 @@ You will need
 * django
 * celery
 
-
-The full details for starting analytics_automated are set out in the documentation
-at https://analytics-automated.readthedocs.io/en/latest/installation/
-
-
-## Install the python packages
-
-````pip install -r requirements/dev.txt````
-
-## Install the postgres database and then start postgres
-
-Export the path to wherever postgres has been installed.
-For mac using homebrew this will be in /usr/local/Cellar
-This should look something like:
-
-```export PATH="/usr/local/Cellar/postgresql@9.5/9.5.24/bin/:$PATH"```
-
-## start postgresql
-
-```pg_ctl -D /usr/local/var/postgresql@9.5 -l /usr/local/var/postgresql@9.5/server.log start```
-
-## login to the database and create a new database/user
-```psql -h localhost -d postgres```
-
-This will start the database server on your localhost. You can then go ahead and make a database with associated user.
-
-### create a django db user for AA
-```CREATE ROLE a_a_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
-
-CREATE DATABASE analytics_automated_db;
-
-GRANT ALL PRIVILEGES ON DATABASE analytics_automated_db TO a_a_user;
-
-ALTER USER a_a_user CREATEDB;
-```
-## Now open a new terminal window and start redis working
-
-```redis-server```
-
-If redis is not installed you can do that using brew,yum or apt-get
-You can check its operation using:
-
-```ps aux | grep redis-server```
-
-## Start celery
-You can now start the celery workers
-```celery --app=analytics_automated_project.celery:app worker --loglevel=INFO -Q low_localhost,localhost,high_localhost,low_R,R,high_R,low_Python,Python,high_Python```
-
-## Configure Django
-
-```cd analytics_automated_project/settings
-touch base_secrets.json
-touch dev_secrets.json
-```
-add to analytics_automated_project/settings/dev_secrets.json
-
-{
-  "USER": "a_a_user",
-  "PASSWORD": "thisisthedevelopmentpasswordguys",
-  "SECRET_KEY": "VERY LONG KEY HERE"
-}
-
-add to base_secrets.json
-
-{}
-
-## Add an admin user to the Django application:
-  python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
-
-## Start the server
-from within analytics_automated you can now make the migrations and
-start the runserver
-
-```python manage.py makemigrations --settings=analytics_automated_project.settings.dev
-
-python manage.py migrate --settings=analytics_automated_project.settings.dev
-python manage.py runserver --settings=analytics_automated_project.settings.dev
-```
-
-
-
-
-
-
 NEXT UP TODO/REMINDERS
 ======================
 
@@ -161,7 +86,18 @@ NEXT UP TODO/REMINDERS
 3. Add CWL support to configure and dump tasks/jobs. Consider importing
    Toil library to handle parsing the yaml and pushing the results to the db
 4. Further backends, Octave, matlab, SAS
-5. SVG graphs for job progress.
+
+Production things:
+
+5. Celery for workers https://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+
+    enable app.Task.track_started
+    Autoscaling
+    don't run in DEBUG mode
+
+6. Solution for file storage in staging/production???
+7. Security https, and authentication, HSTS????, allowed hosts for A_A,26.12.2 (ensure we have text files with no code in)
+8. Investigate cached_property
 
 Missing
 =======
@@ -169,3 +105,10 @@ Missing
 http://agiliq.com/blog/2015/08/retrying-celery-failed-tasks/
 http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying-a-task-if-something-fails
 2. Let jobs run jobs as nested structures; this will be part of adding CWL support
+
+THINGS FOR ANSIBLE update
+=========================
+
+    pip install -U "celery[redis]"
+    sudo yum install redis
+    redis-server (now runs on port 6379, not much point in adding authentication)

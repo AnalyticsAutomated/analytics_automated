@@ -3,11 +3,9 @@
 Periodic Tasks
 ==============
 
-Periodic Tasks are handled by Celery Beat. Starting the workers with the
+Periodic Tasks are handled by Celery Beat. Starting thw workers with the
 --beat option will allow you to start the periodic task service. Remember
 to start the separate beat daemon if running in production/staging modes.
-
-This mode is still in beta and has not been fully tested
 
 Most details can be found at
 

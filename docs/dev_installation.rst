@@ -3,7 +3,7 @@ Development Installation
 
 **WARNING THIS DOC GOES OUT OF DATE QUICKLY INFO MAY NOT BE CURRENT**
 j
-Analytics Automated (A_A) is a framework for automating long running
+Analytics Automated (A_A) is a lightweight framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
 
 Today it is trivially easy for Scientists, Researchers, Data Scientists and
@@ -60,19 +60,15 @@ development environments.
 Setup for a Mac which you control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Note that installation now requires postgres 9.6+ for Django 2+
-
 1. Install latest python3.x
 2. Install git
 3. Install Redis
 
    brew install redis
 
-4. Install postgres for your system, MacOSX version can be found at (check versioning::
+4. Install postgres for your system, MacOSX version can be found at::
 
-    brew install postgresql@9.6
-    
-    you may need to symlink psql and pg_ctl to /usr/local/bin/
+    brew install postgres
 
 5. Install virtualenv and virtualenvwrapper::
 
@@ -97,7 +93,7 @@ Note that installation now requires postgres 9.6+ for Django 2+
     > mkvirtualenv analytics_automated
     > workon analytics_automated (FYI discontect with deactivate)
 
-8. Install these libraries to this env (may not longer be needed)::
+8. Install these libraries to this env::
 
     > pip install setuptools
     > pip install distribute
@@ -166,11 +162,8 @@ Note that installation now requires postgres 9.6+ for Django 2+
 
     > python manage.py test --settings=analytics_automated_project.settings.dev analytics_automated
 
-Setup for a linux machine Centos
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is Centos centric but should be easy to reconfigure for other linux distros. Note that installation
-now requires postgres 9.6+ for Django 2+
+Setup for a linux machine on our network
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. Set yourself up so you're using bash rather than csh, this will make virtualenv much easier to deal with
 2. Get your own python3, somewhere local rather than on the network::
@@ -210,7 +203,7 @@ now requires postgres 9.6+ for Django 2+
 
   or::
 
-    > pg_ctl start -l /scratch/postgres_databases/logfile -D /scratch/postgres_databases
+    > pg_ctl start -l /scratch0/NOT_BACKED_UP/dbuchan/postgres/logfile -D /scratch0/NOT_BACKED_UP/dbuchan/postgres/
 
   You can now log in with::
 
@@ -244,8 +237,8 @@ now requires postgres 9.6+ for Django 2+
 15. add some configuration bits which are omitted from github::
 
     > cd analytics_automated_project/settings/
-    > touch base_secrets.json
-    > touch dev_secrets.json
+    > touch base_secrets.json`
+    > touch dev_secrets.json`
 
 16. Add the BUGSNAG key to base_secrets.json as per
 
@@ -267,9 +260,6 @@ now requires postgres 9.6+ for Django 2+
 
 18. Run the migrations (don't forget --settings=analytics_automated_project.settings.dev)and create and admin user for the project::
 
-    > mkdir logs
-    > touch logs/debug.log
-    > python manage.py createsuperuser --settings=analytics_automated_project.settings.dev
     > python manage.py migrate --settings=analytics_automated_project.settings.dev
 
 19. Start the server by defining the settings you are using::

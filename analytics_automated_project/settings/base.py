@@ -46,9 +46,6 @@ with open(os.path.join(BASE_SECRETS_PATH)) as f: \
 # Required A_A user settings #
 ##############################
 
-# YOU CAN SET THESE HERE OR SEND THEM TO A DEV, STAGING OR PRODUCTION SETTINGS
-# FILE. EXAMPLES IN THIS DIRECTORY
-
 DEFAULT_JOB_PRIORITY = 1
 LOGGED_IN_JOB_PRIORITY = 2
 QUEUE_HOG_SIZE = 10
@@ -116,7 +113,7 @@ CELERY_TIMEZONE = 'Europe/London'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'submissions/')
 # STATIC_URL = '/static/'
 # Change the test runner
-# TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+#TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
 
 # ADMIN_EMAIL = "daniel.buchan@ucl.ac.uk"
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -139,7 +136,6 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = (
-    'bootstrap_admin',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,9 +145,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_celery_beat',
     'analytics_automated',
+    'rest_framework',
     'corsheaders',
     'smuggler',
-    'rest_framework',
 )
 
 REST_FRAMEWORK = {
