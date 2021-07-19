@@ -59,6 +59,8 @@ class APIPrivateFunctionTests(APITestCase):
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
         user = User.objects.create_user('temporary', 'temporary@gmail.com',
                                         'temporary')
+        settings.QUEUE_HOG_SIZE = 10
+        settings.QUEUE_HARD_LIMIT = 15
 
     def tearDown(self):
         clearDatabase()

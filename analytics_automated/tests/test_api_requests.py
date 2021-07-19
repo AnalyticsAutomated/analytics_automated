@@ -236,6 +236,8 @@ class SubmissionRequestTests(APITestCase):
                                      executable="wc")
         s = StepFactory(job=self.j1, task=self.t, ordering=0)
         s2 = StepFactory(job=self.j2, task=self.t2, ordering=0)
+        settings.QUEUE_HOG_SIZE = 10
+        settings.QUEUE_HARD_LIMIT = 15
 
     def tearDown(self):
         clearDatabase()
