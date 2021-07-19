@@ -34,20 +34,6 @@ from .helper_functions import clearDatabase
     function
 '''
 
-def modify_to_include_datestamp(a,b):
-    '''django includes datestamps. This modifies the testsets to include
-    the datestamp
-    '''
-    resp= eval(a.replace('null','"null"'))
-    test= eval(b.replace('null','"null"'))
-    if 'modified' in resp:
-        test['modified']=resp['modified']
-    else:
-        for i in range(len(resp['submissions'])):
-            test['submissions'][i]['modified'] = resp['submissions'][i]['modified']
-    return str(resp),str(resp)
-
-
 class JobListTests(APITestCase):
 
     def test_return_of_available_job_types(self):
@@ -149,7 +135,7 @@ class JobTimeTests(APITestCase):
         # either of these return strings is valid. Should possibly force
         # a return order in the API
         try:
-            modify_to_include_datestamp(response.content.decode("utf-8"),test_data)
+            de_datestamp(response.content.decode("utf-8"),test_data)
             self.assertEqual(response.content.decode("utf-8"), test_data)
         except Exception as e:
             self.assertEqual(response.content.decode("utf-8"), test_data_alt)
@@ -268,13 +254,7 @@ class SubmissionRequestTests(APITestCase):
                     '"results":[]}}'.format(s1.submission_name,
                                             self.j1.name,
                                             s1.UUID)
-
-        resp,test = modify_to_include_datestamp(response.content.decode("utf-8"),test_data)
-        try:
-            self.assertEqual(resp, test)
-        except Exception as e:
-            print(resp,'\n',test)
-            self.assertEqual(resp, test)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_submission_with_results_is_returned(self,):
         s1 = SubmissionFactory.create(input_data="test.txt", status=0,
@@ -301,12 +281,7 @@ class SubmissionRequestTests(APITestCase):
                                                     s1.UUID, t1.pk, 'test',
                                                     r1.message, r1.step,
                                                     r1.result_data.url)
-        resp,test = modify_to_include_datestamp(response.content.decode("utf-8"),test_data)
-        try:
-            self.assertEqual(resp, test)
-        except Exception as e:
-            print(resp,'\n',test)
-            self.assertEqual(resp, test)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_batch_with_results_is_returned(self,):
         b1 = BatchFactory.create(status=0)
@@ -337,12 +312,7 @@ class SubmissionRequestTests(APITestCase):
                                                        s1.UUID, t1.pk, 'test',
                                                        r1.message, r1.step,
                                                        r1.result_data.url)
-        resp,test = modify_to_include_datestamp(response.content.decode("utf-8"),test_data)
-        try:
-            self.assertEqual(resp, test)
-        except Exception as e:
-            print(resp,'\n',test)
-            self.assertEqual(resp, test)
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     def test_batch_with_multiple_submissions_results_are_returned(self,):
         b1 = BatchFactory.create(status=0)
@@ -397,16 +367,7 @@ class SubmissionRequestTests(APITestCase):
                      r1.message, r1.step,
                      r1.result_data.url,
                      )
-        try:
-            resp,test = modify_to_include_datestamp(response.content.decode("utf-8"),test_data)
-        except:
-            resp,test = response.content.decode("utf-8"),test_data
-        try:
-            self.assertEqual(resp, test)
-        except Exception as e:
-            print(resp,'\n',test)
-            self.assertEqual(resp, test)
-
+        self.assertEqual(response.content.decode("utf-8"), test_data)
 
     @patch('builtins.exec', return_value=True)
     def test_submission_accepts_when_file_validates(self, m):
