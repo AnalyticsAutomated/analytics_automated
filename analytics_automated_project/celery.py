@@ -8,7 +8,7 @@ from celery import Celery
 from django.conf import settings
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'analytics_automated_project.settings.production')
+                      'analytics_automated_project.settings.dev')
 
 # logger = get_task_logger(__name__)
 app = Celery('analytics_automated')
