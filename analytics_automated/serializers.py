@@ -58,7 +58,8 @@ class SubmissionOutputSerializer (serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = ('submission_name', 'job_name', 'UUID', 'state',
-                  'last_message', 'email', 'input_file', 'modified', 'results')
+                  'last_message', 'email', 'input_file', 'results')
+        # removed modified from this
 
     def get_input_file(self, obj):
         try:

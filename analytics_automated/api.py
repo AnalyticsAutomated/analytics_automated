@@ -183,15 +183,15 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['email'] = request_contents.pop('email')
             data['job'] = request_contents.pop('job')
             client_ip = get_client_ip(request)
-            console.log(''.join([i for i in client_ip]))
+            # console.log(''.join([i for i in client_ip]))
             data['ip'] = client_ip[0]
             # data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError as e:
-            console.log(str(e))
+            # console.log(str(e))
             raise MultiValueDictKeyError
 
         except KeyError as k:
-            console.log(str(k))
+            # console.log(str(k))
             raise KeyError
         return(data, request_contents)
 
