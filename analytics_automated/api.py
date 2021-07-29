@@ -1,6 +1,6 @@
 import ast
 import uuid
-from ipware.ip import get_ip
+from ipware.ip import get_client_ip
 from collections import defaultdict
 import pprint
 import logging
@@ -181,7 +181,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['submission_name'] = request_contents.pop('submission_name')
             data['email'] = request_contents.pop('email')
             data['job'] = request_contents.pop('job')
-            data['ip'] = get_ip(request)
+            data['ip'] = get_client_ip(request)[0]
             # data['UUID'] = str(uuid.uuid1())
         except MultiValueDictKeyError:
             raise MultiValueDictKeyError
