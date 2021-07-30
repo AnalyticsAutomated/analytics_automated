@@ -27,7 +27,7 @@ def random_string(length=10):
     return u''.join(random.choice(string.ascii_letters) for x in range(length))
 
 
-class QueueTypeFactory(factory.DjangoModelFactory):
+class QueueTypeFactory(factory.django.DjangoModelFactory):
     name = "localhost"
     execution_behaviour = QueueType.LOCALHOST
 
@@ -36,7 +36,7 @@ class QueueTypeFactory(factory.DjangoModelFactory):
         django_get_or_create = ('name',)
 
 
-class BackendFactory(factory.DjangoModelFactory):
+class BackendFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'test_{}'.format(n))
     queue_type = factory.SubFactory(QueueTypeFactory)
     # ip = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
@@ -48,7 +48,7 @@ class BackendFactory(factory.DjangoModelFactory):
         django_get_or_create = ('name',)
 
 
-class TaskFactory(factory.DjangoModelFactory):
+class TaskFactory(factory.django.DjangoModelFactory):
     backend = factory.SubFactory(BackendFactory)
     name = factory.Sequence(lambda n: 'task_{}'.format(n))
     in_glob = factory.LazyAttribute(lambda t: random_string())
@@ -63,7 +63,7 @@ class TaskFactory(factory.DjangoModelFactory):
         django_get_or_create = ('name',)
 
 
-class ConfigurationFactory(factory.DjangoModelFactory):
+class ConfigurationFactory(factory.django.DjangoModelFactory):
     task = factory.SubFactory(TaskFactory)
     type = random.randint(0, 2)
     name = factory.LazyAttribute(lambda t: random_string())
@@ -74,7 +74,7 @@ class ConfigurationFactory(factory.DjangoModelFactory):
         model = Configuration
 
 
-class JobFactory(factory.DjangoModelFactory):
+class JobFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'job_{}'.format(n))
     runnable = True
 
@@ -83,7 +83,7 @@ class JobFactory(factory.DjangoModelFactory):
         django_get_or_create = ('name',)
 
 
-class StepFactory(factory.DjangoModelFactory):
+class StepFactory(factory.django.DjangoModelFactory):
     job = factory.SubFactory(JobFactory)
     task = factory.SubFactory(TaskFactory)
     ordering = random.randint(0, 20)
@@ -92,7 +92,7 @@ class StepFactory(factory.DjangoModelFactory):
         model = Step
 
 
-class BatchFactory(factory.DjangoModelFactory):
+class BatchFactory(factory.django.DjangoModelFactory):
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
     status = random.randint(0, 4)
 
@@ -100,7 +100,7 @@ class BatchFactory(factory.DjangoModelFactory):
         model = Batch
 
 
-class SubmissionFactory(factory.DjangoModelFactory):
+class SubmissionFactory(factory.django.DjangoModelFactory):
     job = factory.SubFactory(JobFactory)
     submission_name = factory.Sequence(lambda n: 'submission_{}'.format(n))
     UUID = factory.LazyAttribute(lambda t: str(uuid.uuid1()))
@@ -115,7 +115,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
         django_get_or_create = ('submission_name',)
 
 
-class ParameterFactory(factory.DjangoModelFactory):
+class ParameterFactory(factory.django.DjangoModelFactory):
     task = factory.SubFactory(TaskFactory)
     flag = factory.LazyAttribute(lambda t: random_string())
     default = factory.LazyAttribute(lambda t: random_string())
@@ -126,7 +126,7 @@ class ParameterFactory(factory.DjangoModelFactory):
         model = Parameter
 
 
-class EnvironmentFactory(factory.DjangoModelFactory):
+class EnvironmentFactory(factory.django.DjangoModelFactory):
     task = factory.SubFactory(TaskFactory)
     env = factory.LazyAttribute(lambda t: random_string())
     value = factory.LazyAttribute(lambda t: random_string())
@@ -135,14 +135,14 @@ class EnvironmentFactory(factory.DjangoModelFactory):
         model = Environment
 
 
-class ValidatorTypesFactory(factory.DjangoModelFactory):
+class ValidatorTypesFactory(factory.django.DjangoModelFactory):
     name = factory.LazyAttribute(lambda t: random_string())
 
     class Meta:
         model = ValidatorTypes
 
 
-class ValidatorFactory(factory.DjangoModelFactory):
+class ValidatorFactory(factory.django.DjangoModelFactory):
     job = factory.SubFactory(JobFactory)
     validation_type = factory.SubFactory(ValidatorTypesFactory)
 
@@ -150,7 +150,7 @@ class ValidatorFactory(factory.DjangoModelFactory):
         model = Validator
 
 
-class ResultFactory(factory.DjangoModelFactory):
+class ResultFactory(factory.django.DjangoModelFactory):
     submission = factory.SubFactory(SubmissionFactory)
     task = factory.SubFactory(TaskFactory)
     step = step_value

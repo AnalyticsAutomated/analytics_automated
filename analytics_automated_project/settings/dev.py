@@ -20,8 +20,8 @@ DATABASES = {
 }
 
 CORS_ORIGIN_WHITELIST = (
-        '127.0.0.1:4000',
-        '127.0.0.1:8000',
+        'http://127.0.0.1:4000',
+        'http://127.0.0.1:8000',
     )
 
 SECRET_KEY = get_secret("SECRET_KEY", secrets)
