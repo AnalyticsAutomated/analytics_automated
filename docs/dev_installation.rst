@@ -132,12 +132,11 @@ Setup for a Mac which you control
     > touch base_secrets.json
     > touch dev_secrets.json
 
-15. Add the BUGSNAG key to base_secrets.json as per
+15. Add a blank json object to base_secrets.json. In a more advanced set up you can use this object to store system specific and non-public config such as BUGSNAG keys
 
 .. code-block:: json
 
   {
-    "BUGSNAG": "YOUR KEY HERE"
   }
 
 15. Add the dev database and secret key to the dev_secrets.json as per
