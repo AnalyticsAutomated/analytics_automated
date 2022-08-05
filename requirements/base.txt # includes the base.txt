@@ -7,7 +7,7 @@ Babel==2.9.1
 billiard==3.6.4.0
 bootstrap-admin==0.4.4
 bugsnag==4.1.0
-celery==4.4.6
+celery==4.4.7
 certifi==2021.5.30
 cffi==1.14.6
 chardet==4.0.0
