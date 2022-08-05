@@ -7,7 +7,7 @@ Babel==2.9.1
 billiard==3.6.4.0
 bootstrap-admin==0.4.4
 bugsnag==4.1.0
-celery==4.4.7
+celery==4.4.6
 certifi==2021.5.30
 cffi==1.14.6
 chardet==4.0.0
@@ -51,7 +51,7 @@ mod-wsgi==4.8.0
 mod-wsgi-httpd==2.4.46.1
 numpy==1.19.5
 packaging==21.0
-Pillow==8.3.1
+Pillow==9.0.1
 pluggy==0.13.1
 prometheus-client==0.8.0
 psycopg2==2.9.1
