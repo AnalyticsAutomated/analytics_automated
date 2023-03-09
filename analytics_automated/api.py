@@ -437,9 +437,13 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data['UUID'] = str(uuid.uuid1())
             data['job'] = job
             # In the future we'll set batch jobs to the lowest priority
-            responseContent = self.__submit_job(data, request_contents,
-                                                job_priority, request,
-                                                masterUUID, b)
+            try:
+                responseContent = self.__submit_job(data, request_contents,
+                                                    job_priority, request,
+                                                    masterUUID, b)
+            except Exception as e:
+                content = {'error': str(e)}
+                return Response(content, status=status.HTTP_507_INSUFFICIENT_STORAGE)
             # print(responseContent)
             if 'error' in responseContent['content']:
                 return Response(responseContent['content'], status=responseContent['httpCode'])
