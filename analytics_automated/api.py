@@ -360,12 +360,14 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                 logger.error('SyntaxError: Invalid string exec on: ' + tchain)
                 content = {'error': 'SyntaxError. Invalid string exec on ' +
                            tchain}
+                print(content)
                 return {'content': content,
                         'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
             except Exception as e:
                 logger.error('500 Error: Invalid string exec on: ' + tchain)
                 logger.error('500 Error' + str(e))
                 content = {'error': 'Invalid string exec on ' + tchain}
+                print(content)
                 return {'content': content,
                         'httpCode': status.HTTP_500_INTERNAL_SERVER_ERROR}
             return {'content': {'UUID': s.UUID,
@@ -373,6 +375,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                     'httpCode': status.HTTP_201_CREATED}
         else:
             content = {'error': submission_form.errors}
+            print(content)
             return {'content': content,
                     'httpCode': status.HTTP_400_BAD_REQUEST}
 
@@ -391,9 +394,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             data, request_contents = self.__prepare_data(request)
         except MultiValueDictKeyError:
             content = {'error': "Input does not contain all required fields"}
+            print(content)
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             content = {'error': "Input does not contain all required fields"}
+            print(content)
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         # work out which job this refers to
@@ -402,6 +407,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             jobs = self.__get_job(data['job'])
         except Exception as e:
             content = {'error': 'Job name supplied does not exist'}
+            print(content)
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         # Find what priority queue the job should run on
         (job_priority, submission_number) = self.__get_job_priority(request.user.is_authenticated,
@@ -419,16 +425,19 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             if job.runnable is False:
                 content = {'error': str(job)+" is present but currently "
                                              "disabled."}
+                print(content)
                 return Response(content, status=status.HTTP_403_FORBIDDEN)
             if len(steps) == 0:
                 content = {'error': "Job Requested: "+str(job)+" appears to "
                                     "have no Steps"}
+                print(content)
                 return Response(content, status.HTTP_400_BAD_REQUEST)
             if not self.__test_params(steps, request_contents):
                 content = {'error': "Required Parameter for "+str(job) +
                                     " Missing."
                                     "GET /analytics_automated/endpoints to "
                                     "discover all required options"}
+                print(content)
                 return Response(content, status.HTTP_400_BAD_REQUEST)
         masterUUID = str(uuid.uuid1())
         b = Batch.objects.create(UUID=masterUUID)
@@ -443,6 +452,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                                     masterUUID, b)
             except Exception as e:
                 content = {'error': str(e)}
+              print(content)
                 return Response(content, status=status.HTTP_507_INSUFFICIENT_STORAGE)
             # print(responseContent)
             if 'error' in responseContent['content']:
