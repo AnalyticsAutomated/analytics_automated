@@ -452,7 +452,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                                     masterUUID, b)
             except Exception as e:
                 content = {'error': str(e)}
-              print(content)
+                print(content)
                 return Response(content, status=status.HTTP_507_INSUFFICIENT_STORAGE)
             # print(responseContent)
             if 'error' in responseContent['content']:
