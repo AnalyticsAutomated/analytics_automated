@@ -113,18 +113,19 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for env in envs:
             environment[env.env] = env.value
         return(environment)
-
-    def __test_params(self, steps, request_data):
+ef __test_params(self, steps, request_data):
         """
             Check that the list of additional params the tasks take
             has been provided by the user
         """
-        if not self.__assess_param_membership(steps, request_data):
-            return(False)
+        param_members = self.__assess_param_membership(steps, request_data)
+        if not param_members[0]:
+            return(param_members)
 
-        if not self.__assess_param_value_sanity(steps, request_data):
-            return(False)
-        return(True)
+        param_sanity = self.__assess_param_value_sanity(steps, request_data)
+        if not param_sanity[0]:
+            return(param_sanity)
+        return([True, ""])
 
     def __assess_param_value_sanity(self, steps, request_data):
         pythkw = list(keyword.kwlist)
@@ -134,18 +135,18 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for field in request_data:
             # print(field)
             if any(char in invalid for char in str(request_data[field])):
-                return(False)  # don't allow punctuation chars
+                return([False, "Incoming data can not contain punctuation: "+kw])  # don't allow punctuation chars
             for kw in pythkw:
                 if kw == str(request_data[field]):
-                    return(False)  # don't allow python keywords
+                    return([False, "Incoming data can not contain python keyords: "+kw])  # don't allow python keywords
             for kw in rkwlist:
                 if kw == str(request_data[field]):
-                    return(False)  # don't allow R keywords
+                    return([False, "Incoming data can not contain R keywords: "+kw])  # don't allow R keywords
             local_cmds = return_local_commands()
             for kw in local_cmds:
                 if kw == str(request_data[field]):
-                    return(False)  # don't allow unix commd
-        return(True)
+                    return([False, "Incoming data can not contain unix commands: "+kw])  # don't allow unix commd
+        return([True, ""])
 
     def __assess_param_membership(self, steps, request_data):
         aliases = []
@@ -154,9 +155,9 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
             for param in params:
                 aliases.append(param.rest_alias)
         if all(name in request_data for name in aliases):
-            return(True)
+            return([True, ""])
         else:
-            return(False)
+            return([False, "You are missing a required parameter in your web form submission"])
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -432,10 +433,11 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
                                     "have no Steps"}
                 print(content)
                 return Response(content, status.HTTP_400_BAD_REQUEST)
-            if not self.__test_params(steps, request_contents):
+            param_test = self.__test_params(steps, request_contents)
+            if not param_test[0]:
                 content = {'error': "Required Parameter for "+str(job) +
-                                    " Missing."
-                                    "GET /analytics_automated/endpoints to "
+                                    " Missing."+ param_test[1]+
+                                    ". GET /analytics_automated/endpoints to "
                                     "discover all required options"}
                 print(content)
                 return Response(content, status.HTTP_400_BAD_REQUEST)
