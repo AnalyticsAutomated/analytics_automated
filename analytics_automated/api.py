@@ -113,7 +113,7 @@ class SubmissionDetails(mixins.RetrieveModelMixin,
         for env in envs:
             environment[env.env] = env.value
         return(environment)
-ef __test_params(self, steps, request_data):
+    def __test_params(self, steps, request_data):
         """
             Check that the list of additional params the tasks take
             has been provided by the user
