@@ -1,14 +1,6 @@
 # analytics_automated
 
-Current state: Release Candidate 6
-
-### Before You Go Much further
-
-We have yet to deploy this in anger ourselves. You are downloading and using
-this at your own risk. That said we have it running on more than 5 machines so
-it is likely good to go.
-
-### Continue:
+Current state: Release Candidate 7
 
 Analytics Automated (A_A) is a lightweight framework for automating long running
 distributed computation principally focused on executing Data Science tasks.
