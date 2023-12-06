@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, isdir
 
 
 def return_local_commands():
@@ -8,6 +8,12 @@ def return_local_commands():
 
     unix_commands = []
     for path in cmd_paths:
-        unix_commands = unix_commands + [f for f in listdir(path)
-                                         if isfile(join(path, f))]
-    return(unix_commands)
+        if isdir(path):
+            try:
+                unix_commands = unix_commands + [f for f in listdir(path)
+                                                 if isfile(join(path, f))]
+            except Exception as e:
+                print("command dir error "+str(e))
+                raise str(e)
+
+    return (unix_commands)
